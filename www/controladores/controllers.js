@@ -2,48 +2,46 @@ angular.module('starterMiApp.controllers', [])
 
 .controller('LoginCtrl', ['$scope', '$http', '$state', function($scope, $http, $state){
   $scope.enviarFormulario = function(form){
-    //$scope.visibilidadMensaje = false;
-    $scope.animacion = ""; 
-    var url = "http://dokich.esy.es/IonicServer/resibir.php";
-    console.log(url);
+    
+    $scope.animacion = "";
 
     if(form == undefined)
     {
-       $scope.visibilidadMensaje = true;
-       $scope.userServ = "Usuario o contraseña incorrecto."; 
-       $scope.animacion = "animated shake";
-       return;
-       
+      $scope.visibilidadMensaje = true;
+      $scope.userServ = "Usuario o contraseña incorrecto."; 
+      $scope.animacion = "animated shake";
+      return;
     }    
+    else if( form.user == undefined || form.pass  == undefined )
+    {
+      $scope.visibilidadMensaje = true; 
+      $scope.userServ = "Usuario o contraseña incorrecto."; 
+      $scope.animacion = "animated shake";
+      return;
+    }
 
+      //var serviceUrl = 'file:///android_asset/www/'; // esta variable es necesaria para que funcione en el dispositivo.
+      //$http.get(serviceUrl+'js/data.json') // cargar los datos del fichero data.json
 
-    if( form.user == undefined || form.pass  == undefined )
-      {
-        $scope.visibilidadMensaje = true; 
-        $scope.userServ = "Usuario o contraseña incorrecto."; 
-        $scope.animacion = "animated shake";
-        return;
-        
-      }
+    else
+    {
+      var url = "http://dokich.esy.es/IonicServer/Login.php";
 
-    //var serviceUrl = 'file:///android_asset/www/'; // esta variable es necesaria para que funcione en el dispositivo.
-  //$http.get(serviceUrl+'js/data.json') // cargar los datos del fichero data.json
-
-
-     $http({
-        method: 'POST',
-        url: url,
-        data: form,
-        headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-    }).then(function successCallback(response) {
+       $http({
+          method: 'POST',
+          url: url,
+          data: form,
+          headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+      }).then(function successCallback(response) {
 
             //data es el array de parametros de la consulta php
             console.log(response);
             $scope.userServ = "";
             $scope.msgError = "Usuario o contraseña incorrecto.\r\n";
             $scope.userServ = response.data;
-            //userServ en esta variable me añade \r\n y no se pueden compara las cadenas bien
-            console.log($scope.userServ);
+            
+
+            /*console.log($scope.userServ);
             console.log($scope.msgError);
             var sin_salto = $scope.userServ.split("\n").join("");
             console.log(sin_salto);
@@ -51,49 +49,42 @@ angular.module('starterMiApp.controllers', [])
 
 
             $scope.result = angular.equals($scope.userServ, $scope.msgError);
-            console.log($scope.result);
+            console.log($scope.result);*/
 
+            //userServ en esta variable me añade \r\n y no se pueden compara las cadenas bien
+            console.log('La respuesta del servidor es: '+$scope.userServ);
             if($scope.userServ==$scope.msgError)
             {
-              console.log('entroooooooooooooooooo!');
               $scope.visibilidadMensaje = true; 
               $scope.userServ = "Usuario o contraseña incorrecto."; 
               $scope.animacion = "animated shake";
+              return;
             }
 
             else 
             {
                $scope.visibilidadMensaje = false;
-               var myError = angular.element( document.querySelector( '#msgError' ) );
-               myError.remove();   //removes element
+               //var myError = angular.element( document.querySelector( '#msgError' ) );
+               //myError.remove();   //removes element
                
                $state.go('sidemenu.agenda' ,{param1: $scope.userServ, param2: form.pass});
+               form.user = "";
+               form.pass = "";
                //$state.transitionTo('sidemenu.agenda',{param1: $scope.userServ, param2: form.pass});
             } 
 
-            /**
-            var str1 = $scope.userServ;
-            var str2 = "ERROR AL LOGEAR";
-
-            console.log("str1 es: "+str1+" y str2 es: "+str2);
-
-            //compara dos cadenas si n es igual a 0 son iguales
-            var n = str1.localeCompare(str2); 
-            console.log("n es igual a: "+n);
-            */
-
-
-
       }, function errorCallback(error) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-                      $scope.visibilidadMensaje = true; 
-              $scope.userServ = "Usuario o contraseña incorrecto."; 
-              $scope.animacion = "animated shake";
-        console.error("el error es: "+error);
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          $scope.visibilidadMensaje = true; 
+          $scope.userServ = "Usuario o contraseña incorrecto."; 
+          $scope.animacion = "animated shake";
+          console.error("el error es: "+error);
       });
 
-  } // fin de enviarFormulario
+    } // Fin else
+
+  } // Fin de enviarFormulario
 
 }]) //Fin LoginCtrl
 
