@@ -1,6 +1,6 @@
 angular.module('starterMiApp.controllers', [])
 
-.controller('LoginCtrl', ['$scope', '$http', '$state', function($scope, $http, $state){
+.controller('LoginCtrl', ['$scope', '$http', '$state', '$rootScope', function($scope, $http, $state,$rootScope){
   $scope.enviarFormulario = function(form){
     
     $scope.animacion = "";
@@ -39,6 +39,7 @@ angular.module('starterMiApp.controllers', [])
             $scope.userServ = "";
             $scope.msgError = "Usuario o contraseña incorrecto.\r\n";
             $scope.userServ = response.data;
+            var abv = response.data;
             
 
             /*console.log($scope.userServ);
@@ -67,10 +68,11 @@ angular.module('starterMiApp.controllers', [])
                //var myError = angular.element( document.querySelector( '#msgError' ) );
                //myError.remove();   //removes element
                
-               $state.go('sidemenu.agenda' ,{param1: $scope.userServ, param2: form.pass});
+               //$state.go('sidemenu.agenda' ,{param1: $scope.userServ, param2: form.pass});
+               $rootScope.objetos = abv;
+               $state.go('sidemenu.agenda');
                form.user = "";
                form.pass = "";
-               //$state.transitionTo('sidemenu.agenda',{param1: $scope.userServ, param2: form.pass});
             } 
 
       }, function errorCallback(error) {
@@ -79,7 +81,7 @@ angular.module('starterMiApp.controllers', [])
           $scope.visibilidadMensaje = true; 
           $scope.userServ = "Usuario o contraseña incorrecto."; 
           $scope.animacion = "animated shake";
-          console.error("el error es: "+error);
+          console.log("el error es: "+error);
       });
 
     } // Fin else
@@ -96,17 +98,36 @@ angular.module('starterMiApp.controllers', [])
      $scope.contrasena = $stateParams.param2;*/
 
      $scope.cerrarSesion = function(){
-      $state.go('login');
+        $http({
+          method: 'POST',
+          url: 'http://dokich.esy.es/IonicServer/Logout.php'
+        }).then(function successCallback(response) {
+            console.log('se cerro la sesion');
+            window.location.reload();
+            $state.go('login');
+        }, function errorCallback(err) {
+          alert('error al cerrar la sesion: '+error);
+        }); 
      }
+
+        /*$scope.cerrarSesion = function(){
+        window.location.href = 'http://dokich.esy.es/IonicServer/Logout.php';
+        $state.go('login',{reload:true});
+        }*/
+
 
 
 }]) // Fin SidemenuCtrl
 
 .controller('AgendaCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
 
-     console.log($stateParams);
-     $scope.nombreUsuario = $stateParams.param1;
-     $scope.contrasena = $stateParams.param2;
+     console.log('entro 1');
+     // console.log($stateParams);
+     // $scope.nombreUsuario = $stateParams.param1;
+     // $scope.contrasena = $stateParams.param2;
+     console.log($scope.objetos); 
+     $scope.nombreUsuario = $scope.objetos;
+
 }]) // Fin AgendaCtrl
 
 .controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
