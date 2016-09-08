@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','ngAnimate'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,11 +19,28 @@ angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','ngAnimate']
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
   });
+
+$ionicPlatform.registerBackButtonAction(function(event) {
+
+    if($state.current.name=="sidemenu.agenda")
+    {
+      alert('ENTROOOOOOOOOOOOOO');
+      return;
+    }
+    else
+    {
+      navigator.app.backHistory();
+    }
+
+  }, 100);
+
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
+  $ionicConfigProvider.navBar.alignTitle("center");
   
   $stateProvider
 

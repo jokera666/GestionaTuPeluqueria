@@ -25,7 +25,7 @@ angular.module('starterMiApp.controllers', [])
 
     else
     {
-      var url = "http://dokich.esy.es/IonicServer/Login.php";
+      var url = "http://dokich.esy.es/appBackEnd/Login.php";
 
        $http({
           method: 'POST',
@@ -91,30 +91,41 @@ angular.module('starterMiApp.controllers', [])
 }]) //Fin LoginCtrl
 
 
-.controller('SidemenuCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
+.controller('SidemenuCtrl', ['$scope', '$http', '$state','$stateParams','$ionicPopup', function($scope, $http, $state,$stateParams,$ionicPopup){
 
-     /*console.log($stateParams);
-     $scope.parametro = $stateParams.param1;
-     $scope.contrasena = $stateParams.param2;*/
+  $scope.cerrarSesion = function() {
 
-     $scope.cerrarSesion = function(){
-        $http({
-          method: 'POST',
-          url: 'http://dokich.esy.es/IonicServer/Logout.php'
-        }).then(function successCallback(response) {
-            console.log('se cerro la sesion');
-            window.location.reload();
-            $state.go('login');
-        }, function errorCallback(err) {
-          alert('error al cerrar la sesion: '+error);
-        }); 
-     }
+  var myPopup = $ionicPopup.show({
+    title: 'Salir',
+    subTitle: '¿Estás seguro de que deseas salir de la aplicación?',
+    buttons: [
+      { text: 'No' },
+      {
+        text: '<b>Sí</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if (e) {
+              
+           $http({
+              method: 'POST',
+              url: 'http://dokich.esy.es/appBackEnd/Logout.php'
+            }).then(function successCallback(response) {
+                console.log('se cerro la sesion');
+                window.location.reload();
+                $state.go('login');
+            }, function errorCallback(err) {
+              console.log('error al cerrar la sesion: '+err);
+            }); 
+            //e.preventDefault(); // cuando pinches el pop se mantiene
 
-        /*$scope.cerrarSesion = function(){
-        window.location.href = 'http://dokich.esy.es/IonicServer/Logout.php';
-        $state.go('login',{reload:true});
-        }*/
-
+          } else {
+            return; 
+          }
+        }
+      }
+    ]
+  });
+}
 
 
 }]) // Fin SidemenuCtrl
@@ -130,11 +141,31 @@ angular.module('starterMiApp.controllers', [])
 
 }]) // Fin AgendaCtrl
 
-.controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
+.controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading', function($scope, $http, $state,$stateParams,$ionicLoading){
 
-     console.log($stateParams);
-     $scope.parametro = $stateParams.param1;
-     $scope.contrasena = $stateParams.param2;
+ $scope.showMe = function() {
+    $ionicLoading.show({
+      template: 'Cargando...'
+    });
+  };
+
+  $scope.entrar = function ()
+  {
+    $scope.showMe();
+  };
+
+  $scope.salir = function ()
+  {
+    $ionicLoading.hide();
+  };
+
+
+  // $scope.hide = function(){
+  //   $ionicLoading.hide().then(function(){
+  //      console.log("The loading indicator is now hidden");
+  //   });
+  // };
+
 }]) // Fin ClientesCtrl
 
 .controller('ProductosCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
