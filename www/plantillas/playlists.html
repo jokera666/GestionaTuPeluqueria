@@ -1,11 +1,11 @@
 <ion-view view-title="Playlists">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="playlist in playlists" href="#/side/playlists/{{playlist.id}}">
+      <ion-item ng-repeat="playlist in playlists" href="#/side/playlists/{{playlist.id}}/{{playlist.title}}">
         {{playlist.title}}
       </ion-item>
     </ion-list>
 	
   </ion-content>
-  <button id="btnAnadirCliente" class="button button-positive icon ion-person-add"></button>
+  <button id="btnAnadirCliente" class="button button-positive icon ion-person-add" ng-click="btnAnadirCliente()"></button>
 </ion-view>

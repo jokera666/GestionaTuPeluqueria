@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','ngAnimate'])
 
-.run(function($ionicPlatform,$state) {
+.run(function($ionicPlatform,$state,$ionicSideMenuDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -24,14 +24,19 @@ angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','ngAnimate']
 
 $ionicPlatform.registerBackButtonAction(function(event) {
 
-    if($state.current.name=="sidemenu.agenda")
+    if ($state.current.name=="login")
     {
-      alert('ENTROOOOOOOOOOOOOO');
-      return;
+      navigator.app.exitApp();
     }
-    else
+
+    if ($state.current.name=="sidemenu.single")
     {
       navigator.app.backHistory();
+    }
+
+    else
+    {
+       $ionicSideMenuDelegate.toggleLeft();
     }
 
   }, 100);
@@ -147,7 +152,7 @@ $ionicPlatform.registerBackButtonAction(function(event) {
   })
 
   .state('sidemenu.single', {
-    url: '/playlists/:playlistId',
+    url: '/playlists/:playlistId/:titulo',
     views: {
       'menuContent': {
         templateUrl: 'plantillas/playlist.html',

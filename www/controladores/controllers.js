@@ -91,7 +91,7 @@ angular.module('starterMiApp.controllers', [])
 }]) //Fin LoginCtrl
 
 
-.controller('SidemenuCtrl', ['$scope', '$http', '$state','$stateParams','$ionicPopup', function($scope, $http, $state,$stateParams,$ionicPopup){
+.controller('SidemenuCtrl', ['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicPlatform', function($scope, $http, $state,$stateParams,$ionicPopup,$ionicPlatform){
 
   $scope.cerrarSesion = function() {
 
@@ -107,15 +107,17 @@ angular.module('starterMiApp.controllers', [])
           if (e) {
               
            $http({
-              method: 'POST',
               url: 'http://dokich.esy.es/appBackEnd/Logout.php'
             }).then(function successCallback(response) {
                 console.log('se cerro la sesion');
                 window.location.reload();
                 $state.go('login');
+
             }, function errorCallback(err) {
               console.log('error al cerrar la sesion: '+err);
             }); 
+
+
             //e.preventDefault(); // cuando pinches el pop se mantiene
 
           } else {
@@ -215,9 +217,17 @@ angular.module('starterMiApp.controllers', [])
     { title: 'Rap', id: 5 },
     { title: 'Cowbell', id: 6 }
   ];
+
+  $scope.btnAnadirCliente = function (){
+    alert('Копчето не работи. :)');
+  };
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+     console.log($stateParams);
+     $scope.playId = $stateParams.playlistId;
+     $scope.titulo = $stateParams.titulo;
 })
 
 
