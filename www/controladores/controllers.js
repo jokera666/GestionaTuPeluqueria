@@ -1,21 +1,26 @@
 angular.module('starterMiApp.controllers', [])
 
-.controller('LoginCtrl', ['$scope', '$http', '$state', '$rootScope', function($scope, $http, $state,$rootScope){
+.controller('LoginCtrl', ['$scope', '$http', '$state', '$rootScope','$ionicLoading', function($scope, $http, $state,$rootScope,$ionicLoading){
   $scope.enviarFormulario = function(form){
-    
+
+    $ionicLoading.show();
+
     $scope.animacion = "";
+    $scope.msgError = "Usuario o contraseña incorrecto."; 
 
     if(form == undefined)
     {
+      $ionicLoading.hide();
       $scope.visibilidadMensaje = true;
-      $scope.userServ = "Usuario o contraseña incorrecto."; 
+      $scope.msgError;
       $scope.animacion = "animated shake";
       return;
     }    
     else if( form.user == undefined || form.pass  == undefined )
     {
+      $ionicLoading.hide();
       $scope.visibilidadMensaje = true; 
-      $scope.userServ = "Usuario o contraseña incorrecto."; 
+      $scope.msgError = "Usuario o contraseña incorrecto."; 
       $scope.animacion = "animated shake";
       return;
     }
@@ -25,6 +30,7 @@ angular.module('starterMiApp.controllers', [])
 
     else
     {
+
       var url = "http://dokich.esy.es/appBackEnd/Login.php";
 
        $http({
@@ -33,35 +39,26 @@ angular.module('starterMiApp.controllers', [])
           data: form,
           headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
       }).then(function successCallback(response) {
-
+            $scope.statuscode = response.status;
+            console.log('Estado del servidor '+$scope.statuscode);
             //data es el array de parametros de la consulta php
             console.log(response);
             $scope.userServ = "";
-            $scope.msgError = "Usuario o contraseña incorrecto.\r\n";
             $scope.userServ = response.data;
             var abv = response.data;
-            
-
-            /*console.log($scope.userServ);
-            console.log($scope.msgError);
-            var sin_salto = $scope.userServ.split("\n").join("");
-            console.log(sin_salto);
-
-
-
-            $scope.result = angular.equals($scope.userServ, $scope.msgError);
-            console.log($scope.result);*/
+          
+            //$scope.result = angular.equals($scope.userServ, $scope.msgError);
+           //console.log($scope.result);
 
             //userServ en esta variable me añade \r\n y no se pueden compara las cadenas bien
             console.log('La respuesta del servidor es: '+$scope.userServ);
-            if($scope.userServ==$scope.msgError)
+            if($scope.userServ==-1)
             {
+              $ionicLoading.hide();
               $scope.visibilidadMensaje = true; 
-              $scope.userServ = "Usuario o contraseña incorrecto."; 
               $scope.animacion = "animated shake";
               return;
             }
-
             else 
             {
                $scope.visibilidadMensaje = false;
@@ -79,7 +76,7 @@ angular.module('starterMiApp.controllers', [])
           // called asynchronously if an error occurs
           // or server returns response with an error status.
           $scope.visibilidadMensaje = true; 
-          $scope.userServ = "Usuario o contraseña incorrecto."; 
+          $scope.msgError; 
           $scope.animacion = "animated shake";
           console.log("el error es: "+error);
       });
@@ -91,7 +88,7 @@ angular.module('starterMiApp.controllers', [])
 }]) //Fin LoginCtrl
 
 
-.controller('SidemenuCtrl', ['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicPlatform', function($scope, $http, $state,$stateParams,$ionicPopup,$ionicPlatform){
+.controller('SidemenuCtrl', ['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicPlatform','$ionicLoading', function($scope, $http, $state,$stateParams,$ionicPopup,$ionicPlatform,$ionicLoading){
 
   $scope.cerrarSesion = function() {
 
@@ -104,6 +101,7 @@ angular.module('starterMiApp.controllers', [])
         text: '<b>Sí</b>',
         type: 'button-positive',
         onTap: function(e) {
+          $ionicLoading.show();
           if (e) {
               
            $http({
@@ -143,38 +141,29 @@ angular.module('starterMiApp.controllers', [])
 
 }]) // Fin AgendaCtrl
 
-.controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading', function($scope, $http, $state,$stateParams,$ionicLoading){
+.controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','hexafy', function($scope, $http, $state,$stateParams,$ionicLoading,hexafy){
 
- $scope.showMe = function() {
-    $ionicLoading.show({
-      template: 'Cargando...'
-    });
+    $http.post('http://dokich.esy.es/appBackEnd/listarClientes.php')
+    .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
+    console.log(dataClientes);
+    $scope.clientes = dataClientes;
+  });
+
+  $scope.btnAnadirCliente = function (){
+    alert('Копчето не работи. :)');
   };
 
-  $scope.entrar = function ()
-  {
-    $scope.showMe();
+  $scope.borrarBuscador = function(){
+    $scope.buscador = '';
   };
-
-  $scope.salir = function ()
-  {
-    $ionicLoading.hide();
-  };
-
-
-  // $scope.hide = function(){
-  //   $ionicLoading.hide().then(function(){
-  //      console.log("The loading indicator is now hidden");
-  //   });
-  // };
 
 }]) // Fin ClientesCtrl
 
 .controller('ProductosCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
 
-     console.log($stateParams);
-     $scope.parametro = $stateParams.param1;
-     $scope.contrasena = $stateParams.param2;
+     // console.log($stateParams);
+     // $scope.parametro = $stateParams.param1;
+     // $scope.contrasena = $stateParams.param2;
 }]) // Fin ProductosCtrl
 
 .controller('VentasCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
@@ -231,9 +220,8 @@ angular.module('starterMiApp.controllers', [])
 })
 
 
-/*.controller('PerfilCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
+.controller('ClientePerfilCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
 
      console.log($stateParams);
-     $scope.parametro = $stateParams.param1;
-     $scope.contrasena = $stateParams.param2;
-}])*/
+     $scope.id = $stateParams.idCliente;
+}])

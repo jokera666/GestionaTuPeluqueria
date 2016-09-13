@@ -1,6 +1,29 @@
 <ion-view view-title="Clientes">
-  <ion-content>
-    <h1>Clientes1111</h1>
-    <h2 ng-mouseleave="salir()" ng-mouseover="entrar()" style="background-color: red;">Pasa</h2>
-  </ion-content>
+
+
+<div class="bar miBar-subheader item-input-inset">
+  <label class="item-input-wrapper">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="search" placeholder="Buscar..." ng-model="buscador">
+  </label>
+  <button class="button button-clear" ng-click="borrarBuscador()">
+    Borrar
+  </button>
+</div>
+
+
+<ion-content class="has-subheader">
+	<ion-list>
+		<!-- item-avatar es la clase que visualiza todo el contenido en un elemento de la lista con la foto redondeada  -->
+		<ion-item class="item-avatar item-icon-right" ng-repeat="item in clientes | filter: buscador" href="#/side/clientes/{{item.id_usuario}}">
+			<img src="./img/foto2.jpg" alt="{{item.nombre}}{{item.apellido1}}">
+			<h2>{{item.nombre}} {{item.apellido1}} {{item.apellido2}}</h2>
+			<p>+{{item.telefono}}</p>
+			<a class="button button-icon icon ion-android-call" ng-href="tel:{{item.telefono}}" target="_blank"></a>
+		</ion-item>
+	</ion-list>
+</ion-content>
+
+<button id="btnAnadirCliente" class="button button-positive icon ion-person-add" ng-click="btnAnadirCliente()"></button>
+
 </ion-view>

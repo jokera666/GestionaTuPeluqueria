@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','ngAnimate'])
+angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','starterMiApp.service','ngAnimate'])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate) {
   $ionicPlatform.ready(function() {
@@ -20,6 +20,19 @@ angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','ngAnimate']
       StatusBar.styleDefault();
     }
 
+    if (window.Connection)
+    {
+       if (navigator.connection.type == Connection.NONE)
+       {
+         alert("Necesita datos para poder utilizar la aplicación.");
+         navigator.app.exitApp();
+       }
+       else
+       {
+        return;
+       }
+    }
+
   });
 
 $ionicPlatform.registerBackButtonAction(function(event) {
@@ -29,7 +42,7 @@ $ionicPlatform.registerBackButtonAction(function(event) {
       navigator.app.exitApp();
     }
 
-    if ($state.current.name=="sidemenu.single")
+    if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil")
     {
       navigator.app.backHistory();
     }
@@ -42,6 +55,11 @@ $ionicPlatform.registerBackButtonAction(function(event) {
   }, 100);
 
 })
+
+.constant('$ionicLoadingConfig', {
+              template: '<ion-spinner icon="spiral" class="spinner-light"></ion-spinner><p>Cargando...</p>',
+              hideOnStateChange: true
+  })
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
@@ -64,10 +82,14 @@ $ionicPlatform.registerBackButtonAction(function(event) {
   })
 
  
-  .state('perfil', {
-    url: '/perfil/:param1/:param2',
-    templateUrl: 'plantillas/perfil.html',
-    controller: 'PerfilCtrl'
+  .state('sidemenu.perfil', {
+    url: '/clientes/:idCliente',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/perfilCliente.html',
+        controller: 'ClientePerfilCtrl'
+      }
+    }
   })
 
 
