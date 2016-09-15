@@ -1,5 +1,65 @@
-<ion-view view-title="Hola numero: {{id}}">
-  <ion-content>
- 	<h1>En obra !!!</h1>
-  </ion-content>
+<ion-view view-title="Perfil del cliente"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
+	<ion-content class="padding">
+
+	<form ng-submit="sendForm()">
+	<img src="./img/foto2.jpg" alt="{{item.nombre}}{{item.apellido1}}" width="100px">
+		<div class="item item-divider">Datos personales</div>
+
+				<div class="list">
+
+					  <label class="item item-input">
+					    <span class="input-label">Nombre:</span>
+					    <input type="text" value="{{data.nombre}}">
+					  </label>
+
+					 <label class="item item-input">
+					    <span class="input-label">Primer Apellido:</span>
+					    <input type="text" value="{{data.apellido1}}">
+					  </label>
+
+					  <label class="item item-input">
+					    <span class="input-label">Segundo Apellido:</span>
+					    <input type="text" value="{{data.apellido2}}">
+					  </label>
+
+					  <label class="item item-input">
+					    <span class="input-label">Telefono:</span>
+					    <input type="tel" value="{{data.telefono}}">
+					  </label>
+
+
+
+					  <div class="item item-divider">Servicios Prestados</div>
+					  <div class="item item-checkbox checkbox-assertive">
+					  	<label class="checkbox">
+					  	<input type="checkbox">
+					  	</label>
+					  	Segunda mano
+					  </div>
+
+					  	
+					<label class="item item-input item-select">
+					    <div class="input-label">
+					      Tipo de tinte
+					    </div>
+					    <select>
+					      <option selected>6</option>
+					      <option>6.1</option>
+					      <option>7</option>
+					      <option>7.1</option>
+					      <option>8</option>
+					      <option>8.1</option>
+					    </select>
+					</label>
+
+					<label class="item item-input">
+						<span class="input-label">Fecha de Tinte</span>
+						<input type="date">
+					</label>
+
+				<button class="button  icon ion-android-done button-positive button-block" type="submit">Modificar Datos</button>	  		
+			</div>
+	</form>
+		
+	</ion-content>
 </ion-view>

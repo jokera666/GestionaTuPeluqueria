@@ -31,7 +31,7 @@ angular.module('starterMiApp.controllers', [])
     else
     {
 
-      var url = "http://dokich.esy.es/appBackEnd/Login.php";
+      var url = "http://gestionestetica.fonotecaumh.es/Login.php";
 
        $http({
           method: 'POST',
@@ -105,7 +105,7 @@ angular.module('starterMiApp.controllers', [])
           if (e) {
               
            $http({
-              url: 'http://dokich.esy.es/appBackEnd/Logout.php'
+              url: 'http://gestionestetica.fonotecaumh.es/Logout.php'
             }).then(function successCallback(response) {
                 console.log('se cerro la sesion');
                 window.location.reload();
@@ -143,10 +143,10 @@ angular.module('starterMiApp.controllers', [])
 
 .controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','hexafy', function($scope, $http, $state,$stateParams,$ionicLoading,hexafy){
 
-    $http.post('http://dokich.esy.es/appBackEnd/listarClientes.php')
+  $http.post('http://gestionestetica.fonotecaumh.es/listarClientes.php')
     .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
     console.log(dataClientes);
-    $scope.clientes = dataClientes;
+    $scope.clientes = dataClientes.clientes;
   });
 
   $scope.btnAnadirCliente = function (){
@@ -221,6 +221,13 @@ angular.module('starterMiApp.controllers', [])
 
 
 .controller('ClientePerfilCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
+
+  $http.post('http://gestionestetica.fonotecaumh.es/listarClientes.php')
+    .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
+    console.log(dataClientes);
+    $scope.data = dataClientes.clientes[$state.params.idCliente-1];// recuperar los datos del estado es decir el :id
+  });
+
 
      console.log($stateParams);
      $scope.id = $stateParams.idCliente;
