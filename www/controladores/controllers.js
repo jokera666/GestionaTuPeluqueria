@@ -145,7 +145,7 @@ angular.module('starterMiApp.controllers', [])
 
   $http.post('http://gestionestetica.fonotecaumh.es/listarClientes.php')
     .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
-    console.log(dataClientes);
+    //console.log(dataClientes);
     $scope.clientes = dataClientes.clientes;
   });
 
@@ -220,15 +220,91 @@ angular.module('starterMiApp.controllers', [])
 })
 
 
-.controller('ClientePerfilCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
+.controller('ClientePerfilCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup){
 
-  $http.post('http://gestionestetica.fonotecaumh.es/listarClientes.php')
-    .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
-    console.log(dataClientes);
-    $scope.data = dataClientes.clientes[$state.params.idCliente-1];// recuperar los datos del estado es decir el :id
+ 
+    console.log($stateParams.idCliente);
+    $scope.id = $stateParams.idCliente;
+
+
+      var url = "http://gestionestetica.fonotecaumh.es/listarPerfilCliente.php";
+
+       $http({
+          method: 'POST',
+          url: url,
+          data: $stateParams.idCliente,
+          headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+      }).then(function successCallback(dataClientes) {
+          //console.log(dataClientes);
+          $scope.data = dataClientes.data.clientes[0];
+          $scope.form = this;
+          $scope.form = $scope.data;
+          this.id_cliente = $scope.data.id_cliente;
+          this.nombre = $scope.data.nombre;
+          this.apellido1 = $scope.data.apellido1;
+          this.apellido2 = $scope.data.apellido2;
+          this.telefono = $scope.data.telefono;
+
+
+
+          $scope.borrarCliente = function (){
+                console.log(this.form.id_cliente);
+          };
+
+          $scope.reiniciarForm = function(){
+           $scope.form = angular.copy($scope.data);
+            
+          };
+          $scope.reiniciarForm();
+
+      }, function errorCallback(error) {
+          console.log('Error '+error);
+      });
+
+
+
+    $scope.clickModificarCliente = function (){
+    var myPopup = $ionicPopup.show({
+    title: 'Modificar datos',
+    subTitle: '¿Estás seguro de que deseas realizar los cambios?',
+    buttons: [
+      { text: 'No' },
+      {
+        text: '<b>Sí</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          $ionicLoading.show();
+          if (e) {    
+                    
+                      $scope.modificarCliente = function (){
+                    //console.log(this.form);
+                    var url = "http://gestionestetica.fonotecaumh.es/modificarPerfilCliente.php";
+                    console.log(url);
+
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        data: this.form,
+                        headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+                    }).then(function successCallback(response) {
+                      window.location.reload();
+                      $state.go('sidemenu.clientes');
+
+                    }, function errorCallback(error) {
+                        console.log('Error '+error);
+                    });
+
+                  }; // Fin modificarCliente
+                  $scope.modificarCliente();
+
+          } else {
+            return; 
+          }
+        }
+      }
+    ]
   });
+  };
 
 
-     console.log($stateParams);
-     $scope.id = $stateParams.idCliente;
 }])
