@@ -20,3 +20,7 @@
 .miBar-subheader{
 	top: 45px;
 }
+
+.popup-open .popup{
+	width: 300px;
+}

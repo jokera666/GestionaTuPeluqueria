@@ -262,49 +262,92 @@ angular.module('starterMiApp.controllers', [])
       });
 
 
+      $scope.modificarCliente = function (){
+          var url = "http://gestionestetica.fonotecaumh.es/modificarPerfilCliente.php";
+          $http({
+              method: 'POST',
+              url: url,
+              data: this.form,
+              headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+          }).then(function successCallback(response) {
+                $state.go('sidemenu.clientes');
+                window.location.reload();
+
+          }, function errorCallback(error) {
+              console.log('Error '+error);
+          });
+      }; // Fin modificarCliente
+
+
 
     $scope.clickModificarCliente = function (){
-    var myPopup = $ionicPopup.show({
-    title: 'Modificar datos',
-    subTitle: '¿Estás seguro de que deseas realizar los cambios?',
-    buttons: [
-      { text: 'No' },
-      {
-        text: '<b>Sí</b>',
-        type: 'button-positive',
-        onTap: function(e) {
-          $ionicLoading.show();
-          if (e) {    
-                    
-                      $scope.modificarCliente = function (){
-                    //console.log(this.form);
-                    var url = "http://gestionestetica.fonotecaumh.es/modificarPerfilCliente.php";
-                    console.log(url);
-
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        data: this.form,
-                        headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-                    }).then(function successCallback(response) {
-                      window.location.reload();
-                      $state.go('sidemenu.clientes');
-
-                    }, function errorCallback(error) {
-                        console.log('Error '+error);
-                    });
-
-                  }; // Fin modificarCliente
-                  $scope.modificarCliente();
-
-          } else {
-            return; 
+      var myPopup = $ionicPopup.show({
+      title: 'Modificar datos',
+      subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
+      buttons: [
+        { text: 'No' },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+              $scope.modificarCliente();
+            }
+            else
+            {
+              //El boton NO de no hacer nada
+              return; 
+            }
           }
         }
-      }
-    ]
-  });
-  };
+      ]
+      });
+    };
+
+
+    $scope.eliminarCliente = function (){
+        var url = "http://gestionestetica.fonotecaumh.es/eliminarPerfilCliente.php";
+        $http({
+            method: 'POST',
+            url: url,
+            data: this.form.id_cliente,
+            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+              $state.go('sidemenu.clientes');
+              window.location.reload();
+        }, function errorCallback(error) {
+            console.log('Error '+error);
+        });
+    }; // Fin eliminarCliente
+
+
+    $scope.clickEliminarCliente = function (){
+      var myPopup = $ionicPopup.show({
+      title: 'Borrar cliente',
+      subTitle: '<span>¿Estás seguro de que deseas eliminar el cliente?</span>',
+      buttons: [
+        { text: 'No' },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+              $scope.eliminarCliente();
+            }
+            else
+            {
+              //El boton NO de no hacer nada
+              return; 
+            }
+          }
+        }
+      ]
+      });
+    };
 
 
 }])
