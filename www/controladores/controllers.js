@@ -149,7 +149,8 @@ angular.module('starterMiApp.controllers', [])
     $scope.clientes = dataClientes.clientes;
   });
 
-    $ionicModal.fromTemplateUrl('../plantillas/modalInsertarCliente.html', {
+    // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
+    $ionicModal.fromTemplateUrl('plantillas/modalInsertarCliente.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
@@ -188,9 +189,8 @@ angular.module('starterMiApp.controllers', [])
                         data: miForm,
                         headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
                     }).then(function successCallback(response) {
-                          console.log(response.data);
                           $state.go('sidemenu.clientes');
-                          //window.location.reload();
+                          window.location.reload();
                     }, function errorCallback(error) {
                         console.log('Error '+error);
                     });
