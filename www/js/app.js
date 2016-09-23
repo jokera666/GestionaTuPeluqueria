@@ -64,7 +64,7 @@ $ionicPlatform.registerBackButtonAction(function(event) {
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
   $ionicConfigProvider.navBar.alignTitle("center");
-  //$ionicConfigProvider.views.maxCache(0);
+  $ionicConfigProvider.views.maxCache(0);
   
   $stateProvider
 

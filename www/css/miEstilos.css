@@ -24,3 +24,20 @@
 .popup-open .popup{
 	width: 300px;
 }
+
+#fondoImgPerfil{
+	text-align: center;
+    background-color: white;
+    height: 115px;
+}
+
+#fondoImgPerfil > img{
+	border-radius: 50px;
+	width: 120px;
+    border: 10px solid white;
+    margin-top: 20px;
+    z-index: 1000;
+    position: relative;
+}
+
+

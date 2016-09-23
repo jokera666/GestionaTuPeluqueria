@@ -141,7 +141,7 @@ angular.module('starterMiApp.controllers', [])
 
 }]) // Fin AgendaCtrl
 
-.controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','hexafy', function($scope, $http, $state,$stateParams,$ionicLoading,hexafy){
+.controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup','hexafy','$ionicModal', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup,hexafy,$ionicModal){
 
   $http.post('http://gestionestetica.fonotecaumh.es/listarClientes.php')
     .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
@@ -149,9 +149,65 @@ angular.module('starterMiApp.controllers', [])
     $scope.clientes = dataClientes.clientes;
   });
 
-  $scope.btnAnadirCliente = function (){
-    alert('Копчето не работи. :)');
-  };
+    $ionicModal.fromTemplateUrl('../plantillas/modalInsertarCliente.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModal = function() {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+
+
+
+
+    $scope.clickInsertarCliente = function (form){
+      var miForm = form;
+      console.log(miForm);
+      var myPopup = $ionicPopup.show({
+      title: 'Borrar cliente',
+      subTitle: '<span>¿Estás seguro de que deseas insertar el cliente?</span>',
+      buttons: [
+        { text: 'No' },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                $scope.InsertarCliente = function (miForm){
+                    var url = "http://gestionestetica.fonotecaumh.es/insertarCliente.php";
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        data: miForm,
+                        headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+                    }).then(function successCallback(response) {
+                          console.log(response.data);
+                          $state.go('sidemenu.clientes');
+                          //window.location.reload();
+                    }, function errorCallback(error) {
+                        console.log('Error '+error);
+                    });
+                }; // Fin InsertarCliente
+                $scope.InsertarCliente(miForm);
+            }
+            else
+            {
+              //El boton NO de no hacer nada
+              return; 
+            }
+          }
+        }
+      ]
+      });
+    };
+
 
   $scope.borrarBuscador = function(){
     $scope.buscador = '';

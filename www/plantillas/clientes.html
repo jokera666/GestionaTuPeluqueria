@@ -16,7 +16,7 @@
 	<ion-list>
 		<!-- item-avatar es la clase que visualiza todo el contenido en un elemento de la lista con la foto redondeada  -->
 		<ion-item class="item-avatar item-icon-right" ng-repeat="item in clientes | filter: buscador" href="#/side/clientes/{{item.id_cliente}}">
-			<img src="./img/foto2.jpg" alt="{{item.nombre}}{{item.apellido1}}">
+			<img src="./img/foto1.jpg" alt="{{item.nombre}}{{item.apellido1}}">
 			<h2>{{item.nombre}} {{item.apellido1}} {{item.apellido2}}</h2>
 			<p>+{{item.telefono}}</p>
 			<a class="button button-icon icon ion-android-call" ng-href="tel:{{item.telefono}}" target="_blank"></a>
@@ -24,6 +24,6 @@
 	</ion-list>
 </ion-content>
 
-<button id="btnAnadirCliente" class="button button-positive icon ion-person-add" ng-click="btnAnadirCliente()"></button>
+<button id="btnAnadirCliente" class="button button-positive icon ion-person-add" ng-click="openModal()"></button>
 
 </ion-view>
