@@ -143,7 +143,7 @@ angular.module('starterMiApp.controllers', [])
 
 .controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup','hexafy','$ionicModal', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup,hexafy,$ionicModal){
 
-  $http.post('http://gestionestetica.fonotecaumh.es/listarClientes.php')
+  $http.post('http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php')
     .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
     //console.log(dataClientes);
     $scope.clientes = dataClientes.clientes;
@@ -181,7 +181,7 @@ angular.module('starterMiApp.controllers', [])
             if (e)
             {              
                 $scope.InsertarCliente = function (miForm){
-                    var url = "http://gestionestetica.fonotecaumh.es/insertarCliente.php";
+                    var url = "http://gestionestetica.fonotecaumh.es/Clientes/insertarCliente.php";
                     $http({
                         method: 'POST',
                         url: url,
@@ -190,7 +190,7 @@ angular.module('starterMiApp.controllers', [])
                     }).then(function successCallback(response) {
                           console.log(response.data);
                           $state.go('sidemenu.clientes');
-                          //window.location.reload();
+                          window.location.reload();
                     }, function errorCallback(error) {
                         console.log('Error '+error);
                     });
@@ -283,7 +283,7 @@ angular.module('starterMiApp.controllers', [])
     $scope.id = $stateParams.idCliente;
 
 
-      var url = "http://gestionestetica.fonotecaumh.es/listarPerfilCliente.php";
+      var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarPerfilCliente.php";
 
        $http({
           method: 'POST',
@@ -319,7 +319,7 @@ angular.module('starterMiApp.controllers', [])
 
 
       $scope.modificarCliente = function (){
-          var url = "http://gestionestetica.fonotecaumh.es/modificarPerfilCliente.php";
+          var url = "http://gestionestetica.fonotecaumh.es/Clientes/modificarPerfilCliente.php";
           $http({
               method: 'POST',
               url: url,
@@ -364,7 +364,7 @@ angular.module('starterMiApp.controllers', [])
 
 
     $scope.eliminarCliente = function (){
-        var url = "http://gestionestetica.fonotecaumh.es/eliminarPerfilCliente.php";
+        var url = "http://gestionestetica.fonotecaumh.es/Clientes/eliminarPerfilCliente.php";
         $http({
             method: 'POST',
             url: url,

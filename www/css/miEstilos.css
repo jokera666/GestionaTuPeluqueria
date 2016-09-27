@@ -40,4 +40,17 @@
     position: relative;
 }
 
+.login-view-fondo{
+	background-image: url(../img/fondoLogin.jpg);
+	width: 100%;
+	height: auto;
+	background-size: cover;
+}
 
+.bar-stable.login{
+	opacity: 0.9;
+}
+
+.list.login{
+	opacity: 0.9;
+}
