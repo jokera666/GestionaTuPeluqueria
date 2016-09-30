@@ -1,9 +1,9 @@
 <ion-view view-title="Perfil del cliente"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
 	<ion-content class="padding">
 
-	<form name="clinetForm">
+	<form name="clienteForm" ng-messages="clienteForm.$error">
 		<div id="fondoImgPerfil">
-			<img src="http://gestionestetica.fonotecaumh.es/Clientes/imgClientes/foto2.jpg" alt="{{data.nombre}}{{data.apellido1}}">
+			<img src="http://gestionestetica.fonotecaumh.es/Clientes/imgClientes/foto2.jpg" alt="{{data.nombre}} {{data.apellido1}}">
 		</div>
 		<div class="item item-divider">Datos personales</div>
 			<div class="list">
@@ -23,10 +23,14 @@
 			    	<input type="text" value="{{data.apellido2}}" ng-model="form.apellido2">
 			  	</label>
 
-			  	<label class="item item-input">
+			  	<label class="item item-input" ng-style="borderError">
 			    	<span class="input-label">Telefono:</span>
-			    	<input type="tel" value="{{data.telefono}}" ng-model="form.telefono">
+			    	<input type="tel" value="{{data.telefono}}" ng-model="form.telefono" ng-maxlength="9" required>
 			  	</label>
+			  	<!-- <div ng-message="required">Field required</div> -->
+			  	<div ng-show="comprobar" ng-model="comprobar">Campo obligatorio</div>
+			  	<div ng-message="maxlength">This field can be at most 9 characters long.</div>
+			  	<pre>clienteForm.$valid = {{ clienteForm.$valid | json }}</pre>
 
 				<div class="item item-divider">Servicios utilizados</div>	  	
 
@@ -36,7 +40,7 @@
 				<ion-item>
 					<div class="row responsive-sm">
 					<div class="col-5">
-						 <label class="item">1</label>
+						 <label class="numeracionServCliente">1.</label>
 					</div>
 
 					  <div class="col">
@@ -53,7 +57,7 @@
 						</label>
 					  </div>
 
-					  <div class="col">
+					  	<div class="col">
 						  	<label class="item item-input item-select">
 						  	<div class="input-label">Numero de tinte</div>
 							    <select>
@@ -80,7 +84,7 @@
 				<ion-item>
 					<div class="row responsive-sm">
 					<div class="col-5">
-						 <label class="item">2</label>
+						 <label class="numeracionServCliente">2.</label>
 					</div>
 
 					  <div class="col">
@@ -124,7 +128,7 @@
 
 				<div class="row  responsive-sm">
 				  	<div class="col">
-				  		<button class="button icon ion-edit button-positive button-block" type="button" ng-click="clickModificarCliente()"> Guardar Datos</button>
+				  		<button class="button icon ion-edit button-positive button-block" type="button" ng-click="clickModificarCliente(clienteForm)"> Guardar Datos</button>
 				  	</div>
 				  	<div class="col">
 				  		<button class="button icon ion-refresh button-royal button-block" type="reset" ng-click="reiniciarForm()"> Reiniciar</button>

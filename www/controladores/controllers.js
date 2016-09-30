@@ -142,6 +142,7 @@ angular.module('starterMiApp.controllers', [])
 }]) // Fin AgendaCtrl
 
 .controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup','hexafy','$ionicModal', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup,hexafy,$ionicModal){
+  
 
   $http.post('http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php')
     .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
@@ -170,8 +171,8 @@ angular.module('starterMiApp.controllers', [])
       var miForm = form;
       console.log(miForm);
       var myPopup = $ionicPopup.show({
-      title: 'Borrar cliente',
-      subTitle: '<span>¿Estás seguro de que deseas insertar el cliente?</span>',
+      title: 'Añadir cliente',
+      subTitle: '<span>¿Estás seguro de que deseas añadir el cliente?</span>',
       buttons: [
         { text: 'No' },
         {
@@ -278,7 +279,12 @@ angular.module('starterMiApp.controllers', [])
 
 .controller('ClientePerfilCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup){
 
- 
+
+
+    clienteForm.$error = {
+      'required': true
+    }
+
     console.log($stateParams.idCliente);
     $scope.id = $stateParams.idCliente;
 
@@ -336,30 +342,44 @@ angular.module('starterMiApp.controllers', [])
 
 
 
-    $scope.clickModificarCliente = function (){
-      var myPopup = $ionicPopup.show({
-      title: 'Modificar datos',
-      subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
-      buttons: [
-        { text: 'No' },
-        {
-          text: '<b>Sí</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            $ionicLoading.show();
-            if (e)
-            {              
-              $scope.modificarCliente();
-            }
-            else
-            {
-              //El boton NO de no hacer nada
-              return; 
+    $scope.clickModificarCliente = function (clienteForm){
+
+      if(clienteForm.$valid==true)
+      {
+            $scope.borderError = {'border': '1px solid blue'};
+            $scope.comprobar = false;
+        var myPopup = $ionicPopup.show({
+        title: 'Guardar datos',
+        subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
+        buttons: [
+          { text: 'No' },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                $scope.modificarCliente();
+              }
+              else
+              {
+                //El boton NO de no hacer nada
+                return; 
+              }
             }
           }
-        }
-      ]
-      });
+        ]
+        });
+      }
+      else
+      {
+        $scope.comprobar = clienteForm.$error.required;
+        $scope.borderError = {'border': '2px solid red'};
+        return;
+      }
+
+
     };
 
 

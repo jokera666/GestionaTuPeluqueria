@@ -54,3 +54,9 @@
 .list.login{
 	opacity: 0.9;
 }
+
+.numeracionServCliente{
+	line-height: 4.7em; 
+	font-weight: bold; 
+	font-size: 14pt;
+}
