@@ -1,0 +1,41 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+	  <h1 class="title">Añadir cita</h1>
+	  <a class="button button-icon button-light ion-close-round" ng-click="closeModal()">Cerrar</a>
+	</ion-header-bar>
+	<ion-content>
+	  
+	<form name="formInsertarCita">
+		<div class="list">
+		  <label class="item item-input item-stacked-label"">
+		    <span class="input-label">Nombre</span>
+		    <input type="text" ng-model="form.nombre">
+		  </label>
+		  <label class="item item-input item-stacked-label"">
+		    <span class="input-label">Fecha cita</span>
+		    <input type="date" ng-model="form.fecha">
+		  </label>
+		  <label class="item item-input item-stacked-label"">
+		    <span class="input-label">Hora inicio</span>
+		    <input type="time" ng-model="form.horaIni">
+		  </label>
+		  <label class="item item-input item-stacked-label"">
+		    <span class="input-label">Hora fin</span>
+		    <input type="time" ng-model="form.horaFin">
+		  </label>
+		</div>
+
+		<div class="row  responsive-sm">
+		  	<div class="col">
+		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-click="clickInsertarCliente(form)"> Guardar cita</button>
+		  	</div>
+		  	<div class="col">
+		  		<button class="button icon ion-refresh button-royal button-block" type="reset"> Reiniciar</button>
+		  	</div>
+		</div>
+	</form>
+
+	</ion-content>
+</ion-modal-view>
+
+

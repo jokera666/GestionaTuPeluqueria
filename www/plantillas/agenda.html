@@ -1,5 +1,7 @@
 <ion-view view-title="Agenda (Calendario y citas previas)">
   <ion-content>
     <h1>Bienvenido {{nombreUsuario}}</h1>
+    <div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources"></div>
   </ion-content>
+  <button id="btnAnadirCliente" class="button button-positive icon ion-compose" ng-click="openModal()"></button>
 </ion-view>
