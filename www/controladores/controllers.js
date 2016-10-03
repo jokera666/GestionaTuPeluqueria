@@ -131,7 +131,7 @@ angular.module('starterMiApp.controllers', [])
 }]) // Fin SidemenuCtrl
 
 //.controller('AgendaCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
-.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicModal','uiCalendarConfig', function($scope, $compile, $timeout, uiCalendarConfig,$ionicModal) {
+.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','uiCalendarConfig', function($scope, $compile, $timeout, uiCalendarConfig,$ionicPopup,$ionicModal) {
 
 
     console.log($scope.objetos); 
@@ -206,11 +206,11 @@ angular.module('starterMiApp.controllers', [])
       }
     };
     /* add custom event*/
-    $scope.addEvent = function() {
+    $scope.addEvent = function(titulo,anyo,mes,dia,hIni,mIni,hFin,mFin) {
       $scope.events.push({
-        title: 'Cita a Maria Jose',
-        start: new Date(y, m, d, 08, 00),
-        end: new Date(y, m, d, 08, 30),
+        title: titulo,
+        start: new Date(anyo, mes, dia, hIni, mIni),
+        end: new Date(anyo, mes, dia, hFin, mFin),
         className: ['openSesame']
       });
     };
@@ -255,7 +255,7 @@ angular.module('starterMiApp.controllers', [])
             header: {
                 left: 'list month basicDay agendaWeek',
                 center: 'title',
-                right: 'agendaDay prev,next'
+                right: 'prev,agendaDay,next'
             },
             buttonText: {
               // prev: 'Anterior',
@@ -303,6 +303,70 @@ angular.module('starterMiApp.controllers', [])
       $scope.modal.hide();
     };
 
+
+
+      $scope.clickInsertarCita = function(form){
+  
+      var titulo = form.tituloCita;
+      
+      //Obtener fecha cita
+      var fechaAux  = new Date (form.fecha);
+      var dia   = fechaAux.getDate();
+      var mes   = fechaAux.getMonth(); // +1 porque enero es la posicion 0
+      var anyo  = fechaAux.getFullYear();
+      console.log(dia+' '+mes+' '+anyo);
+
+      //Obtener hora cita
+      var auxHorasIni   = new Date (form.horaIni);
+      var horasIni      = auxHorasIni.getHours();
+      var minutosIni    = auxHorasIni.getMinutes();
+      console.log('Hora de inicio cita: '+horasIni+' '+minutosIni);
+
+      var auxHorasFin   = new Date (form.horaFin);
+      var horasFin      = auxHorasFin.getHours();
+      var minutosFin    = auxHorasFin.getMinutes();
+      console.log('Hora de inicio cita: '+horasFin+' '+minutosFin);
+      
+      if(horasIni > horasFin || horasFin < horasIni )
+      {
+        alert('ERROR: La hora de inicio tiene que ser menor que la hora fin y viceversa');
+      } 
+      else
+      {
+        var myPopup = $ionicPopup.show({
+        title: 'Añadir cita',
+        subTitle: '<span>¿Estás seguro de que deseas añadir la cita?</span>',
+        buttons: [
+          { text: 'No' },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              //$ionicLoading.show();
+              if (e)
+              {            
+                $scope.addEvent(titulo,anyo,mes,dia,horasIni,minutosIni,horasFin,minutosFin);
+                $scope.closeModal();
+              }
+              else
+              {
+                //El boton NO de no hacer nada
+                return; 
+              }
+            }
+          }
+        ]
+        });
+
+      }
+
+
+
+
+    };
+
+
+
 }]) // Fin AgendaCtrl
 
 .controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup','hexafy','$ionicModal', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup,hexafy,$ionicModal){
@@ -330,10 +394,25 @@ angular.module('starterMiApp.controllers', [])
 
 
 
+    $scope.InsertarCliente = function (miForm){
+        var url = "http://gestionestetica.fonotecaumh.es/Clientes/insertarCliente.php";
+        $http({
+            method: 'POST',
+            url: url,
+            data: miForm,
+            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+              $state.go('sidemenu.clientes');
+              window.location.reload();
+        }, function errorCallback(error) {
+            console.log('Error '+error);
+        });
+    }; // Fin InsertarCliente
+
 
     $scope.clickInsertarCliente = function (form){
-      var miForm = form;
-      console.log(miForm);
+      //var miForm = form;
+      console.log(form);
       var myPopup = $ionicPopup.show({
       title: 'Añadir cliente',
       subTitle: '<span>¿Estás seguro de que deseas añadir el cliente?</span>',
@@ -346,21 +425,7 @@ angular.module('starterMiApp.controllers', [])
             $ionicLoading.show();
             if (e)
             {              
-                $scope.InsertarCliente = function (miForm){
-                    var url = "http://gestionestetica.fonotecaumh.es/Clientes/insertarCliente.php";
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        data: miForm,
-                        headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-                    }).then(function successCallback(response) {
-                          $state.go('sidemenu.clientes');
-                          window.location.reload();
-                    }, function errorCallback(error) {
-                        console.log('Error '+error);
-                    });
-                }; // Fin InsertarCliente
-                $scope.InsertarCliente(miForm);
+                $scope.InsertarCliente(form);
             }
             else
             {
