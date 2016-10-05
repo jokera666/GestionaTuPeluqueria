@@ -253,9 +253,9 @@ angular.module('starterMiApp.controllers', [])
             maxTime: '21:00',
             drop: $scope.drop,
             header: {
-                left: 'list month basicDay agendaWeek',
+                left: 'list, month, basicDay, agendaWeek',
                 center: 'title',
-                right: 'prev,agendaDay,next'
+                right: 'prev,today,next'
             },
             buttonText: {
               // prev: 'Anterior',

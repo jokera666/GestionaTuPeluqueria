@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','starterMiApp.service','ngAnimate','ngMessages','ui.calendar'])
+angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','starterMiApp.service','ngAnimate','ngMessages','ui.calendar','ngTouch'])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate) {
   $ionicPlatform.ready(function() {

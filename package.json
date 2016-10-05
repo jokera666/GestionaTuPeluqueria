@@ -4,6 +4,7 @@
   "description": "LoginIonic: An Ionic project",
   "dependencies": {
     "angular-messages": "^1.5.8",
+    "angular-touch": "^1.5.8",
     "angular-ui-calendar": "^1.0.2",
     "fullcalendar": "^3.0.1",
     "gulp": "^3.5.6",
