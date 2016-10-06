@@ -360,9 +360,6 @@ angular.module('starterMiApp.controllers', [])
 
       }
 
-
-
-
     };
 
 
@@ -575,8 +572,6 @@ angular.module('starterMiApp.controllers', [])
 
       if(clienteForm.$valid==true)
       {
-            $scope.borderError = {'border': '1px solid blue'};
-            $scope.comprobar = false;
         var myPopup = $ionicPopup.show({
         title: 'Guardar datos',
         subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
@@ -603,8 +598,7 @@ angular.module('starterMiApp.controllers', [])
       }
       else
       {
-        $scope.comprobar = clienteForm.$error.required;
-        $scope.borderError = {'border': '2px solid red'};
+        alert('Error al guardar los datos');
         return;
       }
 

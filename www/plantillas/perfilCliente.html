@@ -8,28 +8,28 @@
 		<div class="item item-divider">Datos personales</div>
 			<div class="list">
 
-				<label class="item item-input">
-					<span class="input-label">Nombre:</span>
-					<input type="text" value="{{data.nombre}}" ng-model="form.nombre">
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.nombre.$invalid}">
+					<span class="input-label">Nombre: <span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="nombre" value="{{data.nombre}}" ng-model="form.nombre" required>
 				</label>
+				<div class="errorMensajeForm" ng-show="clienteForm.nombre.$invalid">Campo obligatorio</div>
 
 			 	<label class="item item-input">
 			    	<span class="input-label">Primer Apellido:</span>
-			   		<input type="text" value="{{data.apellido1}}" ng-model="form.apellido1">
+			   		<input type="text" value="{{data.apellido1}}" ng-model="form.apellido1" required>
 			  	</label>
 
 			 	<label class="item item-input">
 			    	<span class="input-label">Segundo Apellido:</span>
-			    	<input type="text" value="{{data.apellido2}}" ng-model="form.apellido2">
+			    	<input type="text" value="{{data.apellido2}}" ng-model="form.apellido2" required>
 			  	</label>
 
-			  	<label class="item item-input" ng-style="borderError">
+			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.telefono.$invalid}">
 			    	<span class="input-label">Telefono:</span>
-			    	<input type="tel" value="{{data.telefono}}" ng-model="form.telefono" ng-maxlength="9" required>
+			    	<input type="tel" name="telefono" value="{{data.telefono}}" ng-model="form.telefono" ng-maxlength="9" required>
 			  	</label>
-			  	<!-- <div ng-message="required">Field required</div> -->
-			  	<div ng-show="comprobar" ng-model="comprobar">Campo obligatorio</div>
-			  	<div ng-message="maxlength">This field can be at most 9 characters long.</div>
+			  	<!-- <div class="errorMensajeForm" ng-message="required">Campo obligatorio</div> -->
+			  	<div class="errorMensajeForm" ng-message="maxlength">El numero de telefono tiene que tener 9 digitos.</div>
 			  	<pre>clienteForm.$valid = {{ clienteForm.$valid | json }}</pre>
 
 				<div class="item item-divider">Servicios utilizados</div>	  	
@@ -128,7 +128,7 @@
 
 				<div class="row  responsive-sm">
 				  	<div class="col">
-				  		<button class="button icon ion-edit button-positive button-block" type="button" ng-click="clickModificarCliente(clienteForm)"> Guardar Datos</button>
+				  		<button class="button icon ion-edit button-positive button-block" type="button" ng-disabled="clienteForm.$invalid" ng-click="clickModificarCliente(clienteForm)"> Guardar Datos</button>
 				  	</div>
 				  	<div class="col">
 				  		<button class="button icon ion-refresh button-royal button-block" type="reset" ng-click="reiniciarForm()"> Reiniciar</button>

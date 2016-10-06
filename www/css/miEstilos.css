@@ -65,3 +65,16 @@
 	color: red;
 	background-color: yellow;
 }
+
+.errorCampoForm{
+	border: 2px solid red;
+}
+
+.errorMensajeForm{
+	color: red;
+}
+
+.asteriscoObligatorio{
+	color: red;
+	font-style: bold;
+}
