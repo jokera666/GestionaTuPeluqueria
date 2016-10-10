@@ -7,10 +7,18 @@
 	  
 	<form name="formInsertarCita">
 		<div class="list">
-		  <label class="item item-input item-stacked-label">
-		    <span class="input-label">Nombre</span>
-		    <input type="text" ng-model="form.tituloCita">
-		  </label>
+		
+		<label class="item item-input">
+			<div class="input-label">Numero de tinte</div>	
+		  	<input type="text" list="clientes" ng-model="form.tituloCita" />
+			<datalist id="clientes">
+			  <option>Nestor Dobrinov Edrev</option>
+			  <option>Tzenka Nestorova Edreva</option>
+			  <option>Maria Jose del Mar</option>
+			  <option>Pepa la loca</option>
+			</datalist>
+		</label>
+
 		  <label class="item item-input item-stacked-label">
 		    <span class="input-label">Fecha cita</span>
 		    <input type="date" ng-model="form.fecha">

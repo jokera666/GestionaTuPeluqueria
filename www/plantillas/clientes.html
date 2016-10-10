@@ -15,7 +15,7 @@
 <ion-content class="has-subheader">
 	<ion-list>
 		<!-- item-avatar es la clase que visualiza todo el contenido en un elemento de la lista con la foto redondeada  -->
-		<ion-item class="item-avatar item-icon-right" ng-repeat="item in clientes | filter: buscador" href="#/side/clientes/{{item.id_cliente}}">
+		<ion-item class="item-avatar item-icon-right" collection-repeat="item in clientes | filter: buscador" href="#/side/clientes/{{item.id_cliente}}">
 			<img src="http://gestionestetica.fonotecaumh.es/Clientes/imgClientes/foto1.jpg" alt="{{item.nombre}}{{item.apellido1}}">
 			<h2>{{item.nombre}} {{item.apellido1}} {{item.apellido2}}</h2>
 			<p>+{{item.telefono}}</p>

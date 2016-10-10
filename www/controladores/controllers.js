@@ -308,6 +308,7 @@ angular.module('starterMiApp.controllers', [])
       $scope.clickInsertarCita = function(form){
   
       var titulo = form.tituloCita;
+      alert(titulo);
       
       //Obtener fecha cita
       var fechaAux  = new Date (form.fecha);
