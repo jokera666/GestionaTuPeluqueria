@@ -37,11 +37,20 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
-    <!-- your app's js -->
-    <script src="js/calendar.js"></script>
+    <!-- Todos los js para desarrollo -->
+<!--     <script  src="js/calendar.js"></script>
     <script  src="js/app.js"></script>
     <script  src="controladores/controllers.js"></script>
-    <script  src="servicios/services.js"></script>
+    <script  src="servicios/services.js"></script> -->
+
+    <!-- Todos los js minificados para producción -->
+    <script src="todosJSmin/calendar.min.js"></script>
+    <script  src="js/app.js"></script>
+    <!-- <script src="todosJSmin/app.min.js"></script> -->
+    <script src="todosJSmin/controllers.min.js"></script>
+    <script src="todosJSmin/services.min.js"></script>
+    <!-- Todos los js minificados -->
+
     <script src="lib/angular-messages/angular-messages.min.js"></script>
   </body>
 </html>
