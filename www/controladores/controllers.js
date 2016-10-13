@@ -131,8 +131,8 @@ angular.module('starterMiApp.controllers', [])
 }]) // Fin SidemenuCtrl
 
 //.controller('AgendaCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
-.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','uiCalendarConfig', function($scope, $compile, $timeout, uiCalendarConfig,$ionicPopup,$ionicModal) {
-
+//.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','uiCalendarConfig', function($scope, $compile, $timeout,$ionicPopup,$ionicModal,uiCalendarConfig,$http) {
+.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','uiCalendarConfig', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,uiCalendarConfig) {
 
     console.log($scope.objetos); 
     $scope.nombreUsuario = $scope.objetos;
@@ -305,6 +305,22 @@ angular.module('starterMiApp.controllers', [])
 
 
 
+        var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
+        var query = {'q':'nombreCompleto'};
+        $http({
+            method: 'POST',
+            url: url,
+            data: query,
+            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+              console.log(response.data);
+              $scope.nombresCompletos = response.data.nombreClientes;
+              console.log($scope.nombresCompletos);
+        }, function errorCallback(error) {
+            console.log(error);
+        });
+
+
       $scope.clickInsertarCita = function(form){
   
       var titulo = form.tituloCita;
@@ -372,7 +388,7 @@ angular.module('starterMiApp.controllers', [])
 
   $http.post('http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php')
     .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
-    //console.log(dataClientes);
+    console.log(dataClientes);
     $scope.clientes = dataClientes.clientes;
   });
 
