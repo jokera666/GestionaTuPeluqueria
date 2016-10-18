@@ -6,10 +6,16 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','starterMiApp.service','ngAnimate','ngMessages','ui.calendar','ngTouch'])
 
-.run(function($ionicPlatform,$state,$ionicSideMenuDelegate) {
+.run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+
+    //Al realizar el $state.go reload para no quitar el NavBar
+    $rootScope.$on('$ionicView.enter', function(e) {
+      $ionicNavBarDelegate.showBar(true);
+    });
+
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -63,8 +69,10 @@ $ionicPlatform.registerBackButtonAction(function(event) {
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
-  $ionicConfigProvider.navBar.alignTitle("center");
+  $ionicConfigProvider.navBar.alignTitle('center');
+  $ionicConfigProvider.scrolling.jsScrolling(false);
   $ionicConfigProvider.views.maxCache(0);
+
   
   $stateProvider
 

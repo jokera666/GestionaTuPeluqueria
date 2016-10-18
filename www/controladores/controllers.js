@@ -383,29 +383,11 @@ angular.module('starterMiApp.controllers', [])
 
 }]) // Fin AgendaCtrl
 
-.controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup','hexafy','$ionicModal', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup,hexafy,$ionicModal){
+.controller('ClientesCtrl', ['$scope', '$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$ionicModal', function($scope, $state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$ionicModal){
   
-
-  // $http.post('http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php')
-  //   .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
-  //   console.log(dataClientes);
-  //   $scope.clientes = dataClientes.clientes;
-  // });
-
-        var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
-        var query = {'q':'listarClientes'};
-        $http({
-            method: 'POST',
-            url: url,
-            data: query,
-            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-              console.log(response.data);
-              $scope.clientes = response.data.clientes;
-              console.log($scope.clientes);
-        }, function errorCallback(error) {
-            console.log(error);
-        });
+    servClientes.getNombreCompleto().then(function(data){
+      $scope.clientes = data;
+    });
 
     // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
     $ionicModal.fromTemplateUrl('plantillas/modalInsertarCliente.html', {
@@ -422,26 +404,7 @@ angular.module('starterMiApp.controllers', [])
     };
 
 
-
-    $scope.InsertarCliente = function (miForm){
-        var url = "http://gestionestetica.fonotecaumh.es/Clientes/insertarCliente.php";
-        $http({
-            method: 'POST',
-            url: url,
-            data: miForm,
-            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-              $state.go('sidemenu.clientes');
-              window.location.reload();
-        }, function errorCallback(error) {
-            console.log('Error '+error);
-        });
-    }; // Fin InsertarCliente
-
-
     $scope.clickInsertarCliente = function (form){
-      //var miForm = form;
-      console.log(form);
       var myPopup = $ionicPopup.show({
       title: 'Añadir cliente',
       subTitle: '<span>¿Estás seguro de que deseas añadir el cliente?</span>',
@@ -454,7 +417,10 @@ angular.module('starterMiApp.controllers', [])
             $ionicLoading.show();
             if (e)
             {              
-                $scope.InsertarCliente(form);
+                servClientes.insertarCliente(form).then(function(){
+                  $state.go('sidemenu.clientes',null,{reload:true});
+                  $scope.modal.hide();
+                });
             }
             else
             {
