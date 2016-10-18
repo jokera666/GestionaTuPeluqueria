@@ -386,11 +386,26 @@ angular.module('starterMiApp.controllers', [])
 .controller('ClientesCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup','hexafy','$ionicModal', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup,hexafy,$ionicModal){
   
 
-  $http.post('http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php')
-    .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
-    console.log(dataClientes);
-    $scope.clientes = dataClientes.clientes;
-  });
+  // $http.post('http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php')
+  //   .success(function(dataClientes){ // crea un objeto con los datos que se han cargado
+  //   console.log(dataClientes);
+  //   $scope.clientes = dataClientes.clientes;
+  // });
+
+        var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
+        var query = {'q':'listarClientes'};
+        $http({
+            method: 'POST',
+            url: url,
+            data: query,
+            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+              console.log(response.data);
+              $scope.clientes = response.data.clientes;
+              console.log($scope.clientes);
+        }, function errorCallback(error) {
+            console.log(error);
+        });
 
     // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
     $ionicModal.fromTemplateUrl('plantillas/modalInsertarCliente.html', {

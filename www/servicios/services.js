@@ -1,5 +1,12 @@
 angular.module('starterMiApp.service', [])
 
+
+.service('clientes', ['$http','$q', function($http,$q){
+
+    
+
+}])
+
 .service('hexafy', function() {
 	this.variable = 10;
     this.myFunc = function (x) {
