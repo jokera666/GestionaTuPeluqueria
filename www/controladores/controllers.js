@@ -1,6 +1,11 @@
 angular.module('starterMiApp.controllers', [])
 
-.controller('LoginCtrl', ['$scope', '$http', '$state', '$rootScope','$ionicLoading', function($scope, $http, $state,$rootScope,$ionicLoading){
+.controller('LoginCtrl', ['$scope','$state','$rootScope','$ionicLoading','servLogin', function($scope,$state,$rootScope,$ionicLoading,servLogin){
+  
+    loginForm.$error = {
+      'required': true
+    }
+
   $scope.enviarFormulario = function(form){
 
     $ionicLoading.show();
@@ -8,87 +13,40 @@ angular.module('starterMiApp.controllers', [])
     $scope.animacion = "";
     $scope.msgError = "Usuario o contraseña incorrecto."; 
 
-    if(form == undefined)
-    {
-      $ionicLoading.hide();
-      $scope.visibilidadMensaje = true;
-      $scope.msgError;
-      $scope.animacion = "animated shake";
-      return;
-    }    
-    else if( form.user == undefined || form.pass  == undefined )
-    {
-      $ionicLoading.hide();
-      $scope.visibilidadMensaje = true; 
-      $scope.msgError = "Usuario o contraseña incorrecto."; 
-      $scope.animacion = "animated shake";
-      return;
-    }
 
       //var serviceUrl = 'file:///android_asset/www/'; // esta variable es necesaria para que funcione en el dispositivo.
       //$http.get(serviceUrl+'js/data.json') // cargar los datos del fichero data.json
 
-    else
-    {
+      servLogin.iniciarSesion(form).then(function(servResponse){
 
-      var url = "http://gestionestetica.fonotecaumh.es/Login.php";
+        $scope.respuestaServ = servResponse;
 
-       $http({
-          method: 'POST',
-          url: url,
-          data: form,
-          headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-      }).then(function successCallback(response) {
-            $scope.statuscode = response.status;
-            console.log('Estado del servidor '+$scope.statuscode);
-            //data es el array de parametros de la consulta php
-            console.log(response);
-            $scope.userServ = "";
-            $scope.userServ = response.data;
-            var abv = response.data;
-          
-            //$scope.result = angular.equals($scope.userServ, $scope.msgError);
-           //console.log($scope.result);
-
-            //userServ en esta variable me añade \r\n y no se pueden compara las cadenas bien
-            console.log('La respuesta del servidor es: '+$scope.userServ);
-            if($scope.userServ==-1)
-            {
-              $ionicLoading.hide();
-              $scope.visibilidadMensaje = true; 
-              $scope.animacion = "animated shake";
-              return;
-            }
-            else 
-            {
-               $scope.visibilidadMensaje = false;
-               //var myError = angular.element( document.querySelector( '#msgError' ) );
-               //myError.remove();   //removes element
-               
-               //$state.go('sidemenu.agenda' ,{param1: $scope.userServ, param2: form.pass});
-               $rootScope.objetos = abv;
-               $state.go('sidemenu.agenda');
-               form.user = "";
-               form.pass = "";
-            } 
-
-      }, function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.visibilidadMensaje = true; 
-          $scope.msgError; 
-          $scope.animacion = "animated shake";
-          console.log("el error es: "+error);
+          if($scope.respuestaServ==-1)
+          {
+            $ionicLoading.hide();
+            $scope.visibilidadMensaje = true; 
+            $scope.animacion = "animated shake";
+            return;
+          }
+          else 
+          {
+           $scope.visibilidadMensaje = false;
+           //var myError = angular.element( document.querySelector( '#msgError' ) );
+           //myError.remove();   //removes element
+           
+           //$state.go('sidemenu.agenda' ,{param1: $scope.userServ, param2: form.pass});
+           $rootScope.globalVarSesion = $scope.respuestaServ;
+           $state.go('sidemenu.agenda',null,{reload:true});
+           //form.user = "";
+           //form.pass = "";
+          }
       });
-
-    } // Fin else
-
-  } // Fin de enviarFormulario
+  }// Fin de enviarFormulario
 
 }]) //Fin LoginCtrl
 
 
-.controller('SidemenuCtrl', ['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicPlatform','$ionicLoading', function($scope, $http, $state,$stateParams,$ionicPopup,$ionicPlatform,$ionicLoading){
+.controller('SidemenuCtrl', ['$scope', '$state','$ionicPopup','$ionicLoading','servLogout', function($scope, $state,$ionicPopup,$ionicLoading,servLogout){
 
   $scope.cerrarSesion = function() {
 
@@ -96,29 +54,22 @@ angular.module('starterMiApp.controllers', [])
     title: 'Salir',
     subTitle: '¿Estás seguro de que deseas salir de la aplicación?',
     buttons: [
-      { text: 'No' },
+      { text: '<b>No</b>',
+        type: 'button-dark' 
+      },
       {
         text: '<b>Sí</b>',
         type: 'button-positive',
         onTap: function(e) {
           $ionicLoading.show();
-          if (e) {
-              
-           $http({
-              url: 'http://gestionestetica.fonotecaumh.es/Logout.php'
-            }).then(function successCallback(response) {
-                console.log('se cerro la sesion');
-                window.location.reload();
-                $state.go('login');
-
-            }, function errorCallback(err) {
-              console.log('error al cerrar la sesion: '+err);
-            }); 
-
-
-            //e.preventDefault(); // cuando pinches el pop se mantiene
-
-          } else {
+          if (e)//Pulsar Sí
+          { 
+            servLogout.cerrarSesion().then(function(data){
+              $state.go('login',null,{reload:true});
+            });   
+          }
+          else//Pulsar No
+          {
             return; 
           }
         }
@@ -134,8 +85,8 @@ angular.module('starterMiApp.controllers', [])
 //.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','uiCalendarConfig', function($scope, $compile, $timeout,$ionicPopup,$ionicModal,uiCalendarConfig,$http) {
 .controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','uiCalendarConfig', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,uiCalendarConfig) {
 
-    console.log($scope.objetos); 
-    $scope.nombreUsuario = $scope.objetos;
+    console.log($scope.globalVarSesion); 
+    $scope.nombreUsuario = $scope.globalVarSesion;
     
     var date = new Date();
     var d = date.getDate();
@@ -354,7 +305,10 @@ angular.module('starterMiApp.controllers', [])
         title: 'Añadir cita',
         subTitle: '<span>¿Estás seguro de que deseas añadir la cita?</span>',
         buttons: [
-          { text: 'No' },
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
           {
             text: '<b>Sí</b>',
             type: 'button-positive',
@@ -409,7 +363,10 @@ angular.module('starterMiApp.controllers', [])
       title: 'Añadir cliente',
       subTitle: '<span>¿Estás seguro de que deseas añadir el cliente?</span>',
       buttons: [
-        { text: 'No' },
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
         {
           text: '<b>Sí</b>',
           type: 'button-positive',
@@ -450,6 +407,7 @@ angular.module('starterMiApp.controllers', [])
 .controller('VentasCtrl', ['$scope', '$http', '$state','$stateParams', function($scope, $http, $state,$stateParams){
 
      console.log($stateParams);
+     $scope.nombreUsuario = $scope.globalVarSesion;
      $scope.parametro = $stateParams.param1;
      $scope.contrasena = $stateParams.param2;
 }]) // Fin VentasCtrl
@@ -574,7 +532,10 @@ angular.module('starterMiApp.controllers', [])
         title: 'Guardar datos',
         subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
         buttons: [
-          { text: 'No' },
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
           {
             text: '<b>Sí</b>',
             type: 'button-positive',
@@ -625,7 +586,10 @@ angular.module('starterMiApp.controllers', [])
       title: 'Borrar cliente',
       subTitle: '<span>¿Estás seguro de que deseas eliminar el cliente?</span>',
       buttons: [
-        { text: 'No' },
+        { 
+          text: '<b>No</b>',
+          type: 'button-dark'
+        },
         {
           text: '<b>Sí</b>',
           type: 'button-positive',

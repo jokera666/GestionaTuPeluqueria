@@ -5,18 +5,20 @@
       </ion-header-bar>
       <!--  scroll="false" disabilita el scroll  -->
       <ion-content class="padding has-header" scroll="false">
-            <form method="POST" name="loginForm" ng-submit="enviarFormulario(form)">
+            <form name="loginForm" ng-messages="clienteForm.$error" ng-submit="enviarFormulario(form)">
                 <div class="list login">
 
-                    <label class="item item-input">
-                      <span class="input-label">Usuario</span>
-                      <input type="text" ng-model="form.user">
+                    <label class="item item-input" ng-class="{ 'errorCampoForm' : loginForm.usuario.$invalid}">
+                      <span class="input-label">Usuario <span class="asteriscoObligatorio">*</span></span>
+                      <input name="usuario" type="text" ng-model="form.user" required>
                     </label>
+                    <div class="errorMensajeForm" ng-show="loginForm.usuario.$invalid">Campo obligatorio</div>
 
-                    <label class="item item-input">
-                      <span class="input-label">Contraseña</span>
-                      <input type="password" ng-model="form.pass">
+                    <label class="item item-input" ng-class="{ 'errorCampoForm' : loginForm.contrasena.$invalid}">
+                      <span class="input-label">Contraseña <span class="asteriscoObligatorio">*</span></span>
+                      <input name="contrasena" type="password" ng-model="form.pass" required>
                     </label>
+                    <div class="errorMensajeForm" ng-show="loginForm.contrasena.$invalid">Campo obligatorio</div>
 
                     <div class="card" ng-class="animacion" ng-show="visibilidadMensaje" id="msgError">
                       <div class="item item-icon-left errorMsgLogin">
@@ -26,7 +28,7 @@
                     </div>
 
                     <div class="padding">
-                      <button type="submit" class="button button-block button-positive icon-center ion-log-in"> Entrar</button>
+                      <button type="submit" class="button button-block button-positive icon ion-log-in"> Entrar</button>
                     </div>
 
                 </div>

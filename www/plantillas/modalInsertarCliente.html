@@ -1,36 +1,36 @@
 <ion-modal-view>
-	<ion-header-bar class="bar-royal">
+	<ion-header-bar class="bar-calm">
 	  <h1 class="title">Añadir cliente</h1>
-	  <a class="button button-icon button-light ion-close-round" ng-click="closeModal()">Cerrar</a>
+	  <a class="button button-assertive icon ion-close-round" ng-click="closeModal()">Cerrar</a>
 	</ion-header-bar>
 	<ion-content>
 	  
 	<form name="formInsertarCliente">
 		<div class="list">
-		  <label class="item item-input item-floating-label">
+		  <label class="item item-input">
 		    <span class="input-label">Nombre</span>
-		    <input type="text" placeholder="Nombre" ng-model="form.nombre">
+		    <input type="text" ng-model="form.nombre">
 		  </label>
-		  <label class="item item-input item-floating-label">
+		  <label class="item item-input">
 		    <span class="input-label">Primer apellido</span>
-		    <input type="text" placeholder="Primer apellido" ng-model="form.apellido1">
+		    <input type="text" ng-model="form.apellido1">
 		  </label>
-		  <label class="item item-input item-floating-label">
+		  <label class="item item-input">
 		    <span class="input-label">Segundo apellido</span>
-		    <input type="text" placeholder="Segundo apellido" ng-model="form.apellido2">
+		    <input type="text" ng-model="form.apellido2">
 		  </label>
-		  <label class="item item-input item-floating-label">
+		  <label class="item item-input">
 		    <span class="input-label">Telefono</span>
-		    <input type="tel" placeholder="Telefono" ng-model="form.telefono">
+		    <input type="tel" ng-model="form.telefono">
 		  </label>
 		</div>
 
 		<div class="row  responsive-sm">
 		  	<div class="col">
-		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-click="clickInsertarCliente(form)"> Guardar Datos</button>
+		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-click="clickInsertarCliente(form)"> Guardar Datos</button>
 		  	</div>
 		  	<div class="col">
-		  		<button class="button icon ion-refresh button-royal button-block" type="reset"> Reiniciar</button>
+		  		<button class="button button-block button-royal icon ion-refresh" type="reset"> Reiniciar</button>
 		  	</div>
 		</div>
 	</form>
