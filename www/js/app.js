@@ -4,7 +4,18 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','starterMiApp.service','ngAnimate','ngMessages','ui.calendar','ngTouch'])
+angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','ngTouch', 
+                                                                'starterMiApp.contrsLogin',
+                                                                'starterMiApp.contrsSidemenu',
+                                                                'starterMiApp.contrsAgenda',
+                                                                'starterMiApp.contrsClientes',
+                                                                'starterMiApp.contrsProductos',
+                                                                'starterMiApp.contrsVentas',
+                                                                'starterMiApp.contrsSecciones',
+                                                                'starterMiApp.contrsServicios',
+                                                                'starterMiApp.contrsFacturas',
+                                                                'starterMiApp.servsLogin',
+                                                                'starterMiApp.servsClientes'])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
   $ionicPlatform.ready(function() {
@@ -41,26 +52,25 @@ angular.module('starterMiApp', ['ionic', 'starterMiApp.controllers','starterMiAp
 
   });
 
-$ionicPlatform.registerBackButtonAction(function(event) {
+  $ionicPlatform.registerBackButtonAction(function(event) {
 
-    if ($state.current.name=="login")
-    {
-      navigator.app.exitApp();
-    }
+      if ($state.current.name=="login")
+      {
+        navigator.app.exitApp();
+      }
 
-    if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil")
-    {
-      navigator.app.backHistory();
-    }
+      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil")
+      {
+        navigator.app.backHistory();
+      }
 
-    else
-    {
-       $ionicSideMenuDelegate.toggleLeft();
-    }
-
-  }, 100);
-
-})
+      else
+      {
+         $ionicSideMenuDelegate.toggleLeft();
+      }
+    }, 100);
+  
+  })
 
 .constant('$ionicLoadingConfig', {
               template: '<ion-spinner icon="spiral" class="spinner-light"></ion-spinner><p>Cargando...</p>',
@@ -91,17 +101,6 @@ $ionicPlatform.registerBackButtonAction(function(event) {
   })
 
  
-  .state('sidemenu.perfil', {
-    url: '/clientes/:idCliente',
-    views: {
-      'menuContent': {
-        templateUrl: 'plantillas/perfilCliente.html',
-        controller: 'ClientePerfilCtrl'
-      }
-    }
-  })
-
-
   .state('sidemenu.agenda', {
       url: '/agenda',
       views: {
@@ -118,6 +117,16 @@ $ionicPlatform.registerBackButtonAction(function(event) {
       'menuContent': {
         templateUrl: 'plantillas/clientes.html',
         controller: 'ClientesCtrl'
+      }
+    }
+  })
+
+.state('sidemenu.perfil', {
+    url: '/clientes/:idCliente',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/perfilCliente.html',
+        controller: 'ClientePerfilCtrl'
       }
     }
   })
