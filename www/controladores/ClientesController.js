@@ -1,10 +1,13 @@
 angular.module('starterMiApp.contrsClientes', [])
-.controller('ClientesCtrl', ['$scope', '$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$ionicModal', function($scope, $state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$ionicModal){
+
+.controller('ClientesCtrl', ['$scope', '$state','$stateParams','$ionicLoading','$ionicPopup','$ionicModal','servClientes', function($scope, $state,$stateParams,$ionicLoading,$ionicPopup,$ionicModal,servClientes){
   
+    //Listar los clientes en el list item
     servClientes.getNombreCompleto().then(function(data){
       $scope.clientes = data;
     });
 
+    //Insertar un nuevo cliente a atraves del un modal
     // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
     $ionicModal.fromTemplateUrl('plantillas/modalInsertarCliente.html', {
       scope: $scope,
@@ -52,82 +55,41 @@ angular.module('starterMiApp.contrsClientes', [])
       });
     };
 
-
-  $scope.borrarBuscador = function(){
-    $scope.buscador = '';
-  };
+    //Limpiar la barra de busqueda
+    $scope.borrarBuscador = function(){
+      $scope.buscador = '';
+    };
 
 }]) // Fin ClientesCtrl
 
-.controller('ClientePerfilCtrl', ['$scope', '$http', '$state','$stateParams','$ionicLoading','$ionicPopup', function($scope, $http, $state,$stateParams,$ionicLoading,$ionicPopup){
-
-
+.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes){
 
     clienteForm.$error = {
       'required': true
     }
 
-    console.log($stateParams.idCliente);
-    $scope.id = $stateParams.idCliente;
+    var idCliente = $stateParams.idCliente;
 
+    servClientes.mostrarPerfilCliente(idCliente).then(function(datosCliente){
+        console.log(datosCliente);
 
-      var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarPerfilCliente.php";
+        /*$scope.data es la informacion que se va mostrar en el perfil del cliente a
+        partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
+        $scope.data = datosCliente;
+        
+        /* this.form es la directiva ng-model en la vista perfilCliente donde inicializo las directivas
+        con los valores/datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
+        this.form = $scope.data;
 
-       $http({
-          method: 'POST',
-          url: url,
-          data: $stateParams.idCliente,
-          headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-      }).then(function successCallback(dataClientes) {
-          //console.log(dataClientes);
-          $scope.data = dataClientes.data.clientes[0];
-          $scope.form = this;
-          $scope.form = $scope.data;
-          this.id_cliente = $scope.data.id_cliente;
-          this.nombre = $scope.data.nombre;
-          this.apellido1 = $scope.data.apellido1;
-          this.apellido2 = $scope.data.apellido2;
-          this.telefono = $scope.data.telefono;
+        $scope.reiniciarForm = function(){
+         this.form = angular.copy($scope.data);    
+        };
+        $scope.reiniciarForm();
+    });
 
 
 
-          $scope.borrarCliente = function (){
-                console.log(this.form.id_cliente);
-          };
-
-          $scope.reiniciarForm = function(){
-           $scope.form = angular.copy($scope.data);
-            
-          };
-          $scope.reiniciarForm();
-
-      }, function errorCallback(error) {
-          console.log('Error '+error);
-      });
-
-
-      $scope.modificarCliente = function (){
-          var url = "http://gestionestetica.fonotecaumh.es/Clientes/modificarPerfilCliente.php";
-          $http({
-              method: 'POST',
-              url: url,
-              data: this.form,
-              headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-          }).then(function successCallback(response) {
-                $state.go('sidemenu.clientes');
-                window.location.reload();
-
-          }, function errorCallback(error) {
-              console.log('Error '+error);
-          });
-      }; // Fin modificarCliente
-
-
-
-    $scope.clickModificarCliente = function (clienteForm){
-
-      if(clienteForm.$valid==true)
-      {
+    $scope.clickModificarCliente = function (form){
         var myPopup = $ionicPopup.show({
         title: 'Guardar datos',
         subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
@@ -143,7 +105,9 @@ angular.module('starterMiApp.contrsClientes', [])
               $ionicLoading.show();
               if (e)
               {              
-                $scope.modificarCliente();
+                  servClientes.modificarPerfilCliente(form).then(function(){
+                      $state.go('sidemenu.clientes',null,{reload:true});
+                  });
               }
               else
               {
@@ -154,33 +118,10 @@ angular.module('starterMiApp.contrsClientes', [])
           }
         ]
         });
-      }
-      else
-      {
-        alert('Error al guardar los datos');
-        return;
-      }
-
-
     };
 
 
-    $scope.eliminarCliente = function (){
-        var url = "http://gestionestetica.fonotecaumh.es/Clientes/eliminarPerfilCliente.php";
-        $http({
-            method: 'POST',
-            url: url,
-            data: this.form.id_cliente,
-            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-              $state.go('sidemenu.clientes');
-              window.location.reload();
-        }, function errorCallback(error) {
-            console.log('Error '+error);
-        });
-    }; // Fin eliminarCliente
-
-
+    
     $scope.clickEliminarCliente = function (){
       var myPopup = $ionicPopup.show({
       title: 'Borrar cliente',
@@ -197,7 +138,9 @@ angular.module('starterMiApp.contrsClientes', [])
             $ionicLoading.show();
             if (e)
             {              
-              $scope.eliminarCliente();
+                servClientes.borrarPerfilCliente(idCliente).then(function(data){
+                  $state.go('sidemenu.clientes',null,{reload:true});
+                });
             }
             else
             {
