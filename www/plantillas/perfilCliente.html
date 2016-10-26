@@ -3,7 +3,9 @@
 
 	<form name="clienteForm" ng-messages="clienteForm.$error">
 		<div id="fondoImgPerfil">
-			<img src="http://gestionestetica.fonotecaumh.es/Clientes/imgClientes/foto2.jpg" alt="{{data.nombre}} {{data.apellido1}}">
+			<img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" alt="{{data.nombre}} {{data.apellido1}}">
+			<img ng-show="imgURI === undefined" ng-src="http://placehold.it/120x120?text=No+Foto">
+			<button id="btnHacerFoto" class="button icon button-positive icon ion-camera" ng-click="hacerFoto()"></button>
 		</div>
 		<div class="item item-divider">Datos personales</div>
 			<div class="list">
@@ -31,6 +33,9 @@
 			  	<!-- <div class="errorMensajeForm" ng-message="required">Campo obligatorio</div> -->
 			  	<div class="errorMensajeForm" ng-message="maxlength">El numero de telefono tiene que tener 9 digitos.</div>
 			  	<pre>clienteForm.$valid = {{ clienteForm.$valid | json }}</pre>
+			  	<pre>{{imgURI}}</pre>
+			  	<br>
+			  	<pre>{{opciones}}</pre>
 
 				<div class="item item-divider">Servicios utilizados</div>	  	
 

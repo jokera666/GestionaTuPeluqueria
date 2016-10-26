@@ -62,7 +62,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 }]) // Fin ClientesCtrl
 
-.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes){
+.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer){
 
     clienteForm.$error = {
       'required': true
@@ -152,4 +152,47 @@ angular.module('starterMiApp.contrsClientes', [])
       ]
       });
     };
+
+    $scope.hacerFoto = function(){
+      var options = { 
+            quality : 75, 
+            destinationType : Camera.DestinationType.FILE_URI, 
+            sourceType : Camera.PictureSourceType.CAMERA, 
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 120,
+            targetHeight: 126,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: true
+        };
+
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+             $scope.imgURI = imageData;
+
+
+              $scope.upload = function(imageData) {
+                var options = {
+                    fileKey: "avatar",
+                    fileName: "image.png",
+                    chunkedMode: false,
+                    mimeType: "image/png"
+                };
+                $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/", "/android_asset/www/img/foto1.jpg", options).then(function(result) {
+                    console.log("SUCCESS: " + JSON.stringify(result.response));
+                    $scope.opciones = "SUCCESS: " + JSON.stringify(result.response);
+                }, function(err) {
+                    console.log("ERROR: " + JSON.stringify(err));
+                    $scope.opciones = "ERROR: " + JSON.stringify(err);
+                }, function (progress) {
+                    // constant progress updates
+                });
+              }
+              $scope.upload(imageData);
+
+            //$scope.imgURI = "data:image/jpeg;base64," + imageData;
+            $scope.opciones = options;
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+    }
 }]) //Fin  ClientePerfilCtrl
