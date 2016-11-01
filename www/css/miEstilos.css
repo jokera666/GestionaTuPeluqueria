@@ -79,6 +79,8 @@
 
 .errorCampoForm{
 	border: 5px solid red;
+	border-radius: 20px;
+	opacity: 0.9;
 }
 
 .errorMensajeForm{

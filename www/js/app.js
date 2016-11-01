@@ -6,6 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','ngTouch','ngCordova', 
                                                                 'starterMiApp.contrsLogin',
+                                                                'starterMiApp.contrsSignup',
                                                                 'starterMiApp.contrsSidemenu',
                                                                 'starterMiApp.contrsAgenda',
                                                                 'starterMiApp.contrsClientes',
@@ -92,6 +93,11 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     controller: 'LoginCtrl'
   })
 
+  .state('signup',{
+    url: '/signup',
+    templateUrl: 'plantillas/signup.html',
+    controller: 'SignupCtrl'
+  })
 
   .state('sidemenu', {
     url: '/side',
