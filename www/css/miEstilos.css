@@ -78,8 +78,7 @@
 }
 
 .errorCampoForm{
-	border: 5px solid red;
-	border-radius: 20px;
+	border-bottom: 2px solid red;
 	opacity: 0.9;
 }
 

@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsSignup', [])
 
-.controller('SignupCtrl', ['$scope','$state','$ionicPopup', function($scope,$state,$ionicPopup){
+.controller('SignupCtrl', ['$scope','$state','$ionicPopup','servSignup', function($scope,$state,$ionicPopup,servSignup){
 
 
 
@@ -11,15 +11,38 @@ angular.module('starterMiApp.contrsSignup', [])
     	{
    			var alertPopup = $ionicPopup.alert({
 			     title: 'Error al registrarse',
-			     template: 'Las contraseñas no coinciden',
+			     template: 'Las contraseñas no coinciden.',
 			     okText: 'Volver', 
   				 okType: 'button-assertive'
    			});
     	}
     	else
     	{
-    		console.log('SU cuenta fue c reada correctamente');
-    		console.log(form);
+    		servSignup.registrarUsuario(form).then(function(servResponse){
+    		  
+                if(servResponse==-1)
+                {
+                    var alertPopup = $ionicPopup.alert({
+                         title: 'Error al registrarse',
+                         template: 'El usuario ya existe.',
+                         okText: 'Volver', 
+                         okType: 'button-assertive'
+                    });
+                }
+                else
+                {
+                    var alertPopup = $ionicPopup.alert({
+                         title: 'Registrar',
+                         template: 'La cuenta fue creada correctamente',
+                         okText: 'Ok', 
+                         okType: 'button-positive'
+                    });
+
+                    alertPopup.then(function(res) {
+                        $state.go('login',null,{reload:true});
+                    });
+                }
+            });
     	}
     }
 

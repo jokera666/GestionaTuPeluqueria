@@ -18,14 +18,23 @@ angular.module('starterMiApp.servsClientes', [])
         var promesa = defered.promise;
 
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
-        var data = {'q':'listarClientes'};
+        var data = {'q':'nombreCompleto'};
         var config = {
             headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
         }
 
         $http.post(url,data,config)
             .success(function (response){
-                defered.resolve(response.clientes);
+                console.log(response);
+                if(response == -1)
+                {
+                    defered.resolve(response);
+                }
+                else
+                {
+                    defered.resolve(response.nombreClientes);
+                } 
+                
             })
             .error(function(err){
                 defered.reject(err);

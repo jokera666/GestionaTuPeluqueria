@@ -4,7 +4,16 @@ angular.module('starterMiApp.contrsClientes', [])
   
     //Listar los clientes en el list item
     servClientes.getNombreCompleto().then(function(data){
-      $scope.clientes = data;
+      console.log(data);
+      if(data==-1)
+      {
+        $scope.noClientes = "No tiene usuarios introducidos";
+      }
+      else
+      {
+        $scope.clientes = data;   
+      }
+      
     });
 
     //Insertar un nuevo cliente a atraves del un modal

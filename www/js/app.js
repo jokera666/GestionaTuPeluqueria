@@ -16,6 +16,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.contrsServicios',
                                                                 'starterMiApp.contrsFacturas',
                                                                 'starterMiApp.servsLogin',
+                                                                'starterMiApp.servsSignup',
                                                                 'starterMiApp.servsClientes'])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
