@@ -8,17 +8,23 @@
             <form name="loginForm" ng-messages="clienteForm.$error" ng-submit="enviarFormulario(form)">
                 <div class="list login">
 
-                    <label class="item item-input" ng-class="{ 'errorCampoForm' : loginForm.usuario.$invalid}">
+                    <label class="item item-input" ng-class="{ 'errorCampoForm' :loginForm.usuario.$invalid && visitedUsuario}">
                       <span class="input-label">Usuario <span class="asteriscoObligatorio">*</span></span>
-                      <input name="usuario" type="text" ng-model="form.user" required>
+                      <input name="usuario" type="text" ng-model="form.user" ng-blur="visitedUsuario = true" required>
                     </label>
-                    <div class="errorMensajeForm" ng-show="loginForm.usuario.$invalid">Campo obligatorio</div>
 
-                    <label class="item item-input" ng-class="{ 'errorCampoForm' : loginForm.contrasena.$invalid}">
+                    <div ng-show="loginForm.usuario.$invalid && visitedUsuario">
+                      <span class="errorMensajeForm" ng-show="loginForm.usuario.$error.required">Campo obligatorio.</span> 
+                    </div>
+
+                    <label class="item item-input" ng-class="{ 'errorCampoForm' : loginForm.contrasena.$invalid && visitedContrasena}">
                       <span class="input-label">Contraseña <span class="asteriscoObligatorio">*</span></span>
-                      <input name="contrasena" type="password" ng-model="form.pass" required>
+                      <input name="contrasena" type="password" ng-model="form.pass" ng-blur="visitedContrasena = true" required>
                     </label>
-                    <div class="errorMensajeForm" ng-show="loginForm.contrasena.$invalid">Campo obligatorio</div>
+                    
+                    <div ng-show="loginForm.contrasena.$invalid && visitedContrasena">
+                      <span class="errorMensajeForm" ng-show="loginForm.contrasena.$error.required">Campo obligatorio.</span> 
+                    </div>
 
                     <div class="card" ng-class="animacion" ng-show="visibilidadMensaje" id="msgError">
                       <div class="item item-icon-left errorMsgLogin">

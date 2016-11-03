@@ -8,37 +8,56 @@
 	  <ion-content class="padding has-header" scroll="true">
 		<form name="signupForm" ng-submit="enviarFormulario(form,repetirContrasena,signupForm)">
 			<div class="list">
-			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.usuario.$invalid}">
+			  	
+			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.usuario.$invalid && visitedUsuario}">
 			  		<span class="input-label"><b>Usuario:</b> <span class="asteriscoObligatorio">*</span></span>
-			    	<input name="usuario" type="text" ng-model="form.usuario" required>
+			    	<input name="usuario" type="text" ng-model="form.usuario" ng-blur="visitedUsuario = true" required>
 			 	</label>
-			 	<div class="errorMensajeForm" ng-show="signupForm.usuario.$invalid">Campo obligatorio</div>
+			 	<div ng-show="signupForm.usuario.$invalid && visitedUsuario">
+            		<span class="errorMensajeForm" ng-show="signupForm.usuario.$error.required">Campo obligatorio.</span> 
+                </div>
 			
-				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.contrasena.$invalid}">
+				
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.contrasena.$invalid && visitedContrasena}">
 					<span class="input-label"><b>Contraseña:</b> <span class="asteriscoObligatorio">*</span></span>
-					<input name="contrasena" type="password" ng-model="form.contrasena" required>
+					<input name="contrasena" type="password" ng-model="form.contrasena" ng-blur="visitedContrasena = true" required minlength="8">
 				</label>
-				<div class="errorMensajeForm" ng-show="signupForm.contrasena.$invalid">Campo obligatorio</div>
+				<div ng-show="signupForm.contrasena.$invalid && visitedContrasena">
+            		<span class="errorMensajeForm" ng-show="signupForm.contrasena.$error.required">Campo obligatorio.</span> 
+            		<span class="errorMensajeForm" ng-show="signupForm.contrasena.$error.minlength">Minimo 8 caracteres.</span>
+                </div>
 
-				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.repetirContrasena.$invalid}">
+				
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.repetirContrasena.$invalid && visitedRepeatContrasena}">
 					<span class="input-label"><b>Repetir Contraseña:</b> <span class="asteriscoObligatorio">*</span></span>
-					<input name="repetirContrasena" type="password" ng-model="repetirContrasena" required>
+					<input name="repetirContrasena" type="password" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" required minlength="8">
 				</label>
-				<div class="errorMensajeForm" ng-show="signupForm.repetirContrasena.$invalid">Campo obligatorio</div>
+				<div ng-show="signupForm.repetirContrasena.$invalid && visitedRepeatContrasena">
+            		<span class="errorMensajeForm" ng-show="signupForm.repetirContrasena.$error.required">Campo obligatorio.</span> 
+            		<span class="errorMensajeForm" ng-show="signupForm.repetirContrasena.$error.minlength">Minimo 8 caracteres.</span>
+                </div>
 
-				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.nombreEmpresa.$invalid}">
+				
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.nombreEmpresa.$invalid && visitedNombreEmpresa}">
 					<span class="input-label"><b>Nombre de empresa:</b> <span class="asteriscoObligatorio">*</span></span>
-					<input  name="nombreEmpresa" type="text" ng-model="form.nombreEmpresa" required>
+					<input  name="nombreEmpresa" type="text" ng-model="form.nombreEmpresa" ng-blur="visitedNombreEmpresa = true" required>
 				</label>
-				<div class="errorMensajeForm" ng-show="signupForm.nombreEmpresa.$invalid">Campo obligatorio</div>
+				<div ng-show="signupForm.nombreEmpresa.$invalid && visitedNombreEmpresa">
+            		<span class="errorMensajeForm" ng-show="signupForm.nombreEmpresa.$error.required">Campo obligatorio.</span> 
+                </div>
 
-				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.email.$invalid}">
+				
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.email.$invalid && visitedEmail}">
 					<span class="input-label"><b>Correo electronico:</b> <span class="asteriscoObligatorio">*</span></span>
-					<input name="email" type="email" ng-model="form.email" required>
+					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true" required>
 				</label>
-				<div class="errorMensajeForm" ng-show="signupForm.email.$invalid">Campo obligatorio</div>
+				<div ng-show="signupForm.email.$invalid && visitedEmail">
+            		<span class="errorMensajeForm" ng-show="signupForm.email.$error.required">Campo obligatorio.</span> 
+            		<span class="errorMensajeForm" ng-show="signupForm.email.$error.email">El correo electronico es incorrecto.</span>
+                </div>
 
-			  <button type="submit" class="button button-block button-positive" ng-disabled="signupForm.$invalid">Registrar</button>
+			  	<button type="submit" class="button button-block button-positive" ng-disabled="signupForm.$invalid">Registrar</button>
+			  	
 			</div>
 		</form>
 	  </ion-content>

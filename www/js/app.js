@@ -24,9 +24,9 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
 
-    setTimeout(function() {
-        navigator.splashscreen.hide();
-    }, 300);
+    // setTimeout(function() {
+    //     navigator.splashscreen.hide();
+    // }, 300);
 
     //Al realizar el $state.go reload para no quitar el NavBar
     $rootScope.$on('$ionicView.enter', function(e) {
