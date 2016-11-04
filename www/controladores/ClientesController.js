@@ -2,6 +2,8 @@ angular.module('starterMiApp.contrsClientes', [])
 
 .controller('ClientesCtrl', ['$scope', '$state','$stateParams','$ionicLoading','$ionicPopup','$ionicModal','servClientes', function($scope, $state,$stateParams,$ionicLoading,$ionicPopup,$ionicModal,servClientes){
   
+    console.log('Usuario con id de sesion---> '+$scope.globalSesionUserId);
+
     //Listar los clientes en el list item
     servClientes.getNombreCompleto().then(function(data){
       console.log(data);

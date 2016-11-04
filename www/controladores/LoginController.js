@@ -18,9 +18,7 @@ angular.module('starterMiApp.contrsLogin', [])
       //$http.get(serviceUrl+'js/data.json') // cargar los datos del fichero data.json
 
       servLogin.iniciarSesion(form).then(function(servResponse){
-
-        $scope.respuestaServ = servResponse;
-
+          $scope.respuestaServ = servResponse;
           if($scope.respuestaServ==-1)
           {
             $ionicLoading.hide();
@@ -35,7 +33,8 @@ angular.module('starterMiApp.contrsLogin', [])
            //myError.remove();   //removes element
            
            //$state.go('sidemenu.agenda' ,{param1: $scope.userServ, param2: form.pass});
-           $rootScope.globalVarSesion = $scope.respuestaServ;
+           $rootScope.globalSesionUserId = $scope.respuestaServ.id;
+           $rootScope.globalSesionUserName = $scope.respuestaServ.userName;
            $state.go('sidemenu.agenda',null,{reload:true});
            //form.user = "";
            //form.pass = "";

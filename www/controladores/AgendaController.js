@@ -1,9 +1,10 @@
 angular.module('starterMiApp.contrsAgenda', [])
 
-.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','uiCalendarConfig', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,uiCalendarConfig) {
+.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','uiCalendarConfig', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,uiCalendarConfig){
 
-    console.log($scope.globalVarSesion); 
-    $scope.nombreUsuario = $scope.globalVarSesion;
+    console.log('Usuario con id de sesion---> '+$scope.globalSesionUserId);
+    console.log($scope.globalSesionUserName); 
+    $scope.nombreUsuario = $scope.globalSesionUserName;
     
     var date = new Date();
     var d = date.getDate();
@@ -26,6 +27,7 @@ angular.module('starterMiApp.contrsAgenda', [])
       {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 21, 30),allDay: false},
       {title: 'Click for Google',start: new Date(y, m, 28, 09, 15),end: new Date(y, m, 28, 10, 25),url: 'http://google.com/'}
     ];
+    console.log($scope.events);
     /* event source that calls a function on every view switch */
     $scope.eventsF = function (start, end, timezone, callback) {
       var s = new Date(start).getTime() / 1000;
@@ -190,10 +192,40 @@ angular.module('starterMiApp.contrsAgenda', [])
 
 
       $scope.clickInsertarCita = function(form){
-  
+      console.log(form);
+
+      
+      var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
+      var formattedHourIni = moment(form.horaIni).format('HH:mm:ss');
+      var formattedHourFin = moment(form.horaFin).format('HH:mm:ss');
+      var startCita = formattedDate.concat("T",formattedHourIni);
+      var finCita   = formattedDate.concat("T",formattedHourFin);
+      console.log(startCita);
+      console.log(finCita);
+
+
+
+
+
+
       var titulo = form.tituloCita;
       alert(titulo);
-      
+
+      // array de objetos
+      // $scope.formattedFormCita = [
+      //   {title:form.tituloCita},
+      //   {start:startCita},
+      //   {fin:finCita}
+      // ];
+
+      //Objeto con propiedades
+       $scope.formattedFormCita = {
+        title:form.tituloCita,
+        start:startCita,
+        fin:finCita
+       };
+
+      console.log($scope.formattedFormCita);
       //Obtener fecha cita
       var fechaAux  = new Date (form.fecha);
       var dia   = fechaAux.getDate();
