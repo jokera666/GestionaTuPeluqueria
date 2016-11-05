@@ -5,7 +5,7 @@ angular.module('starterMiApp.contrsClientes', [])
     console.log('Usuario con id de sesion---> '+$scope.globalSesionUserId);
 
     //Listar los clientes en el list item
-    servClientes.getNombreCompleto().then(function(data){
+    servClientes.getNombreCompleto($scope.globalSesionUserId).then(function(data){
       console.log(data);
       if(data==-1)
       {
@@ -35,6 +35,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
     $scope.clickInsertarCliente = function (form){
+      form['idUser'] = $scope.globalSesionUserId;
       var myPopup = $ionicPopup.show({
       title: 'Añadir cliente',
       subTitle: '<span>¿Estás seguro de que deseas añadir el cliente?</span>',

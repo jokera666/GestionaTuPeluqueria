@@ -12,13 +12,13 @@ angular.module('starterMiApp.servsClientes', [])
         borrarPerfilCliente: deleteClientProfile 
     }
 
-    function getFullName()
+    function getFullName(idUsuario)
     {
         var defered = $q.defer();
         var promesa = defered.promise;
 
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
-        var data = {'q':'nombreCompleto'};
+        var data = {'q':'nombreCompleto','idUser':idUsuario};
         var config = {
             headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
         }
