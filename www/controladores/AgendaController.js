@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsAgenda', [])
 
-.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','uiCalendarConfig', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,uiCalendarConfig){
+.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','uiCalendarConfig','servAgenda', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,uiCalendarConfig,servAgenda){
 
     console.log('Usuario con id de sesion---> '+$scope.globalSesionUserId);
     console.log($scope.globalSesionUserName); 
@@ -11,6 +11,9 @@ angular.module('starterMiApp.contrsAgenda', [])
     var m = date.getMonth();
     var y = date.getFullYear();
 
+
+
+
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
     $scope.eventSource = {
@@ -18,16 +21,33 @@ angular.module('starterMiApp.contrsAgenda', [])
             className: 'gcal-event',           // an option!
             currentTimezone: 'Europe/Madrid' // an option!
     };
-    /* event source that contains custom events on the scope */
-    $scope.events = [
-      {title: 'All Day Event',start: new Date(y, m, 1)},
-      {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-      {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 21, 30),allDay: false},
-      {title: 'Click for Google',start: new Date(y, m, 28, 09, 15),end: new Date(y, m, 28, 10, 25),url: 'http://google.com/'}
-    ];
-    console.log($scope.events);
+    // /* event source that contains custom events on the scope */
+    // $scope.events = [
+    //   {title: 'All Day Event',start: new Date(y, m, 1)},
+    //   {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+    //   {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+    //   {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
+    //   {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 21, 30),allDay: false},
+    //   {title: 'Click for Google',start: new Date(y, m, 28, 09, 15),end: new Date(y, m, 28, 10, 25),url: 'http://google.com/'}
+    // ];
+    // console.log($scope.events);
+
+
+    //Listar los citas en el calendario
+    servAgenda.listarCitas($scope.globalSesionUserId).then(function(data){
+      console.log(data);
+      if(data==-1)
+      {
+        console.log("No tiene citas introducidos");
+      }
+      else
+      {
+        $scope.events = data;
+        console.log($scope.events);   
+      }
+    });
+
+
     /* event source that calls a function on every view switch */
     $scope.eventsF = function (start, end, timezone, callback) {
       var s = new Date(start).getTime() / 1000;
