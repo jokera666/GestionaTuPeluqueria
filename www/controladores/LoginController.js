@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsLogin', [])
 
-.controller('LoginCtrl', ['$scope','$state','$rootScope','$ionicLoading','servLogin', function($scope,$state,$rootScope,$ionicLoading,servLogin){
+.controller('LoginCtrl', ['$scope','$state','$rootScope','$ionicLoading','$filter','servLogin', function($scope,$state,$rootScope,$ionicLoading,$filter,servLogin){
   
     loginForm.$error = {
       'required': true
@@ -9,6 +9,7 @@ angular.module('starterMiApp.contrsLogin', [])
   $scope.enviarFormulario = function(form){
 
     $ionicLoading.show();
+    form.user = $filter('lowercase')(form.user);
 
     $scope.animacion = "";
     $scope.msgError = "Usuario o contraseña incorrecto."; 

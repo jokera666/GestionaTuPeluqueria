@@ -1,11 +1,13 @@
 angular.module('starterMiApp.contrsSignup', [])
 
-.controller('SignupCtrl', ['$scope','$state','$ionicPopup','servSignup', function($scope,$state,$ionicPopup,servSignup){
+.controller('SignupCtrl', ['$scope','$state','$ionicPopup','$filter','servSignup', function($scope,$state,$ionicPopup,$filter,servSignup){
 
 
 
     $scope.enviarFormulario = function(form,repetirContrasena)
     {
+ 
+        form.usuario = $filter('lowercase')(form.usuario);
     	$scope.checkContrasenas = angular.equals(repetirContrasena, form.contrasena);
     	if($scope.checkContrasenas==false)
     	{
