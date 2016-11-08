@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsAgenda', [])
 
-.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','uiCalendarConfig','servAgenda', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,uiCalendarConfig,servAgenda){
+.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','$filter','uiCalendarConfig','servAgenda','servClientes', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,$filter,uiCalendarConfig,servAgenda,servClientes){
 
     console.log('Usuario con id de sesion---> '+$scope.globalSesionUserId);
     console.log($scope.globalSesionUserName); 
@@ -189,28 +189,47 @@ angular.module('starterMiApp.contrsAgenda', [])
       $scope.modal = modal;
     });
     $scope.openModal = function() {
+      // Incializar formulario por defecto
+      $scope.form = {
+         fecha: new Date()
+       };
+
+    //Listar los clientes en el datalist del modal
+    servClientes.getNombreCompleto($scope.globalSesionUserId).then(function(data){
+      if(data==-1)
+      {
+          $scope.form = {
+             tituloCita: 'No hay clientes'
+          };
+      }
+      else
+      {
+        $scope.nombresCompletos = data;   
+      }
+    })
       $scope.modal.show();
-    };
+    }
+
     $scope.closeModal = function() {
       $scope.modal.hide();
     };
 
 
 
-        var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
-        var query = {'q':'nombreCompleto'};
-        $http({
-            method: 'POST',
-            url: url,
-            data: query,
-            headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-              console.log(response.data);
-              $scope.nombresCompletos = response.data.nombreClientes;
-              //console.log($scope.nombresCompletos);
-        }, function errorCallback(error) {
-            console.log(error);
-        });
+        // var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
+        // var query = {'q':'nombreCompleto'};
+        // $http({
+        //     method: 'POST',
+        //     url: url,
+        //     data: query,
+        //     headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+        // }).then(function successCallback(response) {
+        //       console.log(response.data);
+        //       $scope.nombresCompletos = response.data.nombreClientes;
+        //       //console.log($scope.nombresCompletos);
+        // }, function errorCallback(error) {
+        //     console.log(error);
+        // });
 
 
       $scope.clickInsertarCita = function(form){
@@ -244,10 +263,16 @@ angular.module('starterMiApp.contrsAgenda', [])
        $scope.formattedFormCita = {
         title:form.tituloCita,
         start:startCita,
-        fin:finCita
+        end:finCita,
+        idUser: $scope.globalSesionUserId 
        };
 
       console.log($scope.formattedFormCita);
+
+
+
+
+      
       //Obtener fecha cita
       var fechaAux  = new Date (form.fecha);
       var dia   = fechaAux.getDate();
@@ -287,8 +312,25 @@ angular.module('starterMiApp.contrsAgenda', [])
               //$ionicLoading.show();
               if (e)
               {            
-                $scope.addEvent(titulo,anyo,mes,dia,horasIni,minutosIni,horasFin,minutosFin);
-                $scope.closeModal();
+                
+                   //Insertar cita en el calendario
+                  servAgenda.insertarCita($scope.formattedFormCita).then(function(data){
+                    //console.log(data);
+                    if(data==-1)
+                    {
+                      console.log("Error al insertar la cita.");
+                    }
+                    else
+                    {
+                      console.log("Cita insertada correctamente.")
+                      $state.go('sidemenu.agenda',null,{reload:true});
+                      $scope.modal.hide();
+                    }
+                  });
+
+
+
+                //$scope.addEvent(titulo,anyo,mes,dia,horasIni,minutosIni,horasFin,minutosFin);
               }
               else
               {
