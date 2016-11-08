@@ -12,7 +12,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     var y = date.getFullYear();
 
 
-
+    $scope.events = [];
 
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
@@ -32,18 +32,22 @@ angular.module('starterMiApp.contrsAgenda', [])
     // ];
     // console.log($scope.events);
 
-
     //Listar los citas en el calendario
     servAgenda.listarCitas($scope.globalSesionUserId).then(function(data){
-      console.log(data);
+      //console.log(data);
       if(data==-1)
       {
         console.log("No tiene citas introducidos");
       }
       else
       {
-        $scope.events = data;
-        console.log($scope.events);   
+        $scope.events = {
+                color: 'blue',
+                textColor: 'white',
+                events: data
+        };
+        $scope.eventSources.push($scope.events);
+        //console.log($scope.events);
       }
     });
 
@@ -69,9 +73,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     /* alert on eventClick */
     $scope.alertOnEventClick = function( date, jsEvent, view){
         $scope.alertMessage = (date.title + ' was clicked ');
-        date.start = new Date();
-        console.log('entro');
-        alert(date.title+' fue pulsada '+date.start);
+        console.log(date);
     };
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
@@ -176,7 +178,7 @@ angular.module('starterMiApp.contrsAgenda', [])
       }
     };
     /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
+    $scope.eventSources = [$scope.eventSource, $scope.eventsF];
     $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
     // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
@@ -205,7 +207,7 @@ angular.module('starterMiApp.contrsAgenda', [])
         }).then(function successCallback(response) {
               console.log(response.data);
               $scope.nombresCompletos = response.data.nombreClientes;
-              console.log($scope.nombresCompletos);
+              //console.log($scope.nombresCompletos);
         }, function errorCallback(error) {
             console.log(error);
         });
