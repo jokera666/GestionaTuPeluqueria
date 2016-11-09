@@ -2,10 +2,11 @@ angular.module('starterMiApp.contrsClientes', [])
 
 .controller('ClientesCtrl', ['$scope', '$state','$stateParams','$ionicLoading','$ionicPopup','$ionicModal','servClientes', function($scope, $state,$stateParams,$ionicLoading,$ionicPopup,$ionicModal,servClientes){
   
-    console.log('Usuario con id de sesion---> '+$scope.globalSesionUserId);
+    $scope.sesionIdUser = localStorage.getItem("idUser");
+    console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
 
     //Listar los clientes en el list item
-    servClientes.getNombreCompleto($scope.globalSesionUserId).then(function(data){
+    servClientes.getNombreCompleto($scope.sesionIdUser).then(function(data){
       console.log(data);
       if(data==-1)
       {
@@ -35,7 +36,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
     $scope.clickInsertarCliente = function (form){
-      form['idUser'] = $scope.globalSesionUserId;
+      form['idUser'] = $scope.sesionIdUser;
       var myPopup = $ionicPopup.show({
       title: 'Añadir cliente',
       subTitle: '<span>¿Estás seguro de que deseas añadir el cliente?</span>',
@@ -190,16 +191,31 @@ angular.module('starterMiApp.contrsClientes', [])
               //       mimeType: "image/png"
               //   };
 
-              var uploadOptions = new FileUploadOptions();
-              uploadOptions.fileKey = "file";
-              uploadOptions.fileName = imageData.substr(imageData.lastIndexOf('/') + 1);
-              uploadOptions.mimeType = "image/jpeg";
-              uploadOptions.chunkedMode = false;
+              // var uploadOptions = new FileUploadOptions();
+              // uploadOptions.fileKey = "file";
+              // uploadOptions.fileName = imageData.substr(imageData.lastIndexOf('/') + 1);
+              // uploadOptions.mimeType = "image/jpeg";
+              // uploadOptions.chunkedMode = false;
+
+              // var params = {};
+              // params.value1 = "testo";
+              // params.value2 = "parametro";
+
+              // uploadOptions.params = params;
+              // uploadOptions.params = params : {'directory':'upload', 'fileName':filename}
+              var nombreImg = imageData.substr(imageData.lastIndexOf('/') + 1);
+              var options = {
+                  fileKey: "file",
+                  fileName: nombreImg,
+                  chunkedMode: false,
+                  mimeType: "image/jpg",
+                  params : {'directory':'/upload/', 'fileName':nombreImg}
+              };
 
 
-                $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/",imageData, uploadOptions).then(function(result) {
+                $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
                     console.log("SUCCESS: " + JSON.stringify(result.response));
-                    $scope.opciones = "SUCCESS: " + JSON.stringify(result.response);
+                    $scope.opciones = result;
                 }, function(err) {
                     console.log("ERROR: " + JSON.stringify(err));
                     $scope.opciones = "ERROR: " + JSON.stringify(err);
@@ -211,6 +227,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
             //$scope.imgURI = "data:image/jpeg;base64," + imageData;
             $scope.opciones = options;
+            $scope.uploadOptions1 = uploadOptions;
         }, function(err) {
             // An error occured. Show a message to the user
         });

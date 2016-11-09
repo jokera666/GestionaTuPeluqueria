@@ -2,7 +2,8 @@ angular.module('starterMiApp.contrsAgenda', [])
 
 .controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','$filter','uiCalendarConfig','servAgenda','servClientes', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,$filter,uiCalendarConfig,servAgenda,servClientes){
 
-    console.log('Usuario con id de sesion---> '+localStorage.getItem("idUser"));
+    $scope.sesionIdUser = localStorage.getItem("idUser");
+    console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
     console.log($scope.globalSesionUserName);
     
 
@@ -35,7 +36,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     // console.log($scope.events);
 
     //Listar los citas en el calendario
-    servAgenda.listarCitas($scope.globalSesionUserId).then(function(data){
+    servAgenda.listarCitas($scope.sesionIdUser).then(function(data){
       //console.log(data);
       if(data==-1)
       {
@@ -216,7 +217,7 @@ angular.module('starterMiApp.contrsAgenda', [])
        fecha: new Date()
      };
     //Listar los clientes en el datalist del modal
-    servClientes.getNombreCompleto($scope.globalSesionUserId).then(function(data){
+    servClientes.getNombreCompleto($scope.sesionIdUser).then(function(data){
       if(data==-1)
       {
           $scope.form = {
@@ -280,7 +281,7 @@ angular.module('starterMiApp.contrsAgenda', [])
         title:form.tituloCita,
         start:startCita,
         end:finCita,
-        idUser: $scope.globalSesionUserId 
+        idUser: $scope.sesionIdUser 
        };
 
       console.log($scope.formattedFormCita);
