@@ -31,7 +31,7 @@ angular.module('starterMiApp.servsClientes', [])
                 }
                 else
                 {
-                    defered.resolve(response.nombreClientes);
+                    defered.resolve(response);
                 } 
                 
             })

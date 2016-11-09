@@ -19,6 +19,8 @@ angular.module('starterMiApp.contrsSidemenu', [])
             if (e)//Pulsar Sí
             { 
               servLogout.cerrarSesion().then(function(data){
+                localStorage.setItem("idUser",""); 
+                localStorage.setItem("nombreUser","");
                 $state.go('login',null,{reload:true});
               });   
             }

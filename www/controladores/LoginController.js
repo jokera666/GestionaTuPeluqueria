@@ -34,8 +34,10 @@ angular.module('starterMiApp.contrsLogin', [])
            //myError.remove();   //removes element
            
            //$state.go('sidemenu.agenda' ,{param1: $scope.userServ, param2: form.pass});
-           $rootScope.globalSesionUserId = $scope.respuestaServ.id;
-           $rootScope.globalSesionUserName = $scope.respuestaServ.userName;
+           //$rootScope.globalSesionUserId = $scope.respuestaServ.id;
+           //$rootScope.globalSesionUserName = $scope.respuestaServ.userName;
+           localStorage.setItem("idUser",     $scope.respuestaServ.id); 
+           localStorage.setItem("nombreUser", $scope.respuestaServ.userName);
            $state.go('sidemenu.agenda',null,{reload:true});
            //form.user = "";
            //form.pass = "";

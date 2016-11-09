@@ -2,9 +2,11 @@ angular.module('starterMiApp.contrsAgenda', [])
 
 .controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','$filter','uiCalendarConfig','servAgenda','servClientes', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,$filter,uiCalendarConfig,servAgenda,servClientes){
 
-    console.log('Usuario con id de sesion---> '+$scope.globalSesionUserId);
-    console.log($scope.globalSesionUserName); 
-    $scope.nombreUsuario = $scope.globalSesionUserName;
+    console.log('Usuario con id de sesion---> '+localStorage.getItem("idUser"));
+    console.log($scope.globalSesionUserName);
+    
+
+    $scope.nombreUsuario = localStorage.getItem("nombreUser");
     
     var date = new Date();
     var d = date.getDate();
@@ -145,7 +147,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             maxTime: '21:00',
             drop: $scope.drop,
             header: {
-                left: 'list, month, basicDay, agendaWeek',
+                left: 'list, month, agendaWeek, basicDay, agendaDay',
                 center: 'title',
                 right: 'prev,today,next'
             },
@@ -181,6 +183,11 @@ angular.module('starterMiApp.contrsAgenda', [])
     $scope.eventSources = [$scope.eventSource, $scope.eventsF];
     $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 
+
+
+
+    
+
     // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
     $ionicModal.fromTemplateUrl('plantillas/modalInsertarCita.html', {
       scope: $scope,
@@ -189,11 +196,25 @@ angular.module('starterMiApp.contrsAgenda', [])
       $scope.modal = modal;
     });
     $scope.openModal = function() {
-      // Incializar formulario por defecto
-      $scope.form = {
-         fecha: new Date()
-       };
+      $scope.modal.show();
+    }
 
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+      $scope.modal.remove();
+      $ionicModal.fromTemplateUrl('plantillas/modalInsertarCita.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
+    };
+
+
+    // Incializar formulario por defecto
+    $scope.form = {
+       fecha: new Date()
+     };
     //Listar los clientes en el datalist del modal
     servClientes.getNombreCompleto($scope.globalSesionUserId).then(function(data){
       if(data==-1)
@@ -204,15 +225,10 @@ angular.module('starterMiApp.contrsAgenda', [])
       }
       else
       {
-        $scope.nombresCompletos = data;   
+        console.log(data);
+        $scope.nombres = data;   
       }
-    })
-      $scope.modal.show();
-    }
-
-    $scope.closeModal = function() {
-      $scope.modal.hide();
-    };
+    });
 
 
 

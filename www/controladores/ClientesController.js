@@ -182,14 +182,22 @@ angular.module('starterMiApp.contrsClientes', [])
              $scope.imgURI = imageData;
 
 
-              $scope.upload = function(imageData) {
-                var options = {
-                    fileKey: "avatar",
-                    fileName: "image.png",
-                    chunkedMode: false,
-                    mimeType: "image/png"
-                };
-                $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/", "/android_asset/www/img/foto1.jpg", options).then(function(result) {
+              // $scope.upload = function(imageData) {
+              //   var options = {
+              //       fileKey: "avatar",
+              //       fileName:imageData.substr(imageData.lastIndexOf('/') + 1),
+              //       chunkedMode: false,
+              //       mimeType: "image/png"
+              //   };
+
+              var uploadOptions = new FileUploadOptions();
+              uploadOptions.fileKey = "file";
+              uploadOptions.fileName = imageData.substr(imageData.lastIndexOf('/') + 1);
+              uploadOptions.mimeType = "image/jpeg";
+              uploadOptions.chunkedMode = false;
+
+
+                $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/",imageData, uploadOptions).then(function(result) {
                     console.log("SUCCESS: " + JSON.stringify(result.response));
                     $scope.opciones = "SUCCESS: " + JSON.stringify(result.response);
                 }, function(err) {
@@ -198,8 +206,8 @@ angular.module('starterMiApp.contrsClientes', [])
                 }, function (progress) {
                     // constant progress updates
                 });
-              }
-              $scope.upload(imageData);
+              //}
+              //$scope.upload(imageData);
 
             //$scope.imgURI = "data:image/jpeg;base64," + imageData;
             $scope.opciones = options;
