@@ -1,4 +1,5 @@
 <ion-view view-title="Perfil del cliente"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
+
 	<ion-content class="padding">
 
 	<form name="clienteForm" ng-messages="clienteForm.$error">
@@ -10,28 +11,40 @@
 		<div class="item item-divider">Datos personales</div>
 			<div class="list">
 
-				<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.nombre.$invalid}">
-					<span class="input-label">Nombre: <span class="asteriscoObligatorio">*</span></span>
-					<input type="text" name="nombre" value="{{data.nombre}}" ng-model="form.nombre" required>
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.nombre.$invalid && visitedNombre}">
+					<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="nombre" value="{{data.nombre}}" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
 				</label>
-				<div class="errorMensajeForm" ng-show="clienteForm.nombre.$invalid">Campo obligatorio</div>
+				<div ng-show="clienteForm.nombre.$invalid && visitedNombre">
+            		<span class="errorMensajeForm" ng-show="clienteForm.nombre.$invalid">Campo obligatorio.</span>
+                </div>
 
 			 	<label class="item item-input">
-			    	<span class="input-label">Primer Apellido:</span>
-			   		<input type="text" value="{{data.apellido1}}" ng-model="form.apellido1" required>
+			    	<span class="input-label"><b>Primer Apellido:</b></span>
+			   		<input type="text" value="{{data.apellido1}}" ng-model="form.apellido1">
 			  	</label>
 
 			 	<label class="item item-input">
-			    	<span class="input-label">Segundo Apellido:</span>
-			    	<input type="text" value="{{data.apellido2}}" ng-model="form.apellido2" required>
+			    	<span class="input-label"><b>Segundo Apellido:</b></span>
+			    	<input type="text" value="{{data.apellido2}}" ng-model="form.apellido2">
 			  	</label>
 
-			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.telefono.$invalid}">
-			    	<span class="input-label">Telefono:</span>
-			    	<input type="tel" name="telefono" value="{{data.telefono}}" ng-model="form.telefono" ng-maxlength="9" required>
+			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.telefono.$invalid && visitedTel}">
+			    	<span class="input-label"><b>Telefono:</b></span>
+			    	<input type="tel" name="telefono" value="{{data.telefono}}" ng-model="form.telefono" ng-blur="visitedTel = true" minlength="9" maxlength="9">
 			  	</label>
-			  	<!-- <div class="errorMensajeForm" ng-message="required">Campo obligatorio</div> -->
-			  	<div class="errorMensajeForm" ng-message="maxlength">El numero de telefono tiene que tener 9 digitos.</div>
+			  	<div ng-show="clienteForm.telefono.$invalid && visitedTel">
+            		<div class="errorMensajeForm" ng-show="clienteForm.telefono.$error.minlength">El numero de telefono tiene que tener 9 digitos.</div>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.email.$invalid && visitedEmail}">
+					<span class="input-label"><b>Correo electronico:</b></span>
+					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true">
+				</label>
+				<div ng-show="clienteForm.email.$invalid && visitedEmail"> 
+            		<span class="errorMensajeForm" ng-show="clienteForm.email.$error.email">El correo electronico es incorrecto.</span>
+                </div>
+
 			  	<pre>clienteForm.$valid = {{ clienteForm.$valid | json }}</pre>
 			  	<pre>{{imgURI}}</pre>
 			  	<br>

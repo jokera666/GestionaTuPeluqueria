@@ -3,31 +3,50 @@
 	  <h1 class="title">Añadir cliente</h1>
 	  <a class="button button-assertive icon ion-close-round" ng-click="closeModal()">Cerrar</a>
 	</ion-header-bar>
-	<ion-content>
+	<ion-content class="padding">
 	  
-	<form name="formInsertarCliente">
-		<div class="list">
-		  <label class="item item-input">
-		    <span class="input-label">Nombre</span>
-		    <input type="text" ng-model="form.nombre">
-		  </label>
-		  <label class="item item-input">
-		    <span class="input-label">Primer apellido</span>
-		    <input type="text" ng-model="form.apellido1">
-		  </label>
-		  <label class="item item-input">
-		    <span class="input-label">Segundo apellido</span>
-		    <input type="text" ng-model="form.apellido2">
-		  </label>
-		  <label class="item item-input">
-		    <span class="input-label">Telefono</span>
-		    <input type="tel" ng-model="form.telefono">
-		  </label>
-		</div>
+	<form name="formInsertCliente">
+		<div class="item item-divider">Datos personales</div>
+			<div class="list">
+
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertCliente.nombre.$invalid && visitedNombre}">
+					<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
+				</label>
+				<div ng-show="formInsertCliente.nombre.$invalid && visitedNombre">
+            		<span class="errorMensajeForm" ng-show="formInsertCliente.nombre.$invalid">Campo obligatorio.</span>
+                </div>
+
+			 	<label class="item item-input">
+			    	<span class="input-label"><b>Primer Apellido:</b></span>
+			   		<input type="text" ng-model="form.apellido1">
+			  	</label>
+
+			 	<label class="item item-input">
+			    	<span class="input-label"><b>Segundo Apellido:</b></span>
+			    	<input type="text" ng-model="form.apellido2">
+			  	</label>
+
+			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertCliente.telefono.$invalid && visitedTel}">
+			    	<span class="input-label"><b>Telefono:</b></span>
+			    	<input type="tel" name="telefono" ng-model="form.telefono" ng-blur="visitedTel = true" minlength="9" maxlength="9">
+			  	</label>
+			  	<div ng-show="formInsertCliente.telefono.$invalid && visitedTel">
+            		<div class="errorMensajeForm" ng-show="formInsertCliente.telefono.$error.minlength">El numero de telefono tiene que tener 9 digitos.</div>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertCliente.email.$invalid && visitedEmail}">
+					<span class="input-label"><b>Correo electronico:</b></span>
+					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true">
+				</label>
+				<div ng-show="formInsertCliente.email.$invalid && visitedEmail"> 
+            		<span class="errorMensajeForm" ng-show="formInsertCliente.email.$error.email">El correo electronico es incorrecto.</span>
+                </div>
+			</div>
 
 		<div class="row  responsive-sm">
 		  	<div class="col">
-		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-click="clickInsertarCliente(form)"> Guardar Datos</button>
+		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertCliente.$invalid" ng-click="clickInsertarCliente(form)"> Guardar Datos</button>
 		  	</div>
 		  	<div class="col">
 		  		<button class="button button-block button-royal icon ion-refresh" type="reset"> Reiniciar</button>

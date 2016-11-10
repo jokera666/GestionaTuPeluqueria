@@ -134,7 +134,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
   })
 
 .state('sidemenu.perfil', {
-    url: '/clientes/:idCliente',
+    url: '/perfilClientes/:idCliente',
     views: {
       'menuContent': {
         templateUrl: 'plantillas/perfilCliente.html',

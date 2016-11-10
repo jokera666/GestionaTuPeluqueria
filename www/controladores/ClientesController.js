@@ -1,7 +1,8 @@
 angular.module('starterMiApp.contrsClientes', [])
 
 .controller('ClientesCtrl', ['$scope', '$state','$stateParams','$ionicLoading','$ionicPopup','$ionicModal','servClientes', function($scope, $state,$stateParams,$ionicLoading,$ionicPopup,$ionicModal,servClientes){
-  
+    
+
     $scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
 
@@ -56,11 +57,6 @@ angular.module('starterMiApp.contrsClientes', [])
                   $state.go('sidemenu.clientes',null,{reload:true});
                   $scope.modal.hide();
                 });
-            }
-            else
-            {
-              //El boton NO de no hacer nada
-              return; 
             }
           }
         }
@@ -176,7 +172,7 @@ angular.module('starterMiApp.contrsClientes', [])
             targetWidth: 120,
             targetHeight: 126,
             popoverOptions: CameraPopoverOptions,
-            saveToPhotoAlbum: true
+            saveToPhotoAlbum: false
         };
 
       $cordovaCamera.getPicture(options).then(function(imageData) {
