@@ -10,12 +10,12 @@
 
                     <label class="item item-input" ng-class="{ 'errorCampoForm' :loginForm.usuario.$invalid && visitedUsuario}">
                       <span class="input-label">Usuario <span class="asteriscoObligatorio">*</span></span>
-                      <input name="usuario" type="text" ng-model="form.user" ng-blur="visitedUsuario = true" ng-pattern="/^\s*\w*\s*^[a-z0-9]*$/" required>
+                      <input name="usuario" type="text" ng-model="form.user" ng-blur="visitedUsuario = true" ng-pattern="/^\s*\w*\s*^[a-zA-Z0-9]*$/" required>
                     </label>
 
                     <div ng-show="loginForm.usuario.$invalid && visitedUsuario">
                       <span class="errorMensajeForm" ng-show="loginForm.usuario.$error.required">Campo obligatorio.</span>
-                      <span class="errorMensajeForm" ng-show="loginForm.usuario.$error.pattern">Se admiten solo caracteres en minúscula y sin espacios.</span> 
+                      <span class="errorMensajeForm" ng-show="loginForm.usuario.$error.pattern">Se admiten solo caracteres y numero y sin espacios.</span> 
                     </div>
 
                     <label class="item item-input" ng-class="{ 'errorCampoForm' : loginForm.contrasena.$invalid && visitedContrasena}">

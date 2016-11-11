@@ -39,7 +39,7 @@
 
                 <label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.email.$invalid && visitedEmail}">
 					<span class="input-label"><b>Correo electronico:</b></span>
-					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true">
+					<input name="email" type="email" value="{{data.email}}" ng-model="form.email" ng-blur="visitedEmail = true">
 				</label>
 				<div ng-show="clienteForm.email.$invalid && visitedEmail"> 
             		<span class="errorMensajeForm" ng-show="clienteForm.email.$error.email">El correo electronico es incorrecto.</span>

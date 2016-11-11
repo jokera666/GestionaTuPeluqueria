@@ -7,15 +7,16 @@
       
 	  <ion-content class="padding has-header" scroll="true">
 		<form name="signupForm" ng-submit="enviarFormulario(form,repetirContrasena,signupForm)">
+		<div class="item item-divider">Crear cuenta</div>
 			<div class="list">
 			  	
 			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.usuario.$invalid && visitedUsuario}">
 			  		<span class="input-label"><b>Usuario:</b> <span class="asteriscoObligatorio">*</span></span>
-			    	<input name="usuario" type="text" ng-model="form.usuario" ng-blur="visitedUsuario = true" ng-pattern="/^\s*\w*\s*^[a-z0-9]*$/" required>
+			    	<input name="usuario" type="text" ng-model="form.usuario" ng-blur="visitedUsuario = true" ng-pattern="/^\s*\w*\s*^[a-zA-Z0-9]*$/" required>
 			 	</label>
 			 	<div ng-show="signupForm.usuario.$invalid && visitedUsuario">
             		<span class="errorMensajeForm" ng-show="signupForm.usuario.$error.required">Campo obligatorio.</span>
-            		<span class="errorMensajeForm" ng-show="signupForm.usuario.$error.pattern">Se admiten solo caracteres en minúscula y sin espacios.</span>
+            		<span class="errorMensajeForm" ng-show="signupForm.usuario.$error.pattern">Se admiten solo caracteres y numeros y sin espacios.</span>
                 </div>
 			
 				

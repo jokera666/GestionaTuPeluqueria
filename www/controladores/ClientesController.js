@@ -80,18 +80,16 @@ angular.module('starterMiApp.contrsClientes', [])
     var idCliente = $stateParams.idCliente;
 
     servClientes.mostrarPerfilCliente(idCliente).then(function(datosCliente){
-        console.log(datosCliente);
 
         /*$scope.data es la informacion que se va mostrar en el perfil del cliente a
         partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
-        $scope.data = datosCliente;
+        $scope.data = datosCliente[0];
         
         /* this.form es la directiva ng-model en la vista perfilCliente donde inicializo las directivas
         con los valores/datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
         this.form = $scope.data;
-
         $scope.reiniciarForm = function(){
-         this.form = angular.copy($scope.data);    
+         this.form = angular.copy($scope.data);   
         };
         $scope.reiniciarForm();
     });

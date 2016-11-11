@@ -20,7 +20,7 @@ angular.module('starterMiApp.servsClientes', [])
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
         var data = {'q':'nombreCompleto','idUser':idUsuario};
         var config = {
-            headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
+            headers : {'Content-Type' : 'application/json'}
         }
 
         $http.post(url,data,config)
@@ -50,7 +50,7 @@ angular.module('starterMiApp.servsClientes', [])
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/insertarCliente.php";
         var data = datosForm;
         var config = {
-            headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
+            headers : {'Content-Type' : 'application/json'}
         }
 
         $http.post(url,data,config)
@@ -70,14 +70,14 @@ angular.module('starterMiApp.servsClientes', [])
         var promesa = defered.promise;
 
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarPerfilCliente.php";
-        var data = idCliente;
+        var data = {'idCli':idCliente};
         var config = {
-            headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
+            headers : {'Content-Type' : 'application/json'}
         }
 
         $http.post(url,data,config)
             .success(function (response){
-                defered.resolve(response.infoCliente[0]);
+                defered.resolve(response);
             })
             .error(function (err){
                 defered.reject(err);
@@ -88,13 +88,13 @@ angular.module('starterMiApp.servsClientes', [])
 
     function modifyClientProfile(datosForm)
     {
+        console.log(datosForm);
         var defered = $q.defer();
         var promesa = defered.promise;
-
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/modificarPerfilCliente.php";
         var data = datosForm;
         var config = {
-            headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
+            headers : {'Content-Type' : 'application/json'}
         }
 
         $http.post(url,data,config)
@@ -114,9 +114,9 @@ angular.module('starterMiApp.servsClientes', [])
         var promesa = defered.promise;
 
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/eliminarPerfilCliente.php";
-        var data = idCliente;
+        var data = {'idCli':idCliente};
         var config = {
-            headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
+            headers : {'Content-Type' : 'application/json'}
         }
 
         $http.post(url,data,config)
