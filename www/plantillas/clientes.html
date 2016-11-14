@@ -19,7 +19,9 @@
 	<ion-list>
 		<!-- item-avatar es la clase que visualiza todo el contenido en un elemento de la lista con la foto redondeada  -->
 		<ion-item class="item-avatar item-icon-right" collection-repeat="item in clientes | filter: buscador"  ui-sref="sidemenu.perfil({ idCliente: item.id_cliente })">
-			<img src="http://gestionestetica.fonotecaumh.es/Clientes/imgClientes/foto1.jpg" alt="{{item.nombre}}{{item.apellido1}}">
+			<!-- <img src="{{item.urlFoto}}" alt="{{item.nombre}}{{item.apellido1}}"> -->
+			<img ng-show="item.urlFoto !== null" ng-src="{{item.urlFoto}}" alt="{{item.nombre}} {{item.apellido1}}">
+			<img ng-show="item.urlFoto === null" ng-src="http://placehold.it/120x120?text=No+Foto" alt="{{item.nombre}} {{item.apellido1}}" ng-class="{ 'avatarMiss' :item.urlFoto === null}">
 			<h2>{{item.nombre}} {{item.apellido1}} {{item.apellido2}}</h2>
 			<p>+{{item.telefono}}</p>
 			<a class="button button-icon icon ion-android-call" ng-href="tel:{{item.telefono}}" target="_blank"></a>

@@ -174,52 +174,29 @@ angular.module('starterMiApp.contrsClientes', [])
         };
 
       $cordovaCamera.getPicture(options).then(function(imageData) {
-             $scope.imgURI = imageData;
+             $scope.imgURItemp = imageData;
 
 
-              // $scope.upload = function(imageData) {
-              //   var options = {
-              //       fileKey: "avatar",
-              //       fileName:imageData.substr(imageData.lastIndexOf('/') + 1),
-              //       chunkedMode: false,
-              //       mimeType: "image/png"
-              //   };
-
-              // var uploadOptions = new FileUploadOptions();
-              // uploadOptions.fileKey = "file";
-              // uploadOptions.fileName = imageData.substr(imageData.lastIndexOf('/') + 1);
-              // uploadOptions.mimeType = "image/jpeg";
-              // uploadOptions.chunkedMode = false;
-
-              // var params = {};
-              // params.value1 = "testo";
-              // params.value2 = "parametro";
-
-              // uploadOptions.params = params;
-              // uploadOptions.params = params : {'directory':'upload', 'fileName':filename}
               var nombreImg = imageData.substr(imageData.lastIndexOf('/') + 1);
               var options = {
                   fileKey: "file",
                   fileName: nombreImg,
                   chunkedMode: false,
                   mimeType: "image/jpg",
-                  params : {'directory':'/upload/', 'fileName':nombreImg}
+                  params : {'idCli':idCliente}
               };
 
 
                 $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
                     console.log("SUCCESS: " + JSON.stringify(result.response));
-                    $scope.opciones = result;
+                    $scope.opciones = result.response;
                 }, function(err) {
                     console.log("ERROR: " + JSON.stringify(err));
                     $scope.opciones = "ERROR: " + JSON.stringify(err);
                 }, function (progress) {
                     // constant progress updates
                 });
-              //}
-              //$scope.upload(imageData);
-
-            //$scope.imgURI = "data:image/jpeg;base64," + imageData;
+                
             $scope.opciones = options;
             $scope.uploadOptions1 = uploadOptions;
         }, function(err) {
