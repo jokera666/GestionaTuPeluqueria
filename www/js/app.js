@@ -66,7 +66,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
         navigator.app.exitApp();
       }
 
-      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil")
+      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil" || $state.current.name=="sidemenu.signup")
       {
         navigator.app.backHistory();
       }

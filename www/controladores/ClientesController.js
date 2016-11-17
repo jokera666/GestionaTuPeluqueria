@@ -202,5 +202,5 @@ angular.module('starterMiApp.contrsClientes', [])
         }, function(err) {
             // An error occured. Show a message to the user
         });
-    }
+    }//Fin scope.hacerFoto
 }]) //Fin  ClientePerfilCtrl

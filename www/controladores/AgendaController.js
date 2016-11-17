@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsAgenda', [])
 
-.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','$filter','uiCalendarConfig','servAgenda','servClientes', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,$filter,uiCalendarConfig,servAgenda,servClientes){
+.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','$filter','$ionicLoading','uiCalendarConfig','servAgenda','servClientes', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,$filter,$ionicLoading,uiCalendarConfig,servAgenda,servClientes){
 
     $scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
@@ -233,50 +233,30 @@ angular.module('starterMiApp.contrsAgenda', [])
 
 
 
-        // var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
-        // var query = {'q':'nombreCompleto'};
-        // $http({
-        //     method: 'POST',
-        //     url: url,
-        //     data: query,
-        //     headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
-        // }).then(function successCallback(response) {
-        //       console.log(response.data);
-        //       $scope.nombresCompletos = response.data.nombreClientes;
-        //       //console.log($scope.nombresCompletos);
-        // }, function errorCallback(error) {
-        //     console.log(error);
-        // });
-
 
       $scope.clickInsertarCita = function(form){
-      console.log(form);
-
       
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
       var formattedHourIni = moment(form.horaIni).format('HH:mm:ss');
-      var formattedHourFin = moment(form.horaFin).format('HH:mm:ss');
+      //var formattedHourFin = moment(form.horaFin).format('HH:mm:ss');
+
+      var formattedHourFin = moment(form.horaIni).add(30, 'minutes').format('HH:mm:ss');  // see the cloning?
+
       var startCita = formattedDate.concat("T",formattedHourIni);
       var finCita   = formattedDate.concat("T",formattedHourFin);
-      console.log(startCita);
       console.log(finCita);
 
+          //Inciar form con los datos introducidos por el usuarios
+          $scope.form = {
+             tituloCita: form.tituloCita,
+             fecha: form.fecha,
+              horaIni:  form.horaIni,
+             horaFin:  new Date(finCita)
+          };
 
 
-
-
-
-      var titulo = form.tituloCita;
-      alert(titulo);
-
-      // array de objetos
-      // $scope.formattedFormCita = [
-      //   {title:form.tituloCita},
-      //   {start:startCita},
-      //   {fin:finCita}
-      // ];
-
-      //Objeto con propiedades
+      //Objeto con propiedades para insertar la cita correctamente en la BBDD
+      // para que luego al realizar la visualizacion de las citas sea mas facil.
        $scope.formattedFormCita = {
         title:form.tituloCita,
         start:startCita,
@@ -284,33 +264,21 @@ angular.module('starterMiApp.contrsAgenda', [])
         idUser: $scope.sesionIdUser 
        };
 
-      console.log($scope.formattedFormCita);
-
-
-
-
-      
-      //Obtener fecha cita
-      var fechaAux  = new Date (form.fecha);
-      var dia   = fechaAux.getDate();
-      var mes   = fechaAux.getMonth(); // +1 porque enero es la posicion 0
-      var anyo  = fechaAux.getFullYear();
-      console.log(dia+' '+mes+' '+anyo);
-
       //Obtener hora cita
       var auxHorasIni   = new Date (form.horaIni);
       var horasIni      = auxHorasIni.getHours();
-      var minutosIni    = auxHorasIni.getMinutes();
-      console.log('Hora de inicio cita: '+horasIni+' '+minutosIni);
 
       var auxHorasFin   = new Date (form.horaFin);
       var horasFin      = auxHorasFin.getHours();
-      var minutosFin    = auxHorasFin.getMinutes();
-      console.log('Hora de inicio cita: '+horasFin+' '+minutosFin);
-      
+
       if(horasIni > horasFin || horasFin < horasIni )
       {
-        alert('ERROR: La hora de inicio tiene que ser menor que la hora fin y viceversa');
+        var alertPopup = $ionicPopup.alert({
+             title: 'Error al añadir cita',
+             template: 'La hora de inicio tiene que ser menor que la hora fin y viceversa',
+             okText: 'Intentar de nuevo', 
+             okType: 'button-assertive'
+        });
       } 
       else
       {
@@ -326,28 +294,28 @@ angular.module('starterMiApp.contrsAgenda', [])
             text: '<b>Sí</b>',
             type: 'button-positive',
             onTap: function(e) {
-              //$ionicLoading.show();
+              $ionicLoading.show();
               if (e)
               {            
-                
-                   //Insertar cita en el calendario
+                  //Insertar cita en el calendario
                   servAgenda.insertarCita($scope.formattedFormCita).then(function(data){
                     //console.log(data);
                     if(data==-1)
                     {
-                      console.log("Error al insertar la cita.");
+                        var alertPopup = $ionicPopup.alert({
+                             title: 'Error al añadir cita',
+                             template: 'Ha habido un problema a la hora de insertar la cita.',
+                             okText: 'Intentar de nuevo', 
+                             okType: 'button-assertive'
+                        });
                     }
                     else
                     {
-                      console.log("Cita insertada correctamente.")
+                      console.log("Cita insertada correctamente.");
                       $state.go('sidemenu.agenda',null,{reload:true});
                       $scope.modal.hide();
                     }
                   });
-
-
-
-                //$scope.addEvent(titulo,anyo,mes,dia,horasIni,minutosIni,horasFin,minutosFin);
               }
               else
               {

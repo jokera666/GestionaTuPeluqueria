@@ -3,36 +3,45 @@
 	  <h1 class="title">Añadir cita</h1>
 	  <a class="button button-assertive icon ion-close-round" ng-click="closeModal()">Cerrar</a>
 	</ion-header-bar>
-	<ion-content>
+	<ion-content class="padding">
 	  
 	<form name="formInsertarCita">
+	<div class="item item-divider">Datos de la cita</div>
 		<div class="list">
 		
-		<label class="item item-input">
-			<div class="input-label">Nombre</div>	
-		  	<input type="text" list="clientes" ng-model="form.tituloCita" />
+		<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
+			<div class="input-label"><b>Nombre: </b><span class="asteriscoObligatorio">*</span></div>	
+		  	<input type="text" name="nombre" ng-blur="visitedNombre = true" list="clientes" ng-model="form.tituloCita" required />
 			<datalist id="clientes">
 			  <option ng-repeat="item in nombres" value="{{item.nombre}} {{item.apellido1}} {{item.apellido2}}"></option>
 			</datalist>
 		</label>
+		<div ng-show="formInsertarCita.nombre.$invalid && visitedNombre">
+        	<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Campo obligatorio.</span>
+        </div>
 
 		  <label class="item item-input item-stacked-label">
 		    <span class="input-label">Fecha cita</span>
 		    <input type="date" ng-model="form.fecha">
 		  </label>
-		  <label class="item item-input item-stacked-label">
+
+		  <label class="item item-input item-stacked-label" ng-class="{'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedHoraIni}">
 		    <span class="input-label">Hora inicio</span>
-		    <input type="time" ng-model="form.horaIni">
+		    <input type="time" ng-model="form.horaIni" name="horaIni" ng-blur="visitedHoraIni = true" required >
 		  </label>
+		  <div ng-show="formInsertarCita.nombre.$invalid && visitedHoraIni">
+        	<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Debe de seleccionar una hora de inicio de la cita.</span>
+          </div>
+
 		  <label class="item item-input item-stacked-label">
 		    <span class="input-label">Hora fin</span>
-		    <input type="time" ng-model="form.horaFin">
+		    <input type="time" name="horaFin" ng-model="form.horaFin" ng-disabled="horaFin.$invalid = true">
 		  </label>
 		</div>
 
 		<div class="row  responsive-sm">
 		  	<div class="col">
-		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-click="clickInsertarCita(form)"> Guardar cita</button>
+		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-disabled="formInsertarCita.$invalid" ng-click="clickInsertarCita(form)"> Guardar cita</button>
 		  	</div>
 		  	<div class="col">
 		  		<button class="button icon ion-refresh button-royal button-block" type="reset"> Reiniciar</button>
