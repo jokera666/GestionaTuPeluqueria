@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','ngTouch','ngCordova', 
+angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','ngTouch','ngCordova','ionic.closePopup', 
                                                                 'starterMiApp.contrsLogin',
                                                                 'starterMiApp.contrsSignup',
                                                                 'starterMiApp.contrsSidemenu',
@@ -66,7 +66,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
         navigator.app.exitApp();
       }
 
-      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil" || $state.current.name=="sidemenu.signup")
+      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil" || $state.current.name=="signup")
       {
         navigator.app.backHistory();
       }

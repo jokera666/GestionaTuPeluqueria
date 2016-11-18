@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsAgenda', [])
 
-.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','$filter','$ionicLoading','uiCalendarConfig','servAgenda','servClientes', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,$filter,$ionicLoading,uiCalendarConfig,servAgenda,servClientes){
+.controller('AgendaCtrl',['$scope', '$http', '$state','$stateParams','$ionicPopup','$ionicModal','$compile', '$timeout','$filter','$ionicLoading','uiCalendarConfig','servAgenda','servClientes','IonicClosePopupService', function($scope,$http,$state,$stateParams,$ionicPopup,$ionicModal,$compile, $timeout,$filter,$ionicLoading,uiCalendarConfig,servAgenda,servClientes,IonicClosePopupService){
 
     $scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
@@ -75,8 +75,64 @@ angular.module('starterMiApp.contrsAgenda', [])
     };
     /* alert on eventClick */
     $scope.alertOnEventClick = function( date, jsEvent, view){
-        $scope.alertMessage = (date.title + ' was clicked ');
+        //alert(date.title + ' was clicked ');
         console.log(date);
+        var myPopup = $ionicPopup.show({
+        title: 'Gestionar cita de: <b>'+date.title+'</b>',
+        cssClass: 'alertStyle',
+        buttons: [
+          { 
+            text: '<b>Gestionar cita</b>',
+            type: 'button-balanced',
+            onTap: function(e){
+              if(e)
+              {
+                alert('GESTIONAR CITA !!!');
+              }
+              else
+              {
+                return;
+              }
+            }
+          },
+          {
+            text: '<b>Modificar cita</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              //$ionicLoading.show();
+              if (e)
+              {            
+                alert('MODIFICAR CITA!!!!');
+              }
+              else
+              {
+                return; 
+              }
+            }
+          },
+          {
+            text: '<b>Borrar cita</b>',
+            type: 'button-assertive',
+            onTap: function(e) {
+              //$ionicLoading.show();
+              if (e)
+              {            
+                alert('BORRAR CITA !!!!!');
+              }
+              else
+              {
+                return; 
+              }
+            }
+          }
+        ]
+        });
+        //Cerrar popup cuando pulses fuera
+        IonicClosePopupService.register(myPopup);
+
+
+
+
     };
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
@@ -197,12 +253,18 @@ angular.module('starterMiApp.contrsAgenda', [])
       $scope.modal = modal;
     });
     $scope.openModal = function() {
+    // Incializar formulario por defecto cuando se abra el modal
+    $scope.form = {
+       fecha: new Date()
+     };
       $scope.modal.show();
     }
 
     $scope.closeModal = function() {
+      
       $scope.modal.hide();
       $scope.modal.remove();
+      $scope.form = {};
       $ionicModal.fromTemplateUrl('plantillas/modalInsertarCita.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -212,10 +274,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     };
 
 
-    // Incializar formulario por defecto
-    $scope.form = {
-       fecha: new Date()
-     };
+
     //Listar los clientes en el datalist del modal
     servClientes.getNombreCompleto($scope.sesionIdUser).then(function(data){
       if(data==-1)
@@ -226,7 +285,6 @@ angular.module('starterMiApp.contrsAgenda', [])
       }
       else
       {
-        console.log(data);
         $scope.nombres = data;   
       }
     });
@@ -238,20 +296,22 @@ angular.module('starterMiApp.contrsAgenda', [])
       
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
       var formattedHourIni = moment(form.horaIni).format('HH:mm:ss');
-      //var formattedHourFin = moment(form.horaFin).format('HH:mm:ss');
 
       var formattedHourFin = moment(form.horaIni).add(30, 'minutes').format('HH:mm:ss');  // see the cloning?
 
       var startCita = formattedDate.concat("T",formattedHourIni);
       var finCita   = formattedDate.concat("T",formattedHourFin);
-      console.log(finCita);
+
+      //Convertir moment formato al new Date de javascript
+      var finHora = moment(finCita).toDate();
+
 
           //Inciar form con los datos introducidos por el usuarios
           $scope.form = {
-             tituloCita: form.tituloCita,
-             fecha: form.fecha,
-              horaIni:  form.horaIni,
-             horaFin:  new Date(finCita)
+            tituloCita: form.tituloCita,
+            fecha: form.fecha,
+            horaIni:  form.horaIni,
+            horaFin:  finHora
           };
 
 
@@ -288,7 +348,22 @@ angular.module('starterMiApp.contrsAgenda', [])
         buttons: [
           { 
             text: '<b>No</b>',
-            type: 'button-dark'
+            type: 'button-dark',
+            onTap: function(e){
+              if(e)
+              {
+                $scope.form = {
+                  tituloCita: form.tituloCita,
+                  fecha: form.fecha,
+                  horaIni:  form.horaIni,
+                  horaFin:  ''
+                };
+              }
+              else
+              {
+                return;
+              }
+            }
           },
           {
             text: '<b>Sí</b>',
@@ -319,7 +394,6 @@ angular.module('starterMiApp.contrsAgenda', [])
               }
               else
               {
-                //El boton NO de no hacer nada
                 return; 
               }
             }
