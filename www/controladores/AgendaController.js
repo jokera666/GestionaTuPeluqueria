@@ -101,8 +101,8 @@ angular.module('starterMiApp.contrsAgenda', [])
             onTap: function(e) {
               //$ionicLoading.show();
               if (e)
-              {            
-                alert('MODIFICAR CITA!!!!');
+              {
+                $scope.openModal();            
               }
               else
               {

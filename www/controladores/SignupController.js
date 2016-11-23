@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsSignup', [])
 
-.controller('SignupCtrl', ['$scope','$state','$ionicPopup','$filter','servSignup', function($scope,$state,$ionicPopup,$filter,servSignup){
+.controller('SignupCtrl', ['$scope','$state','$ionicPopup','$filter','$ionicLoading','servSignup', function($scope,$state,$ionicPopup,$filter,$ionicLoading,servSignup){
 
 
 
@@ -41,6 +41,7 @@ angular.module('starterMiApp.contrsSignup', [])
                     });
 
                     alertPopup.then(function(res) {
+                        $ionicLoading.show();
                         $state.go('login',null,{reload:true});
                     });
                 }

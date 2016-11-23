@@ -113,7 +113,7 @@ angular.module('starterMiApp.contrsClientes', [])
               if (e)
               {              
                   servClientes.modificarPerfilCliente(form).then(function(){
-                      $state.go('sidemenu.clientes',null,{reload:true});
+                      $state.go($state.current,null,{reload:true});
                   });
               }
               else
