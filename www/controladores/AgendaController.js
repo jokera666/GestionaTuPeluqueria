@@ -4,7 +4,6 @@ angular.module('starterMiApp.contrsAgenda', [])
 
     $scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
-    console.log($scope.globalSesionUserName);
     
 
     $scope.nombreUsuario = localStorage.getItem("nombreUser");
@@ -73,12 +72,95 @@ angular.module('starterMiApp.contrsAgenda', [])
           {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
         ]
     };
+
+
+    $ionicModal.fromTemplateUrl('plantillas/modalModificarCita.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modalModificarCita = modal;
+    });
+    
+    $scope.openModalModificarCita = function(dataCita) {
+    // Incializar formulario por defecto cuando se abra el modal
+    var hIni = moment(dataCita.start._i).toDate();
+    var hFin = moment(dataCita.end._i).toDate();
+      $scope.form = {};
+      $scope.form = {
+        idCita: dataCita.id,
+        tituloCita: dataCita.title,
+        fecha: new Date(dataCita.start),
+        horaIni:  hIni,
+        horaFin:  hFin
+      };
+      $scope.modalModificarCita.show();
+    }
+
+    $scope.closeModalModificarCita = function() {
+      
+      $scope.modalModificarCita.hide();
+      $scope.modalModificarCita.remove();
+      $scope.form = {};
+      $ionicModal.fromTemplateUrl('plantillas/modalModificarCita.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modalModificarCita = modal;
+      });
+    };
+
+    $scope.clickModificarCita = function(form){
+
+
+      var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
+      var formattedHoraIni = moment(form.horaIni).format('HH:mm:ss');
+      var formattedHoraFin = moment(form.horaFin).format('HH:mm:ss');
+
+      var startCita = formattedDate.concat("T",formattedHoraIni);
+      var finCita = formattedDate.concat("T",formattedHoraFin);
+
+
+      $scope.formAdaptado = {
+        idCita:  form.idCita,
+        titulo:  form.tituloCita,
+        horaIni: startCita,
+        horaFin: finCita
+      }
+
+      var myPopup = $ionicPopup.show({
+      title: 'Modificar cita',
+      subTitle: '<span>¿Estás seguro de que deseas modificar la cita?</span>',
+      buttons: [
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servAgenda.modificarCita($scope.formAdaptado).then(function(){
+                  $state.go('sidemenu.agenda',null,{reload:true});
+                  $scope.modalModificarCita.hide();
+                });
+            }
+          }
+        }
+      ]
+      });
+    };
+
+
     /* alert on eventClick */
-    $scope.alertOnEventClick = function( date, jsEvent, view){
+    $scope.alertOnEventClick = function( dataCita, jsEvent, view){
         //alert(date.title + ' was clicked ');
-        console.log(date);
+        console.log(dataCita);
+
         var myPopup = $ionicPopup.show({
-        title: 'Gestionar cita de: <b>'+date.title+'</b>',
+        title: 'Gestionar cita de: <b>'+dataCita.title+'</b>',
         cssClass: 'alertStyle',
         buttons: [
           { 
@@ -102,7 +184,7 @@ angular.module('starterMiApp.contrsAgenda', [])
               //$ionicLoading.show();
               if (e)
               {
-                $scope.openModal();            
+                  $scope.openModalModificarCita(dataCita);
               }
               else
               {
