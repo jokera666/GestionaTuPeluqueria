@@ -6,7 +6,7 @@
 		<div id="fondoImgPerfil">
 			<!-- <img ng-show="data.urlFoto !== null" ng-src="{{data.urlFoto}}" alt="{{data.nombre}} {{data.apellido1}}"> -->
 			<img ng-show="imgURItemp !== undefined" ng-src="{{imgURItemp}}" alt="{{data.nombre}} {{data.apellido1}}">
-			<img ng-show="imgURItemp === undefined" ng-src="{{ data.urlFoto || 'http://placehold.it/120x120?text=No+Foto' }}" alt="{{data.nombre}} {{data.apellido1}}">
+			<img ng-show="imgURItemp === undefined" ng-src="{{ data.urlFoto || './img/noFoto.png' }}" alt="{{data.nombre}} {{data.apellido1}}">
 			<button id="btnHacerFoto" class="button icon button-positive icon ion-camera" ng-click="hacerFoto()"></button>
 		</div>
 		<div class="item item-divider">Datos personales</div>

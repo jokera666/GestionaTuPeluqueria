@@ -21,7 +21,7 @@
 		<!-- equivalente de href  ui-sref="sidemenu.perfil({ idCliente: item.id_cliente })" pero con eso el boton de la llamada no funciona -->
 		<ion-item class="item-avatar item-icon-right" collection-repeat="item in clientes | filter: buscador" href="#/side/perfilClientes/{{item.id_cliente}}">
 			<img ng-show="item.urlFoto !== null" ng-src="{{item.urlFoto}}" alt="{{item.nombre}} {{item.apellido1}}">
-			<img ng-show="item.urlFoto === null" ng-src="http://placehold.it/120x120?text=No+Foto" alt="{{item.nombre}} {{item.apellido1}}" ng-class="{ 'avatarMiss' :item.urlFoto === null}">
+			<img ng-show="item.urlFoto === null" ng-src="./img/noFoto.png" alt="{{item.nombre}} {{item.apellido1}}" ng-class="{ 'avatarMiss' :item.urlFoto === null}">
 			<h2>{{item.nombre}} {{item.apellido1}} {{item.apellido2}}</h2>
 			<p>+{{item.telefono}}</p>
 			<a class="button button-icon icon ion-android-call" href="tel:{{item.telefono}}" target="_blank"></a>

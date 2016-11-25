@@ -9,6 +9,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.contrsSignup',
                                                                 'starterMiApp.contrsSidemenu',
                                                                 'starterMiApp.contrsAgenda',
+                                                                'starterMiApp.contrsCaja',
                                                                 'starterMiApp.contrsClientes',
                                                                 'starterMiApp.contrsProductos',
                                                                 'starterMiApp.contrsVentas',
@@ -121,6 +122,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
           controller: 'AgendaCtrl'
         }
       }
+  })
+
+.state('sidemenu.caja', {
+    url: '/caja/:idCita/:fechaCita',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/caja.html',
+        controller: 'CajaCtrl'
+      }
+    }
   })
 
   .state('sidemenu.clientes', {

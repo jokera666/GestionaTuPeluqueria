@@ -114,17 +114,27 @@ angular.module('starterMiApp.contrsAgenda', [])
 
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
       var formattedHoraIni = moment(form.horaIni).format('HH:mm:ss');
-      var formattedHoraFin = moment(form.horaFin).format('HH:mm:ss');
+      var formattedHoraFin = moment(form.horaIni).add(30, 'minutes').format('HH:mm:ss');  // see the cloning?
 
       var startCita = formattedDate.concat("T",formattedHoraIni);
       var finCita = formattedDate.concat("T",formattedHoraFin);
 
-
+      var finHora = moment(finCita).toDate();
+      //Formulario que sera enviado para realizar la modificacion de la cita
       $scope.formAdaptado = {
         idCita:  form.idCita,
         titulo:  form.tituloCita,
         horaIni: startCita,
         horaFin: finCita
+      }
+
+      //Incializar el formulario despues de los cambios
+      $scope.form = {
+        idCita:     form.idCita,
+        tituloCita: form.tituloCita,
+        fecha:      form.fecha,
+        horaIni:    startCita,
+        horaFin:    finHora
       }
 
       var myPopup = $ionicPopup.show({
@@ -169,7 +179,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             onTap: function(e){
               if(e)
               {
-                alert('GESTIONAR CITA !!!');
+                $state.go('sidemenu.caja',{'idCita' : dataCita.id, 'fechaCita': dataCita.start},{reload:false});
               }
               else
               {
@@ -199,7 +209,32 @@ angular.module('starterMiApp.contrsAgenda', [])
               //$ionicLoading.show();
               if (e)
               {            
-                alert('BORRAR CITA !!!!!');
+                  var myPopup = $ionicPopup.show({
+                    title: 'Borrar Cita',
+                    subTitle: '¿Estas seguro que deas borrar la cita de <b>' +dataCita.title+ '</b> ?',
+                    buttons: [
+                      { text: '<b>No</b>',
+                        type: 'button-dark' 
+                      },
+                      {
+                        text: '<b>Sí</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                          $ionicLoading.show();
+                          if (e)//Pulsar Sí
+                          { 
+                            servAgenda.borrarCita(dataCita.id).then(function(){
+                              $state.go($state.current,null,{reload:true});
+                            });   
+                          }
+                          else//Pulsar No
+                          {
+                            return; 
+                          }
+                        }
+                      }
+                    ]
+                  });
               }
               else
               {
