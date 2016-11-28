@@ -7,6 +7,7 @@ angular.module('starterMiApp.contrsSignup', [])
     $scope.enviarFormulario = function(form,repetirContrasena)
     {
  
+        $ionicLoading.show();
         form.usuario = $filter('lowercase')(form.usuario);
     	$scope.checkContrasenas = angular.equals(repetirContrasena, form.contrasena);
     	if($scope.checkContrasenas==false)
@@ -24,6 +25,7 @@ angular.module('starterMiApp.contrsSignup', [])
     		  
                 if(servResponse==-1)
                 {
+                    $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                          title: 'Error al registrarse',
                          template: 'El usuario ya existe.',
@@ -33,6 +35,7 @@ angular.module('starterMiApp.contrsSignup', [])
                 }
                 else
                 {
+                    $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                          title: 'Registrar',
                          template: 'La cuenta fue creada correctamente',
@@ -41,7 +44,7 @@ angular.module('starterMiApp.contrsSignup', [])
                     });
 
                     alertPopup.then(function(res) {
-                        $ionicLoading.show();
+                        
                         $state.go('login',null,{reload:true});
                     });
                 }

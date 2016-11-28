@@ -11,8 +11,8 @@
 		
 		<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
 			<div class="input-label"><b>Nombre: </b><span class="asteriscoObligatorio">*</span></div>	
-		  	<input type="text" name="nombre" ng-blur="visitedNombre = true" list="clientes" ng-model="form.tituloCita" required />
-			<datalist id="clientes">
+		  	<input type="text" name="nombre" ng-blur="visitedNombre = true" list="clientes" ng-model="form.tituloCita" autocomplete="off" required />
+			<datalist id="clientes" autocomplete="true">
 			  <option ng-repeat="item in nombres" value="{{item.nombre}} {{item.apellido1}} {{item.apellido2}}"></option>
 			</datalist>
 		</label>

@@ -160,6 +160,7 @@ angular.module('starterMiApp.contrsClientes', [])
       });
     };
 
+    // https://codepen.io/rdelafuente/pen/tJrik/ !!! MOSTRAR FOTO CON UN MODAL
     $scope.hacerFoto = function(){
       var options = { 
             quality : 75, 
