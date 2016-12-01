@@ -71,7 +71,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 }]) // Fin ClientesCtrl
 
-.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer){
+.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal){
 
     clienteForm.$error = {
       'required': true
@@ -84,6 +84,7 @@ angular.module('starterMiApp.contrsClientes', [])
         /*$scope.data es la informacion que se va mostrar en el perfil del cliente a
         partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
         $scope.data = datosCliente[0];
+        $scope.fotoPerfil = datosCliente[0].urlFoto;
         
         /* this.form es la directiva ng-model en la vista perfilCliente donde inicializo las directivas
         con los valores/datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
@@ -204,4 +205,27 @@ angular.module('starterMiApp.contrsClientes', [])
             // An error occured. Show a message to the user
         });
     }//Fin scope.hacerFoto
+
+    $scope.verFoto = function()
+    {
+      $scope.openModal();
+    }
+
+
+    // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
+    $ionicModal.fromTemplateUrl('plantillas/modalVerFotoPerfil.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModal = function() {
+      $scope.modal.show();
+    }
+
+    $scope.closeModal = function() {
+      
+      $scope.modal.hide();
+    };
+
 }]) //Fin  ClientePerfilCtrl

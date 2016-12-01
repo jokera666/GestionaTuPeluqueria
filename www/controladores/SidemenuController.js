@@ -2,6 +2,8 @@ angular.module('starterMiApp.contrsSidemenu', [])
 
 .controller('SidemenuCtrl', ['$scope', '$state','$ionicPopup','$ionicLoading','servLogout', function($scope, $state,$ionicPopup,$ionicLoading,servLogout){
 
+  $scope.nombreUsuario = localStorage.getItem("nombreUser");
+  
   $scope.cerrarSesion = function() {
 
       var myPopup = $ionicPopup.show({
