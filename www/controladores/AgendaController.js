@@ -153,7 +153,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             if (e)
             {              
                 servAgenda.modificarCita($scope.formAdaptado).then(function(){
-                  $state.go('sidemenu.agenda',null,{reload:true});
+                  $state.go($state.current,null,{reload:true});
                   $scope.modalModificarCita.hide();
                 });
             }

@@ -6,7 +6,6 @@ angular.module('starterMiApp.contrsSignup', [])
 
     $scope.enviarFormulario = function(form,repetirContrasena)
     {
- 
         $ionicLoading.show();
         form.usuario = $filter('lowercase')(form.usuario);
     	$scope.checkContrasenas = angular.equals(repetirContrasena, form.contrasena);

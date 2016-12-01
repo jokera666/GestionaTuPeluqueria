@@ -6,7 +6,7 @@
 	</ion-nav-bar>
       
 	  <ion-content class="padding has-header" scroll="true">
-		<form name="signupForm" ng-submit="enviarFormulario(form,repetirContrasena)">
+		<form name="signupForm" ng-submit="enviarFormulario(form,repetirContrasena)" method="POST" enctype="multipart/form-data">
 		<div class="item item-divider">Crear cuenta</div>
 			<div class="list">
 			  	
@@ -58,11 +58,12 @@
             		<span class="errorMensajeForm" ng-show="signupForm.email.$error.email">El correo electronico es incorrecto.</span>
                 </div>
 
-
+				<!-- type='file' no funciona -->
+<!-- 
                 <label class="item item-input">
-                	<span class="input-label"><b>Correo electronico:</b></span></span>
+                	<span class="input-label"><b>Foto perfil:</b></span></span>
                 	<input name="subirFoto" type="file" ng-model="form.subirFoto">
-                </label>
+                </label> -->
 
 			  	<button type="submit" class="button button-block button-positive" ng-disabled="signupForm.$invalid">Registrar</button>
 			  	

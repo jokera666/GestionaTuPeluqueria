@@ -54,7 +54,7 @@ angular.module('starterMiApp.contrsClientes', [])
             if (e)
             {              
                 servClientes.insertarCliente(form).then(function(){
-                  $state.go('sidemenu.clientes',null,{reload:true});
+                  $state.go($state.current,null,{reload:true});
                   $scope.modal.hide();
                 });
             }
@@ -161,43 +161,41 @@ angular.module('starterMiApp.contrsClientes', [])
       });
     };
 
-    // https://codepen.io/rdelafuente/pen/tJrik/ !!! MOSTRAR FOTO CON UN MODAL
     $scope.hacerFoto = function(){
       var options = { 
-            quality : 75, 
+            quality : 90, 
             destinationType : Camera.DestinationType.FILE_URI, 
             sourceType : Camera.PictureSourceType.CAMERA, 
-            allowEdit : true,
+            allowEdit : false, // despues de echar la foto puedes seleccionar que parte quieres que se guarde
             encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 120,
-            targetHeight: 126,
-            popoverOptions: CameraPopoverOptions,
+            targetWidth: 1024,
+            targetHeight: 780,
             saveToPhotoAlbum: false
         };
 
-      $cordovaCamera.getPicture(options).then(function(imageData) {
-             $scope.imgURItemp = imageData;
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+            
+            $scope.imgURItemp = imageData;
 
+            var nombreImg = imageData.substr(imageData.lastIndexOf('/') + 1);
+            var options = {
+                fileKey: "file",
+                fileName: nombreImg,
+                chunkedMode: false,
+                mimeType: "image/jpg",
+                params : {'idCli':idCliente}
+            };
 
-              var nombreImg = imageData.substr(imageData.lastIndexOf('/') + 1);
-              var options = {
-                  fileKey: "file",
-                  fileName: nombreImg,
-                  chunkedMode: false,
-                  mimeType: "image/jpg",
-                  params : {'idCli':idCliente}
-              };
-
-
-                $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
-                    console.log("SUCCESS: " + JSON.stringify(result.response));
-                    $scope.opciones = result.response;
-                }, function(err) {
-                    console.log("ERROR: " + JSON.stringify(err));
-                    $scope.opciones = "ERROR: " + JSON.stringify(err);
-                }, function (progress) {
-                    // constant progress updates
-                });
+            $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
+                console.log("SUCCESS: " + JSON.stringify(result.response));
+                $scope.opciones = result.response;
+                $state.go($state.current,null,{reload:true});
+            }, function(err) {
+                console.log("ERROR: " + JSON.stringify(err));
+                $scope.opciones = "ERROR: " + JSON.stringify(err);
+            }, function (progress) {
+                // constant progress updates
+            });
                 
             $scope.opciones = options;
             $scope.uploadOptions1 = uploadOptions;
@@ -206,20 +204,14 @@ angular.module('starterMiApp.contrsClientes', [])
         });
     }//Fin scope.hacerFoto
 
-    $scope.verFoto = function()
-    {
-      $scope.openModal();
-    }
-
-
-    // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
+    // 'plantillas/modalVerFotoPerfil.html' URL para ejecutar en el movil
     $ionicModal.fromTemplateUrl('plantillas/modalVerFotoPerfil.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
       $scope.modal = modal;
     });
-    $scope.openModal = function() {
+    $scope.openModalVerFoto = function() {
       $scope.modal.show();
     }
 
@@ -227,5 +219,13 @@ angular.module('starterMiApp.contrsClientes', [])
       
       $scope.modal.hide();
     };
+
+    $scope.verFoto = function()
+    {
+      $scope.openModalVerFoto();
+    }
+
+
+
 
 }]) //Fin  ClientePerfilCtrl
