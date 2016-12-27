@@ -1,6 +1,14 @@
 <ion-view view-title="Servicios">
-      <ion-content scroll="false">
-	 		 <div class="bar item-input-inset">
+		
+		<ion-content class="padding">
+			<label class="item item-input item-select">
+			    <div class="input-label">Secciónes</div>
+			    <select ng-change="getSeccion(seccion)" ng-model="seccion" ng-options="color.name for color in colors">
+			    </select>
+		  	</label>
+	  	</ion-content>
+
+		<div class="has-subheader item item-input-inset" style="margin-top: 15px;">
 		  <label class="item-input-wrapper">
 		    <i class="icon ion-search placeholder-icon"></i>
 		    <input type="search" placeholder="Buscar..." ng-model="buscador">
@@ -10,24 +18,13 @@
 		  </button>
 		</div>
 
-
-		<label class="item item-input item-select">
-		    <div class="input-label">Secciónes</div>
-		    <select ng-change="getSeccion(seccion)" ng-model="seccion" ng-options="color.name for color in colors">
-		    </select>
-	  	</label>
-	  	</ion-content>
-
-		<ion-content style="margin-top: 100px;" scroll="true">
-		  	
+		<ion-content style="margin-top: 120px;">
 		  	<ion-list>
-				<div class="item item-divider">Lista de servicios</div>
 		  	  <ion-item class="item-icon-right" collection-repeat="item in items | filter: buscador" href="#">
 		  	    <i class="icon ion-arrow-right-c"></i>
 		  	    {{item.servicio}}
 		  	    <p>{{item.seccion}}</p>
 		  	  </ion-item>
-
 		  	</ion-list>
 	  	</ion-content>
       

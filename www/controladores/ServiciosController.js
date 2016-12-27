@@ -13,6 +13,22 @@ angular.module('starterMiApp.contrsServicios', [])
 	$scope.items = [
 		{servicio:'Corte',seccion:'Peluqueria'},
 		{servicio:'Color',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
+		{servicio:'Moldeador',seccion:'Peluqueria'},
 		{servicio:'Moldeador',seccion:'Peluqueria'}
 	];
 
