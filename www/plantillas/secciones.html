@@ -1,5 +1,28 @@
 <ion-view view-title="Secciones">
-      <ion-content>
-      	<h1>Secciones</h1>
-      </ion-content>
+      	
+	<div class="bar miBar-subheader item item-input-inset">
+	  <label class="item-input-wrapper">
+	    <i class="icon ion-search placeholder-icon"></i>
+	    <input type="search" placeholder="Buscar..." ng-model="buscador">
+	  </label>
+	  <button class="button button-clear" ng-click="borrarBuscador()">
+	    Borrar
+	  </button>
+	</div>
+
+	<ion-content class="has-subheader">
+		<h1 ng-bind-html="noClientes"></h1>
+	</ion-content>
+
+	<ion-content class="has-subheader">
+		<ion-list>
+			<ion-item class="item-icon-right" collection-repeat="item in secciones | filter: buscador" href="#/side/perfilSeccion/{{item.id_seccion}}">
+				<i class="icon ion-arrow-right-c"></i>
+				{{item.nombre}}
+			</ion-item>
+		</ion-list>
+	</ion-content>
+
+	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModal()"></button>
+
 </ion-view>

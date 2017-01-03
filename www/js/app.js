@@ -19,7 +19,8 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsLogin',
                                                                 'starterMiApp.servsSignup',
                                                                 'starterMiApp.servsAgenda',
-                                                                'starterMiApp.servsClientes'])
+                                                                'starterMiApp.servsClientes',
+                                                                'starterMiApp.servsSecciones'])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
   $ionicPlatform.ready(function() {
@@ -67,7 +68,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
         navigator.app.exitApp();
       }
 
-      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfil" || $state.current.name=="signup")
+      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfilCliente" || $state.current.name=="signup")
       {
         navigator.app.backHistory();
       }
@@ -144,7 +145,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     }
   })
 
-.state('sidemenu.perfil', {
+.state('sidemenu.perfilCliente', {
     url: '/perfilClientes/:idCliente',
     views: {
       'menuContent': {
@@ -180,6 +181,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
       'menuContent': {
         templateUrl: 'plantillas/secciones.html',
         controller: 'SeccionesCtrl'
+      }
+    }
+  })
+
+  .state('sidemenu.perfilSeccion', {
+    url: '/perfilSeccion/:idSeccion',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/perfilSeccion.html',
+        controller: 'SeccionPerfilCtrl'
       }
     }
   })
