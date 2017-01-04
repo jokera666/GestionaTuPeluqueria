@@ -11,18 +11,18 @@
 	</div>
 
 	<ion-content class="has-subheader">
-		<h1 ng-bind-html="noClientes"></h1>
+		<h1 ng-bind-html="noSecciones"></h1>
 	</ion-content>
 
 	<ion-content class="has-subheader">
 		<ion-list>
-			<ion-item class="item-icon-right" collection-repeat="item in secciones | filter: buscador" href="#/side/perfilSeccion/{{item.id_seccion}}">
+			<ion-item class="item-icon-right" collection-repeat="item in secciones | filter: buscador" href="#/side/perfilSeccion/{{item.id_seccion}}/{{item.nombre}}">
 				<i class="icon ion-arrow-right-c"></i>
 				{{item.nombre}}
 			</ion-item>
 		</ion-list>
 	</ion-content>
 
-	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModal()"></button>
+	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalSeccion()"></button>
 
 </ion-view>

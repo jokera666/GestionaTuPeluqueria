@@ -1,0 +1,33 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+	  <h1 class="title">Añadir sección</h1>
+	  <a class="button button-assertive icon ion-close-round" ng-click="closeModal()">Cerrar</a>
+	</ion-header-bar>
+	<ion-content class="padding">
+	  
+	<form name="formInsertSeccion">
+		<div class="item item-divider">Datos sección</div>
+			<div class="list">
+
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertSeccion.nombre.$invalid && visitedNombre}">
+					<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
+				</label>
+				<div ng-show="formInsertSeccion.nombre.$invalid && visitedNombre">
+            		<span class="errorMensajeForm" ng-show="formInsertSeccion.nombre.$invalid">Campo obligatorio.</span>
+                </div>
+
+		<div class="row  responsive-sm">
+		  	<div class="col">
+		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertSeccion.$invalid" ng-click="clickInsertarSeccion(form)"> Guardar Datos</button>
+		  	</div>
+		  	<div class="col">
+		  		<button class="button button-block button-royal icon ion-refresh" type="reset"> Reiniciar</button>
+		  	</div>
+		</div>
+	</form>
+
+	</ion-content>
+</ion-modal-view>
+
+

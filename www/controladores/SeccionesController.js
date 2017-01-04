@@ -1,31 +1,165 @@
 angular.module('starterMiApp.contrsSecciones', [])
 
-.controller('SeccionesCtrl', ['$scope','$state','$stateParams','servSecciones', function($scope,$state,$stateParams,servSecciones){
+.controller('SeccionesCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servSecciones', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servSecciones){
 
-	$scope.sesionIdUser = localStorage.getItem("idUser");
-    console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
+	var sesionIdUser = localStorage.getItem("idUser");
+    console.log('Usuario con id de sesion---> '+sesionIdUser);
 
 	$scope.secciones = [];
 
-	servSecciones.listarSecciones($scope.sesionIdUser).then(function(data){
+	servSecciones.listarSecciones(sesionIdUser).then(function(data){
 		console.log(data);
-		$scope.secciones = data;
+		if(data==-1)
+	    {
+	      	$scope.noSecciones = "No tiene secciones introducidos";
+	    }
+      	else
+      	{
+        	$scope.secciones = data;   
+      	}
 	})
+
+	$ionicModal.fromTemplateUrl('plantillas/modalInsertarSeccion.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModalSeccion = function() {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+
+    $scope.clickInsertarSeccion = function (form){
+      form['idUser'] = sesionIdUser;
+      var myPopup = $ionicPopup.show({
+      title: 'Añadir sección',
+      subTitle: '<span>¿Estás seguro de que deseas añadir la sección?</span>',
+      buttons: [
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servSecciones.insertarSeccion(form).then(function(servResponse){
+
+               	if(servResponse==-1)
+                {
+                    $ionicLoading.hide();
+                    var alertPopup = $ionicPopup.alert({
+                         title: 'Error al introducir la sección',
+                         template: 'La sección ya existe.',
+                         okText: 'Volver', 
+                         okType: 'button-assertive'
+                    });
+                }
+                else
+                {
+	           	  	$state.go($state.current,null,{reload:true});
+	              	$scope.modal.hide();
+                }
+
+
+                });
+            }
+          }
+        }
+      ]
+      });
+    };
+
+	//Limpiar la barra de busqueda
+    $scope.borrarBuscador = function(){
+      $scope.buscador = '';
+    };
+
 
 }]) // Fin SeccionesCtrl
 
 
 
-.controller('SeccionPerfilCtrl', ['$scope','$state','$stateParams','servSecciones', function($scope,$state,$stateParams,servSecciones){
+.controller('SeccionPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','$ionicLoading','servSecciones', function($scope,$state,$stateParams,$ionicPopup,$ionicLoading,servSecciones){
 
-	$scope.sesionIdUser = localStorage.getItem("idUser");
-    console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
+	var sesionIdUser = localStorage.getItem("idUser");
+    console.log('Usuario con id de sesion---> '+sesionIdUser);
 
-	$scope.secciones = [];
+    var idSeccion = $stateParams.idSeccion;
 
-	servSecciones.listarSecciones($scope.sesionIdUser).then(function(data){
-		console.log(data);
-		$scope.secciones = data;
-	})
+    var nombreSeccion = $stateParams.nombreSeccion;
+    $scope.form  = {
+     	nombre: nombreSeccion
+     };
+
+    var formOriginal = angular.copy($scope.form);
+
+    $scope.clickModificarSeccion = function (form){
+     	//Añadir propiedades a un objeto en este caso en el objeto form.
+     	form['idSeccion'] = idSeccion;
+     	form['idUser'] = sesionIdUser;
+
+        var myPopup = $ionicPopup.show({
+        title: 'Guardar datos',
+        subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                  servSecciones.modificarSeccion(form).then(function(){
+                      $state.go('sidemenu.secciones',null,{reload:true});
+                  });
+              }
+            }
+          }
+        ]
+        });
+    };
+
+
+    $scope.clickEliminarSeccion = function (){
+
+        var myPopup = $ionicPopup.show({
+        title: 'Borrar sección',
+        subTitle: '<span>¿Estás seguro de que deseas eliminar la sección?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                  servSecciones.borrarSeccion(idSeccion).then(function(){
+                      $state.go('sidemenu.secciones',null,{reload:true});
+                  });
+              }
+            }
+          }
+        ]
+        });
+    };
+
+    $scope.reiniciarForm = function(){
+    	$scope.form = angular.copy(formOriginal);
+    };
 
 }]) // Fin SeccionesCtrl

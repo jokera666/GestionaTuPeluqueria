@@ -1,24 +1,28 @@
 <ion-view view-title="Perfil Seccion">
-<ion-content class="padding">
-	<form name="seccionForm">
-		<div class="item item-divider">Datos sección</div>
-		<div class="list">
-			<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.nombre.$invalid && visitedNombre}">
-					<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
-					<input type="text" name="nombre" value="{{data.nombre}}" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
-			</label>
-		</div>
-		<div class="row  responsive-sm">
-		  	<div class="col">
-		  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="clienteForm.$invalid" ng-click="clickModificarCliente(form)"> Guardar Datos</button>
-		  	</div>
-		  	<div class="col">
-		  		<button class="button button-block button-royal icon ion-refresh" type="reset" ng-click="reiniciarForm()"> Reiniciar</button>
-		  	</div>
-		  	<div class="col">
-		  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarCliente()"> Borrar Cliente</button>
+	<ion-content class="padding">
+		<form name="seccionForm">
+			<div class="item item-divider">Datos sección</div>
+			<div class="list">
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : seccionForm.nombre.$invalid && visitedNombre}">
+						<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
+						<!-- Con ng-init se incializa el ng-model -->
+						<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
+				</label>
+				<div ng-show="seccionForm.nombre.$invalid && visitedNombre">
+            		<span class="errorMensajeForm" ng-show="seccionForm.nombre.$invalid">Campo obligatorio.</span>
+                </div>
 			</div>
-		</div>
-	</form>
-</ion-content>
+			<div class="row  responsive-sm">
+			  	<div class="col">
+			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="seccionForm.$invalid" ng-click="clickModificarSeccion(form)"> Guardar Datos</button>
+			  	</div>
+			  	<div class="col">
+			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
+			  	</div>
+			  	<div class="col">
+			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarSeccion()"> Borrar Cliente</button>
+				</div>
+			</div>
+		</form>
+	</ion-content>
 </ion-view>

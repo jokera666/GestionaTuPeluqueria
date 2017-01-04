@@ -68,7 +68,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
         navigator.app.exitApp();
       }
 
-      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfilCliente" || $state.current.name=="signup")
+      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfilCliente" || $state.current.name=="sidemenu.perfilSeccion" || $state.current.name=="signup")
       {
         navigator.app.backHistory();
       }
@@ -186,7 +186,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
   })
 
   .state('sidemenu.perfilSeccion', {
-    url: '/perfilSeccion/:idSeccion',
+    url: '/perfilSeccion/:idSeccion/:nombreSeccion',
     views: {
       'menuContent': {
         templateUrl: 'plantillas/perfilSeccion.html',
