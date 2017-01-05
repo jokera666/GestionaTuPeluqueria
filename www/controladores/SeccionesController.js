@@ -19,7 +19,7 @@ angular.module('starterMiApp.contrsSecciones', [])
       	}
 	})
 
-	$ionicModal.fromTemplateUrl('plantillas/modalInsertarSeccion.html', {
+	$ionicModal.fromTemplateUrl('plantillas/Secciones/modalInsertarSeccion.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {

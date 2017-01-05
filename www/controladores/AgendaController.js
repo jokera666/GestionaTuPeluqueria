@@ -74,7 +74,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     };
 
 
-    $ionicModal.fromTemplateUrl('plantillas/modalModificarCita.html', {
+    $ionicModal.fromTemplateUrl('plantillas/Agenda/modalModificarCita.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
@@ -101,7 +101,7 @@ angular.module('starterMiApp.contrsAgenda', [])
       $scope.modalModificarCita.hide();
       $scope.modalModificarCita.remove();
       $scope.form = {};
-      $ionicModal.fromTemplateUrl('plantillas/modalModificarCita.html', {
+      $ionicModal.fromTemplateUrl('plantillas/Agenda/modalModificarCita.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
@@ -363,7 +363,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     
 
     // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
-    $ionicModal.fromTemplateUrl('plantillas/modalInsertarCita.html', {
+    $ionicModal.fromTemplateUrl('plantillas/Agenda/modalInsertarCita.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
@@ -382,7 +382,7 @@ angular.module('starterMiApp.contrsAgenda', [])
       $scope.modal.hide();
       $scope.modal.remove();
       $scope.form = {};
-      $ionicModal.fromTemplateUrl('plantillas/modalInsertarCita.html', {
+      $ionicModal.fromTemplateUrl('plantillas/Agenda/modalInsertarCita.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {

@@ -22,7 +22,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
     //Insertar un nuevo cliente a atraves del un modal
     // 'plantillas/modalInsertarCliente.html' URL para ejecutar en el movil
-    $ionicModal.fromTemplateUrl('plantillas/modalInsertarCliente.html', {
+    $ionicModal.fromTemplateUrl('plantillas/Clientes/modalInsertarCliente.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
@@ -205,7 +205,7 @@ angular.module('starterMiApp.contrsClientes', [])
     }//Fin scope.hacerFoto
 
     // 'plantillas/modalVerFotoPerfil.html' URL para ejecutar en el movil
-    $ionicModal.fromTemplateUrl('plantillas/modalVerFotoPerfil.html', {
+    $ionicModal.fromTemplateUrl('plantillas/Clientes/modalVerFotoPerfil.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {

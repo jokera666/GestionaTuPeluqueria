@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsServicios', [])
 
-.controller('ServiciosCtrl', ['$scope','$state','$stateParams','servSecciones', function($scope,$state,$stateParams,servSecciones){
+.controller('ServiciosCtrl', ['$scope','$state','$stateParams','$ionicModal','servSecciones','servServicios', function($scope,$state,$stateParams,$ionicModal,servSecciones,servServicios){
 
    	$scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
@@ -20,41 +20,32 @@ angular.module('starterMiApp.contrsServicios', [])
     //   {name:'yellow', shade:'light', notAnOption: false}
     // ];
 
-	$scope.items = [];
+	$scope.servicios = [];
 
 	$scope.getSeccion = function(seccion)
 	{
 		console.log(seccion);
 
-		var caso = seccion.nombre;
+		$scope.nombreSeccion = seccion.nombre;
+		var idSeccion = seccion.id_seccion;
 
-		switch(caso)
-		{
-			case 'Peluqueria':
-				$scope.items = [
-					{servicio:'Corte',seccion:'Peluqueria'},
-					{servicio:'Color',seccion:'Peluqueria'},
-					{servicio:'Moldeador',seccion:'Peluqueria'}
-				];
-			break;
-
-			case 'Masajes':
-			$scope.items = [
-					{servicio:'Piernas',seccion:'Masajes'},
-					{servicio:'Cuerpo',seccion:'Masajes'},
-					{servicio:'Lumbago',seccion:'Masajes'}
-			];
-			break;
-
-			case 'Estetica':
-			$scope.items = [
-					{servicio:'Maquillaje',seccion:'Estetica'},
-					{servicio:'Bodas',seccion:'Estetica'},
-					{servicio:'Divirsios',seccion:'Estetica'}
-			];
-			break;
-		}
+		servServicios.nombreServicio(idSeccion).then(function(data){
+			$scope.servicios = data;
+		});
 	}
+
+	$ionicModal.fromTemplateUrl('plantillas/Servicios/modalInsertarServicio.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModalServicio = function() {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
 
 	//Limpiar la barra de busqueda
     $scope.borrarBuscador = function(){

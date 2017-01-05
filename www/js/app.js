@@ -20,7 +20,8 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsSignup',
                                                                 'starterMiApp.servsAgenda',
                                                                 'starterMiApp.servsClientes',
-                                                                'starterMiApp.servsSecciones'])
+                                                                'starterMiApp.servsSecciones',
+                                                                'starterMiApp.servsServicios'])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
   $ionicPlatform.ready(function() {
@@ -119,7 +120,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
       url: '/agenda',
       views: {
         'menuContent': {
-          templateUrl: 'plantillas/agenda.html',
+          templateUrl: 'plantillas/Agenda/agenda.html',
           controller: 'AgendaCtrl'
         }
       }
@@ -139,7 +140,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     url: '/clientes',
     views: {
       'menuContent': {
-        templateUrl: 'plantillas/clientes.html',
+        templateUrl: 'plantillas/Clientes/clientes.html',
         controller: 'ClientesCtrl'
       }
     }
@@ -149,7 +150,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     url: '/perfilClientes/:idCliente',
     views: {
       'menuContent': {
-        templateUrl: 'plantillas/perfilCliente.html',
+        templateUrl: 'plantillas/Clientes/perfilCliente.html',
         controller: 'ClientePerfilCtrl'
       }
     }
@@ -179,7 +180,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     url: '/secciones',
     views: {
       'menuContent': {
-        templateUrl: 'plantillas/secciones.html',
+        templateUrl: 'plantillas/Secciones/secciones.html',
         controller: 'SeccionesCtrl'
       }
     }
@@ -189,7 +190,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     url: '/perfilSeccion/:idSeccion/:nombreSeccion',
     views: {
       'menuContent': {
-        templateUrl: 'plantillas/perfilSeccion.html',
+        templateUrl: 'plantillas/Secciones/perfilSeccion.html',
         controller: 'SeccionPerfilCtrl'
       }
     }
@@ -199,7 +200,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     url: '/servicios',
     views: {
       'menuContent': {
-        templateUrl: 'plantillas/servicios.html',
+        templateUrl: 'plantillas/Servicios/servicios.html',
         controller: 'ServiciosCtrl'
       }
     }
