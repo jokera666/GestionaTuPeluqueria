@@ -6,10 +6,13 @@ angular.module('starterMiApp.contrsServicios', [])
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
 
 	$scope.secciones = [];
+	$scope.seccionesModal = [];
+
 
 	servSecciones.listarSecciones($scope.sesionIdUser).then(function(data){
-		console.log(data);
+		//console.log(data);
 		$scope.secciones = data;
+		$scope.seccionesModal = data;
 	});
 
     // $scope.colors = [
@@ -34,6 +37,8 @@ angular.module('starterMiApp.contrsServicios', [])
 		});
 	}
 
+
+
 	$ionicModal.fromTemplateUrl('plantillas/Servicios/modalInsertarServicio.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -46,6 +51,24 @@ angular.module('starterMiApp.contrsServicios', [])
     $scope.closeModal = function() {
       $scope.modal.hide();
     };
+
+    $scope.todoListItems = [];
+
+	$scope.anadirCategoria  = function()
+	{
+		$scope.todoListItems.push({});
+	}
+
+	$scope.eliminarCategoria = function (index) {
+        $scope.todoListItems.splice(index, 1);
+    };
+
+	$scope.clickInsertarServicio = function(form)
+	{
+		console.log(form);
+		console.log('Elementos a vender---> '+$scope.todoListItems);
+		//console.log(form.seccionModal);
+	}
 
 	//Limpiar la barra de busqueda
     $scope.borrarBuscador = function(){
