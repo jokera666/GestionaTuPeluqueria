@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsServicios', [])
 
-.controller('ServiciosCtrl', ['$scope','$state','$stateParams','$ionicModal','servSecciones','servServicios', function($scope,$state,$stateParams,$ionicModal,servSecciones,servServicios){
+.controller('ServiciosCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servSecciones','servServicios', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servSecciones,servServicios){
 
    	$scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
@@ -30,9 +30,9 @@ angular.module('starterMiApp.contrsServicios', [])
 		console.log(seccion);
 
 		$scope.nombreSeccion = seccion.nombre;
-		var idSeccion = seccion.id_seccion;
+		$scope.idSeccion = seccion.id_seccion;
 
-		servServicios.nombreServicio(idSeccion).then(function(data){
+		servServicios.nombreServicio($scope.idSeccion).then(function(data){
 			$scope.servicios = data;
 		});
 	}
@@ -52,22 +52,69 @@ angular.module('starterMiApp.contrsServicios', [])
       $scope.modal.hide();
     };
 
-    $scope.todoListItems = [];
+    $scope.todoListElementos = [];
 
 	$scope.anadirCategoria  = function()
 	{
-		$scope.todoListItems.push({});
+		$scope.todoListElementos.push({});
 	}
 
 	$scope.eliminarCategoria = function (index) {
-        $scope.todoListItems.splice(index, 1);
+        $scope.todoListElementos.splice(index, 1);
     };
 
 	$scope.clickInsertarServicio = function(form)
 	{
-		console.log(form);
-		console.log('Elementos a vender---> '+$scope.todoListItems);
+		//Añadir al objeto form(que el formulario del post de insertar servicio)
+		//los elementos_comerciales 
+		form['Elementos'] = $scope.todoListElementos;
+		//console.log(form);
+		//console.log("SUCCESS: " + JSON.stringify(form));
+		//console.log('Elementos a vender---> '+$scope.todoListElementos);
+		//console.log('Elementos a vender---> '+JSON.stringify($scope.todoListElementos));
 		//console.log(form.seccionModal);
+		
+		var myPopup = $ionicPopup.show({
+		title: 'Añadir servicio',
+		subTitle: '<span>¿Estás seguro de que deseas añadir el servicio?</span>',
+		buttons: [
+		{
+		 text: '<b>No</b>',
+		 type: 'button-dark'
+		},
+		{
+		  text: '<b>Sí</b>',
+		  type: 'button-positive',
+		  onTap: function(e) {
+		    $ionicLoading.show();
+		    if (e)
+		    {              
+		       	servServicios.insertarServicio(form).then(function(servResponse){
+					console.log(servResponse);
+					if(servResponse == -1)
+					{
+						$ionicLoading.hide();
+	                    var alertPopup = $ionicPopup.alert({
+	                         title: 'Error al introducir el servicio',
+	                         template: 'El servicio ya existe.',
+	                         okText: 'Volver', 
+	                         okType: 'button-assertive'
+	                    });
+					}
+					else
+					{
+						$state.go($state.current,null,{reload:true});
+						$scope.modal.hide();
+					}
+					
+				});
+		    }
+		  }
+		}
+		]
+		});
+		
+
 	}
 
 	//Limpiar la barra de busqueda
@@ -77,3 +124,37 @@ angular.module('starterMiApp.contrsServicios', [])
 
 
 }]) // Fin ServiciosCtrl
+
+.controller('ServicioPerfilCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servSecciones','servServicios', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servSecciones,servServicios){
+	
+	var idSeccion 	  		= $stateParams.idSeccion;
+	$scope.nombreServicio 	= $stateParams.nombreServicio;
+	
+	$scope.form  = {
+     	nombreServicio: $scope.nombreServicio
+     };
+
+     var nombreServicioOrginal = angular.copy($scope.form);
+     $scope.categoriasOriginales = [];
+
+     servServicios.listarPerfilServicio(idSeccion,$scope.nombreServicio).then(function(data){
+     	console.log(data);
+     	$scope.elementosServicio = data;
+     	 $scope.categoriasOriginales = angular.copy($scope.elementosServicio);
+     });
+
+     $scope.clickModificarCliente = function(form)
+     {
+     	form['Elementos'] = $scope.elementosServicio;
+     	console.log(form);
+     }
+
+     $scope.reiniciarForm = function()
+     {
+     	$scope.form = angular.copy(nombreServicioOrginal);
+     	$scope.elementosServicio = angular.copy($scope.categoriasOriginales);
+     	console.log($scope.elementosServicio);
+     }
+     
+
+}]) // Fin servicioPerfilCtrl

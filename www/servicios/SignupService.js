@@ -14,7 +14,7 @@ angular.module('starterMiApp.servsSignup', [])
         var url = "http://gestionestetica.fonotecaumh.es/Signup.php";
         var data = datosForm;
         var config = {
-            headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
+            headers : {'Content-Type' : 'application/json'}
         }
 
         $http.post(url,data,config)

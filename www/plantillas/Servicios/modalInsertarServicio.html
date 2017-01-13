@@ -6,7 +6,7 @@
 	<ion-content class="padding">
 	  
 	<form name="formInsertServicio">
-		<div class="item item-divider">Datos sección</div>
+		<div class="item item-divider">Datos servicio</div>
 			<div class="list">
 
 				<label class="item item-input item-select">
@@ -24,7 +24,7 @@
                 </div>
 
 
-			  	<ion-item ng-repeat = "todoItem in todoListItems">
+			  	<ion-item ng-repeat = "todoItem in todoListElementos">
 					<div class="row responsive-sm">
 					
 					<div class="col-10">
@@ -57,7 +57,9 @@
 			</div> <!-- Fin lista -->
 			<pre>formInsertServicio.$valid = {{ form | json }}</pre>
 			<br>
-			<pre>Elementos = {{ todoListItems | json }}</pre>
+			<pre>Elementos = {{ todoListElementos | json }}</pre>
+			<br>	
+			<pre>Resputa = {{ respuesta }}</pre>
 
 			<div class="col-offset-90">
 					<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirCategoria()"></button>

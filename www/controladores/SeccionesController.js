@@ -162,4 +162,4 @@ angular.module('starterMiApp.contrsSecciones', [])
     	$scope.form = angular.copy(formOriginal);
     };
 
-}]) // Fin SeccionesCtrl
+}]) // Fin SeccionPerfilCtrl

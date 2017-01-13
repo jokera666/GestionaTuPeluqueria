@@ -206,6 +206,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     }
   })
 
+  .state('sidemenu.perfilServicio',{
+    url: '/perfilServicio/:idSeccion/:nombreServicio',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/Servicios/perfilServicio.html',
+        controller: 'ServicioPerfilCtrl'
+      }
+    }
+  })
+
   .state('sidemenu.facturas', {
     url: '/facturas',
     views: {

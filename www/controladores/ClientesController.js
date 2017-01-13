@@ -37,6 +37,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
     $scope.clickInsertarCliente = function (form){
+      console.log(form);
       form['idUser'] = $scope.sesionIdUser;
       var myPopup = $ionicPopup.show({
       title: 'Añadir cliente',
