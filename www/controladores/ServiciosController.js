@@ -147,6 +147,31 @@ angular.module('starterMiApp.contrsServicios', [])
      {
      	form['Elementos'] = $scope.elementosServicio;
      	console.log(form);
+     	var myPopup = $ionicPopup.show({
+	        title: 'Modificar datos',
+	        subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
+	        buttons: [
+	          { 
+	            text: '<b>No</b>',
+	            type: 'button-dark'
+	          },
+	          {
+	            text: '<b>Sí</b>',
+	            type: 'button-positive',
+	            onTap: function(e) {
+	              $ionicLoading.show();
+	              if (e)
+	              {              
+	                  servServicios.modificarServicio(form).then(function(servResponse){
+	                  	  console.log('----->>> '+servResponse);
+	                      $state.go('sidemenu.servicios',null,{reload:true});
+	                  });
+	              }
+	            }
+	          }
+	        ]
+        });
+
      }
 
      $scope.reiniciarForm = function()

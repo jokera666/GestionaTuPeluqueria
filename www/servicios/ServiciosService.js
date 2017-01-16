@@ -4,7 +4,8 @@ angular.module('starterMiApp.servsServicios', [])
 	return{
 		nombreServicio: nameService,
     listarPerfilServicio: listProfileService,
-    insertarServicio: addService 
+    insertarServicio: addService,
+    modificarServicio: editService 
 	}
 
 	function nameService(idSeccion)
@@ -72,6 +73,29 @@ angular.module('starterMiApp.servsServicios', [])
           });
 
       return promesa;
+  }
+
+  function editService(datosForm)
+  {
+    var defered = $q.defer();
+    var promesa = defered.promise;
+
+    var url = 'http://gestionestetica.fonotecaumh.es/Servicios/modificarServicio.php';
+    var data = datosForm;
+    var config = {
+      headers : { 'Content-Type' : 'application/json'}
+    }
+
+    $http.post(url,data,config)
+        .success(function(response){
+          defered.resolve(response);
+        })
+        .error(function(err){
+          defered.reject(err);
+        });
+
+    return promesa;
+
   }
 
 
