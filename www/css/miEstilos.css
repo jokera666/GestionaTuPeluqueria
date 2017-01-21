@@ -139,7 +139,7 @@ text-transform: capitalize;
   max-height: 100%;
   bottom: 0;
   left: 0;
-  margin: auto;
+  margin: 0 auto;
   overflow: auto;
   position: fixed;
   right: 0;
@@ -151,4 +151,25 @@ text-transform: capitalize;
   height: 100%;
   top: 0 !important;
   left: 0 !important;
+}
+
+/*Modal tablets*/
+@media (min-width: 680px) {
+  .modal {
+    top: 0px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+  .platform-ios.platform-cordova .modal-wrapper .modal .bar-header:not(.bar-subheader) > * {
+    margin-top: 20px;
+  }
+  .platform-ios.platform-cordova .modal-wrapper .modal .bar-header:not(.bar-subheader) {
+    height: 64px;
+  }
+  .platform-ios.platform-cordova .modal-wrapper .modal .has-header,
+  .platform-ios.platform-cordova .modal-wrapper .modal .bar-subheader {
+    top: 64px;
+  }
 }

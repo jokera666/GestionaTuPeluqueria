@@ -5,7 +5,6 @@ angular.module('starterMiApp.contrsAgenda', [])
     $scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
     
-
     $scope.nombreUsuario = localStorage.getItem("nombreUser");
     
     var date = new Date();

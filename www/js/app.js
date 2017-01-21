@@ -16,11 +16,13 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.contrsSecciones',
                                                                 'starterMiApp.contrsServicios',
                                                                 'starterMiApp.contrsFacturas',
+                                                                'starterMiApp.contrsEmpleados',
                                                                 'starterMiApp.servsLogin',
                                                                 'starterMiApp.servsSignup',
                                                                 'starterMiApp.servsAgenda',
                                                                 'starterMiApp.servsClientes',
                                                                 'starterMiApp.servsSecciones',
+                                                                'starterMiApp.servsEmpleados',
                                                                 'starterMiApp.servsServicios'])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
@@ -64,20 +66,52 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
 
   $ionicPlatform.registerBackButtonAction(function(event) {
 
-      if ($state.current.name=="login")
+      var nombreEstado = $state.current.name; 
+      switch(nombreEstado)
       {
-        navigator.app.exitApp();
+        case "login":
+          navigator.app.exitApp();
+        break;
+
+        case "signup":
+          navigator.app.backHistory();
+        break;
+
+        case "sidemenu.perfilCliente":
+           navigator.app.backHistory();
+        break;
+
+        case "sidemenu.perfilSeccion":
+          navigator.app.backHistory();
+        break;
+
+        case "sidemenu.perfilEmpleado":
+          navigator.app.backHistory();
+        break;
+
+        default:
+          $ionicSideMenuDelegate.toggleLeft();
       }
 
-      if ($state.current.name=="sidemenu.single" || $state.current.name=="sidemenu.perfilCliente" || $state.current.name=="sidemenu.perfilSeccion" || $state.current.name=="signup")
-      {
-        navigator.app.backHistory();
-      }
 
-      else
-      {
-         $ionicSideMenuDelegate.toggleLeft();
-      }
+      // if ($state.current.name=="login")
+      // {
+      //   navigator.app.exitApp();
+      // }
+
+      // if ($state.current.name=="sidemenu.single" || 
+      //     $state.current.name=="sidemenu.perfilCliente" || 
+      //     $state.current.name=="sidemenu.perfilSeccion" ||
+      //     $state.current.name=="sidemenu.perfilEmpleado" || 
+      //     $state.current.name=="signup")
+      // {
+      //   navigator.app.backHistory();
+      // }
+
+      // else
+      // {
+      //    $ionicSideMenuDelegate.toggleLeft();
+      // }
     }, 100);
   
   })
@@ -92,6 +126,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
   $ionicConfigProvider.navBar.alignTitle('center');
   $ionicConfigProvider.scrolling.jsScrolling(false);
   $ionicConfigProvider.views.maxCache(0);
+
 
   
   $stateProvider
@@ -222,6 +257,26 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
       'menuContent': {
         templateUrl: 'plantillas/facturas.html',
         controller: 'FacturasCtrl'
+      }
+    }
+  })
+
+  .state('sidemenu.empleados', {
+    url: '/empleados',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/Empleados/empleados.html',
+        controller: 'EmpleadosCtrl'
+      }
+    }
+  })
+
+  .state('sidemenu.perfilEmpleado', {
+    url: '/perfilEmpleado/:idEmpleado',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/Empleados/perfilEmpleado.html',
+        controller: 'EmpleadoPerfilCtrl'
       }
     }
   })

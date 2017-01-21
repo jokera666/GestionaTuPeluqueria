@@ -1,6 +1,5 @@
 angular.module('starterMiApp.servsClientes', [])
 
-
 .service('servClientes',['$q', '$http', function($q, $http){
 
     return{
