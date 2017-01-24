@@ -2,7 +2,7 @@ angular.module('starterMiApp.contrsSignup', [])
 
 .controller('SignupCtrl', ['$scope','$state','$ionicPopup','$filter','$ionicLoading','servSignup', function($scope,$state,$ionicPopup,$filter,$ionicLoading,servSignup){
 
-
+    $scope.sesionIdUser = localStorage.getItem("idUser");
 
     $scope.enviarFormulario = function(form,repetirContrasena)
     {
@@ -45,7 +45,14 @@ angular.module('starterMiApp.contrsSignup', [])
 
                     alertPopup.then(function(res) {
                         
-                        $state.go('login',null,{reload:true});
+                        if($scope.sesionIdUser == 1)
+                        {
+                            $state.go('admin',null,{reload:true});
+                        }
+                        else
+                        {
+                            $state.go('login',null,{reload:true});
+                        }
                     });
                 }
             });

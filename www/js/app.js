@@ -17,13 +17,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.contrsServicios',
                                                                 'starterMiApp.contrsFacturas',
                                                                 'starterMiApp.contrsEmpleados',
+                                                                'starterMiApp.contrsAdmin',
                                                                 'starterMiApp.servsLogin',
                                                                 'starterMiApp.servsSignup',
                                                                 'starterMiApp.servsAgenda',
                                                                 'starterMiApp.servsClientes',
                                                                 'starterMiApp.servsSecciones',
                                                                 'starterMiApp.servsEmpleados',
-                                                                'starterMiApp.servsServicios'])
+                                                                'starterMiApp.servsServicios',
+                                                                'starterMiApp.servsAdmin'
+                                                                ])
 
 .run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
   $ionicPlatform.ready(function() {
@@ -300,6 +303,24 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
       }
     }
   })
+
+  .state('admin',{
+    url: '/admin',
+    abstract: false,
+    templateUrl: 'plantillas/Admin/admin.html',
+    controller: 'AdminCtrl'
+  })
+
+  .state('sidemenu.perfilUsuario', {
+    url: '/perfilUsuario/:idUsuario',
+        views: {
+      'menuContent': {
+        templateUrl:'plantillas/Admin/perfilUsuario.html',
+        controller: 'AdminUserProfileCtrl'
+      }
+    }
+  })
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('login');
 
