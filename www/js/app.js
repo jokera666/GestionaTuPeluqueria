@@ -284,42 +284,39 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     }
   })
 
-  .state('sidemenu.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'plantillas/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-  })
+  // .state('sidemenu.playlists', {
+  //     url: '/playlists',
+  //     views: {
+  //       'menuContent': {
+  //         templateUrl: 'plantillas/playlists.html',
+  //         controller: 'PlaylistsCtrl'
+  //       }
+  //     }
+  // })
 
-  .state('sidemenu.single', {
-    url: '/playlists/:playlistId/:titulo',
-    views: {
-      'menuContent': {
-        templateUrl: 'plantillas/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
-  })
+  // .state('sidemenu.single', {
+  //   url: '/playlists/:playlistId/:titulo',
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: 'plantillas/playlist.html',
+  //       controller: 'PlaylistCtrl'
+  //     }
+  //   }
+  // })
 
   .state('admin',{
     url: '/admin',
-    abstract: false,
     templateUrl: 'plantillas/Admin/admin.html',
     controller: 'AdminCtrl'
+
   })
 
-  .state('sidemenu.perfilUsuario', {
+  .state('perfilUsuario', {
     url: '/perfilUsuario/:idUsuario',
-        views: {
-      'menuContent': {
-        templateUrl:'plantillas/Admin/perfilUsuario.html',
-        controller: 'AdminUserProfileCtrl'
-      }
-    }
+    templateUrl: 'plantillas/Admin/perfilUsuario.html',
+    controller: 'AdminUserProfileCtrl'
   })
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('login');

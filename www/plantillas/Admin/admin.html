@@ -10,7 +10,7 @@
 <!-- http://codepen.io/felquis/pen/OPdaqK  SHOW PASSWORD-->
 <ion-content class="has-header">
 	<div class="list">
-	    <a class="item item-thumbnail-left  item-icon-right" ng-repeat="item in usuarios" href="#/admin/perfilUsuario/{{item.id_usuario}}">
+	    <a class="item item-thumbnail-left  item-icon-right" ng-repeat="item in usuarios" ui-sref="perfilUsuario({ idUsuario: item.id_usuario })">
 	      <img src="./img/foto1.jpg">
 	      <h2>Usuario: <b>{{item.usuario}}</b></h2>
 	      <p>email: {{item.email}}</p>
