@@ -28,7 +28,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsAdmin'
                                                                 ])
 
-.run(function($ionicPlatform,$state,$ionicSideMenuDelegate,$ionicNavBarDelegate,$rootScope) {
+.run(function($ionicPlatform,$state,$ionicNavBarDelegate,$rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -96,25 +96,6 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
           $ionicSideMenuDelegate.toggleLeft();
       }
 
-
-      // if ($state.current.name=="login")
-      // {
-      //   navigator.app.exitApp();
-      // }
-
-      // if ($state.current.name=="sidemenu.single" || 
-      //     $state.current.name=="sidemenu.perfilCliente" || 
-      //     $state.current.name=="sidemenu.perfilSeccion" ||
-      //     $state.current.name=="sidemenu.perfilEmpleado" || 
-      //     $state.current.name=="signup")
-      // {
-      //   navigator.app.backHistory();
-      // }
-
-      // else
-      // {
-      //    $ionicSideMenuDelegate.toggleLeft();
-      // }
     }, 100);
   
   })
@@ -127,7 +108,9 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
   $ionicConfigProvider.navBar.alignTitle('center');
-  $ionicConfigProvider.scrolling.jsScrolling(false);
+  // Si es true recoge el scrolling de JS i si es false el nativo de Sistema operativo
+  // con false da problemas en el scrolling del sidemenu
+  $ionicConfigProvider.scrolling.jsScrolling(true);
   $ionicConfigProvider.views.maxCache(0);
 
 

@@ -308,7 +308,7 @@ angular.module('starterMiApp.contrsAgenda', [])
         calendar: {
             lang: 'es',
             locale: 'es',
-            height: 550,
+            height: 'auto',
             editable: false,
             droppable: false,
             allDaySlot: false,
