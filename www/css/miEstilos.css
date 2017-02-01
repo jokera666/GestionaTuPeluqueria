@@ -173,3 +173,7 @@ text-transform: capitalize;
     top: 64px;
   }
 }
+
+#divFotoPerfil .scroll{
+  transform: none !important;
+}
