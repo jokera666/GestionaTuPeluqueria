@@ -86,6 +86,7 @@ angular.module('starterMiApp.contrsClientes', [])
         partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
         $scope.data = datosCliente[0];
         $scope.fotoPerfil = datosCliente[0].urlFoto;
+        console.log($scope.fotoPerfil);
         
         /* this.form es la directiva ng-model en la vista perfilCliente donde inicializo las directivas
         con los valores/datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
@@ -162,7 +163,10 @@ angular.module('starterMiApp.contrsClientes', [])
       });
     };
 
+
+    //BUG PENDIENTE REEMPLAZAR FOTO 
     $scope.hacerFoto = function(){
+      $ionicLoading.show();
       var options = { 
             quality : 90, 
             destinationType : Camera.DestinationType.FILE_URI, 
@@ -191,6 +195,7 @@ angular.module('starterMiApp.contrsClientes', [])
                 console.log("SUCCESS: " + JSON.stringify(result.response));
                 $scope.opciones = result.response;
                 $state.go($state.current,null,{reload:true});
+                // location.reload(); // refrescar la pagina entera por javascript
             }, function(err) {
                 console.log("ERROR: " + JSON.stringify(err));
                 $scope.opciones = "ERROR: " + JSON.stringify(err);

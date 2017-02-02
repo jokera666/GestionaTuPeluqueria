@@ -15,6 +15,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.contrsVentas',
                                                                 'starterMiApp.contrsSecciones',
                                                                 'starterMiApp.contrsServicios',
+                                                                'starterMiApp.contrsProveedores',
                                                                 'starterMiApp.contrsFacturas',
                                                                 'starterMiApp.contrsEmpleados',
                                                                 'starterMiApp.contrsAdmin',
@@ -181,7 +182,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     url: '/productos',
     views: {
       'menuContent': {
-        templateUrl: 'plantillas/productos.html',
+        templateUrl: 'plantillas/Productos/productos.html',
         controller: 'ProductosCtrl'
       }
     }
@@ -237,11 +238,21 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     }
   })
 
+  .state('sidemenu.provedores', {
+    url: '/proveedores',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/Proveedores/proveedores.html',
+        controller: 'ProveedoresCtrl'
+      }
+    }
+  })
+
   .state('sidemenu.facturas', {
     url: '/facturas',
     views: {
       'menuContent': {
-        templateUrl: 'plantillas/facturas.html',
+        templateUrl: 'plantillas/Facturas/facturas.html',
         controller: 'FacturasCtrl'
       }
     }
