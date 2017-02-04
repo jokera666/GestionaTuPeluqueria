@@ -1,0 +1,67 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+	  <h1 class="title">Añadir proveedor</h1>
+	  <a class="button button-assertive icon ion-close-round" ng-click="closeModal()">Cerrar</a>
+	</ion-header-bar>
+	<ion-content class="padding">
+	  
+	<form name="formInsertProveedor">
+		<div class="item item-divider">Datos proveedor</div>
+			<div class="list">
+
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertProveedor.nombre.$invalid && visitedNombre}">
+					<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
+				</label>
+				<div ng-show="formInsertProveedor.nombre.$invalid && visitedNombre">
+            		<span class="errorMensajeForm" ng-show="formInsertProveedor.nombre.$invalid">Campo obligatorio.</span>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertProveedor.marca.$invalid && visitedMarca}">
+					<span class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="marca" ng-blur="visitedMarca = true" ng-model="form.marca" required>
+				</label>
+				<div ng-show="formInsertProveedor.marca.$invalid && visitedMarca">
+            		<span class="errorMensajeForm" ng-show="formInsertProveedor.marca.$invalid">Campo obligatorio.</span>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertProveedor.telefono.$invalid && visitedTel}">
+			    	<span class="input-label"><b>Telefono:</b></span>
+			    	<input type="tel" name="telefono" ng-model="form.telefono" ng-blur="visitedTel = true" minlength="9" maxlength="9">
+			  	</label>
+			  	<div ng-show="formInsertProveedor.telefono.$invalid && visitedTel">
+            		<div class="errorMensajeForm" ng-show="formInsertProveedor.telefono.$error.minlength">El numero de telefono tiene que tener 9 digitos.</div>
+                </div>
+
+				<label class="item item-input">
+					<span class="input-label"><b>Email:</b></span>
+					<input type="email" name="email" ng-model="form.email">
+				</label>
+
+				<label class="item item-input">
+					<span class="input-label"><b>Localidad:</b></span>
+					<input type="text" name="localidad" ng-model="form.localidad">
+				</label>
+
+				<label class="item item-input">
+					<span class="input-label"><b>Dirección:</b></span>
+					<input type="text" name="direccion" ng-model="form.direccion">
+				</label>
+
+
+				<div class="row  responsive-sm">
+				  	<div class="col">
+				  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertProveedor.$invalid" ng-click="clickInsertarProveedor(form)"> Guardar Datos</button>
+				  	</div>
+				  	<div class="col">
+				  		<button class="button button-block button-royal icon ion-refresh" type="reset"> Reiniciar</button>
+				  	</div>
+				</div>
+
+			</div><!-- Fin lista  -->
+	</form>
+
+	</ion-content>
+</ion-modal-view>
+
+

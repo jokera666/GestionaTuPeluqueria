@@ -1,5 +1,28 @@
 <ion-view view-title="Proveedores">
-      <ion-content>
-      	<h1>Proveedores</h1>
-      </ion-content>
+
+	<div class="bar miBar-subheader item item-input-inset">
+	  <label class="item-input-wrapper">
+	    <i class="icon ion-search placeholder-icon"></i>
+	    <input type="search" placeholder="Buscar..." ng-model="buscador">
+	  </label>
+	  <button class="button button-clear" ng-click="borrarBuscador()">
+	    Borrar
+	  </button>
+	</div>
+
+	<ion-content class="has-subheader">
+		<h1 ng-bind-html="noProveedores"></h1>
+	</ion-content>
+
+	<ion-content class="has-subheader">
+		<ion-list>
+			<ion-item class="item item-icon-right" collection-repeat="item in proveedores | filter: buscador" href="#/side/perfilProveedor/{{item.id_proveedor}}">
+				<h2>Nombre: {{item.nombre}}</h2>
+				<p>Marca: {{item.marca}}</p>
+				<a class="button button-icon icon ion-android-call" href="tel:{{item.telefono}}" target="_blank"></a>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+
+	<button class="btnAnadir button button-positive icon ion-person-add" ng-click="openModalProveedores()"></button>
 </ion-view>
