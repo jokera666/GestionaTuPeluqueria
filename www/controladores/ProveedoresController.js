@@ -1,11 +1,21 @@
 angular.module('starterMiApp.contrsProveedores', [])
 
-.controller('ProveedoresCtrl', ['$scope','$state','$stateParams','$ionicModal', function($scope,$state,$stateParams,$ionicModal){
+.controller('ProveedoresCtrl', ['$scope','$state','$stateParams','$ionicModal','servProveedores', function($scope,$state,$stateParams,$ionicModal,servProveedores){
 
-	$scope.proveedores = [
-		{id_proveedor: '1', nombre: 'Jose Luis', marca:'H&S', telefono:'647154820'},
-		{id_proveedor: '2', nombre: 'Carlos', marca:'Loureal', telefono:'999999999'}
-	];
+
+  $scope.sesionIdUser = localStorage.getItem("idUser");
+
+  servProveedores.listarProveedores($scope.sesionIdUser).then(function(servResponse){
+    if(servResponse == -1)
+    {
+      $scope.noProveedores = 'No tiene proveedores introducidos';
+    }
+    else
+    {
+      $scope.Proveedores = servResponse;
+    }
+  })
+
 
 	// 'plantillas/modalInsertarEmpleado.html' URL para ejecutar en el movil
     $ionicModal.fromTemplateUrl('plantillas/Proveedores/modalInsertarProveedor.html', {

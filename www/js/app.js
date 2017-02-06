@@ -26,6 +26,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsSecciones',
                                                                 'starterMiApp.servsEmpleados',
                                                                 'starterMiApp.servsServicios',
+                                                                'starterMiApp.servsProveedores',
                                                                 'starterMiApp.servsAdmin'
                                                                 ])
 
