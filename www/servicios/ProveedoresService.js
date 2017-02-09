@@ -4,7 +4,8 @@ angular.module('starterMiApp.servsProveedores', [])
 
 	return{
 		listarProveedores: listProviders,
-		listarPerfilProveedor: listProviderProfile
+		listarPerfilProveedor: listProviderProfile,
+		insertarProveedor: insertProvider
 	}
 
 	function listProviders(idUsuario)
@@ -32,6 +33,28 @@ angular.module('starterMiApp.servsProveedores', [])
 	function listProviderProfile(idProveedor)
 	{
 		
+	}
+
+	function insertProvider(datosForm)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/insertarProveedor.php';
+		var data = datosForm;
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
 	}
 
 

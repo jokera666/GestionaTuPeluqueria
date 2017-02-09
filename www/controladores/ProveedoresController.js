@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsProveedores', [])
 
-.controller('ProveedoresCtrl', ['$scope','$state','$stateParams','$ionicModal','servProveedores', function($scope,$state,$stateParams,$ionicModal,servProveedores){
+.controller('ProveedoresCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicLoading','$ionicPopup','servProveedores', function($scope,$state,$stateParams,$ionicModal,$ionicLoading,$ionicPopup,servProveedores){
 
 
   $scope.sesionIdUser = localStorage.getItem("idUser");
@@ -14,7 +14,7 @@ angular.module('starterMiApp.contrsProveedores', [])
     {
       $scope.Proveedores = servResponse;
     }
-  })
+  });
 
 
 	// 'plantillas/modalInsertarEmpleado.html' URL para ejecutar en el movil
@@ -31,10 +31,35 @@ angular.module('starterMiApp.contrsProveedores', [])
       $scope.modal.hide();
     };
 
-    $scope.clickInsertarProveedor = function(form)
-    {
-    	console.log(form);
-    }
+
+    $scope.clickInsertarProveedor = function (form){
+      form['idUser'] = $scope.sesionIdUser;
+      console.log(form);
+      var myPopup = $ionicPopup.show({
+      title: 'Añadir proveedor',
+      subTitle: '<span>¿Estás seguro de que deseas añadir el proveedor?</span>',
+      buttons: [
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servProveedores.insertarProveedor(form).then(function(data){
+                  $state.go($state.current,null,{reload:true});
+                  $scope.modal.hide();
+                });
+            }
+          }
+        }
+      ]
+      });
+    };
 
 }]) // Fin ProveedoresCtrl
 
