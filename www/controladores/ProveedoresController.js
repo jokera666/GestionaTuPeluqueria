@@ -12,6 +12,7 @@ angular.module('starterMiApp.contrsProveedores', [])
     }
     else
     {
+      console.log(servResponse);
       $scope.Proveedores = servResponse;
     }
   });
@@ -65,9 +66,30 @@ angular.module('starterMiApp.contrsProveedores', [])
 
 .controller('ProveedorPerfilCtrl', ['$scope','$state','$stateParams', function($scope,$state,$stateParams){
 
-	$scope.proveedores = [
-		{id_proveedor: '1', nombre: 'Jose Luis', marca:'H&S', telefono:'647154820'},
-		{id_proveedor: '2', nombre: 'Carlos', marca:'Loureal', telefono:'999999999'}
+	$scope.sesionIdUser = localStorage.getItem("idUser");
+
+  $scope.elementosMarca = [
+		{nombreElementoMarca:'H&S'},
+		{nombreElementoMarca:'Loureal'}
 	];
+
+  $scope.todoListNuevasMarcas = [];
+
+  $scope.anadirNuevaMarca  = function()
+  {
+    $scope.todoListNuevasMarcas.push({});
+  }
+
+  $scope.eliminarNuevaMarca = function (index) {
+        $scope.todoListNuevasMarcas.splice(index, 1);
+  };
+
+  $scope.clickModificarProveedor = function(form)
+  {
+    form['nuevasMarcas'] = $scope.todoListNuevasMarcas;
+    console.log(form);
+  }
+
+  
 
 }]) // Fin PerfilProveedoresCtrl
