@@ -64,14 +64,20 @@ angular.module('starterMiApp.contrsProveedores', [])
 
 }]) // Fin ProveedoresCtrl
 
-.controller('ProveedorPerfilCtrl', ['$scope','$state','$stateParams', function($scope,$state,$stateParams){
+.controller('ProveedorPerfilCtrl', ['$scope','$state','$stateParams','servProveedores', function($scope,$state,$stateParams,servProveedores){
 
 	$scope.sesionIdUser = localStorage.getItem("idUser");
+  var idProveedor = $stateParams.idProveedor;
 
-  $scope.elementosMarca = [
-		{nombreElementoMarca:'H&S'},
-		{nombreElementoMarca:'Loureal'}
-	];
+ //  $scope.elementosMarca = [
+	// 	{nombreElementoMarca:'H&S'},
+	// 	{nombreElementoMarca:'Loureal'}
+	// ];
+
+  servProveedores.listarPerfilProveedor(idProveedor).then(function(servResponse){
+    console.log(servResponse[1]);
+    $scope.elementosMarca = servResponse;
+  });
 
   $scope.todoListNuevasMarcas = [];
 
