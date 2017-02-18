@@ -12,10 +12,21 @@ angular.module('starterMiApp.contrsProveedores', [])
     }
     else
     {
-      console.log(servResponse);
+      //console.log(servResponse);
       $scope.Proveedores = servResponse;
     }
   });
+
+  $scope.todoListInsertarMarca = [];
+
+  $scope.anadirNuevaMarca  = function()
+  {
+    $scope.todoListInsertarMarca.push({});
+  }
+
+  $scope.eliminarNuevaMarca = function (index) {
+        $scope.todoListInsertarMarca.splice(index, 1);
+  };
 
 
 	// 'plantillas/modalInsertarEmpleado.html' URL para ejecutar en el movil
@@ -34,8 +45,11 @@ angular.module('starterMiApp.contrsProveedores', [])
 
 
     $scope.clickInsertarProveedor = function (form){
+      
       form['idUser'] = $scope.sesionIdUser;
+      form['nuevasMarcas']  = $scope.todoListInsertarMarca;
       console.log(form);
+      
       var myPopup = $ionicPopup.show({
       title: 'Añadir proveedor',
       subTitle: '<span>¿Estás seguro de que deseas añadir el proveedor?</span>',
@@ -64,19 +78,27 @@ angular.module('starterMiApp.contrsProveedores', [])
 
 }]) // Fin ProveedoresCtrl
 
-.controller('ProveedorPerfilCtrl', ['$scope','$state','$stateParams','servProveedores', function($scope,$state,$stateParams,servProveedores){
+.controller('ProveedorPerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servProveedores', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servProveedores){
 
 	$scope.sesionIdUser = localStorage.getItem("idUser");
   var idProveedor = $stateParams.idProveedor;
 
- //  $scope.elementosMarca = [
-	// 	{nombreElementoMarca:'H&S'},
-	// 	{nombreElementoMarca:'Loureal'}
-	// ];
 
+  //Como el servicio web devuelve el perfil del proveedor en funcion de objeto
+  //tambien devuelve las marcas del proveedor tambien en formato de objeto
+  //El objeto 0 son los datos del proveedor y el resto de objetos el id y el nombre
+  //de la marca de dicho proveedor.
   servProveedores.listarPerfilProveedor(idProveedor).then(function(servResponse){
-    console.log(servResponse[1]);
-    $scope.elementosMarca = servResponse;
+
+    var datosPerfilProveedor = servResponse[0];
+    $scope.form = datosPerfilProveedor;
+    
+    $scope.elementosMarca = [];
+    for(var i = 1; i<servResponse.length; i++)
+    {
+       $scope.elementosMarca.push(servResponse[i]);
+    }
+           
   });
 
   $scope.todoListNuevasMarcas = [];
@@ -92,8 +114,36 @@ angular.module('starterMiApp.contrsProveedores', [])
 
   $scope.clickModificarProveedor = function(form)
   {
-    form['nuevasMarcas'] = $scope.todoListNuevasMarcas;
+    form['idProvedor']        = idProveedor;
+    form['nuevasMarcas']      = $scope.todoListNuevasMarcas;
+    form['marcasExistentes']  = $scope.elementosMarca;
     console.log(form);
+    var myPopup = $ionicPopup.show({
+      title: 'Modificar proveedor',
+      subTitle: '<span>¿Estás seguro de que deseas modificar el proveedor?</span>',
+      buttons: [
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servProveedores.modificarPerfilProvider(form).then(function(data){
+                  $state.go($state.current,null,{reload:true});
+                  $scope.modal.hide();
+                });
+            }
+          }
+        }
+      ]
+      });
+
+
   }
 
   

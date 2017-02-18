@@ -17,14 +17,6 @@
             		<span class="errorMensajeForm" ng-show="formInsertProveedor.nombre.$invalid">Campo obligatorio.</span>
                 </div>
 
-                <label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertProveedor.marca.$invalid && visitedMarca}">
-					<span class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></span>
-					<input type="text" name="marca" ng-blur="visitedMarca = true" ng-model="form.marca" required>
-				</label>
-				<div ng-show="formInsertProveedor.marca.$invalid && visitedMarca">
-            		<span class="errorMensajeForm" ng-show="formInsertProveedor.marca.$invalid">Campo obligatorio.</span>
-                </div>
-
                 <label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertProveedor.telefono.$invalid && visitedTel}">
 			    	<span class="input-label"><b>Telefono:</b></span>
 			    	<input type="tel" name="telefono" ng-model="form.telefono" ng-blur="visitedTel = true" minlength="9" maxlength="9">
@@ -48,6 +40,30 @@
 					<input type="text" name="direccion" ng-model="form.direccion">
 				</label>
 
+				<div class="item item-divider">Añadir marcas</div>
+				<ion-item ng-repeat = "todoItem in todoListInsertarMarca">
+					<div class="row">
+					  <div class="col-10">
+						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarNuevaMarca($index)"></button>
+      				  </div>
+						
+					  <div class="col-90">
+					  	<label class="item item-input">
+							<span class="input-label"><b>Nueva marca:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="text" name="nombreNewMarca{{$index}}" ng-model="todoItem.newMarca" required>
+						</label>
+						<div ng-show="formInsertProveedor.nombreNewMarca{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="formInsertProveedor.nombreNewMarca{{$index}}.$invalid">Campo obligatorio.</span>
+	            		</div>
+					  </div>
+					</div> <!-- FIN ROW -->
+				</ion-item>
+
+				<div class="row">
+					<div class="col-offset-90">
+							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirNuevaMarca()"></button>
+		          	</div>
+	          	</div>
 
 				<div class="row  responsive-sm">
 				  	<div class="col">

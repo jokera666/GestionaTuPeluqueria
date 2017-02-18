@@ -37,7 +37,7 @@
 				</label>
 				
 				<div class="item item-divider">Marcas del proveedor</div>
-				<ion-item ng-repeat = "elementoMarca in elementosMarca | filter:{nombreMarca : ''}" for={{elementoMarca}}>
+				<ion-item ng-repeat = "elementoMarca in elementosMarca" for={{elementoMarca}}>
 					<div class="row">
 
 					  <div class="col">
@@ -87,7 +87,7 @@
 			<br>
 			<pre>NuevasMarcas = {{ todoListNuevasMarcas | json }}</pre>
 			<br>
-			<pre>Marcas Existentes = {{ elementosMarca| json }}</pre>
+			<pre>Marcas Existentes = {{ elementosMarca | json }}</pre>
 			<br>	
 			<pre>Resputa = {{ respuesta }}</pre>
 
