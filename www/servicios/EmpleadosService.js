@@ -6,7 +6,8 @@ angular.module('starterMiApp.servsEmpleados', [])
 		listarEmpleados: listEmployees,
 		listarPerfilEmpleado: listEmployeeProfile,
 		insertarEmpleado: addEmployee,
-		modificarEmpleado: editEmployee
+		modificarEmpleado: editEmployee,
+		borrarPerfilEmpleado: deleteEmployeeProfile
 	}
 
 	function listEmployees(idUsuario)
@@ -83,6 +84,28 @@ angular.module('starterMiApp.servsEmpleados', [])
 
 		var url = 'http://gestionestetica.fonotecaumh.es/Empleados/modificarEmpleado.php';
 		var data = datosForm;
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
+	}
+
+	function deleteEmployeeProfile(idEmpleado)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/Empleados/eliminarPerfilEmpleado.php';
+		var data = {'idEmpli':idEmpleado};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}

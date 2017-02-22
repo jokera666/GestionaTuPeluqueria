@@ -106,6 +106,32 @@ angular.module('starterMiApp.contrsEmpleados', [])
         });
     };
 
+    $scope.clickEliminarEmpleado = function(){
+        var myPopup = $ionicPopup.show({
+        title: 'Eliminar empleado',
+        subTitle: '<span>¿Estás seguro de que deseas eliminar el empleado?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                  servEmpleados.borrarPerfilEmpleado(idEmpleado).then(function(){
+                      $state.go('sidemenu.empleados',null,{reload:true});
+                  });
+              }
+            }
+          }
+        ]
+        });
+    };
+
     $scope.reiniciarForm = function(){
     	$scope.form = angular.copy(formOriginal);
     };

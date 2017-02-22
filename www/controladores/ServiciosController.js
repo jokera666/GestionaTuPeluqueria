@@ -143,7 +143,7 @@ angular.module('starterMiApp.contrsServicios', [])
      	 $scope.categoriasOriginales = angular.copy($scope.elementosServicio);
      });
 
-     $scope.clickModificarCliente = function(form)
+     $scope.clickModificarServicio = function(form)
      {
      	form['Elementos'] = $scope.elementosServicio;
      	console.log(form);
@@ -171,7 +171,37 @@ angular.module('starterMiApp.contrsServicios', [])
 	          }
 	        ]
         });
+     }
 
+     $scope.clickEliminarServicio = function()
+     {
+     	var elementServicios = {};
+     	elementServicios['Elementos'] = $scope.elementosServicio; // array de objetos
+
+     	var myPopup = $ionicPopup.show({
+	        title: 'Eliminar servicio',
+	        subTitle: '<span>¿Estás seguro de que deseas eliminar el servicio?</span>',
+	        buttons: [
+	          { 
+	            text: '<b>No</b>',
+	            type: 'button-dark'
+	          },
+	          {
+	            text: '<b>Sí</b>',
+	            type: 'button-positive',
+	            onTap: function(e) {
+	              $ionicLoading.show();
+	              if (e)
+	              {              
+	                  servServicios.eliminarServicio(elementServicios).then(function(servResponse){
+	                  	  console.log('----->>> '+servResponse);
+	                      $state.go('sidemenu.servicios',null,{reload:true});
+	                  });
+	              }
+	            }
+	          }
+	        ]
+        });
      }
 
      $scope.reiniciarForm = function()
