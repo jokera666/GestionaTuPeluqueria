@@ -8,13 +8,11 @@ angular.module('starterMiApp.contrsServicios', [])
 	$scope.secciones = [];
 	$scope.seccionesModal = [];
 
-
 	servSecciones.listarSecciones($scope.sesionIdUser).then(function(data){
 		//console.log(data);
 		$scope.secciones = data;
 		$scope.seccionesModal = data;
 	});
-
     // $scope.colors = [
     //   {name:'black', shade:'dark'},
     //   {name:'white', shade:'light', notAnOption: true},
@@ -27,14 +25,16 @@ angular.module('starterMiApp.contrsServicios', [])
 
 	$scope.getSeccion = function(seccion)
 	{
-		console.log(seccion);
+		//null es la opcion de Seleccionar...
+		if(seccion!=null)
+		{
+			$scope.nombreSeccion = seccion.nombre;
+			$scope.idSeccion = seccion.id_seccion;
 
-		$scope.nombreSeccion = seccion.nombre;
-		$scope.idSeccion = seccion.id_seccion;
-
-		servServicios.nombreServicio($scope.idSeccion).then(function(data){
-			$scope.servicios = data;
-		});
+			servServicios.nombreServicio($scope.idSeccion).then(function(data){
+				$scope.servicios = data;
+			});
+		}
 	}
 
 

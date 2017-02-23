@@ -12,7 +12,6 @@ angular.module('starterMiApp.contrsProveedores', [])
     }
     else
     {
-      //console.log(servResponse);
       $scope.Proveedores = servResponse;
     }
   });
@@ -76,6 +75,11 @@ angular.module('starterMiApp.contrsProveedores', [])
       });
     };
 
+    //Limpiar la barra de busqueda
+    $scope.borrarBuscador = function(){
+      $scope.buscador = '';
+    };
+
 }]) // Fin ProveedoresCtrl
 
 .controller('ProveedorPerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servProveedores', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servProveedores){
@@ -83,6 +87,10 @@ angular.module('starterMiApp.contrsProveedores', [])
 	$scope.sesionIdUser = localStorage.getItem("idUser");
   var idProveedor = $stateParams.idProveedor;
 
+  //variables necesarias para almacenar el contenido del provedor
+  //para reiniciar el formulario
+  var datosPerfilProveedorIniciales;
+  var elementosMarcaIniciales;
 
   //Como el servicio web devuelve el perfil del proveedor en funcion de objeto
   //tambien devuelve las marcas del proveedor tambien en formato de objeto
@@ -91,14 +99,16 @@ angular.module('starterMiApp.contrsProveedores', [])
   servProveedores.listarPerfilProveedor(idProveedor).then(function(servResponse){
 
     var datosPerfilProveedor = servResponse[0];
+    datosPerfilProveedorIniciales = angular.copy(servResponse[0]);
     $scope.form = datosPerfilProveedor;
     
     $scope.elementosMarca = [];
+
     for(var i = 1; i<servResponse.length; i++)
     {
        $scope.elementosMarca.push(servResponse[i]);
     }
-           
+    elementosMarcaIniciales = angular.copy($scope.elementosMarca);       
   });
 
   $scope.todoListNuevasMarcas = [];
@@ -133,7 +143,7 @@ angular.module('starterMiApp.contrsProveedores', [])
             $ionicLoading.show();
             if (e)
             {              
-                servProveedores.modificarPerfilProvider(form).then(function(data){
+                servProveedores.modificarPerfilProveedor(form).then(function(data){
                   $state.go($state.current,null,{reload:true});
                   $scope.modal.hide();
                 });
@@ -142,10 +152,40 @@ angular.module('starterMiApp.contrsProveedores', [])
         }
       ]
       });
+    }
 
+  $scope.clickEliminarProveedor = function()
+  {
+    var myPopup = $ionicPopup.show({
+      title: 'Eliminar proveedor',
+      subTitle: '<span>¿Estás seguro de que deseas eliminar el proveedor?</span>',
+      buttons: [
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servProveedores.eliminarProveedor(idProveedor).then(function(){
+                  $state.go('sidemenu.proveedores',null,{reload:true});
+                  $scope.modal.hide();
+                });
+            }
+          }
+        }
+      ]
+      });
+    }
 
-  }
-
-  
+  $scope.reiniciarForm = function()
+  {
+    $scope.form = angular.copy(datosPerfilProveedorIniciales);
+    $scope.elementosMarca = angular.copy(elementosMarcaIniciales);
+ }
 
 }]) // Fin PerfilProveedoresCtrl

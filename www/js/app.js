@@ -239,7 +239,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     }
   })
 
-  .state('sidemenu.provedores', {
+  .state('sidemenu.proveedores', {
     url: '/proveedores',
     views: {
       'menuContent': {

@@ -10,8 +10,9 @@
 			<div class="list">
 
 				<label class="item item-input item-select">
-				    <div class="input-label"><b>Secciónes:</b></div>
-				    <select ng-change="getSeccionModal(form.seccionModal)" ng-model="form.seccionModal" ng-options="seccionesModal.nombre for seccionesModal in seccionesModal">
+				    <div class="input-label"><b>Secciónes:</b><span class="asteriscoObligatorio">*</span></div>
+				    <select ng-change="getSeccionModal(form.seccionModal)" ng-model="form.seccionModal" ng-options="seccionesModal.nombre for seccionesModal in seccionesModal" required>
+				    <option value="">Seleccionar...</option>
 				    </select>
 			  	</label>
 
