@@ -96,6 +96,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
 
         default:
           $ionicSideMenuDelegate.toggleLeft();
+        break;
       }
 
     }, 100);

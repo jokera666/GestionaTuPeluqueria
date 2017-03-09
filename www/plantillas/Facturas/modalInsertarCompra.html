@@ -1,0 +1,116 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-calm">
+	  <h1 class="title">Añadir factura</h1>
+	  <a class="button button-assertive icon ion-close-round" ng-click="closeModal()">Cerrar</a>
+	</ion-header-bar>
+	<ion-content class="padding">
+	  
+	<form name="formInsertCompra">
+		<div class="item item-divider">Datos factura</div>
+			<div class="list">
+
+				<label class="item item-input item-select">
+				    <div class="input-label"><b>Proveedor:</b><span class="asteriscoObligatorio">*</span></div>
+				    <select ng-change="getProveedorModal(form.proveedorModal)" ng-model="form.proveedorModal" ng-options="proveedoresModal.nombre for proveedoresModal in proveedoresModal" required>
+				    <option value="">Seleccionar...</option>
+				    </select>
+			  	</label>
+
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertCompra.numFactura.$invalid && visitedNumFac}">
+					<span class="input-label"><b>Nº Factura:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="numFactura" ng-blur="visitedNumFac = true" ng-model="form.numFactura" required>
+				</label>
+				<div ng-show="formInsertCompra.numFactura.$invalid && visitedNumFac">
+            		<span class="errorMensajeForm" ng-show="formInsertCompra.numFactura.$invalid">Campo obligatorio.</span>
+                </div>
+
+		        <label class="item item-input item-stacked-label">
+				    <span class="input-label"><b>Fecha de factura:</b><span class="asteriscoObligatorio">*</span></span>
+				    <input type="date" ng-model="form.fecha">
+				</label>
+
+				<div class="item item-divider">Lineas de factura</div>
+
+			  	<ion-item ng-repeat = "todoItem in todoListLineasCompra">
+					<div class="row responsive-sm">
+					
+					<div class="col-10" style="max-width: 3%">
+						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarLineaCompra($index)"></button>
+          			</div>
+
+	          			<div class="col">
+			          		<label class="item item-input item-select">
+							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select ng-model="todoItem.marca" ng-options="marcas.nombre for marcas in marcas" required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+	          			</div>
+						
+					  <div class="col-33">
+					  	<label class="item item-input" style="margin-top: 4px;">
+							<span class="input-label"><b>Nombre producto:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="text" name="nombreProducto{{$index}}" ng-model="todoItem.nombreProducto" required>
+						</label>
+						<div ng-show="formInsertCompra.nombreProducto{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.nombreProducto{{$index}}.$invalid">Campo obligatorio.</span>
+	            		</div>
+					  </div>
+
+					  <div class="col">
+					  	<label class="item item-input">
+							<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="unidades{{$index}}" ng-model="todoItem.unidades" required>
+						</label>
+						<div ng-show="formInsertCompra.unidades{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.unidades{{$index}}.$invalid">Campo obligatorio.</span>
+	            		</div>
+					  </div>
+
+					  <div class="col">
+					  	<label class="item item-input">
+							<span class="input-label"><b>PrecioCompra/Und:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="precioCompraUnd{{$index}}" ng-model="todoItem.precioCompraUnd" required>
+						</label>
+						<div ng-show="formInsertCompra.precioCompraUnd{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioCompraUnd{{$index}}.$invalid">Campo obligatorio.</span>
+	            		</div>
+					  </div>
+
+					  <div class="col">
+					  	<label class="item item-input">
+							<span class="input-label"><b>PrecioVenta/Und:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="precioVentaUnd{{$index}}" ng-model="todoItem.precioVentaUnd" required>
+						</label>
+						<div ng-show="formInsertCompra.precioVentaUnd{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioVentaUnd{{$index}}.$invalid">Campo obligatorio.</span>
+	            		</div>
+					  </div>
+
+					</div> <!-- FIN ROW -->
+				</ion-item>
+			</div> <!-- Fin lista -->
+			<pre>formInsertCompra.$valid = {{ form | json }}</pre>
+			<br>
+			<pre>Lineas = {{ todoListLineasCompra | json }}</pre>
+			<br>	
+			<pre>Resputa = {{ respuesta }}</pre>
+
+			<div class="col-offset-90">
+					<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirLineaCompra()"></button>
+          	</div>
+
+		<div class="row  responsive-sm">
+		  	<div class="col">
+		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertCompra.$invalid" ng-click="clickInsertarServicio(form)"> Guardar Datos</button>
+		  	</div>
+		  	<div class="col">
+		  		<button class="button button-block button-royal icon ion-refresh" type="reset"> Reiniciar</button>
+		  	</div>
+		</div>
+	</form>
+
+	</ion-content>
+</ion-modal-view>
+
+

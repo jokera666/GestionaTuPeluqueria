@@ -1,5 +1,32 @@
 <ion-view view-title="Facturas/Compras">
-      <ion-content>
-      	<h1>Facturas</h1>
-      </ion-content>
+      <ion-content class="padding">
+			<label class="item-full item-input item-select">
+			    <div class="input-label">Proveedor</div>
+			    <select ng-change="getProveedor(proveedor)" ng-model="proveedor" ng-options="proveedores.nombre for proveedores in proveedores">
+			    <option value="">Seleccionar...</option>
+			    </select>
+		  	</label>
+	  	</ion-content>
+
+		<div class="has-subheader item item-input-inset" style="margin-top: 15px;">
+		  <label class="item-input-wrapper">
+		    <i class="icon ion-search placeholder-icon"></i>
+		    <input type="search" placeholder="Buscar..." ng-model="buscador">
+		  </label>
+		  <button class="button button-clear" ng-click="borrarBuscador()">
+		    Borrar
+		  </button>
+		</div>
+
+		<ion-content style="margin-top: 120px;">
+		  	<ion-list>
+		  	  <ion-item class="item-icon-right" collection-repeat="compra in compras | filter: buscador |  orderBy:'-fechaCompra'" href="#/side/perfilServicio/{{idSeccion}}/{{compra.id_compra}}">
+		  	    <i class="icon ion-arrow-right-c"></i>
+		  	    NºFactura: <b>{{compra.numFactura}}</b> - Fecha: <b>{{compra.fechaCompra}}</b>
+		  	    <p>Valor factura: {{compra.precioCompraTotal}}€</p>
+		  	  </ion-item>
+		  	</ion-list>
+	  	</ion-content>
+
+	  	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalCompra()"></button>
 </ion-view>
