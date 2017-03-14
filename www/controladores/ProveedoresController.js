@@ -5,7 +5,7 @@ angular.module('starterMiApp.contrsProveedores', [])
 
   $scope.sesionIdUser = localStorage.getItem("idUser");
 
-  servProveedores.listarProveedores($scope.sesionIdUser).then(function(servResponse){
+  servProveedores.listarProveedores($scope.sesionIdUser,'getAllProveedores').then(function(servResponse){
     if(servResponse == -1)
     {
       $scope.noProveedores = 'No tiene proveedores introducidos';

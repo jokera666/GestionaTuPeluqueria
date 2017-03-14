@@ -1,7 +1,7 @@
-<ion-view view-title="Perfil Servicio">
+<ion-view view-title="Perfil Factura">
 	<ion-content class="padding">
-		<form name="servicioForm">
-			<div class="item item-divider">Datos servicio</div>
+		<form name="compraForm">
+			<div class="item item-divider">Datos factura</div>
 			<div class="list">
 				<label class="item item-input" ng-class="{ 'errorCampoForm' : servicioForm.nombre.$invalid && visitedNombre}">
 						<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
@@ -12,7 +12,7 @@
             		<span class="errorMensajeForm" ng-show="servicioForm.nombre.$invalid">Campo obligatorio.</span>
                 </div>
 			</div>
-			<div class="item item-divider">Categorias del servicio</div>
+			<div class="item item-divider">Lineas de la factura</div>
 				<ion-item ng-repeat = "elementoServicio in elementosServicio" for={{elementoServicio}}>
 					<div class="row responsive-sm">
 
@@ -21,26 +21,25 @@
 							<span class="input-label"><b>Categoría:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="text" name="nombreCategoria{{$index}}" ng-model="elementoServicio.nombreElemento" required>
 						</label>
-						<div ng-show="servicioForm.nombreCategoria{{$index}}.$invalid">
-            				<span class="errorMensajeForm" ng-show="servicioForm.nombreCategoria{{$index}}.$invalid">Campo obligatorio.</span>
+						<div ng-show="formInsertServicio.nombreCategoria{{$index}}.$invalid">
+            				<span class="errorMensajeForm" ng-show="formInsertServicio.nombreCategoria{{$index}}.$invalid">Campo obligatorio.</span>
                 		</div>
 					  </div>
 
 					  <div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Precio:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioCategoria{{$index}}" ng-model="elementoServicio.precioVenta" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+							<input type="number" name="precioCategoria{{$index}}" ng-model="elementoServicio.precioVenta" required>
 						</label>
-						<div ng-show="servicioForm.precioCategoria{{$index}}.$invalid">
-            				<span class="errorMensajeForm" ng-show="servicioForm.precioCategoria{{$index}}.$error.required">Campo obligatorio.</span>
-            				<span class="errorMensajeForm" ng-show="servicioForm.precioCategoria{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+						<div ng-show="formInsertServicio.precioCategoria{{$index}}.$invalid">
+            				<span class="errorMensajeForm" ng-show="formInsertServicio.precioCategoria{{$index}}.$invalid">Campo obligatorio.</span>
                 		</div>
 					  </div>
 					</div> <!-- FIN ROW -->
 				</ion-item>
 			<div class="row  responsive-sm">
 			  	<div class="col">
-			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="servicioForm.$invalid" ng-click="clickModificarServicio(form)"> Guardar Datos</button>
+			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="seccionForm.$invalid" ng-click="clickModificarServicio(form)"> Guardar Datos</button>
 			  	</div>
 			  	<div class="col">
 			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>

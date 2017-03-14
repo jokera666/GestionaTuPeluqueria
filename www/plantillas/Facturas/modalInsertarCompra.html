@@ -9,7 +9,7 @@
 		<div class="item item-divider">Datos factura</div>
 			<div class="list">
 
-				<label class="item item-input item-select">
+				<label class="item item-select">
 				    <div class="input-label"><b>Proveedor:</b><span class="asteriscoObligatorio">*</span></div>
 				    <select ng-change="getProveedorModal(form.proveedorModal)" ng-model="form.proveedorModal" ng-options="proveedoresModal.nombre for proveedoresModal in proveedoresModal" required>
 				    <option value="">Seleccionar...</option>
@@ -26,16 +26,16 @@
 
 		        <label class="item item-input item-stacked-label">
 				    <span class="input-label"><b>Fecha de factura:</b><span class="asteriscoObligatorio">*</span></span>
-				    <input type="date" ng-model="form.fecha">
+				    <input type="date" ng-model="form.fechaCompra">
 				</label>
 
-				<div class="item item-divider">Lineas de factura</div>
+				<div class="item item-divider">Lineas de factura: <span style="color: red">El IVA del 21% se aplicara automaticamente.</span></div>
 
 			  	<ion-item ng-repeat = "todoItem in todoListLineasCompra">
-					<div class="row responsive-sm">
+					<div class="row responsive-md">
 					
 					<div class="col-10" style="max-width: 3%">
-						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarLineaCompra($index)"></button>
+						<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index)"></button>
           			</div>
 
 	          			<div class="col">
@@ -47,8 +47,8 @@
 						  	</label>
 	          			</div>
 						
-					  <div class="col-33">
-					  	<label class="item item-input" style="margin-top: 4px;">
+					  <div class="col-25">
+					  	<label class="item item-input item-stacked-label" style="margin-top: 4px;">
 							<span class="input-label"><b>Nombre producto:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="text" name="nombreProducto{{$index}}" ng-model="todoItem.nombreProducto" required>
 						</label>
@@ -58,32 +58,35 @@
 					  </div>
 
 					  <div class="col">
-					  	<label class="item item-input">
+					  	<label class="item item-input item-stacked-label">
 							<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="unidades{{$index}}" ng-model="todoItem.unidades" required>
+							<input type="number" name="unidades{{$index}}" ng-model="todoItem.unidades" ng-init="todoItem.unidades = 1" ng-pattern="/^\d*$/" required>
 						</label>
 						<div ng-show="formInsertCompra.unidades{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formInsertCompra.unidades{{$index}}.$invalid">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.unidades{{$index}}.$error.required">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.unidades{{$index}}.$error.pattern">Solo numeros enteros.</span>
 	            		</div>
 					  </div>
 
 					  <div class="col">
-					  	<label class="item item-input">
-							<span class="input-label"><b>PrecioCompra/Und:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioCompraUnd{{$index}}" ng-model="todoItem.precioCompraUnd" required>
+					  	<label class="item item-input item-stacked-label">
+							<span class="input-label"><b>Compra Precio/Und:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="precioCompraUnd{{$index}}" ng-model="todoItem.precioCompraUnd" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 						</label>
 						<div ng-show="formInsertCompra.precioCompraUnd{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioCompraUnd{{$index}}.$invalid">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioCompraUnd{{$index}}.$error.required">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioCompraUnd{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
 	            		</div>
 					  </div>
 
 					  <div class="col">
-					  	<label class="item item-input">
-							<span class="input-label"><b>PrecioVenta/Und:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioVentaUnd{{$index}}" ng-model="todoItem.precioVentaUnd" required>
+					  	<label class="item item-input item-stacked-label">
+							<span class="input-label"><b>VentaPrecio/Und:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="precioVentaUnd{{$index}}" ng-model="todoItem.precioVentaUnd" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 						</label>
 						<div ng-show="formInsertCompra.precioVentaUnd{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioVentaUnd{{$index}}.$invalid">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioVentaUnd{{$index}}.$error.required">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="formInsertCompra.precioVentaUnd{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
 	            		</div>
 					  </div>
 
@@ -102,7 +105,7 @@
 
 		<div class="row  responsive-sm">
 		  	<div class="col">
-		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertCompra.$invalid" ng-click="clickInsertarServicio(form)"> Guardar Datos</button>
+		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertCompra.$invalid" ng-click="clickInsertarCompra(form)"> Guardar Datos</button>
 		  	</div>
 		  	<div class="col">
 		  		<button class="button button-block button-royal icon ion-refresh" type="reset"> Reiniciar</button>

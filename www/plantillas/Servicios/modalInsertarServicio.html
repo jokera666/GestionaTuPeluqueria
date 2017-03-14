@@ -46,10 +46,11 @@
 					  <div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Precio:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioCategoria{{$index}}" ng-model="todoItem.precio" required>
+							<input type="number" name="precioCategoria{{$index}}" ng-model="todoItem.precio" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 						</label>
 						<div ng-show="formInsertServicio.precioCategoria{{$index}}.$invalid">
-            				<span class="errorMensajeForm" ng-show="formInsertServicio.precioCategoria{{$index}}.$invalid">Campo obligatorio.</span>
+            				<span class="errorMensajeForm" ng-show="formInsertServicio.precioCategoria{{$index}}.$error.required">Campo obligatorio.</span>
+            				<span class="errorMensajeForm" ng-show="formInsertServicio.precioCategoria{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
                 		</div>
 					  </div>
 

@@ -1,23 +1,55 @@
 angular.module('starterMiApp.contrsFacturas', [])
 
-.controller('FacturasCtrl', ['$scope','$state','$stateParams','$ionicModal', function($scope,$state,$stateParams,$ionicModal){
+.controller('FacturasCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras){
 
-	$scope.proveedores = [
-		{id_proveedor: '1',nombre:'Joaquin'},
-		{id_proveedor: '2',nombre:'Jose'}
-	];
+	var sesionIdUser = localStorage.getItem("idUser");
+    console.log('Usuario con id de sesion---> '+sesionIdUser);
 
-	$scope.compras = [
-		{id_compra:'1',numFactura: '3232A',fechaCompra: '01/12/2016',precioCompraTotal: 55.5},
-		{id_compra:'2',numFactura: '555',fechaCompra: '02/12/2016',precioCompraTotal: 65.5},
-		{id_compra:'3',numFactura: '3',fechaCompra: '03/12/2016',precioCompraTotal: 75.5}
-	];
+	$scope.proveedores = [];
+	$scope.proveedoresModal = [];
+	
+	//Obtener los proveedores en el select en la vista listarFacturas
+	servProveedores.listarProveedores(sesionIdUser,'getNameProveedores').then(function(servResponse){
+		console.log(servResponse);
+	    if(servResponse == -1)
+	    {
+	    	$scope.noProveedores = 'No tiene proveedores introducidos.';
+	    }
+	    else
+	    {
+	      	$scope.proveedores = servResponse;
+	      	$scope.proveedoresModal = servResponse;
+	    }
+	});
 
-	$scope.proveedoresModal = [
-		{id_proveedor: '1',nombre:'Joaquin'},
-		{id_proveedor: '2',nombre:'Jose'}
-	];
+	//Listar las facturas segun el proveedor seleccionado
+	$scope.getProveedor = function(infoProveedor)
+	{
+		//console.log(infoProveedor.id_proveedor);
+		$scope.noProveedores = '';
+		//null es la opcion de Seleccionar...
+		if(infoProveedor!=null)
+		{
+			var idProveedor = infoProveedor.id_proveedor; 
+			//console.log(idProveedor);
+			servCompras.listarFacturas(idProveedor).then(function(servResponse){
+				//console.log(servResponse);
+				if(servResponse == -1)
+			    {
+			    	$scope.compras = '';
+			    	$scope.noProveedores = 'No hay facturas disponibles del proveedor.';
+			    }
+			    else
+			    {
+			    	$scope.noProveedores = '';
+			      	$scope.compras = servResponse;
+			    }
+			});
+		}
+	}
 
+
+	//Insertar compra
 	$ionicModal.fromTemplateUrl('plantillas/Facturas/modalInsertarCompra.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -26,22 +58,31 @@ angular.module('starterMiApp.contrsFacturas', [])
     });
     $scope.openModalCompra = function() {
       $scope.modal.show();
+      //Incializar el formulario al abrir el modal de insertar Compra
+      $scope.form = {
+      	fechaCompra : new Date() 
+      }
     };
     $scope.closeModal = function() {
       $scope.modal.hide();
     };
 
-    $scope.getProveedorModal = function(form)
+    //Insertar la factura segun el proveedor seleccionado
+    $scope.getProveedorModal = function(infoProveedor)
     {
-    	console.log(form);
+    	//Reiniciar el todoList cada vez que se cambia de proovedor
+    	//ya que se evite conflictos de marcas y proveedores
+    	//asi forzamos que la factura sea de un unico proovedor
     	$scope.todoListLineasCompra = [];
+
+    	var idProveedor = infoProveedor.id_proveedor;
+    	console.log(infoProveedor.id_proveedor);
+    	
+    	//Obtener las marcas segun el proveedor seleccionado
+    	servCompras.listarMarcas(idProveedor).then(function(servResponse){
+    		$scope.marcas = servResponse;
+    	});
     }
-
-
-    $scope.marcas = [
-		{id_marca: '1',nombre:'Genus'},
-		{id_marca: '2',nombre:'Wella'}
-	];
 
     $scope.todoListLineasCompra = [];
 
@@ -53,5 +94,67 @@ angular.module('starterMiApp.contrsFacturas', [])
 	$scope.eliminarLineaCompra = function (index) {
         $scope.todoListLineasCompra.splice(index, 1);
     };
+
+    $scope.clickInsertarCompra = function(form)
+    {
+    	$ionicLoading.show();
+    	form['Lineas'] = $scope.todoListLineasCompra;
+    	console.log(form); 
+    	if($scope.todoListLineasCompra=='')
+    	{
+    		$ionicLoading.hide();
+    		var alertPopup = $ionicPopup.alert({
+                 title: 'Error',
+                 template: 'Debe de introducir al menos una linea de factura.',
+                 okText: 'Volver', 
+                 okType: 'button-assertive'
+            });
+    	}
+    	else if($scope.marcas=='')
+    	{
+    		$ionicLoading.hide();
+    		var alertPopup = $ionicPopup.alert({
+                 title: 'Error',
+                 template: 'Debe de seleccionar una marca.',
+                 okText: 'Volver', 
+                 okType: 'button-assertive'
+            });
+    	}
+    	else
+    	{
+     		servCompras.insertarFactura(form).then(function(servResponse){
+     			console.log(servResponse);
+     			if(servResponse == -1)
+     			{
+     				$ionicLoading.hide();
+		    		var alertPopup = $ionicPopup.alert({
+		                 title: 'Error',
+		                 template: 'La factura ya existe.',
+		                 okText: 'Volver', 
+		                 okType: 'button-assertive'
+		            });
+     			}
+     			else
+     			{
+	     			$scope.modal.hide();
+				    $state.go('sidemenu.facturas',null,{reload:true});
+     			}
+
+			});
+    	}
+    }
+
+}]) // Fin FacturasCtrl
+
+.controller('FacturaPerfilCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras){
+
+	var sesionIdUser = localStorage.getItem("idUser");
+	console.log('Usuario con id de sesion---> '+sesionIdUser);
+
+	var idCompra = $stateParams.idCompra;
+	servCompras.listarPerfilFactura(idCompra).then(function(servResponse){
+		
+	});
+    
 
 }]) // Fin FacturasCtrl

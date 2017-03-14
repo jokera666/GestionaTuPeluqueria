@@ -10,13 +10,15 @@ angular.module('starterMiApp.servsProveedores', [])
 		eliminarProveedor: deleteProvider
 	}
 
-	function listProviders(idUsuario)
+	/*Segun el parametro que le pasamos la la funcion de listar informacion
+	del proveedor nos devolvera una u otra cosa.*/
+	function listProviders(idUsuario,parametro)
 	{
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
 		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/listarProveedores.php';
-		var data = {'idUser':idUsuario};
+		var data = {'idUser':idUsuario,'parametro':parametro};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}

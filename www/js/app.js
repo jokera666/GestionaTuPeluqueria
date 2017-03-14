@@ -27,10 +27,11 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsEmpleados',
                                                                 'starterMiApp.servsServicios',
                                                                 'starterMiApp.servsProveedores',
+                                                                'starterMiApp.servsCompras',
                                                                 'starterMiApp.servsAdmin'
                                                                 ])
 
-.run(function($ionicPlatform,$state,$ionicNavBarDelegate,$rootScope) {
+.run(function($ionicPlatform,$state,$ionicNavBarDelegate,$rootScope,$ionicSideMenuDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -266,6 +267,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
       'menuContent': {
         templateUrl: 'plantillas/Facturas/facturas.html',
         controller: 'FacturasCtrl'
+      }
+    }
+  })
+
+  .state('sidemenu.perfilFactura', {
+    url: '/perfilFactura/:idCompra',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/Facturas/perfilFactura.html',
+        controller: 'FacturaPerfilCtrl'
       }
     }
   })

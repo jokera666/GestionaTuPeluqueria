@@ -3,7 +3,7 @@ angular.module('starterMiApp.contrsSecciones', [])
 .controller('SeccionesCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servSecciones', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servSecciones){
 
 	var sesionIdUser = localStorage.getItem("idUser");
-    console.log('Usuario con id de sesion---> '+sesionIdUser);
+  console.log('Usuario con id de sesion---> '+sesionIdUser);
 
 	$scope.secciones = [];
 
