@@ -45,34 +45,29 @@ angular.module('starterMiApp.contrsProveedores', [])
 
     $scope.clickInsertarProveedor = function (form){
       
+      $ionicLoading.show();
+
       form['idUser'] = $scope.sesionIdUser;
       form['nuevasMarcas']  = $scope.todoListInsertarMarca;
       console.log(form);
-      
-      var myPopup = $ionicPopup.show({
-      title: 'Añadir proveedor',
-      subTitle: '<span>¿Estás seguro de que deseas añadir el proveedor?</span>',
-      buttons: [
-        {
-         text: '<b>No</b>',
-         type: 'button-dark'
-        },
-        {
-          text: '<b>Sí</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            $ionicLoading.show();
-            if (e)
-            {              
-                servProveedores.insertarProveedor(form).then(function(data){
-                  $state.go($state.current,null,{reload:true});
-                  $scope.modal.hide();
-                });
-            }
-          }
-        }
-      ]
-      });
+
+      if($scope.todoListInsertarMarca=='')
+      {
+        $ionicLoading.hide();
+        var alertPopup = $ionicPopup.alert({
+                 title: 'Error',
+                 template: 'Debe de introducir al menos una marca.',
+                 okText: 'Volver', 
+                 okType: 'button-assertive'
+            });
+      }
+      else
+      {
+        $scope.modal.hide();
+        servProveedores.insertarProveedor(form).then(function(data){
+          $state.go($state.current,null,{reload:true});
+        });
+      }
     };
 
     //Limpiar la barra de busqueda

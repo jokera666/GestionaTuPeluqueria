@@ -54,13 +54,13 @@ angular.module('starterMiApp.servsCompras', [])
 		return promesa;
 	}
 
-	function listBrands(idProveedor)
+	function listBrands(idRol,getBy)
 	{
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
 		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/listarMarcas.php';
-		var data = {'idProveedor':idProveedor};
+		var data = {'idRol':idRol,'getBy':getBy};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}

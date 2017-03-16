@@ -13,26 +13,29 @@ angular.module('starterMiApp.contrsServicios', [])
 		$scope.secciones = data;
 		$scope.seccionesModal = data;
 	});
-    // $scope.colors = [
-    //   {name:'black', shade:'dark'},
-    //   {name:'white', shade:'light', notAnOption: true},
-    //   {name:'red', shade:'dark'},
-    //   {name:'blue', shade:'dark', notAnOption: true},
-    //   {name:'yellow', shade:'light', notAnOption: false}
-    // ];
 
 	$scope.servicios = [];
 
 	$scope.getSeccion = function(seccion)
 	{
+		$scope.noServicios = '';
 		//null es la opcion de Seleccionar...
 		if(seccion!=null)
 		{
 			$scope.nombreSeccion = seccion.nombre;
 			$scope.idSeccion = seccion.id_seccion;
 
-			servServicios.nombreServicio($scope.idSeccion).then(function(data){
-				$scope.servicios = data;
+			servServicios.nombreServicio($scope.idSeccion).then(function(servResponse){
+				if(servResponse == -1)
+			    {
+			    	$scope.servicios = '';
+			    	$scope.noServicios = 'No hay servicios de esta sección.';
+			    }
+			    else
+			    {
+			    	$scope.noServicios = '';
+			      	$scope.servicios = servResponse;
+			    }
 			});
 		}
 	}
@@ -65,6 +68,7 @@ angular.module('starterMiApp.contrsServicios', [])
 
 	$scope.clickInsertarServicio = function(form)
 	{
+		$ionicLoading.show();
 		//Añadir al objeto form(que el formulario del post de insertar servicio)
 		//los elementos_comerciales 
 		form['Elementos'] = $scope.todoListElementos;
@@ -73,48 +77,37 @@ angular.module('starterMiApp.contrsServicios', [])
 		//console.log('Elementos a vender---> '+$scope.todoListElementos);
 		//console.log('Elementos a vender---> '+JSON.stringify($scope.todoListElementos));
 		//console.log(form.seccionModal);
-		
-		var myPopup = $ionicPopup.show({
-		title: 'Añadir servicio',
-		subTitle: '<span>¿Estás seguro de que deseas añadir el servicio?</span>',
-		buttons: [
+		if($scope.todoListElementos == '')
 		{
-		 text: '<b>No</b>',
-		 type: 'button-dark'
-		},
-		{
-		  text: '<b>Sí</b>',
-		  type: 'button-positive',
-		  onTap: function(e) {
-		    $ionicLoading.show();
-		    if (e)
-		    {              
-		       	servServicios.insertarServicio(form).then(function(servResponse){
-					console.log(servResponse);
-					if(servResponse == -1)
-					{
-						$ionicLoading.hide();
-	                    var alertPopup = $ionicPopup.alert({
-	                         title: 'Error al introducir el servicio',
-	                         template: 'El servicio ya existe.',
-	                         okText: 'Volver', 
-	                         okType: 'button-assertive'
-	                    });
-					}
-					else
-					{
-						$state.go($state.current,null,{reload:true});
-						$scope.modal.hide();
-					}
-					
-				});
-		    }
-		  }
+			$ionicLoading.hide();
+    		var alertPopup = $ionicPopup.alert({
+                 title: 'Error',
+                 template: 'Debe de introducir al menos un servicio.',
+                 okText: 'Volver', 
+                 okType: 'button-assertive'
+            });
 		}
-		]
-		});
-		
-
+		else
+		{
+			servServicios.insertarServicio(form).then(function(servResponse){
+				console.log(servResponse);
+				if(servResponse == -1)
+				{
+					$ionicLoading.hide();
+		            var alertPopup = $ionicPopup.alert({
+		                 title: 'Error al introducir el servicio',
+		                 template: 'El servicio ya existe.',
+		                 okText: 'Volver', 
+		                 okType: 'button-assertive'
+		            });
+				}
+				else
+				{
+					$scope.modal.hide();
+					$state.go($state.current,null,{reload:true});
+				}	
+			});
+		}
 	}
 
 	//Limpiar la barra de busqueda

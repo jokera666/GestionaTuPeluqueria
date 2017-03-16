@@ -79,7 +79,7 @@ angular.module('starterMiApp.contrsFacturas', [])
     	console.log(infoProveedor.id_proveedor);
     	
     	//Obtener las marcas segun el proveedor seleccionado
-    	servCompras.listarMarcas(idProveedor).then(function(servResponse){
+    	servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
     		$scope.marcas = servResponse;
     	});
     }
@@ -143,6 +143,11 @@ angular.module('starterMiApp.contrsFacturas', [])
 			});
     	}
     }
+
+    //Limpiar la barra de busqueda
+    $scope.borrarBuscador = function(){
+      $scope.buscador = '';
+    };
 
 }]) // Fin FacturasCtrl
 

@@ -1,5 +1,37 @@
 <ion-view view-title="Productos">
-      <ion-content>
-      	<h1>Aquí van los producos</h1>
-      </ion-content>
+		
+		<ion-content class="padding">
+			<label class="item-full item-input item-select">
+			    <div class="input-label">Productos</div>
+			    <select ng-change="getProducto(marca)" ng-model="marca" ng-options="marcas.nombre for marcas in marcas">
+			    <option value="">Seleccionar...</option>
+			    </select>
+		  	</label>
+	  	</ion-content>
+
+		<div class="has-subheader item item-input-inset" style="margin-top: 15px;">
+		  <label class="item-input-wrapper">
+		    <i class="icon ion-search placeholder-icon"></i>
+		    <input type="search" placeholder="Buscar..." ng-model="buscador">
+		  </label>
+		  <button class="button button-clear" ng-click="borrarBuscador()">
+		    Borrar
+		  </button>
+		</div>
+
+		<ion-content style="margin-top: 128px;">
+		  	<ion-list>
+		  	  <ion-item class="item item-thumbnail-left item-icon-right" collection-repeat="producto in productos | filter: buscador" href="#/side/perfilServicio/{{idSeccion}}/{{producto.nombreServicio}}">
+		  	  <img src="./img/noFoto.png">
+		  	    <i class="icon ion-arrow-right-c"></i>
+		  	    <h2>{{producto.nombreProducto}}</h2>
+		  	    <p>Precio de venta: {{producto.precioVenta}}€</p>
+		  	    <p>Unidades en stock: {{producto.cantidadStock}}</p>
+		  	  </ion-item>
+		  	</ion-list>
+		  	<h1 ng-bind-html="noProductos"></h1>
+	  	</ion-content>
+
+	  	<!-- <button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalProducto()"></button> -->
+      
 </ion-view>

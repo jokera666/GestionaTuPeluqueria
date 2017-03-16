@@ -18,9 +18,7 @@
 		  </button>
 		</div>
 
-
-		<ion-content style="margin-top: 120px;">
-		<h1 ng-bind-html="noProveedores"></h1>
+		<ion-content style="margin-top: 128px;">
 		  	<ion-list>
 		  	  <ion-item class="item-icon-right" collection-repeat="compra in compras | filter: buscador |  orderBy:'-fechaCompra'" href="#/side/perfilFactura/{{compra.id_compra}}">
 		  	    <i class="icon ion-arrow-right-c"></i>
@@ -28,6 +26,7 @@
 		  	    <p>Valor factura: {{compra.precioCompraTotal}}€</p>
 		  	  </ion-item>
 		  	</ion-list>
+		 <h1 ng-bind-html="noProveedores"></h1>
 	  	</ion-content>
 
 	  	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalCompra()"></button>

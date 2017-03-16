@@ -32,30 +32,12 @@ angular.module('starterMiApp.contrsEmpleados', [])
 
     $scope.clickInsertarEmpleado = function (form){
       //console.log(form);
+      $scope.modal.hide();
+      $ionicLoading.show();
       form['idUser'] = $scope.sesionIdUser;
-      var myPopup = $ionicPopup.show({
-      title: 'Añadir empleado',
-      subTitle: '<span>¿Estás seguro de que deseas añadir el empleado?</span>',
-      buttons: [
-        {
-         text: '<b>No</b>',
-         type: 'button-dark'
-        },
-        {
-          text: '<b>Sí</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            $ionicLoading.show();
-            if (e)
-            {              
-                servEmpleados.insertarEmpleado(form).then(function(){
-                  $state.go($state.current,null,{reload:true});
-                  $scope.modal.hide();
-                });
-            }
-          }
-        }
-      ]
+      
+      servEmpleados.insertarEmpleado(form).then(function(){
+        $state.go($state.current,null,{reload:true});            
       });
     };
 

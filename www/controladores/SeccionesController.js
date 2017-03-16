@@ -33,46 +33,26 @@ angular.module('starterMiApp.contrsSecciones', [])
     };
 
     $scope.clickInsertarSeccion = function (form){
+      $ionicLoading.show();
       form['idUser'] = sesionIdUser;
-      var myPopup = $ionicPopup.show({
-      title: 'Añadir sección',
-      subTitle: '<span>¿Estás seguro de que deseas añadir la sección?</span>',
-      buttons: [
+      servSecciones.insertarSeccion(form).then(function(servResponse){
+
+        if(servResponse==-1)
         {
-         text: '<b>No</b>',
-         type: 'button-dark'
-        },
-        {
-          text: '<b>Sí</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            $ionicLoading.show();
-            if (e)
-            {              
-                servSecciones.insertarSeccion(form).then(function(servResponse){
-
-               	if(servResponse==-1)
-                {
-                    $ionicLoading.hide();
-                    var alertPopup = $ionicPopup.alert({
-                         title: 'Error al introducir la sección',
-                         template: 'La sección ya existe.',
-                         okText: 'Volver', 
-                         okType: 'button-assertive'
-                    });
-                }
-                else
-                {
-	           	  	$state.go($state.current,null,{reload:true});
-	              	$scope.modal.hide();
-                }
-
-
-                });
-            }
-          }
+            $ionicLoading.hide();
+            var alertPopup = $ionicPopup.alert({
+                 title: 'Error al introducir la sección',
+                 template: 'La sección ya existe.',
+                 okText: 'Volver', 
+                 okType: 'button-assertive'
+            });
         }
-      ]
+        else
+        {
+          $scope.modal.hide();
+          $state.go($state.current,null,{reload:true}); 
+        }
+
       });
     };
 

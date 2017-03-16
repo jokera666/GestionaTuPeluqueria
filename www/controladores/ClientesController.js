@@ -37,31 +37,13 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
     $scope.clickInsertarCliente = function (form){
+      $scope.modal.hide();
+      $ionicLoading.show();
       console.log(form);
       form['idUser'] = $scope.sesionIdUser;
-      var myPopup = $ionicPopup.show({
-      title: 'Añadir cliente',
-      subTitle: '<span>¿Estás seguro de que deseas añadir el cliente?</span>',
-      buttons: [
-        {
-         text: '<b>No</b>',
-         type: 'button-dark'
-        },
-        {
-          text: '<b>Sí</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            $ionicLoading.show();
-            if (e)
-            {              
-                servClientes.insertarCliente(form).then(function(){
-                  $state.go($state.current,null,{reload:true});
-                  $scope.modal.hide();
-                });
-            }
-          }
-        }
-      ]
+      
+      servClientes.insertarCliente(form).then(function(){
+        $state.go($state.current,null,{reload:true});
       });
     };
 

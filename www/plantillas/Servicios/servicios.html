@@ -19,7 +19,7 @@
 		  </button>
 		</div>
 
-		<ion-content style="margin-top: 120px;">
+		<ion-content style="margin-top: 128px;">
 		  	<ion-list>
 		  	  <ion-item class="item-icon-right" collection-repeat="servicio in servicios | filter: buscador" href="#/side/perfilServicio/{{idSeccion}}/{{servicio.nombreServicio}}">
 		  	    <i class="icon ion-arrow-right-c"></i>
@@ -27,6 +27,7 @@
 		  	    <p>{{nombreSeccion}}</p>
 		  	  </ion-item>
 		  	</ion-list>
+		  	<h1 ng-bind-html="noServicios"></h1>
 	  	</ion-content>
 
 	  	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalServicio()"></button>
