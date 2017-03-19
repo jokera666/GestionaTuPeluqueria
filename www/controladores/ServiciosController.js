@@ -4,24 +4,64 @@ angular.module('starterMiApp.contrsServicios', [])
 
    	$scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
+    $scope.animacion = "hide";
 
-	$scope.secciones = [];
-	$scope.seccionesModal = [];
+	servSecciones.listarSecciones($scope.sesionIdUser).then(function(servResponse){
+		if(servResponse==-1)
+		{
+	    	$scope.mensajeError = 'No hay secciones añadidas.<br />Para añadir una sección <a href="#/side/secciones">Pulse aqui</a>';
+	    	// Añade estilo a la clase mediante ng-class
+	    	$scope.animacion = "animated shake show";
+		}
+		else
+		{
+			$scope.secciones = servResponse;
+			$scope.seccionesModal = servResponse;
 
-	servSecciones.listarSecciones($scope.sesionIdUser).then(function(data){
-		//console.log(data);
-		$scope.secciones = data;
-		$scope.seccionesModal = data;
+			//Inciar el Select con la primera seccion obtenida en ListarServicios
+			$scope.model = {
+		      seccion: $scope.secciones[0]
+		    };
+		    //Inciar el Select con la primera seccion obtenida en InsertarServicios
+		    $scope.form = {
+		    	seccionModal: $scope.seccionesModal[0]
+		    }
+
+		    var idSeccion 	  = $scope.model['seccion'].id_seccion;
+		    var nombreSeccion = $scope.model['seccion'].nombre;
+		    $scope.nombreSeccion = $scope.model['seccion'].nombre;
+		    $scope.idSeccion  = idSeccion;
+
+			if($scope.model!=null)
+			{
+				servServicios.nombreServicio(idSeccion).then(function(servResponse){
+					if(servResponse == -1)
+				    {
+				    	$scope.servicios = '';
+				    	$scope.mensajeError = 'No hay servicios introducidos de la sección: <span class="msgErrorNombre">'+nombreSeccion+'</span>';
+				    	$scope.animacion = "animated shake show";
+				    }
+				    else
+				    {
+				    	$scope.animacion = "hide";
+				      	$scope.servicios = servResponse;
+				    }
+				});
+			}
+		}
+
 	});
 
 	$scope.servicios = [];
 
 	$scope.getSeccion = function(seccion)
 	{
-		$scope.noServicios = '';
+		$scope.mensajeError = '';
+		$scope.animacion = "hide";
 		//null es la opcion de Seleccionar...
 		if(seccion!=null)
 		{
+			var nombreSeccion = seccion.nombre;
 			$scope.nombreSeccion = seccion.nombre;
 			$scope.idSeccion = seccion.id_seccion;
 
@@ -29,18 +69,18 @@ angular.module('starterMiApp.contrsServicios', [])
 				if(servResponse == -1)
 			    {
 			    	$scope.servicios = '';
-			    	$scope.noServicios = 'No hay servicios de esta sección.';
+			    	$scope.mensajeError = 'No hay servicios introducidos de la sección: <span class="msgErrorNombre">'+nombreSeccion+'</span>';
+			    	$scope.animacion = "animated shake show";
 			    }
 			    else
 			    {
-			    	$scope.noServicios = '';
+			    	$scope.mensajeError = '';
+			    	$scope.animacion = "hide";
 			      	$scope.servicios = servResponse;
 			    }
 			});
 		}
 	}
-
-
 
 	$ionicModal.fromTemplateUrl('plantillas/Servicios/modalInsertarServicio.html', {
       scope: $scope,

@@ -24,7 +24,6 @@
             		<span class="errorMensajeForm" ng-show="formInsertServicio.nombreServicio.$invalid">Campo obligatorio.</span>
                 </div>
 
-
 			  	<ion-item ng-repeat = "todoItem in todoListElementos">
 					<div class="row responsive-sm">
 					
@@ -42,7 +41,6 @@
                 		</div>
 					  </div>
 
-
 					  <div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Precio:</b><span class="asteriscoObligatorio">*</span></span>
@@ -57,11 +55,11 @@
 					</div> <!-- FIN ROW -->
 				</ion-item>
 			</div> <!-- Fin lista -->
-			<pre>formInsertServicio.$valid = {{ form | json }}</pre>
+<!-- 			<pre>formInsertServicio.$valid = {{ form | json }}</pre>
 			<br>
 			<pre>Elementos = {{ todoListElementos | json }}</pre>
 			<br>	
-			<pre>Resputa = {{ respuesta }}</pre>
+			<pre>Resputa = {{ respuesta }}</pre> -->
 
 			<div class="col-offset-90">
 					<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirCategoria()"></button>

@@ -2,8 +2,8 @@
 		
 		<ion-content class="padding">
 			<label class="item-full item-input item-select">
-			    <div class="input-label">Productos</div>
-			    <select ng-change="getProducto(marca)" ng-model="marca" ng-options="marcas.nombre for marcas in marcas">
+			    <div class="input-label">Marcas</div>
+			    <select ng-change="getProducto(model.marca)" ng-model="model.marca" ng-options="marcas.nombre for marcas in marcas">
 			    <option value="">Seleccionar...</option>
 			    </select>
 		  	</label>
@@ -21,7 +21,7 @@
 
 		<ion-content style="margin-top: 128px;">
 		  	<ion-list>
-		  	  <ion-item class="item item-thumbnail-left item-icon-right" collection-repeat="producto in productos | filter: buscador" href="#/side/perfilServicio/{{idSeccion}}/{{producto.nombreServicio}}">
+		  	  <ion-item class="item item-thumbnail-left item-icon-right" collection-repeat="producto in productos | filter: buscador" href="#/side/perfilServicio/{{producto.idElemento}}/{{producto.nombreServicio}}">
 		  	  <img src="./img/noFoto.png">
 		  	    <i class="icon ion-arrow-right-c"></i>
 		  	    <h2>{{producto.nombreProducto}}</h2>
@@ -29,7 +29,13 @@
 		  	    <p>Unidades en stock: {{producto.cantidadStock}}</p>
 		  	  </ion-item>
 		  	</ion-list>
-		  	<h1 ng-bind-html="noProductos"></h1>
+
+  	        <div class="card" ng-class="animacion">
+              <div class="item item-icon-left msgError">		
+              <i class="icon ion-alert-circled"></i>
+              <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+              </div>
+            </div>
 	  	</ion-content>
 
 	  	<!-- <button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalProducto()"></button> -->

@@ -2,17 +2,14 @@ angular.module('starterMiApp.contrsLogin', [])
 
 .controller('LoginCtrl', ['$scope','$state','$rootScope','$ionicLoading','$filter','servLogin', function($scope,$state,$rootScope,$ionicLoading,$filter,servLogin){
   
-    loginForm.$error = {
-      'required': true
-    }
+  $scope.animacion = "hide";
 
   $scope.enviarFormulario = function(form){
 
+    $scope.animacion = "hide";
     $ionicLoading.show();
     form.user = $filter('lowercase')(form.user);
-
-    $scope.animacion = "";
-    $scope.msgError = "Usuario o contraseña incorrecto."; 
+    
 
 
       //var serviceUrl = 'file:///android_asset/www/'; // esta variable es necesaria para que funcione en el dispositivo.
@@ -23,13 +20,13 @@ angular.module('starterMiApp.contrsLogin', [])
           if($scope.respuestaServ==-1)
           {
             $ionicLoading.hide();
-            $scope.visibilidadMensaje = true; 
-            $scope.animacion = "animated shake";
+            $scope.mensajeError = "Usuario o contraseña incorrecto";  
+            $scope.animacion = "animated shake show";
             return;
           }
           else 
           {
-           $scope.visibilidadMensaje = false;
+           $scope.animacion = "hide";
            //var myError = angular.element( document.querySelector( '#msgError' ) );
            //myError.remove();   //removes element
            

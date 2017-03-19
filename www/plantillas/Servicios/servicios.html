@@ -3,7 +3,7 @@
 		<ion-content class="padding">
 			<label class="item-full item-input item-select">
 			    <div class="input-label">Secciónes</div>
-			    <select ng-change="getSeccion(seccion)" ng-model="seccion" ng-options="secciones.nombre for secciones in secciones">
+			    <select ng-change="getSeccion(model.seccion)" ng-model="model.seccion" ng-options="secciones.nombre for secciones in secciones">
 			    <option value="">Seleccionar...</option>
 			    </select>
 		  	</label>
@@ -27,7 +27,13 @@
 		  	    <p>{{nombreSeccion}}</p>
 		  	  </ion-item>
 		  	</ion-list>
-		  	<h1 ng-bind-html="noServicios"></h1>
+		  	
+		  	<div class="card" ng-class="animacion">
+              <div class="item item-icon-left msgError">
+              <i class="icon ion-alert-circled"></i>
+              <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+              </div>
+            </div>
 	  	</ion-content>
 
 	  	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalServicio()"></button>

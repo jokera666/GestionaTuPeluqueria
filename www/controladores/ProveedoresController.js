@@ -4,14 +4,17 @@ angular.module('starterMiApp.contrsProveedores', [])
 
 
   $scope.sesionIdUser = localStorage.getItem("idUser");
+  $scope.animacion = "hide";
 
   servProveedores.listarProveedores($scope.sesionIdUser,'getAllProveedores').then(function(servResponse){
     if(servResponse == -1)
     {
-      $scope.noProveedores = 'No tiene proveedores introducidos';
+      $scope.mensajeError = 'No hay proveedores introducidos';
+      $scope.animacion = "animated shake show";
     }
     else
     {
+      $scope.animacion = "hide";
       $scope.Proveedores = servResponse;
     }
   });

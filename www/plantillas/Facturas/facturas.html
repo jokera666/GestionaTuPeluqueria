@@ -2,7 +2,7 @@
       <ion-content class="padding">
 			<label class="item-full item-input item-select">
 			    <div class="input-label">Proveedor</div>
-			    <select ng-change="getProveedor(proveedor)" ng-model="proveedor" ng-options="proveedores.nombre for proveedores in proveedores">
+			    <select ng-change="getProveedor(model.proveedor)" ng-model="model.proveedor" ng-options="proveedores.nombre for proveedores in proveedores">
 			    <option value="">Seleccionar...</option>
 			    </select>
 		  	</label>
@@ -26,7 +26,13 @@
 		  	    <p>Valor factura: {{compra.precioCompraTotal}}€</p>
 		  	  </ion-item>
 		  	</ion-list>
-		 <h1 ng-bind-html="noProveedores"></h1>
+		  	
+		  	<div class="card" ng-class="animacion">
+              <div class="item item-icon-left msgError">
+              <i class="icon ion-alert-circled"></i>
+              <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+              </div>
+            </div>
 	  	</ion-content>
 
 	  	<button class="btnAnadir button button-positive icon ion-plus-round" ng-click="openModalCompra()"></button>

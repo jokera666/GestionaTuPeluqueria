@@ -29,7 +29,7 @@
 				    <input type="date" ng-model="form.fechaCompra">
 				</label>
 
-				<div class="item item-divider">Lineas de factura: <span style="color: red">El IVA del 21% se aplicara automaticamente.</span></div>
+				<div class="item item-divider item-text-wrap">Lineas de factura: <span style="color: red">El IVA del 21% se aplicara automaticamente.</span></div>
 
 			  	<ion-item ng-repeat = "todoItem in todoListLineasCompra">
 					<div class="row responsive-lg">
@@ -93,11 +93,12 @@
 					</div> <!-- FIN ROW -->
 				</ion-item>
 			</div> <!-- Fin lista -->
-			<pre>formInsertCompra.$valid = {{ form | json }}</pre>
+			
+<!-- 			<pre>formInsertCompra.$valid = {{ form | json }}</pre>
 			<br>
 			<pre>Lineas = {{ todoListLineasCompra | json }}</pre>
 			<br>	
-			<pre>Resputa = {{ respuesta }}</pre>
+			<pre>Resputa = {{ respuesta }}</pre> -->
 
 			<div class="col-offset-90">
 					<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirLineaCompra()"></button>

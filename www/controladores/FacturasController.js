@@ -2,46 +2,75 @@ angular.module('starterMiApp.contrsFacturas', [])
 
 .controller('FacturasCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras){
 
-	var sesionIdUser = localStorage.getItem("idUser");
+    var sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+sesionIdUser);
-
-	$scope.proveedores = [];
-	$scope.proveedoresModal = [];
+    $scope.animacion = "hide";
 	
 	//Obtener los proveedores en el select en la vista listarFacturas
 	servProveedores.listarProveedores(sesionIdUser,'getNameProveedores').then(function(servResponse){
-		console.log(servResponse);
+		  console.log(servResponse);
 	    if(servResponse == -1)
 	    {
-	    	$scope.noProveedores = 'No tiene proveedores introducidos.';
+	    	$scope.mensajeError = 'No hay proveedores introducidos.<br />Para añadir un nuevo proveedor: <a href="#/side/proveedores">Pulse aqui</a>';
+        $scope.animacion = "animated shake show";
 	    }
 	    else
 	    {
-	      	$scope.proveedores = servResponse;
-	      	$scope.proveedoresModal = servResponse;
+      	$scope.proveedores = servResponse;
+      	$scope.proveedoresModal = servResponse;
+
+        //Inciar el select con el primer Proveedor en listarFacturas
+        $scope.model = {
+            proveedor: $scope.proveedores[0]
+        }
+
+        var idProveedor = $scope.model['proveedor'].id_proveedor;
+        var nombreProveedor = $scope.model['proveedor'].nombre;
+
+        if($scope.model!=null)
+        {
+            servCompras.listarFacturas(idProveedor).then(function(servResponse){
+                console.log(servResponse);
+                if(servResponse == -1)
+                {
+                    $scope.compras = '';
+                    $scope.mensajeError = 'No hay facturas disponibles del proveedor: <span class="msgErrorNombre">'+nombreProveedor+'</span>';
+                    $scope.animacion = "animated shake show";
+                }
+                else
+                {
+                    $scope.mensajeError = '';
+                    $scope.animacion = "hide";
+                    $scope.compras = servResponse;
+                }
+            });
+        }
 	    }
 	});
 
 	//Listar las facturas segun el proveedor seleccionado
 	$scope.getProveedor = function(infoProveedor)
 	{
-		//console.log(infoProveedor.id_proveedor);
-		$scope.noProveedores = '';
+		$scope.mensajeError = '';
+    $scope.animacion = "hide";
 		//null es la opcion de Seleccionar...
 		if(infoProveedor!=null)
 		{
-			var idProveedor = infoProveedor.id_proveedor; 
+			var idProveedor = infoProveedor.id_proveedor;
+      var nombreProveedor = infoProveedor.nombre;
 			//console.log(idProveedor);
 			servCompras.listarFacturas(idProveedor).then(function(servResponse){
-				//console.log(servResponse);
+				console.log(servResponse);
 				if(servResponse == -1)
 			    {
 			    	$scope.compras = '';
-			    	$scope.noProveedores = 'No hay facturas disponibles del proveedor.';
+			    	$scope.mensajeError = 'No hay facturas disponibles del proveedor: <span class="msgErrorNombre">'+nombreProveedor+'</span>';
+                    $scope.animacion = "animated shake show";
 			    }
 			    else
 			    {
-			    	$scope.noProveedores = '';
+			    	$scope.mensajeError = '';
+                    $scope.animacion = "hide";
 			      	$scope.compras = servResponse;
 			    }
 			});
@@ -80,6 +109,7 @@ angular.module('starterMiApp.contrsFacturas', [])
     	
     	//Obtener las marcas segun el proveedor seleccionado
     	servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
+            console.log(servResponse);
     		$scope.marcas = servResponse;
     	});
     }
@@ -158,7 +188,8 @@ angular.module('starterMiApp.contrsFacturas', [])
 
 	var idCompra = $stateParams.idCompra;
 	servCompras.listarPerfilFactura(idCompra).then(function(servResponse){
-		
+		$scope.respuesta = servResponse;
+    console.log(servResponse);
 	});
     
 

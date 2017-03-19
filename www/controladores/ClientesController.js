@@ -5,16 +5,18 @@ angular.module('starterMiApp.contrsClientes', [])
 
     $scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
+    $scope.animacion = "hide";
 
     //Listar los clientes en el list item
     servClientes.getNombreCompleto($scope.sesionIdUser).then(function(data){
-      console.log(data);
       if(data==-1)
       {
-        $scope.noClientes = "No tiene usuarios introducidos";
+        $scope.mensajeError = "No hay clientes introducidos.";
+        $scope.animacion = "animated shake show";
       }
       else
       {
+        $scope.animacion = "hide";
         $scope.clientes = data;   
       }
       

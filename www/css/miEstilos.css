@@ -1,8 +1,13 @@
 /* Empty. Add your own CSS if you like */
-.errorMsgLogin{
+.msgError{
 	text-align: center;
 	color: red;
 	font-weight: bold;
+}
+
+.msgErrorNombre{
+  color: black;
+  text-decoration: underline;
 }
 
 .btnAnadir{
@@ -177,3 +182,4 @@ text-transform: capitalize;
 #divFotoPerfil .scroll{
   transform: none !important;
 }
+

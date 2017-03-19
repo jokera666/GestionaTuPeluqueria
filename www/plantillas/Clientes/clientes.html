@@ -1,34 +1,38 @@
 <ion-view view-title="Clientes">
 
+	<div class="bar miBar-subheader item item-input-inset">
+	  <label class="item-input-wrapper">
+	    <i class="icon ion-search placeholder-icon"></i>
+	    <input type="search" placeholder="Buscar..." ng-model="buscador">
+	  </label>
+	  <button class="button button-clear" ng-click="borrarBuscador()">
+	    Borrar
+	  </button>
+	</div>
 
-<div class="bar miBar-subheader item item-input-inset">
-  <label class="item-input-wrapper">
-    <i class="icon ion-search placeholder-icon"></i>
-    <input type="search" placeholder="Buscar..." ng-model="buscador">
-  </label>
-  <button class="button button-clear" ng-click="borrarBuscador()">
-    Borrar
-  </button>
-</div>
+	<ion-content class="has-subheader">
+		<div class="card" ng-class="animacion">
+	      <div class="item item-icon-left msgError">		
+	      <i class="icon ion-alert-circled"></i>
+	      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+	      </div>
+	    </div>
+	</ion-content>
 
-<ion-content class="has-subheader">
-	<h1 ng-bind-html="noClientes"></h1>
-</ion-content>
+	<ion-content class="has-subheader">
+		<ion-list>
+			<!-- item-avatar es la clase que visualiza todo el contenido en un elemento de la lista con la foto redondeada  -->
+			<!-- equivalente de href  ui-sref="sidemenu.perfil({ idCliente: item.id_cliente })" pero con eso el boton de la llamada no funciona -->
+			<ion-item class="item-avatar item-icon-right" collection-repeat="item in clientes | filter: buscador" href="#/side/perfilClientes/{{item.id_cliente}}">
+				<img ng-show="item.urlFoto !== null" ng-src="{{item.urlFoto}}" alt="{{item.nombre}} {{item.apellido1}}">
+				<img ng-show="item.urlFoto === null" ng-src="./img/noFoto.png" alt="{{item.nombre}} {{item.apellido1}}" ng-class="{ 'avatarMiss' :item.urlFoto === null}">
+				<h2>{{item.nombre}} {{item.apellido1}} {{item.apellido2}}</h2>
+				<p>+{{item.telefono}}</p>
+				<a class="button button-icon icon ion-android-call" href="tel:{{item.telefono}}" target="_blank"></a>
+			</ion-item>
+		</ion-list>
+	</ion-content>
 
-<ion-content class="has-subheader">
-	<ion-list>
-		<!-- item-avatar es la clase que visualiza todo el contenido en un elemento de la lista con la foto redondeada  -->
-		<!-- equivalente de href  ui-sref="sidemenu.perfil({ idCliente: item.id_cliente })" pero con eso el boton de la llamada no funciona -->
-		<ion-item class="item-avatar item-icon-right" collection-repeat="item in clientes | filter: buscador" href="#/side/perfilClientes/{{item.id_cliente}}">
-			<img ng-show="item.urlFoto !== null" ng-src="{{item.urlFoto}}" alt="{{item.nombre}} {{item.apellido1}}">
-			<img ng-show="item.urlFoto === null" ng-src="./img/noFoto.png" alt="{{item.nombre}} {{item.apellido1}}" ng-class="{ 'avatarMiss' :item.urlFoto === null}">
-			<h2>{{item.nombre}} {{item.apellido1}} {{item.apellido2}}</h2>
-			<p>+{{item.telefono}}</p>
-			<a class="button button-icon icon ion-android-call" href="tel:{{item.telefono}}" target="_blank"></a>
-		</ion-item>
-	</ion-list>
-</ion-content>
-
-<button class="btnAnadir button button-positive icon ion-person-add" ng-click="openModal()"></button>
+	<button class="btnAnadir button button-positive icon ion-person-add" ng-click="openModal()"></button>
 
 </ion-view>

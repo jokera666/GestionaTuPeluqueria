@@ -10,9 +10,14 @@
 	    Borrar
 	  </button>
 	</div>
-
+	
 	<ion-content class="has-subheader">
-		<h1 ng-bind-html="noEmpleados"></h1>
+		<div class="card" ng-class="animacion">
+	      <div class="item item-icon-left msgError">		
+	      <i class="icon ion-alert-circled"></i>
+	      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+	      </div>
+	    </div>
 	</ion-content>
 
 	<ion-content class="has-subheader">

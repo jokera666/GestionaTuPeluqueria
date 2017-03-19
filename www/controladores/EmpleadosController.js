@@ -3,14 +3,17 @@ angular.module('starterMiApp.contrsEmpleados', [])
 .controller('EmpleadosCtrl', ['$scope', '$state','$stateParams','$ionicLoading','$ionicPopup','$ionicModal','servEmpleados', function($scope, $state,$stateParams,$ionicLoading,$ionicPopup,$ionicModal,servEmpleados){
     
 	$scope.sesionIdUser = localStorage.getItem("idUser");
+  $scope.animacion = "hide";
 
 	servEmpleados.listarEmpleados($scope.sesionIdUser).then(function(servResponse){
 		if(servResponse == -1)
 		{
-			$scope.noEmpleados = 'No tiene empleados introducidos';
+			$scope.mensajeError = 'No hay empleados introducidos';
+      $scope.animacion = "animated shake show";
 		}
 		else
 		{
+      $scope.animacion = "hide";
 			$scope.Empleados = servResponse;
 		}
 	})

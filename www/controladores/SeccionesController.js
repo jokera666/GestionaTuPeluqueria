@@ -4,6 +4,7 @@ angular.module('starterMiApp.contrsSecciones', [])
 
 	var sesionIdUser = localStorage.getItem("idUser");
   console.log('Usuario con id de sesion---> '+sesionIdUser);
+  $scope.animacion = "hide";
 
 	$scope.secciones = [];
 
@@ -11,10 +12,12 @@ angular.module('starterMiApp.contrsSecciones', [])
 		console.log(data);
 		if(data==-1)
 	    {
-	      	$scope.noSecciones = "No tiene secciones introducidos";
+	      	$scope.mensajeError = "No hay secciones introducidos";
+          $scope.animacion = "animated shake show";
 	    }
       	else
       	{
+          $scope.animacion = "hide";
         	$scope.secciones = data;   
       	}
 	})

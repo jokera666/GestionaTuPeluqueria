@@ -27,10 +27,10 @@
                       <span class="errorMensajeForm" ng-show="loginForm.contrasena.$error.required">Campo obligatorio.</span> 
                     </div>
 
-                    <div class="card" ng-class="animacion" ng-show="visibilidadMensaje" id="msgError">
-                      <div class="item item-icon-left errorMsgLogin">
+                    <div class="card" ng-class="animacion">
+                      <div class="item item-icon-left msgError">
                       <i class="icon ion-alert-circled"></i>
-                      <span ng-bind-html="msgError"></span>
+                      <span ng-bind-html="mensajeError"></span>
                       </div>
                     </div>
 
