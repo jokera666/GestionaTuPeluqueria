@@ -21,7 +21,7 @@
 
 		<ion-content style="margin-top: 128px;">
 		  	<ion-list>
-		  	  <ion-item class="item item-thumbnail-left item-icon-right" collection-repeat="producto in productos | filter: buscador" href="#/side/perfilServicio/{{producto.idElemento}}/{{producto.nombreServicio}}">
+		  	  <ion-item class="item item-thumbnail-left item-icon-right" collection-repeat="producto in productos | filter: buscador" href="#/side/perfilProducto/{{producto.idElemento}}">
 		  	  <img src="./img/noFoto.png">
 		  	    <i class="icon ion-arrow-right-c"></i>
 		  	    <h2>{{producto.nombreProducto}}</h2>

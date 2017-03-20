@@ -10,6 +10,11 @@
   text-decoration: underline;
 }
 
+/*Modificar el tamaño del popup*/
+.tamanoPopup .popup{
+    width: 600px !important;
+}
+
 .btnAnadir{
 	position: fixed; 
 	bottom: 5%; 

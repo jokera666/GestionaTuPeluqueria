@@ -92,6 +92,22 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
           navigator.app.backHistory();
         break;
 
+        case "sidemenu.perfilServicio":
+          navigator.app.backHistory();
+        break;
+
+        case "sidemenu.perfilProveedor":
+          navigator.app.backHistory();
+        break;
+
+        case "sidemenu.perfilFactura":
+          navigator.app.backHistory();
+        break;
+
+        case "sidemenu.perfilProducto":
+          navigator.app.backHistory();
+        break;
+
         case "sidemenu.perfilEmpleado":
           navigator.app.backHistory();
         break;
@@ -188,6 +204,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
       'menuContent': {
         templateUrl: 'plantillas/Productos/productos.html',
         controller: 'ProductosCtrl'
+      }
+    }
+  })
+
+  .state('sidemenu.perfilProducto', {
+    url: '/perfilProducto/:idProducto',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/Productos/perfilProducto.html',
+        controller: 'ProductoPerfilCtrl'
       }
     }
   })

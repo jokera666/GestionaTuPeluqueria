@@ -86,3 +86,10 @@ angular.module('starterMiApp.contrsProductos', [])
     };
 
 }]) // Fin ProductosCtrl
+
+.controller('ProductoPerfilCtrl', ['$scope', '$state','$stateParams','servCompras','servProductos', function($scope, $state,$stateParams,servCompras,servProductos){
+    
+	var sesionIdUser = localStorage.getItem("idUser");
+	console.log(sesionIdUser);
+
+}]) // Fin ProductoPerfilCtrl
