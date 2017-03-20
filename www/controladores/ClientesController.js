@@ -56,7 +56,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 }]) // Fin ClientesCtrl
 
-.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal){
+.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover){
 
     clienteForm.$error = {
       'required': true
@@ -147,21 +147,60 @@ angular.module('starterMiApp.contrsClientes', [])
       });
     };
 
+  var plantillaPopover = '<ion-popover-view style="height: 114px;">'+
+    '<ion-content scroll="false">'+
+        '<div class="list">'+
+            '<a class="item item-icon-left" ng-click="obtenerFoto(\'CAMERA\')">'+
+              '<i class="icon ion-camera"></i>'+
+                'Hacer una foto'+
+            '</a>'+
+            '<a class="item item-icon-left" ng-click="obtenerFoto(\'PHOTOLIBRARY\')">'+
+              '<i class="icon ion-image"></i>'+
+                'Elegir foto'+
+            '</a>'+
+        '</div>'+
+    '</ion-content>'+
+  '</ion-popover-view>';
 
-    //BUG PENDIENTE REEMPLAZAR FOTO 
-    $scope.hacerFoto = function(){
+  $scope.popover = $ionicPopover.fromTemplate(plantillaPopover, {
+    scope: $scope
+  });
+
+   $scope.openPopoverFoto = function($event) {
+    $scope.popover.show($event);
+    document.body.classList.add('platform-ionic');
+  };
+  $scope.closePopover = function() {
+    $scope.popover.hide();
+  };
+
+
+    //BUG PENDIENTE REEMPLAZAR FOTO Y BACK BUTTON AL NO SELECCIONAR UNA FOTO 
+    $scope.obtenerFoto = function(opcion){
+      $scope.popover.hide();
       $ionicLoading.show();
+      var tipoFuente = '';
+      switch(opcion)
+      {
+        case 'CAMERA':
+        tipoFuente = Camera.PictureSourceType.CAMERA;
+        break;
+
+        case 'PHOTOLIBRARY':
+        tipoFuente = Camera.PictureSourceType.PHOTOLIBRARY;
+        break;
+      }
       var options = { 
             quality : 90, 
             destinationType : Camera.DestinationType.FILE_URI, 
-            sourceType : Camera.PictureSourceType.CAMERA, 
+            sourceType : tipoFuente, 
             allowEdit : false, // despues de echar la foto puedes seleccionar que parte quieres que se guarde
             encodingType: Camera.EncodingType.JPEG,
             targetWidth: 1024,
             targetHeight: 780,
             saveToPhotoAlbum: false
         };
-
+    
     $cordovaCamera.getPicture(options).then(function(imageData) {
             
             $scope.imgURItemp = imageData;
@@ -174,7 +213,6 @@ angular.module('starterMiApp.contrsClientes', [])
                 mimeType: "image/jpg",
                 params : {'idCli':idCliente}
             };
-
             $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
                 console.log("SUCCESS: " + JSON.stringify(result.response));
                 $scope.opciones = result.response;
