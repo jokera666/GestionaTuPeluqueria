@@ -299,7 +299,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
   })
 
   .state('sidemenu.perfilFactura', {
-    url: '/perfilFactura/:idCompra',
+    url: '/perfilFactura/:idCompra/:nombre',
     views: {
       'menuContent': {
         templateUrl: 'plantillas/Facturas/perfilFactura.html',

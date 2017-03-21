@@ -20,7 +20,7 @@
 
 		<ion-content style="margin-top: 128px;">
 		  	<ion-list>
-		  	  <ion-item class="item-icon-right" collection-repeat="compra in compras | filter: buscador |  orderBy:'-fechaCompra'" href="#/side/perfilFactura/{{compra.id_compra}}">
+		  	  <ion-item class="item-icon-right" collection-repeat="compra in compras | filter: buscador |  orderBy:'-fechaCompra'" href="#/side/perfilFactura/{{compra.id_compra}}/{{nombreProUrl}}">
 		  	    <i class="icon ion-arrow-right-c"></i>
 		  	    NºFactura: <b>{{compra.numFactura}}</b> - Fecha: <b>{{compra.fechaCompra}}</b>
 		  	    <p>Valor factura: {{compra.precioCompraTotal}}€</p>

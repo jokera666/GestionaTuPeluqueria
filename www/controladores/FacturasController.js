@@ -26,6 +26,7 @@ angular.module('starterMiApp.contrsFacturas', [])
 
         var idProveedor = $scope.model['proveedor'].id_proveedor;
         var nombreProveedor = $scope.model['proveedor'].nombre;
+        $scope.nombreProUrl = $scope.model['proveedor'].nombre;
 
         if($scope.model!=null)
         {
@@ -58,6 +59,7 @@ angular.module('starterMiApp.contrsFacturas', [])
 		{
 			var idProveedor = infoProveedor.id_proveedor;
       var nombreProveedor = infoProveedor.nombre;
+      $scope.nombreProUrl = infoProveedor.nombre;
 			//console.log(idProveedor);
 			servCompras.listarFacturas(idProveedor).then(function(servResponse){
 				console.log(servResponse);
@@ -114,16 +116,17 @@ angular.module('starterMiApp.contrsFacturas', [])
     	});
     }
 
-    $scope.todoListLineasCompra = [];
+  $scope.todoListLineasCompra = [];
 
 	$scope.anadirLineaCompra  = function()
 	{
 		$scope.todoListLineasCompra.push({});
-	}
+	};
 
-	$scope.eliminarLineaCompra = function (index) {
+	$scope.eliminarLineaCompra = function (index)
+  {
         $scope.todoListLineasCompra.splice(index, 1);
-    };
+  };
 
     $scope.clickInsertarCompra = function(form)
     {
@@ -187,10 +190,33 @@ angular.module('starterMiApp.contrsFacturas', [])
 	console.log('Usuario con id de sesion---> '+sesionIdUser);
 
 	var idCompra = $stateParams.idCompra;
+  $scope.nombreProveedor = $stateParams.nombre;
+
 	servCompras.listarPerfilFactura(idCompra).then(function(servResponse){
-		$scope.respuesta = servResponse;
+		//$scope.form = servResponse[0];
+    var formattedDate = moment(servResponse[0].fechaCompra,'DD/MM/YYYY').format();
+    console.log(formattedDate);
+    $scope.form = {
+      numFactura: servResponse[0].numFactura,
+      fechaCompra: new Date(formattedDate)
+    }
+    $scope.formulario = $scope.form; 
+    $scope.todoListLineasCompra = servResponse;
     console.log(servResponse);
 	});
+
+  $scope.formulario =
+  $scope.todoListLineasCompra = [];
+
+  $scope.anadirLineaCompra  = function()
+  {
+    $scope.todoListLineasCompra.push({});
+  };
+
+  $scope.eliminarLineaCompra = function (index)
+  {
+        $scope.todoListLineasCompra.splice(index, 1);
+  };
     
 
 }]) // Fin FacturasCtrl

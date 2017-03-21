@@ -20,17 +20,20 @@
         	<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Campo obligatorio.</span>
         </div>
 
-		  <label class="item item-input item-stacked-label">
+		  <label class="item item-input item-stacked-label" ng-class="{'errorCampoForm' : formInsertarCita.fecha.$invalid && visitedFecha}">
 		    <span class="input-label">Fecha cita</span>
-		    <input type="date" ng-model="form.fecha">
+		    <input type="date" ng-model="form.fecha" name="fecha" ng-blur="visitedFecha = true" required>
 		  </label>
+		  <div ng-show="formInsertarCita.fecha.$invalid && visitedFecha">
+        	<span class="errorMensajeForm" ng-show="formInsertarCita.fecha.$invalid">Campo obligatorio.</span>
+       	  </div>
 
-		  <label class="item item-input item-stacked-label" ng-class="{'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedHoraIni}">
+		  <label class="item item-input item-stacked-label" ng-class="{'errorCampoForm' : formInsertarCita.horaIni.$invalid && visitedHoraIni}">
 		    <span class="input-label">Hora inicio</span>
 		    <input type="time" ng-model="form.horaIni" name="horaIni" ng-blur="visitedHoraIni = true" required >
 		  </label>
-		  <div ng-show="formInsertarCita.nombre.$invalid && visitedHoraIni">
-        	<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Debe de seleccionar una hora de inicio de la cita.</span>
+		  <div ng-show="formInsertarCita.horaIni.$invalid && visitedHoraIni">
+        	<span class="errorMensajeForm" ng-show="formInsertarCita.horaIni.$error.required">Debe de seleccionar una hora de inicio de la cita.</span>
           </div>
 
 		  <label class="item item-input item-stacked-label">
