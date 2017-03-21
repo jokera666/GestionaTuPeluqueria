@@ -20,24 +20,24 @@
         	<span class="errorMensajeForm" ng-show="formModificarCita.nombre.$invalid">Campo obligatorio.</span>
         </div>
 
-		  <label class="item item-input item-stacked-label" ng-class="{'errorCampoForm' : formModificarCita.fecha.$invalid && visitedFecha}">
-		    <span class="input-label">Fecha cita</span>
+		  <label class="item item-input" ng-class="{'errorCampoForm' : formModificarCita.fecha.$invalid && visitedFecha}">
+		    <div class="input-label"><b>Fecha cita: </b><span class="asteriscoObligatorio">*</span></div>
 		    <input type="date" ng-model="form.fecha" name="fecha" ng-blur="visitedFecha = true" required>
 		  </label>
 		  <div ng-show="formModificarCita.fecha.$invalid && visitedFecha">
         	<span class="errorMensajeForm" ng-show="formModificarCita.fecha.$invalid">Campo obligatorio.</span>
        	  </div>
 
-		  <label class="item item-input item-stacked-label" ng-class="{'errorCampoForm' : formModificarCita.horaIni.$invalid && visitedHoraIni}">
-		    <span class="input-label">Hora inicio</span>
+		  <label class="item item-input" ng-class="{'errorCampoForm' : formModificarCita.horaIni.$invalid && visitedHoraIni}">
+		    <div class="input-label"><b>Hora inicio: </b><span class="asteriscoObligatorio">*</span></div>
 		    <input type="time" ng-model="form.horaIni" name="horaIni" ng-blur="visitedHoraIni = true" required >
 		  </label>
 		  <div ng-show="formModificarCita.horaIni.$invalid && visitedHoraIni">
         	<span class="errorMensajeForm" ng-show="formModificarCita.horaIni.$invalid">Debe de seleccionar una hora de inicio de la cita.</span>
           </div>
 
-		  <label class="item item-input item-stacked-label">
-		    <span class="input-label">Hora fin</span>
+		  <label class="item item-input">
+		    <div class="input-label"><b>Hora fin: </b><span class="asteriscoObligatorio">*</span></div>
 		    <input type="time" name="horaFin" ng-model="form.horaFin" ng-disabled="horaFin.$invalid = true">
 		  </label>
 		</div>

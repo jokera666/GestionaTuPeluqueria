@@ -193,15 +193,43 @@ angular.module('starterMiApp.contrsFacturas', [])
   $scope.nombreProveedor = $stateParams.nombre;
 
 	servCompras.listarPerfilFactura(idCompra).then(function(servResponse){
-		//$scope.form = servResponse[0];
+
+    // Convierte la fecha obtenida del servidior en formato Date de javascript
     var formattedDate = moment(servResponse[0].fechaCompra,'DD/MM/YYYY').format();
-    console.log(formattedDate);
+    var fechaAdaptada = new Date(formattedDate);
+    //Establesco una hora de las 7 de la mañana porque por tiempo de zonas
+    //por defecto la hora es 00:00 y al cambiar de fecha a veces se pone 23:00 y
+    //no cambia de dia.
+    fechaAdaptada.setHours(07, 00, 00, 00);
+
+    //Inciar los datos de la factura///////////////////////
     $scope.form = {
       numFactura: servResponse[0].numFactura,
-      fechaCompra: new Date(formattedDate)
+      fechaCompra: fechaAdaptada
     }
-    $scope.formulario = $scope.form; 
+    $scope.totalFactura = servResponse[0].precioCompraTotal;
+    ///////////////////////////////////////////////////////
+    //Inciar las lineas de compra 
     $scope.todoListLineasCompra = servResponse;
+
+    var idProveedor = servResponse[0].idProveedor;
+    nombreMarca = {
+      id_marca: servResponse[0].id_marca, 
+      nombre: servResponse[0].nombre
+    };
+    console.log(nombreMarca);
+
+    servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
+      console.log(servResponse[0]);
+      $scope.marcas = servResponse;
+      $scope.todoListLineasCompra[0].nombre = servResponse[0];
+      $scope.todoListLineasCompra[1].nombre = servResponse[1];
+    });
+
+    //$scope.marcas = servResponse[0].nombre;
+    $scope.formulario = $scope.form;
+
+    $scope.respuesta = servResponse;
     console.log(servResponse);
 	});
 
