@@ -36,13 +36,13 @@
 					<div class="row responsive-lg">
 					
 					<div class="col-10" style="max-width: 3%">
-						<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index)"></button>
+						<button ng-model="todoItem.id_lineaCompras" class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index,todoItem.id_lineaCompras)"></button>
           			</div>
 
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="todoItem.nombre" ng-options="marcas.nombre for marcas in marcas" required>
+							    <select ng-model="todoItem.objMarca" ng-options="miMarca.nombre for miMarca in marcas track by miMarca.nombre"  required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -61,11 +61,11 @@
 					  <div class="col">
 					  	<label class="item item-input item-stacked-label">
 							<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="unidades{{$index}}" ng-model="todoItem.unidades" ng-init="todoItem.unidades = 1" ng-pattern="/^\d*$/" required>
+							<input type="number" name="cantidad{{$index}}" ng-model="todoItem.cantidad" ng-pattern="/^\d*$/" required>
 						</label>
-						<div ng-show="formModificarFactura.unidades{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.unidades{{$index}}.$error.required">Campo obligatorio.</span>
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.unidades{{$index}}.$error.pattern">Solo numeros enteros.</span>
+						<div ng-show="formModificarFactura.cantidad{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="formModificarFactura.cantidad{{$index}}.$error.required">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="formModificarFactura.cantidad{{$index}}.$error.pattern">Solo numeros enteros.</span>
 	            		</div>
 					  </div>
 
@@ -99,8 +99,8 @@
 			<div class="col-offset-90">
 					<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirLineaCompra()"></button>
           	</div> -->
-			<pre>Resputa = {{ respuesta }}</pre> -->
-			<pre>form : {{formulario}}</pre>
+          	<pre>form = {{formulario}}</pre>
+			<pre>Resputa = {{ respuesta }}</pre>
 			<div class="row  responsive-sm">
 			  	<div class="col">
 			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="formModificarFactura.$invalid" ng-click="clickModificarFactura(form)"> Guardar Datos</button>
@@ -109,7 +109,7 @@
 			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
 			  	</div>
 			  	<div class="col">
-			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarServicio()"> Borrar Servicio</button>
+			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarFactura()"> Eliminar Factura</button>
 				</div>
 			</div>
 		</form>

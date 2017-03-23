@@ -197,9 +197,10 @@ angular.module('starterMiApp.contrsFacturas', [])
     // Convierte la fecha obtenida del servidior en formato Date de javascript
     var formattedDate = moment(servResponse[0].fechaCompra,'DD/MM/YYYY').format();
     var fechaAdaptada = new Date(formattedDate);
-    //Establesco una hora de las 7 de la mañana porque por tiempo de zonas
-    //por defecto la hora es 00:00 y al cambiar de fecha a veces se pone 23:00 y
-    //no cambia de dia.
+
+    /*Establesco una hora de las 7 de la mañana porque por tiempo de zonas
+    por defecto la hora es 00:00 y al cambiar de fecha a veces se pone 23:00 y
+    no cambia de dia.*/
     fechaAdaptada.setHours(07, 00, 00, 00);
 
     //Inciar los datos de la factura///////////////////////
@@ -209,42 +210,51 @@ angular.module('starterMiApp.contrsFacturas', [])
     }
     $scope.totalFactura = servResponse[0].precioCompraTotal;
     ///////////////////////////////////////////////////////
+    
     //Inciar las lineas de compra 
     $scope.todoListLineasCompra = servResponse;
 
+    /* Оbtener las marcas de cada linea de compra para poder iniciar el select en 
+     cada linea de compra.*/
+    $scope.misMarcas = [];
+    var numeroLineasCompras = servResponse.length;
+    for(i=0; i<numeroLineasCompras; i++)
+    {
+      $scope.misMarcas.push({id:servResponse[i].id_marca, nombre:servResponse[i].nombre});
+    }
+      
     var idProveedor = servResponse[0].idProveedor;
-    nombreMarca = {
-      id_marca: servResponse[0].id_marca, 
-      nombre: servResponse[0].nombre
-    };
-    console.log(nombreMarca);
-
     servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
-      console.log(servResponse[0]);
       $scope.marcas = servResponse;
-      $scope.todoListLineasCompra[0].nombre = servResponse[0];
-      $scope.todoListLineasCompra[1].nombre = servResponse[1];
+      /*Iniciar cada select con su marca correspondiete de las marcas
+      que ofrecidas por el proveedor*/
+      for(i=0; i<numeroLineasCompras; i++)
+      {
+        $scope.todoListLineasCompra[i].objMarca =  $scope.misMarcas[i];
+      }
     });
 
-    //$scope.marcas = servResponse[0].nombre;
     $scope.formulario = $scope.form;
 
     $scope.respuesta = servResponse;
-    console.log(servResponse);
 	});
-
-  $scope.formulario =
-  $scope.todoListLineasCompra = [];
 
   $scope.anadirLineaCompra  = function()
   {
     $scope.todoListLineasCompra.push({});
   };
 
-  $scope.eliminarLineaCompra = function (index)
+  $scope.eliminarLineaCompra = function (index,idLinea)
   {
-        $scope.todoListLineasCompra.splice(index, 1);
+    alert('Eliminar linea '+idLinea);
+    $scope.todoListLineasCompra.splice(index, 1);
   };
+
+  $scope.clickModificarFactura = function(form)
+  {
+    form['lineasNuevas'] = $scope.todoListLineasCompra;
+    console.log(form); 
+  }
     
 
 }]) // Fin FacturasCtrl
