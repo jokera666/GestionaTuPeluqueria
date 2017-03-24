@@ -244,10 +244,34 @@ angular.module('starterMiApp.contrsFacturas', [])
     $scope.todoListLineasCompra.push({});
   };
 
-  $scope.eliminarLineaCompra = function (index,idLinea)
+  $scope.eliminarLineaCompra = function (index,idLinea,nombreProducto,unidades)
   {
-    alert('Eliminar linea '+idLinea);
-    $scope.todoListLineasCompra.splice(index, 1);
+    
+        var myPopup = $ionicPopup.show({
+        title: 'Borrar linea de factura',
+        subTitle: '<span>¿Estás seguro de que deseas borrar la linea de la factura con producto <b>'+nombreProducto+'</b> ?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                  servCompras.eliminarLineaFactura(idLinea,nombreProducto,unidades).then(function(servResponse){
+                      console.log(servResponse);
+                      $scope.todoListLineasCompra.splice(index, 1);
+                      $state.go($state.current,null,{reload:true});
+                  });
+              }
+            }
+          }
+        ]
+        });
   };
 
   $scope.clickModificarFactura = function(form)

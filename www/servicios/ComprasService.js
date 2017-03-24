@@ -6,7 +6,8 @@ angular.module('starterMiApp.servsCompras', [])
 		listarFacturas: listInvoice,
 		insertarFactura: insertInvoice,
 		listarMarcas: 	 listBrands,
-		listarPerfilFactura: listInvoiceProfile
+		listarPerfilFactura: listInvoiceProfile,
+		eliminarLineaFactura: deleteInvoiceLine
 
 	}
 
@@ -83,6 +84,28 @@ angular.module('starterMiApp.servsCompras', [])
 
 		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/listarPerfilFactura.php';
 		var data = {'idCompra':idCompra};
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
+	}
+
+	function deleteInvoiceLine(idLinea,nombreProducto,unidades)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/eliminarLineaFactura.php';
+		var data = {'idLinea':idLinea, 'nombreProducto':nombreProducto,'unidades':unidades};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}
