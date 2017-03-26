@@ -43,6 +43,11 @@ angular.module('starterMiApp.contrsFacturas', [])
                     $scope.mensajeError = '';
                     $scope.animacion = "hide";
                     $scope.compras = servResponse;
+                    
+                    for(i=0; i<servResponse.length; i++)
+                    {
+                      $scope.compras[i].fechaCompra = moment(new Date($scope.compras[i].fechaCompra)).format('DD/MM/YYYY');
+                    }
                 }
             });
         }
@@ -72,8 +77,12 @@ angular.module('starterMiApp.contrsFacturas', [])
 			    else
 			    {
 			    	$scope.mensajeError = '';
-                    $scope.animacion = "hide";
-			      	$scope.compras = servResponse;
+            $scope.animacion = "hide";
+			      $scope.compras = servResponse;
+            for(i=0; i<servResponse.length; i++)
+            {
+              $scope.compras[i].fechaCompra = moment(new Date($scope.compras[i].fechaCompra)).format('DD/MM/YYYY');
+            }
 			    }
 			});
 		}
@@ -188,63 +197,69 @@ angular.module('starterMiApp.contrsFacturas', [])
 
 	var sesionIdUser = localStorage.getItem("idUser");
 	console.log('Usuario con id de sesion---> '+sesionIdUser);
-
+  $scope.animacion = "hide";
 	var idCompra = $stateParams.idCompra;
   $scope.nombreProveedor = $stateParams.nombre;
 
 	servCompras.listarPerfilFactura(idCompra).then(function(servResponse){
 
-    // Convierte la fecha obtenida del servidior en formato Date de javascript
-    var formattedDate = moment(servResponse[0].fechaCompra,'DD/MM/YYYY').format();
-    var fechaAdaptada = new Date(formattedDate);
-
-    /*Establesco una hora de las 7 de la mañana porque por tiempo de zonas
-    por defecto la hora es 00:00 y al cambiar de fecha a veces se pone 23:00 y
-    no cambia de dia.*/
-    fechaAdaptada.setHours(07, 00, 00, 00);
-
-    //Inciar los datos de la factura///////////////////////
-    $scope.form = {
-      numFactura: servResponse[0].numFactura,
-      fechaCompra: fechaAdaptada
-    }
-    $scope.totalFactura = servResponse[0].precioCompraTotal;
-    ///////////////////////////////////////////////////////
-    
-    //Inciar las lineas de compra 
-    $scope.todoListLineasCompra = servResponse;
-
-    /* Оbtener las marcas de cada linea de compra para poder iniciar el select en 
-     cada linea de compra.*/
-    $scope.misMarcas = [];
-    var numeroLineasCompras = servResponse.length;
-    for(i=0; i<numeroLineasCompras; i++)
+    if(servResponse==-1)
     {
-      $scope.misMarcas.push({id:servResponse[i].id_marca, nombre:servResponse[i].nombre});
+        $scope.mensajeError = "La factura no tiene lineas.";
+        $scope.animacion = "animated shake show";
     }
+    else
+    {
+      $scope.mensajeError = "";
+      $scope.animacion = "hide";
+      // Convierte la fecha obtenida(DD/MM/YYYY) del servidior en formato Date de javascript
+      //var formattedDate = moment(servResponse[0].fechaCompra,'DD/MM/YYYY').format();
+      //var fechaAdaptada = new Date(formattedDate);
+
+      /*Establesco una hora de las 7 de la mañana porque por tiempo de zonas
+      por defecto la hora es 00:00 y al cambiar de fecha a veces se pone 23:00 y
+      no cambia de dia.*/
+      //fechaAdaptada.setHours(07, 00, 00, 00);
+
+      //Inciar los datos de la factura///////////////////////
+      $scope.form = {
+        numFactura: servResponse[0].numFactura,
+        fechaCompra: new Date(servResponse[0].fechaCompra)
+      }
+      $scope.totalFactura = servResponse[0].precioCompraTotal;
+      ///////////////////////////////////////////////////////
       
-    var idProveedor = servResponse[0].idProveedor;
-    servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
-      $scope.marcas = servResponse;
-      /*Iniciar cada select con su marca correspondiete de las marcas
-      que ofrecidas por el proveedor*/
+      //Inciar las lineas de compra 
+      $scope.todoListLineasCompra = servResponse;
+
+      /* Оbtener las marcas de cada linea de compra para poder iniciar el select en 
+       cada linea de compra.*/
+      $scope.misMarcas = [];
+      var numeroLineasCompras = servResponse.length;
       for(i=0; i<numeroLineasCompras; i++)
       {
-        $scope.todoListLineasCompra[i].objMarca =  $scope.misMarcas[i];
+        $scope.misMarcas.push({id_marca:servResponse[i].id_marca, nombre:servResponse[i].nombre});
       }
-    });
+        
+      var idProveedor = servResponse[0].idProveedor;
+      servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
+        $scope.marcas = servResponse;
+        /*Iniciar cada select con su marca correspondiete de las marcas
+        que ofrecidas por el proveedor*/
+        for(i=0; i<numeroLineasCompras; i++)
+        {
+          $scope.todoListLineasCompra[i].objMarca =  $scope.misMarcas[i];
+        }
+      });
 
-    $scope.formulario = $scope.form;
+      $scope.formulario = $scope.form;
 
-    $scope.respuesta = servResponse;
+      $scope.respuesta = servResponse;
+    }
+    
 	});
 
-  $scope.anadirLineaCompra  = function()
-  {
-    $scope.todoListLineasCompra.push({});
-  };
-
-  $scope.eliminarLineaCompra = function (index,idLinea,nombreProducto,unidades)
+  $scope.eliminarLineaCompra = function (index,idLinea,nombreProducto,unidades,idCompra)
   {
     
         var myPopup = $ionicPopup.show({
@@ -262,7 +277,7 @@ angular.module('starterMiApp.contrsFacturas', [])
               $ionicLoading.show();
               if (e)
               {              
-                  servCompras.eliminarLineaFactura(idLinea,nombreProducto,unidades).then(function(servResponse){
+                  servCompras.eliminarLineaFactura(idLinea,nombreProducto,unidades,idCompra).then(function(servResponse){
                       console.log(servResponse);
                       $scope.todoListLineasCompra.splice(index, 1);
                       $state.go($state.current,null,{reload:true});
@@ -274,10 +289,29 @@ angular.module('starterMiApp.contrsFacturas', [])
         });
   };
 
+  //Todolist Nuevas lineas de compras
+  $scope.todoListNuevasLineasCompra = [];
+  $scope.anadirLineaCompra  = function()
+  {
+    $scope.todoListNuevasLineasCompra.push({});
+  };
+  $scope.eliminarNuevaLinea  = function(index)
+  {
+    $scope.todoListNuevasLineasCompra.splice(index, 1);
+  };
+
+
+
   $scope.clickModificarFactura = function(form)
   {
-    form['lineasNuevas'] = $scope.todoListLineasCompra;
-    console.log(form); 
+    form['lineasExistentes'] = $scope.todoListLineasCompra;
+    form['nuevasLineas'] = $scope.todoListNuevasLineasCompra;
+    console.log(form);
+
+    servCompras.modificarPerfilFactura(form).then(function(servResponse){
+      console.log(servResponse);
+      $state.go($state.current,null,{reload:true});
+    }); 
   }
     
 
