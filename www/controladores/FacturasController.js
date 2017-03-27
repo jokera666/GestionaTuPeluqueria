@@ -201,12 +201,43 @@ angular.module('starterMiApp.contrsFacturas', [])
 	var idCompra = $stateParams.idCompra;
   $scope.nombreProveedor = $stateParams.nombre;
 
+  ////////////////Inciar los la cabecera de la factura CON LINEAS///////////////////////
+  servCompras.listarFacturas(idCompra,'factura').then(function(servResponse){
+    $scope.form = {
+      numFactura: servResponse[0].numFactura,
+      fechaCompra: new Date(servResponse[0].fechaCompra)
+    }
+    $scope.totalFactura = servResponse[0].precioCompraTotal;
+    $scope.formulario = $scope.form;
+  });
+  //////////////////////////////////////////////////////////////////////////////////////
+
 	servCompras.listarPerfilFactura(idCompra).then(function(servResponse){
 
     if(servResponse==-1)
     {
         $scope.mensajeError = "La factura no tiene lineas.";
         $scope.animacion = "animated shake show";
+        /*Inciar los la cabecera de la factura en caso de linias no existentes y las 
+        /marcas corrspondiente del proveedor.*/
+        servCompras.listarFacturas(idCompra,'factura').then(function(servResponse){
+          $scope.form = {
+            numFactura: servResponse[0].numFactura,
+            fechaCompra: new Date(servResponse[0].fechaCompra)
+          }
+          $scope.totalFactura = servResponse[0].precioCompraTotal;
+          $scope.form['idCompra'] = idCompra;
+          $scope.form['idProveedor'] = servResponse[0].idProveedor;
+          console.log($scope.form);
+          $scope.formulario = $scope.form;
+
+          //Iniciar las marcas segun el proveedor en caso de que las lineas esten vacias
+          var idProveedor = servResponse[0].idProveedor;
+          servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
+            $scope.marcas = servResponse;
+          });
+    });
+        //////////////////////////////////////////////////////////////////////////
     }
     else
     {
@@ -220,17 +251,6 @@ angular.module('starterMiApp.contrsFacturas', [])
       por defecto la hora es 00:00 y al cambiar de fecha a veces se pone 23:00 y
       no cambia de dia.*/
       //fechaAdaptada.setHours(07, 00, 00, 00);
-
-      ////////////////Inciar los la cabecera de la factura///////////////////////
-      servCompras.listarFacturas(idCompra,'factura').then(function(servResponse){
-      $scope.form = {
-        numFactura: servResponse[0].numFactura,
-        fechaCompra: new Date(servResponse[0].fechaCompra)
-      }
-      $scope.totalFactura = servResponse[0].precioCompraTotal;
-      });
-      $scope.formulario = $scope.form;
-      //////////////////////////////////////////////////////////////////////////
       
       ///////////////////////Inciar las lineas de compra/////////////////////// 
       $scope.todoListLineasCompra = servResponse;
@@ -301,6 +321,7 @@ angular.module('starterMiApp.contrsFacturas', [])
   {
     $scope.todoListNuevasLineasCompra.splice(index, 1);
   };
+  $scope.nuevasLineas = $scope.todoListNuevasLineasCompra;
 
 
 
