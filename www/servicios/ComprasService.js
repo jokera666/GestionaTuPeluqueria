@@ -12,13 +12,13 @@ angular.module('starterMiApp.servsCompras', [])
 
 	}
 
-	function listInvoice(idProveedor)
+	function listInvoice(idRol,getBy)
 	{
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
 		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/listarFacturas.php';
-		var data = {'idProveedor':idProveedor};
+		var data = {'idRol':idRol,'getBy':getBy};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}

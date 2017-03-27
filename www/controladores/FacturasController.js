@@ -30,7 +30,7 @@ angular.module('starterMiApp.contrsFacturas', [])
 
         if($scope.model!=null)
         {
-            servCompras.listarFacturas(idProveedor).then(function(servResponse){
+            servCompras.listarFacturas(idProveedor,'proveedor').then(function(servResponse){
                 console.log(servResponse);
                 if(servResponse == -1)
                 {
@@ -66,7 +66,7 @@ angular.module('starterMiApp.contrsFacturas', [])
       var nombreProveedor = infoProveedor.nombre;
       $scope.nombreProUrl = infoProveedor.nombre;
 			//console.log(idProveedor);
-			servCompras.listarFacturas(idProveedor).then(function(servResponse){
+			servCompras.listarFacturas(idProveedor,'proveedor').then(function(servResponse){
 				console.log(servResponse);
 				if(servResponse == -1)
 			    {
@@ -221,16 +221,20 @@ angular.module('starterMiApp.contrsFacturas', [])
       no cambia de dia.*/
       //fechaAdaptada.setHours(07, 00, 00, 00);
 
-      //Inciar los datos de la factura///////////////////////
+      ////////////////Inciar los la cabecera de la factura///////////////////////
+      servCompras.listarFacturas(idCompra,'factura').then(function(servResponse){
       $scope.form = {
         numFactura: servResponse[0].numFactura,
         fechaCompra: new Date(servResponse[0].fechaCompra)
       }
       $scope.totalFactura = servResponse[0].precioCompraTotal;
-      ///////////////////////////////////////////////////////
+      });
+      $scope.formulario = $scope.form;
+      //////////////////////////////////////////////////////////////////////////
       
-      //Inciar las lineas de compra 
+      ///////////////////////Inciar las lineas de compra/////////////////////// 
       $scope.todoListLineasCompra = servResponse;
+      /////////////////////////////////////////////////////////////////////////
 
       /* Оbtener las marcas de cada linea de compra para poder iniciar el select en 
        cada linea de compra.*/
@@ -251,8 +255,6 @@ angular.module('starterMiApp.contrsFacturas', [])
           $scope.todoListLineasCompra[i].objMarca =  $scope.misMarcas[i];
         }
       });
-
-      $scope.formulario = $scope.form;
 
       $scope.respuesta = servResponse;
     }
