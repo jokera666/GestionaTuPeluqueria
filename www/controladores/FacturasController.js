@@ -363,7 +363,7 @@ angular.module('starterMiApp.contrsFacturas', [])
     form['idCompra'] = idCompra;
     console.log(form);
     var myPopup = $ionicPopup.show({
-        title: 'Modificar factura',
+        title: 'Borrar factura',
         subTitle: '<span>¿Estás seguro de que deseas modificar la factura con numero <b>'+form.numFactura+'</b> ?</span>',
         buttons: [
           { 

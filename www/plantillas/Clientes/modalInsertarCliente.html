@@ -40,13 +40,13 @@
 					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true">
 				</label>
 				<div ng-show="formInsertCliente.email.$invalid && visitedEmail"> 
-            		<span class="errorMensajeForm" ng-show="formInsertCliente.email.$error.email">El correo electronico es incorrecto.</span>
+            		<span class="errorMensajeForm" ng-show="formInsertCliente.email.$invalid">El correo electronico es incorrecto.</span>
                 </div>
 			</div>
 
 		<div class="row  responsive-sm">
 		  	<div class="col">
-		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertCliente.$invalid" ng-click="clickInsertarCliente(form)"> Guardar Datos</button>
+		  		<button class="button button-block button-positive icon ion-checkmark-round" type="button" ng-disabled="formInsertCliente.$invalid" ng-click="clickInsertarCliente(form)"> Guardar cliente</button>
 		  	</div>
 		  	<div class="col">
 		  		<button class="button button-block button-royal icon ion-refresh" type="reset"> Reiniciar</button>

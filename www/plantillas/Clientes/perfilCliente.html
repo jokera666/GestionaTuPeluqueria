@@ -2,14 +2,14 @@
 
 	<ion-content class="padding">
 
-	<form name="clienteForm" ng-messages="clienteForm.$error">
+	<form name="clienteForm">
 		<div id="fondoImgPerfil">
 			<!-- <img ng-show="data.urlFoto !== null" ng-src="{{data.urlFoto}}" alt="{{data.nombre}} {{data.apellido1}}"> -->
 			<img ng-show="imgURItemp !== undefined" ng-src="{{imgURItemp}}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
 			<img ng-show="imgURItemp === undefined" ng-src="{{ data.urlFoto || './img/noFoto.png' }}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
 			<button id="btnHacerFoto" class="button icon button-positive icon ion-camera" ng-click="openPopoverFoto($event)"></button>
 		</div>
-		<div class="item item-divider">Datos personales</div>
+		<div class="item item-divider">Datos cliente</div>
 			<div class="list">
 
 				<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.nombre.$invalid && visitedNombre}">
@@ -43,10 +43,9 @@
 					<input name="email" type="email" value="{{data.email}}" ng-model="form.email" ng-blur="visitedEmail = true">
 				</label>
 				<div ng-show="clienteForm.email.$invalid && visitedEmail"> 
-            		<span class="errorMensajeForm" ng-show="clienteForm.email.$error.email">El correo electronico es incorrecto.</span>
+            		<span class="errorMensajeForm" ng-show="clienteForm.email.$invalid">El correo electronico es incorrecto.</span>
                 </div>
 
-			  	<pre>clienteForm.$valid = {{ clienteForm.$valid | json }}</pre>
 			  	<pre>{{imgURI}}</pre>
 			  	<br>
 			  	<pre>{{opciones}}</pre>
@@ -55,107 +54,105 @@
 
 				<div class="item item-divider">Servicios utilizados</div>	  	
 
-
-
-			<ion-list>
-				<ion-item>
-					<div class="row responsive-sm">
-					<div class="col-5">
-						 <label class="numeracionServCliente">1.</label>
-					</div>
-
-					  <div class="col">
-					  	<label class="item item-input item-select">
-						  	<div class="input-label">Modelo de tinte</div>
-							    <select>
-							      <option selected>Shfarchkoff</option>
-							      <option>Loreal</option>
-							      <option>Fructis</option>
-							      <option>Rayfan</option>
-							      <option>Barrta</option>
-							      <option>Cara</option>
-							    </select>
-						</label>
-					  </div>
-
-					  	<div class="col">
-						  	<label class="item item-input item-select">
-						  	<div class="input-label">Numero de tinte</div>
-							    <select>
-							      <option selected>6</option>
-							      <option>6.1</option>
-							      <option>7</option>
-							      <option>7.1</option>
-							      <option>8</option>
-							      <option>8.1</option>
-							    </select>
-							</label>
+				<ion-list>
+					<ion-item>
+						<div class="row responsive-sm">
+						<div class="col-5">
+							 <label class="numeracionServCliente">1.</label>
 						</div>
 
-					  <div class="col">
-					  	<label class="item item-input">
-							<span class="input-label">Fecha de Tinte</span>
-							<input type="date">
-						</label>
-					  </div>
-
-					</div> <!-- FIN ROW -->
-				</ion-item>
-
-				<ion-item>
-					<div class="row responsive-sm">
-					<div class="col-5">
-						 <label class="numeracionServCliente">2.</label>
-					</div>
-
-					  <div class="col">
-					  	<label class="item item-input item-select">
-						  	<div class="input-label">Modelo de tinte</div>
-							    <select>
-							      <option>Shfarchkoff</option>
-							      <option selected>Loreal</option>
-							      <option>Fructis</option>
-							      <option>Rayfan</option>
-							      <option>Barrta</option>
-							      <option>Cara</option>
-							    </select>
-						</label>
-					  </div>
-
-					  <div class="col">
+						  <div class="col">
 						  	<label class="item item-input item-select">
-						  	<div class="input-label">Numero de tinte</div>
-							    <select>
-							      <option selected>6</option>
-							      <option>6.1</option>
-							      <option>7</option>
-							      <option>7.1</option>
-							      <option>8</option>
-							      <option>8.1</option>
-							    </select>
+							  	<div class="input-label">Modelo de tinte</div>
+								    <select>
+								      <option selected>Shfarchkoff</option>
+								      <option>Loreal</option>
+								      <option>Fructis</option>
+								      <option>Rayfan</option>
+								      <option>Barrta</option>
+								      <option>Cara</option>
+								    </select>
 							</label>
+						  </div>
+
+						  	<div class="col">
+							  	<label class="item item-input item-select">
+							  	<div class="input-label">Numero de tinte</div>
+								    <select>
+								      <option selected>6</option>
+								      <option>6.1</option>
+								      <option>7</option>
+								      <option>7.1</option>
+								      <option>8</option>
+								      <option>8.1</option>
+								    </select>
+								</label>
+							</div>
+
+						  <div class="col">
+						  	<label class="item item-input">
+								<span class="input-label">Fecha de Tinte</span>
+								<input type="date">
+							</label>
+						  </div>
+
+						</div> <!-- FIN ROW -->
+					</ion-item>
+
+					<ion-item>
+						<div class="row responsive-sm">
+						<div class="col-5">
+							 <label class="numeracionServCliente">2.</label>
 						</div>
 
-					  <div class="col">
-					  	<label class="item item-input">
-							<span class="input-label">Fecha de Tinte</span>
-							<input type="date">
-						</label>
-					  </div>
+						  <div class="col">
+						  	<label class="item item-input item-select">
+							  	<div class="input-label">Modelo de tinte</div>
+								    <select>
+								      <option>Shfarchkoff</option>
+								      <option selected>Loreal</option>
+								      <option>Fructis</option>
+								      <option>Rayfan</option>
+								      <option>Barrta</option>
+								      <option>Cara</option>
+								    </select>
+							</label>
+						  </div>
 
-					</div> <!-- FIN ROW -->
-				</ion-item>
-			</ion-list>
+						  <div class="col">
+							  	<label class="item item-input item-select">
+							  	<div class="input-label">Numero de tinte</div>
+								    <select>
+								      <option selected>6</option>
+								      <option>6.1</option>
+								      <option>7</option>
+								      <option>7.1</option>
+								      <option>8</option>
+								      <option>8.1</option>
+								    </select>
+								</label>
+							</div>
+
+						  <div class="col">
+						  	<label class="item item-input">
+								<span class="input-label">Fecha de Tinte</span>
+								<input type="date">
+							</label>
+						  </div>
+
+						</div> <!-- FIN ROW -->
+					</ion-item>
+				</ion-list>
 
 				<div class="row  responsive-sm">
 				  	<div class="col">
-				  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="clienteForm.$invalid" ng-click="clickModificarCliente(form)"> Guardar Datos</button>
+				  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="clienteForm.$invalid" ng-click="clickModificarCliente(form)"> Guardar cambios</button>
 				  	</div>
 				  	<div class="col">
 				  		<button class="button button-block button-royal icon ion-refresh" type="reset" ng-click="reiniciarForm()"> Reiniciar</button>
 				  	</div>
 				  	<div class="col">
-				  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarCliente()"> Borrar Cliente</button>
+				  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarCliente()"> Borrar cliente</button>
 					</div>
 				</div>
 			</div>
