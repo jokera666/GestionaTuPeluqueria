@@ -281,9 +281,8 @@ angular.module('starterMiApp.contrsFacturas', [])
     
 	});
 
-  $scope.eliminarLineaCompra = function (index,idLinea,nombreProducto,unidades,idCompra)
+  $scope.eliminarLineaCompra = function (index,idLinea,nombreProducto,unidades,idCompra,idMarca)
   {
-    
         var myPopup = $ionicPopup.show({
         title: 'Borrar linea de factura',
         subTitle: '<span>¿Estás seguro de que deseas borrar la linea de la factura con producto <b>'+nombreProducto+'</b> ?</span>',
@@ -299,7 +298,7 @@ angular.module('starterMiApp.contrsFacturas', [])
               $ionicLoading.show();
               if (e)
               {              
-                  servCompras.eliminarLineaFactura(idLinea,nombreProducto,unidades,idCompra).then(function(servResponse){
+                  servCompras.eliminarLineaFactura(idLinea,nombreProducto,unidades,idCompra,idMarca).then(function(servResponse){
                       console.log(servResponse);
                       $scope.todoListLineasCompra.splice(index, 1);
                       $state.go($state.current,null,{reload:true});
@@ -331,10 +330,62 @@ angular.module('starterMiApp.contrsFacturas', [])
     form['nuevasLineas'] = $scope.todoListNuevasLineasCompra;
     console.log(form);
 
-    servCompras.modificarPerfilFactura(form).then(function(servResponse){
-      console.log(servResponse);
-      $state.go($state.current,null,{reload:true});
-    }); 
+
+    var myPopup = $ionicPopup.show({
+        title: 'Modificar factura',
+        subTitle: '<span>¿Estás seguro de que deseas modificar la factura con numero <b>'+form.numFactura+'</b> ?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                  servCompras.modificarPerfilFactura(form).then(function(servResponse){
+                    console.log(servResponse);
+                    $state.go($state.current,null,{reload:true});
+                  });
+              }
+            }
+          }
+        ]
+    });
+  }
+
+  $scope.clickEliminarFactura = function(form)
+  {
+    form['lineasExistentes'] = $scope.todoListLineasCompra;
+    form['idCompra'] = idCompra;
+    console.log(form);
+    var myPopup = $ionicPopup.show({
+        title: 'Modificar factura',
+        subTitle: '<span>¿Estás seguro de que deseas modificar la factura con numero <b>'+form.numFactura+'</b> ?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                  servCompras.eliminarFactura(form).then(function(servResponse){
+                    console.log(servResponse);
+                    $state.go('sidemenu.facturas',null,{reload:true});
+                  });
+              }
+            }
+          }
+        ]
+    });
   }
     
 

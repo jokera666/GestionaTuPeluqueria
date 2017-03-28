@@ -8,7 +8,8 @@ angular.module('starterMiApp.servsCompras', [])
 		listarMarcas: 	 listBrands,
 		listarPerfilFactura: listInvoiceProfile,
 		eliminarLineaFactura: deleteInvoiceLine,
-		modificarPerfilFactura: editInvoiceProfile
+		modificarPerfilFactura: editInvoiceProfile,
+		eliminarFactura: deleteInvoice
 
 	}
 
@@ -100,13 +101,13 @@ angular.module('starterMiApp.servsCompras', [])
 		return promesa;
 	}
 
-	function deleteInvoiceLine(idLinea,nombreProducto,unidades,idCompra)
+	function deleteInvoiceLine(idLinea,nombreProducto,unidades,idCompra,idMarca)
 	{
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
 		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/eliminarLineaFactura.php';
-		var data = {'idLinea':idLinea, 'nombreProducto':nombreProducto,'unidades':unidades, 'idCompra':idCompra};
+		var data = {'idLinea':idLinea, 'nombreProducto':nombreProducto,'unidades':unidades, 'idCompra':idCompra,'idMarca':idMarca};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}
@@ -128,6 +129,28 @@ angular.module('starterMiApp.servsCompras', [])
 		var promesa = defered.promise;
 
 		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/modificarPerfilFactura.php';
+		var data = datosForm;
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
+	}
+
+	function deleteInvoice(datosForm)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/eliminarFactura.php';
 		var data = datosForm;
 		var config = {
 			headers : {'Content-Type' : 'application/json'}

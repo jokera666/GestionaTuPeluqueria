@@ -44,7 +44,7 @@
 					<div class="row responsive-lg">
 					
 					<div class="col-10" style="max-width: 3%">
-						<button ng-model="todoItem.id_lineaCompras" class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index,todoItem.id_lineaCompras,todoItem.nombreElemento,todoItem.cantidad,todoItem.id_compra)"></button>
+						<button ng-model="todoItem.id_lineaCompras" class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index,todoItem.id_lineaCompras,todoItem.nombreElemento,todoItem.cantidad,todoItem.id_compra,todoItem.objMarca['id_marca'])"></button>
           			</div>
 
 	          			<div class="col">
@@ -181,7 +181,7 @@
 			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
 			  	</div>
 			  	<div class="col">
-			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarFactura()"> Eliminar Factura</button>
+			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarFactura(form)"> Eliminar Factura</button>
 				</div>
 			</div>
 		</form>
