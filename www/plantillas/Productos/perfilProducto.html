@@ -5,8 +5,8 @@
 	<form name="formPerfilProducto">
 		<div id="fondoImgPerfil">
 			<!-- <img ng-show="data.urlFoto !== null" ng-src="{{data.urlFoto}}" alt="{{data.nombre}} {{data.apellido1}}"> -->
-			<img ng-show="imgURItemp !== undefined" ng-src="{{imgURItemp}}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
-			<img ng-show="imgURItemp === undefined" ng-src="{{ data.urlFoto || './img/noFoto.png' }}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
+			<img ng-show="imgURItemp !== undefined" ng-src="{{imgURItemp}}" alt="{{altNombreFoto}}" ng-click="verFoto()">
+			<img ng-show="imgURItemp === undefined" ng-src="{{ fotoProducto || './img/noFoto.png' }}" alt="{{altNombreFoto}}" ng-click="verFoto()">
 			<button id="btnHacerFoto" class="button icon button-positive icon ion-camera" ng-click="openPopoverFoto($event)"></button>
 		</div>
 		<div class="item item-divider">Datos producto</div>
@@ -24,21 +24,21 @@
 
 				<label class="item item-input">
 						<span class="input-label"><b>Nombre producto:</b></span>
-						<input type="text" name="nombreProducto" ng-model="datosProducto.nombreProducto" ng-disabled="nombreProducto.$invalid = true">
+						<input type="text" name="nombreProducto" ng-model="datosProducto.nombreElemento" ng-disabled="nombreProducto.$invalid = true">
 				</label>
 
 				<label class="item item-input">
 						<span class="input-label"><b>Unides stock:</b></span>
-						<input type="text" name="unidades" ng-model="datosProducto.unidades" ng-disabled="unidades.$invalid = true">
+						<input type="text" name="unidades" ng-model="datosProducto.cantidadStock" ng-disabled="unidades.$invalid = true">
 				</label>
 
 				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : formPerfilProducto.precioVentaUnd.$invalid && visitedPrevioVenta}">
 					 <label class="item-input-wrapper item-input item-stacked-label" style="background-color: white;">
 							<span class="input-label"><b>VentaPrecio/Und:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioVentaUnd" ng-model="datosProducto.precioVentaUnd" ng-blur="visitedPrevioVenta = true" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+							<input type="number" name="precioVentaUnd" ng-model="datosProducto.precioVenta" ng-blur="visitedPrevioVenta = true" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 					</label>
 
-				    <button class="button button-small button-positive icon ion-edit" type="button" ng-disabled="formPerfilProducto.$invalid" ng-click="clickModificarPrecioVenta(datosProducto.precioVentaUnd)"> Guardar cambios</button>
+				    <button class="button button-small button-positive icon ion-edit" type="button" ng-disabled="formPerfilProducto.$invalid" ng-click="clickModificarPrecioVenta(datosProducto.precioVenta)"> Guardar cambios</button>
  			 	</div>
 		 		<div ng-show="formPerfilProducto.precioVentaUnd.$invalid && visitedPrevioVenta">
 					<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.required">Campo obligatorio.</span>

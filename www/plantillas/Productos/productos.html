@@ -22,7 +22,8 @@
 		<ion-content style="margin-top: 128px;">
 		  	<ion-list>
 		  	  <ion-item class="item item-thumbnail-left item-icon-right" collection-repeat="producto in productos | filter: buscador" href="#/side/perfilProducto/{{producto.idElemento}}">
-		  	  <img src="./img/noFoto.png">
+		  	  	<img ng-show="producto.urlFoto !== null" ng-src="{{producto.urlFoto}}" alt="{{producto.nombreProducto}}">
+				<img ng-show="producto.urlFoto === null" ng-src="./img/noFoto.png" alt="{{producto.nombreProducto}}" ng-class="{ 'avatarMiss' :producto.urlFoto === null}">
 		  	    <i class="icon ion-arrow-right-c"></i>
 		  	    <h2>{{producto.nombreProducto}}</h2>
 		  	    <p>Precio de venta: {{producto.precioVenta}}€</p>

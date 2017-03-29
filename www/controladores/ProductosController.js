@@ -87,26 +87,36 @@ angular.module('starterMiApp.contrsProductos', [])
 
 }]) // Fin ProductosCtrl
 
-.controller('ProductoPerfilCtrl', ['$scope', '$state','$stateParams','servCompras','servProductos', function($scope, $state,$stateParams,servCompras,servProductos){
+.controller('ProductoPerfilCtrl', ['$scope', '$state','$stateParams','$ionicPopover','$cordovaCamera','$cordovaFileTransfer','$ionicLoading','$ionicPopup','$ionicModal','servCompras','servProductos', function($scope, $state,$stateParams,$ionicPopover,$cordovaCamera,$cordovaFileTransfer,$ionicLoading,$ionicPopup,$ionicModal,servCompras,servProductos){
     
 	var sesionIdUser = localStorage.getItem("idUser");
 	var idProducto = $stateParams.idProducto;
 	console.log(sesionIdUser);
 
+	servProductos.listarPerfilProducto(idProducto).then(function(servResponse){
+		console.log(servResponse);
+		$scope.datosProducto = {
+			nombreProveedor: servResponse[0].nombreProveedor,
+			nombreMarca: servResponse[0].nombreMarca,
+			nombreElemento: servResponse[0].nombreElemento,
+			cantidadStock: servResponse[0].cantidadStock,
+			precioVenta: servResponse[0].precioVenta
+		};
 
-	$scope.datosProducto = {
-		nombreProveedor: 'Doko',
-		nombreMarca: 'Wella',
-		nombreProducto: 'Tinte 6.0',
-		unidades: 33,
-		precioVentaUnd: 12.50
-	};
+		$scope.fotoProducto = servResponse[0].urlFoto;
+		$scope.altNombreFoto = servResponse[0].nombreElemento;
 
-	$scope.productosCompra = [
-	{cantidad: 10, precioCompra: 12.55, fechaCompra: new Date('2017-03-28T10:06:50.999Z')},
-	{cantidad: 11, precioCompra: 13.55, fechaCompra: new Date('2017-03-29T10:06:50.999Z')},
-	{cantidad: 12, precioCompra: 12.55, fechaCompra: new Date('2017-03-30T10:06:50.999Z')}
-	];
+	/* Оbtener los datos de cada linea de compra para de cada producto.*/
+      $scope.auxLineasCompras = [];
+	  var numeroLineasCompras = servResponse.length;
+	  for(i=0; i<numeroLineasCompras; i++)
+	  {
+	    $scope.auxLineasCompras.push({cantidad:servResponse[i].cantidad, precioCompra:servResponse[i].precioCompraUnd, fechaCompra:new Date(servResponse[i].fechaCompra)});
+	  }
+
+		$scope.productosCompra = $scope.auxLineasCompras;
+	});
+
 
 	$scope.productosVenta = [
 	{cantidad: 1, precioVenta: 12.55, fechaVenta: new Date('2017-03-28T10:06:50.999Z')},
@@ -122,6 +132,111 @@ angular.module('starterMiApp.contrsProductos', [])
 	$scope.clickModificarPrecioVenta = function (precioVenta)
 	{
 		alert(precioVenta);
+	}
+
+	var plantillaPopover = '<ion-popover-view style="height: 114px;">'+
+    '<ion-content scroll="false">'+
+        '<div class="list">'+
+            '<a class="item item-icon-left" ng-click="obtenerFoto(\'CAMERA\')">'+
+              '<i class="icon ion-camera"></i>'+
+                'Hacer una foto'+
+            '</a>'+
+            '<a class="item item-icon-left" ng-click="obtenerFoto(\'PHOTOLIBRARY\')">'+
+              '<i class="icon ion-image"></i>'+
+                'Elegir foto'+
+            '</a>'+
+        '</div>'+
+    '</ion-content>'+
+  '</ion-popover-view>';
+
+  $scope.popover = $ionicPopover.fromTemplate(plantillaPopover, {
+    scope: $scope
+  });
+
+   $scope.openPopoverFoto = function($event) {
+    $scope.popover.show($event);
+    document.body.classList.add('platform-ionic');
+  };
+  $scope.closePopover = function() {
+    $scope.popover.hide();
+  };
+
+	//BUG PENDIENTE REEMPLAZAR FOTO Y BACK BUTTON AL NO SELECCIONAR UNA FOTO 
+	$scope.obtenerFoto = function(opcion){
+	  $scope.popover.hide();
+	  $ionicLoading.show();
+	  var tipoFuente = '';
+	  switch(opcion)
+	  {
+	    case 'CAMERA':
+	    tipoFuente = Camera.PictureSourceType.CAMERA;
+	    break;
+
+	    case 'PHOTOLIBRARY':
+	    tipoFuente = Camera.PictureSourceType.PHOTOLIBRARY;
+	    break;
+	  }
+	  var options = { 
+	        quality : 90, 
+	        destinationType : Camera.DestinationType.FILE_URI, 
+	        sourceType : tipoFuente, 
+	        allowEdit : false, // despues de echar la foto puedes seleccionar que parte quieres que se guarde
+	        encodingType: Camera.EncodingType.JPEG,
+	        targetWidth: 1024,
+	        targetHeight: 780,
+	        saveToPhotoAlbum: false
+	    };
+
+	$cordovaCamera.getPicture(options).then(function(imageData) {
+	        
+	        $scope.imgURItemp = imageData;
+
+	        var nombreImg = imageData.substr(imageData.lastIndexOf('/') + 1);
+	        var options = {
+	            fileKey: "file",
+	            fileName: nombreImg,
+	            chunkedMode: false,
+	            mimeType: "image/jpg",
+	            params : {'idPro':idProducto}
+	        };
+	        $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Productos/subirFoto.php",imageData, options).then(function(result) {
+	            console.log("SUCCESS: " + JSON.stringify(result.response));
+	            $scope.opciones = result.response;
+	            $state.go($state.current,null,{reload:true});
+	            // location.reload(); // refrescar la pagina entera por javascript
+	        }, function(err) {
+	            console.log("ERROR: " + JSON.stringify(err));
+	            $scope.opciones = "ERROR: " + JSON.stringify(err);
+	        }, function (progress) {
+	            // constant progress updates
+	        });
+	            
+	        $scope.opciones = options;
+	        $scope.uploadOptions1 = uploadOptions;
+	    }, function(err) {
+	        // An error occured. Show a message to the user
+	    });
+	}//Fin scope.hacerFoto
+
+	// 'plantillas/modalVerFotoPerfil.html' URL para ejecutar en el movil
+	$ionicModal.fromTemplateUrl('plantillas/Productos/modalVerFotoPerfil.html', {
+	  scope: $scope,
+	  animation: 'slide-in-up'
+	}).then(function(modal) {
+	  $scope.modal = modal;
+	});
+	$scope.openModalVerFoto = function() {
+	  $scope.modal.show();
+	}
+
+	$scope.closeModal = function() {
+	  
+	  $scope.modal.hide();
+	};
+
+	$scope.verFoto = function()
+	{
+	  $scope.openModalVerFoto();
 	}
 
 }]) // Fin ProductoPerfilCtrl
