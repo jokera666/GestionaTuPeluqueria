@@ -14,223 +14,108 @@
 
 				<label class="item item-input">
 						<span class="input-label"><b>Proveedor:</b></span>
-						<input type="text" name="total" ng-model="totalFactura" ng-disabled="total.$invalid = true" required>
+						<input type="text" name="nombreProveedor" ng-model="datosProducto.nombreProveedor" ng-disabled="nombreProveedor.$invalid = true">
 				</label>
 
 				<label class="item item-input">
 						<span class="input-label"><b>Marca:</b></span>
-						<input type="text" name="total" ng-model="totalFactura" ng-disabled="total.$invalid = true" required>
+						<input type="text" name="nombreMarca" ng-model="datosProducto.nombreMarca" ng-disabled="nombreMarca.$invalid = true">
 				</label>
 
 				<label class="item item-input">
 						<span class="input-label"><b>Nombre producto:</b></span>
-						<input type="text" name="total" ng-model="totalFactura" ng-disabled="total.$invalid = true" required>
+						<input type="text" name="nombreProducto" ng-model="datosProducto.nombreProducto" ng-disabled="nombreProducto.$invalid = true">
 				</label>
 
-			  	<label class="item item-input">
-					<span class="input-label"><b>VentaPrecio/Und:</b><span class="asteriscoObligatorio">*</span></span>
-					<input type="number" name="precioVentaUnd" ng-model="todoItem.precioVentaUnd" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+				<label class="item item-input">
+						<span class="input-label"><b>Unides stock:</b></span>
+						<input type="text" name="unidades" ng-model="datosProducto.unidades" ng-disabled="unidades.$invalid = true">
 				</label>
-				<div ng-show="formPerfilProducto.precioVentaUnd.$invalid">
-    				<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.required">Campo obligatorio.</span>
-    				<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
-        		</div>
+
+				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : formPerfilProducto.precioVentaUnd.$invalid && visitedPrevioVenta}">
+					 <label class="item-input-wrapper item-input item-stacked-label" style="background-color: white;">
+							<span class="input-label"><b>VentaPrecio/Und:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="precioVentaUnd" ng-model="datosProducto.precioVentaUnd" ng-blur="visitedPrevioVenta = true" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+					</label>
+
+				    <button class="button button-small button-positive icon ion-edit" type="button" ng-disabled="formPerfilProducto.$invalid" ng-click="clickModificarPrecioVenta(datosProducto.precioVentaUnd)"> Guardar cambios</button>
+ 			 	</div>
+		 		<div ng-show="formPerfilProducto.precioVentaUnd.$invalid && visitedPrevioVenta">
+					<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.required">Campo obligatorio.</span>
+					<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+    			</div>
 
 			  	<div class="item item-divider">Datos compra</div>
 				<ion-list>
-					<ion-item>
+					<ion-item ng-repeat = "itemProducto in productosCompra" for={{itemProducto}}>
 						<div class="row responsive-sm">
-						<div class="col-5">
-							 <label class="numeracionServCliente">1.</label>
-						</div>
-
-						  <div class="col">
-						  	<label class="item item-input item-select">
-							  	<div class="input-label">Modelo de tinte</div>
-								    <select>
-								      <option selected>Shfarchkoff</option>
-								      <option>Loreal</option>
-								      <option>Fructis</option>
-								      <option>Rayfan</option>
-								      <option>Barrta</option>
-								      <option>Cara</option>
-								    </select>
-							</label>
-						  </div>
-
-						  	<div class="col">
-							  	<label class="item item-input item-select">
-							  	<div class="input-label">Numero de tinte</div>
-								    <select>
-								      <option selected>6</option>
-								      <option>6.1</option>
-								      <option>7</option>
-								      <option>7.1</option>
-								      <option>8</option>
-								      <option>8.1</option>
-								    </select>
-								</label>
+							<div class="col-5">
+								 <label class="numeracionServCliente">{{$index+1}}.</label>
 							</div>
 
-						  <div class="col">
-						  	<label class="item item-input">
-								<span class="input-label">Fecha de Tinte</span>
-								<input type="date">
-							</label>
-						  </div>
+							  <div class="col">
+							  	<label class="item item-input">
+									<span class="input-label">Unidades:</span>
+									<input type="text" name="cantidad" ng-model="itemProducto.cantidad" ng-disabled="cantidad.$invalid = true">
+								</label>
+							  </div>
 
+							  	<div class="col">
+							  	<label class="item item-input">
+									<span class="input-label">Precio compra:</span>
+									<input type="text" name="precioCompra" ng-model="itemProducto.precioCompra" ng-disabled="precioCompra.$invalid = true">
+								</label>
+								</div>
+
+							  <div class="col">
+							  	<label class="item item-input">
+									<span class="input-label">Fecha de compra:</span>
+									<input type="date" name="fechaCompra" ng-model="itemProducto.fechaCompra" ng-disabled="fechaCompra.$invalid = true">
+								</label>
+							  </div>
 						</div> <!-- FIN ROW -->
 					</ion-item>
 
-					<ion-item>
-						<div class="row responsive-sm">
-						<div class="col-5">
-							 <label class="numeracionServCliente">2.</label>
-						</div>
-
-						  <div class="col">
-						  	<label class="item item-input item-select">
-							  	<div class="input-label">Modelo de tinte</div>
-								    <select>
-								      <option>Shfarchkoff</option>
-								      <option selected>Loreal</option>
-								      <option>Fructis</option>
-								      <option>Rayfan</option>
-								      <option>Barrta</option>
-								      <option>Cara</option>
-								    </select>
-							</label>
-						  </div>
-
-						  <div class="col">
-							  	<label class="item item-input item-select">
-							  	<div class="input-label">Numero de tinte</div>
-								    <select>
-								      <option selected>6</option>
-								      <option>6.1</option>
-								      <option>7</option>
-								      <option>7.1</option>
-								      <option>8</option>
-								      <option>8.1</option>
-								    </select>
-								</label>
-							</div>
-
-						  <div class="col">
-						  	<label class="item item-input">
-								<span class="input-label">Fecha de Tinte</span>
-								<input type="date">
-							</label>
-						  </div>
-
-						</div> <!-- FIN ROW -->
-					</ion-item>
 				</ion-list>
 
 				<div class="item item-divider">Datos venta</div>  	
 
 				<ion-list>
-					<ion-item>
+					<ion-item ng-repeat = "itemProducto in productosVenta" for={{itemProducto}}>
 						<div class="row responsive-sm">
-						<div class="col-5">
-							 <label class="numeracionServCliente">1.</label>
-						</div>
-
-						  <div class="col">
-						  	<label class="item item-input item-select">
-							  	<div class="input-label">Modelo de tinte</div>
-								    <select>
-								      <option selected>Shfarchkoff</option>
-								      <option>Loreal</option>
-								      <option>Fructis</option>
-								      <option>Rayfan</option>
-								      <option>Barrta</option>
-								      <option>Cara</option>
-								    </select>
-							</label>
-						  </div>
-
-						  	<div class="col">
-							  	<label class="item item-input item-select">
-							  	<div class="input-label">Numero de tinte</div>
-								    <select>
-								      <option selected>6</option>
-								      <option>6.1</option>
-								      <option>7</option>
-								      <option>7.1</option>
-								      <option>8</option>
-								      <option>8.1</option>
-								    </select>
-								</label>
+							<div class="col-5">
+								 <label class="numeracionServCliente">{{$index+1}}.</label>
 							</div>
 
-						  <div class="col">
-						  	<label class="item item-input">
-								<span class="input-label">Fecha de Tinte</span>
-								<input type="date">
-							</label>
-						  </div>
-
-						</div> <!-- FIN ROW -->
-					</ion-item>
-
-					<ion-item>
-						<div class="row responsive-sm">
-						<div class="col-5">
-							 <label class="numeracionServCliente">2.</label>
-						</div>
-
-						  <div class="col">
-						  	<label class="item item-input item-select">
-							  	<div class="input-label">Modelo de tinte</div>
-								    <select>
-								      <option>Shfarchkoff</option>
-								      <option selected>Loreal</option>
-								      <option>Fructis</option>
-								      <option>Rayfan</option>
-								      <option>Barrta</option>
-								      <option>Cara</option>
-								    </select>
-							</label>
-						  </div>
-
-						  <div class="col">
-							  	<label class="item item-input item-select">
-							  	<div class="input-label">Numero de tinte</div>
-								    <select>
-								      <option selected>6</option>
-								      <option>6.1</option>
-								      <option>7</option>
-								      <option>7.1</option>
-								      <option>8</option>
-								      <option>8.1</option>
-								    </select>
+							  <div class="col">
+							  	<label class="item item-input">
+									<span class="input-label">Unidades:</span>
+									<input type="text" name="cantidad" ng-model="itemProducto.cantidad" ng-disabled="cantidad.$invalid = true">
 								</label>
-							</div>
+							  </div>
 
-						  <div class="col">
-						  	<label class="item item-input">
-								<span class="input-label">Fecha de Tinte</span>
-								<input type="date">
-							</label>
-						  </div>
+							  	<div class="col">
+							  	<label class="item item-input">
+									<span class="input-label">Precio venta:</span>
+									<input type="text" name="precioVenta" ng-model="itemProducto.precioVenta" ng-disabled="precioVenta.$invalid = true">
+								</label>
+								</div>
 
+							  <div class="col">
+							  	<label class="item item-input">
+									<span class="input-label">Fecha de venta:</span>
+									<input type="date" name="fechaVenta" ng-model="itemProducto.fechaVenta" ng-disabled="fechaVenta.$invalid = true">
+								</label>
+							  </div>
 						</div> <!-- FIN ROW -->
 					</ion-item>
 				</ion-list>
 
 				<div class="row  responsive-sm">
 				  	<div class="col">
-				  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="formPerfilProducto.$invalid" ng-click="clickModificarProducto(form)"> Guardar cambios</button>
-				  	</div>
-				  	<div class="col">
-				  		<button class="button button-block button-royal icon ion-refresh" type="reset" ng-click="reiniciarForm()"> Reiniciar</button>
-				  	</div>
-				  	<div class="col">
 				  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarProducto()"> Borrar producto</button>
 					</div>
 				</div>
-			</div>
 		</form>
 	</ion-content>
 </ion-view>

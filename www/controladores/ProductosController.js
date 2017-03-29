@@ -90,6 +90,38 @@ angular.module('starterMiApp.contrsProductos', [])
 .controller('ProductoPerfilCtrl', ['$scope', '$state','$stateParams','servCompras','servProductos', function($scope, $state,$stateParams,servCompras,servProductos){
     
 	var sesionIdUser = localStorage.getItem("idUser");
+	var idProducto = $stateParams.idProducto;
 	console.log(sesionIdUser);
+
+
+	$scope.datosProducto = {
+		nombreProveedor: 'Doko',
+		nombreMarca: 'Wella',
+		nombreProducto: 'Tinte 6.0',
+		unidades: 33,
+		precioVentaUnd: 12.50
+	};
+
+	$scope.productosCompra = [
+	{cantidad: 10, precioCompra: 12.55, fechaCompra: new Date('2017-03-28T10:06:50.999Z')},
+	{cantidad: 11, precioCompra: 13.55, fechaCompra: new Date('2017-03-29T10:06:50.999Z')},
+	{cantidad: 12, precioCompra: 12.55, fechaCompra: new Date('2017-03-30T10:06:50.999Z')}
+	];
+
+	$scope.productosVenta = [
+	{cantidad: 1, precioVenta: 12.55, fechaVenta: new Date('2017-03-28T10:06:50.999Z')},
+	{cantidad: 3, precioVenta: 13.55, fechaVenta: new Date('2017-03-29T10:06:50.999Z')},
+	{cantidad: 5, precioVenta: 12.55, fechaVenta: new Date('2017-03-30T10:06:50.999Z')}
+	];
+
+	$scope.clickEliminarProducto = function ()
+	{
+		alert(idProducto);
+	}
+
+	$scope.clickModificarPrecioVenta = function (precioVenta)
+	{
+		alert(precioVenta);
+	}
 
 }]) // Fin ProductoPerfilCtrl
