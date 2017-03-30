@@ -116,7 +116,13 @@ angular.module('starterMiApp.contrsProveedores', [])
     $scope.todoListNuevasMarcas.push({});
   }
 
-  $scope.eliminarNuevaMarca = function (index) {
+    $scope.eliminarNuevaMarca = function (index,idMarca) {
+        console.log(idMarca);
+        $scope.todoListNuevasMarcas.splice(index, 1);
+  };
+
+  $scope.eliminarMarcaExistente = function (index,idMarca) {
+        console.log(idMarca);
         $scope.todoListNuevasMarcas.splice(index, 1);
   };
 

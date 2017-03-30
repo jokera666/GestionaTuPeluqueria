@@ -15,6 +15,10 @@
 			<div class="item item-divider">Categorias del servicio</div>
 				<ion-item ng-repeat = "elementoServicio in elementosServicio" for={{elementoServicio}}>
 					<div class="row responsive-sm">
+					
+					  <div class="col-5" style="margin-right: 20px;">
+						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarCategoriaExistentes($index,elementoServicio.id_elemento)"></button>
+	      			  </div>
 
 					  <div class="col">
 					  	<label class="item item-input">
@@ -38,6 +42,32 @@
 					  </div>
 					</div> <!-- FIN ROW -->
 				</ion-item>
+
+			 <div class="item item-divider">Añadir nueva categoria</div>
+				<ion-item ng-repeat = "todoItem in todoListElementos">
+					<div class="row">
+					  <div class="col-5" style="margin-right: 20px;">
+						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarNuevaCategoria($index)"></button>
+      				  </div>
+						
+					  <div class="col">
+					  	<label class="item item-input">
+							<span class="input-label"><b>Nueva marca:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="text" name="nombreNewMarca{{$index}}" ng-model="todoItem.newMarca" required>
+						</label>
+						<div ng-show="formInsertProveedor.nombreNewMarca{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="formInsertProveedor.nombreNewMarca{{$index}}.$invalid">Campo obligatorio.</span>
+	            		</div>
+					  </div>
+					</div> <!-- FIN ROW -->
+				</ion-item>
+
+				<div class="row">
+					<div class="col-offset-90">
+							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirCategoria()"></button>
+		          	</div>
+	          	</div>
+
 			<div class="row  responsive-sm">
 			  	<div class="col">
 			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="servicioForm.$invalid" ng-click="clickModificarServicio(form)"> Guardar Datos</button>

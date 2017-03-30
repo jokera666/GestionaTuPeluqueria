@@ -3,7 +3,7 @@
 		<ion-content class="padding">
 			<label class="item-full item-input item-select">
 			    <div class="input-label">Marcas</div>
-			    <select ng-change="getProducto(model.marca)" ng-model="model.marca" ng-options="marcas.nombre for marcas in marcas">
+			    <select ng-change="getProducto(model.marca)" ng-model="model.marca" ng-options="marcas.nombre group by marcas.nombreProveedor for marcas in marcas">
 			    <option value="">Seleccionar...</option>
 			    </select>
 		  	</label>
@@ -23,7 +23,7 @@
 		  	<ion-list>
 		  	  <ion-item class="item item-thumbnail-left item-icon-right" collection-repeat="producto in productos | filter: buscador" href="#/side/perfilProducto/{{producto.idElemento}}">
 		  	  	<img ng-show="producto.urlFoto !== null" ng-src="{{producto.urlFoto}}" alt="{{producto.nombreProducto}}">
-				<img ng-show="producto.urlFoto === null" ng-src="./img/noFoto.png" alt="{{producto.nombreProducto}}" ng-class="{ 'avatarMiss' :producto.urlFoto === null}">
+				<img ng-show="producto.urlFoto === null" ng-src="./img/noFoto.png" alt="{{producto.nombreProducto}}" ng-class="{ 'avatarMissProducto' :producto.urlFoto === null}">
 		  	    <i class="icon ion-arrow-right-c"></i>
 		  	    <h2>{{producto.nombreProducto}}</h2>
 		  	    <p>Precio de venta: {{producto.precioVenta}}€</p>

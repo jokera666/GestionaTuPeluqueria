@@ -43,11 +43,11 @@
 				<div class="item item-divider">Añadir marcas</div>
 				<ion-item ng-repeat = "todoItem in todoListInsertarMarca">
 					<div class="row">
-					  <div class="col-10">
+					  <div class="col-5">
 						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarNuevaMarca($index)"></button>
       				  </div>
 						
-					  <div class="col-90">
+					  <div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Nueva marca:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="text" name="nombreNewMarca{{$index}}" ng-model="todoItem.newMarca" required>

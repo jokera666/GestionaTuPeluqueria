@@ -176,6 +176,23 @@ angular.module('starterMiApp.contrsServicios', [])
      	 $scope.categoriasOriginales = angular.copy($scope.elementosServicio);
      });
 
+
+    $scope.todoListElementos = [];
+
+	$scope.anadirCategoria  = function()
+	{
+		$scope.todoListElementos.push({});
+	}
+
+    $scope.eliminarCategoriaExistentes = function (index,idServicio) {
+   		alert(idServicio);
+        $scope.todoListElementos.splice(index, 1);
+    };
+
+    $scope.eliminarNuevaCategoria = function (index) {
+        $scope.todoListElementos.splice(index, 1);
+    };
+
      $scope.clickModificarServicio = function(form)
      {
      	form['Elementos'] = $scope.elementosServicio;

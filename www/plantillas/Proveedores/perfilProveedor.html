@@ -40,8 +40,11 @@
 				<ion-item ng-repeat = "elementoMarca in elementosMarca" for={{elementoMarca}}>
 					<div class="row">
 
-					  <div class="col">
+					 <div class="col-5" style="margin-right: 20px;">
+						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarMarcaExistente($index,elementoMarca.id_marca)"></button>
+      				  </div>
 
+					  <div class="col">
 						<label class="item item-input" ng-class="{ 'errorCampoForm' : proveedorForm.marca{{$index}}.$invalid && visitedMarca}">
 							<span class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="text" name="marca{{$index}}" ng-blur="visitedMarca = true" ng-model="elementoMarca.nombreMarca" required>
@@ -49,7 +52,6 @@
 						<div ng-show="proveedorForm.marca{{$index}}.$invalid && visitedMarca">
 		            		<span class="errorMensajeForm" ng-show="proveedorForm.marca{{$index}}.$invalid">Campo obligatorio.</span>
 		                </div>
-
 					  </div>
 
 					</div> <!-- FIN ROW -->
@@ -59,11 +61,11 @@
 				<div class="item item-divider">Añadir nuevas marcas</div>
 				<ion-item ng-repeat = "todoItem in todoListNuevasMarcas">
 					<div class="row">
-					  <div class="col-10">
+					  <div class="col-5" style="margin-right: 20px;">
 						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarNuevaMarca($index)"></button>
       				  </div>
 						
-					  <div class="col-90">
+					  <div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Nueva marca:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="text" name="nombreNewMarca{{$index}}" ng-model="todoItem.newMarca" required>

@@ -32,6 +32,16 @@
   height: 50px;
 }
 
+.micol-4{
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 10%;
+  -ms-flex: 0 0 10%;
+  -webkit-flex: 0 0 10%;
+  flex: 0 0 10%;
+  max-width: 4%;
+}
+
 #btnHacerFoto{ 
 	top: 79px;
     margin: 0 auto;
@@ -114,7 +124,7 @@
 	font-style: bold;
 }
 
-.avatarMiss{
+.avatarMissCliente{
 	position: absolute;
     top: 16px;
     left: 16px;
@@ -123,6 +133,16 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
+}
+
+.avatarMissProducto {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    max-width: 80px;
+    max-height: 80px;
+    width: 100%;
+    height: 100%;
 }
 
 .alertStyle > .popup{
