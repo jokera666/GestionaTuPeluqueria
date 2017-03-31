@@ -131,8 +131,22 @@ angular.module('starterMiApp.contrsSecciones', [])
               $ionicLoading.show();
               if (e)
               {              
-                  servSecciones.borrarSeccion(idSeccion).then(function(){
-                      $state.go('sidemenu.secciones',null,{reload:true});
+                  servSecciones.borrarSeccion(idSeccion).then(function(servResponse){
+                      if(servResponse==-1)
+                      {
+                          $ionicLoading.hide();
+                          var alertPopup = $ionicPopup.alert({
+                               title: 'Error al borrar la sección',
+                               template: 'La sección tiene servicios existentes.',
+                               okText: 'Volver', 
+                               okType: 'button-assertive'
+                          });
+                      }
+                      else
+                      {
+                        $state.go('sidemenu.secciones',null,{reload:true});
+                      }
+                      
                   });
               }
             }
