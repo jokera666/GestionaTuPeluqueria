@@ -125,14 +125,34 @@ angular.module('starterMiApp.contrsProductos', [])
 	{cantidad: 5, precioVenta: 12.55, fechaVenta: new Date('2017-03-30T10:06:50.999Z')}
 	];
 
-	$scope.clickEliminarProducto = function ()
+	$scope.clickEliminarProducto = function()
 	{
-		alert(idProducto);
+		servProductos.eliminarProducto(idProducto).then(function(servResponse){
+
+			if(servResponse==-1)
+			{
+				$ionicLoading.hide();
+	   			var alertPopup = $ionicPopup.alert({
+				     title: 'Error al borrar el producto',
+				     template: 'El producto pertenece a una venta.',
+				     okText: 'Volver', 
+	  				 okType: 'button-assertive'
+	   			});
+			}
+			else
+			{
+				$state.go('sidemenu.productos',null,{reload:true});
+			}
+
+			
+		});
 	}
 
-	$scope.clickModificarPrecioVenta = function (precioVenta)
+	$scope.clickModificarPrecioVenta = function(precioVenta)
 	{
-		alert(precioVenta);
+		servProductos.modificarPrecioVenta(idProducto,precioVenta).then(function(){
+			$state.go($state.current,null,{reload:true});
+		});
 	}
 
 	var plantillaPopover = '<ion-popover-view style="height: 114px;">'+

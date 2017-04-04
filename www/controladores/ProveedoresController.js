@@ -84,6 +84,7 @@ angular.module('starterMiApp.contrsProveedores', [])
 
 	$scope.sesionIdUser = localStorage.getItem("idUser");
   var idProveedor = $stateParams.idProveedor;
+  $scope.animacion = 'hide';
 
   //variables necesarias para almacenar el contenido del provedor
   //para reiniciar el formulario
@@ -95,18 +96,30 @@ angular.module('starterMiApp.contrsProveedores', [])
   //El objeto 0 son los datos del proveedor y el resto de objetos el id y el nombre
   //de la marca de dicho proveedor.
   servProveedores.listarPerfilProveedor(idProveedor).then(function(servResponse){
-
+    console.log(servResponse);
     var datosPerfilProveedor = servResponse[0];
     datosPerfilProveedorIniciales = angular.copy(servResponse[0]);
     $scope.form = datosPerfilProveedor;
-    
-    $scope.elementosMarca = [];
 
-    for(var i = 1; i<servResponse.length; i++)
+    if(servResponse.length > 1)
     {
-       $scope.elementosMarca.push(servResponse[i]);
+      $scope.elementosMarca = [];
+      $scope.mensajeError = "";
+      $scope.animacion = "hide";
+
+      for(var i = 1; i<servResponse.length; i++)
+      {
+         $scope.elementosMarca.push(servResponse[i]);
+      }
+      elementosMarcaIniciales = angular.copy($scope.elementosMarca);
     }
-    elementosMarcaIniciales = angular.copy($scope.elementosMarca);       
+    else
+    {
+      $scope.mensajeError = "El proveedor no tiene marcas";
+      $scope.animacion = "animated shake show";
+    }
+
+       
   });
 
   $scope.todoListNuevasMarcas = [];
@@ -117,13 +130,52 @@ angular.module('starterMiApp.contrsProveedores', [])
   }
 
     $scope.eliminarNuevaMarca = function (index,idMarca) {
-        console.log(idMarca);
-        $scope.todoListNuevasMarcas.splice(index, 1);
+      $scope.todoListNuevasMarcas.splice(index, 1);
   };
 
-  $scope.eliminarMarcaExistente = function (index,idMarca) {
-        console.log(idMarca);
-        $scope.todoListNuevasMarcas.splice(index, 1);
+  $scope.eliminarMarcaExistente = function (index,idMarca,nombreMarca) {
+
+      var myPopup = $ionicPopup.show({
+      title: 'Borrar marca',
+      subTitle: '<span>¿Estás seguro de que deseas borrar la marca <b>'+nombreMarca+'</b>?</span>',
+      buttons: [
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+              servProveedores.eliminarMarca(idMarca).then(function(servResponse){
+                if(servResponse==-1)
+                {
+                  $ionicLoading.hide();
+                  var alertPopup = $ionicPopup.alert({
+                       title: 'Error al borrar la marca',
+                       template: 'La marca tiene productos existentes.',
+                       okText: 'Volver', 
+                       okType: 'button-assertive'
+                  });
+                }
+                else
+                {
+                  $scope.todoListNuevasMarcas.splice(index, 1);
+                  $state.go($state.current,null,{reload:true});
+                  
+                }
+              });
+            }
+          }
+        }
+      ]
+      });
+
+
+
   };
 
   $scope.clickModificarProveedor = function(form)
@@ -175,9 +227,21 @@ angular.module('starterMiApp.contrsProveedores', [])
             $ionicLoading.show();
             if (e)
             {              
-                servProveedores.eliminarProveedor(idProveedor).then(function(){
-                  $state.go('sidemenu.proveedores',null,{reload:true});
-                  $scope.modal.hide();
+                servProveedores.eliminarProveedor(idProveedor).then(function(servResponse){
+                  if(servResponse==-1)
+                  {
+                    $ionicLoading.hide();
+                    var alertPopup = $ionicPopup.alert({
+                         title: 'Error al borrar el proveedor',
+                         template: 'El proveedor tiene productos existentes.',
+                         okText: 'Volver', 
+                         okType: 'button-assertive'
+                    });
+                  }
+                  else
+                  {
+                    $state.go('sidemenu.proveedores',null,{reload:true});
+                  }
                 });
             }
           }

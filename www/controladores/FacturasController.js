@@ -18,7 +18,7 @@ angular.module('starterMiApp.contrsFacturas', [])
 	    {
       	$scope.proveedores = servResponse;
       	$scope.proveedoresModal = servResponse;
-
+        console.log($scope.proveedoresModal);
         //Inciar el select con el primer Proveedor en listarFacturas
         $scope.model = {
             proveedor: $scope.proveedores[0]

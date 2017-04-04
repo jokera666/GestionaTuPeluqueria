@@ -172,30 +172,32 @@ angular.module('starterMiApp.contrsServicios', [])
 
      servServicios.listarPerfilServicio(idSeccion,$scope.nombreServicio).then(function(data){
      	console.log(data);
-     	$scope.elementosServicio = data;
-     	 $scope.categoriasOriginales = angular.copy($scope.elementosServicio);
+     	$scope.elementosServicioExistentes = data;
+     	 $scope.categoriasOriginales = angular.copy($scope.elementosServicioExistentes);
      });
 
 
-    $scope.todoListElementos = [];
+    $scope.todoListElementosNuevos = [];
 
 	$scope.anadirCategoria  = function()
 	{
-		$scope.todoListElementos.push({});
+		$scope.todoListElementosNuevos.push({});
 	}
 
     $scope.eliminarCategoriaExistentes = function (index,idServicio) {
    		alert(idServicio);
-        $scope.todoListElementos.splice(index, 1);
+        $scope.todoListElementosNuevos.splice(index, 1);
     };
 
     $scope.eliminarNuevaCategoria = function (index) {
-        $scope.todoListElementos.splice(index, 1);
+        $scope.todoListElementosNuevos.splice(index, 1);
     };
 
      $scope.clickModificarServicio = function(form)
      {
-     	form['Elementos'] = $scope.elementosServicio;
+     	form['categoriasExistentes'] = $scope.elementosServicioExistentes;
+     	form['categoriasNuevas'] = $scope.todoListElementosNuevos;
+     	form['idSeccion'] = idSeccion;
      	console.log(form);
      	var myPopup = $ionicPopup.show({
 	        title: 'Modificar datos',
@@ -214,7 +216,7 @@ angular.module('starterMiApp.contrsServicios', [])
 	              {              
 	                  servServicios.modificarServicio(form).then(function(servResponse){
 	                  	  console.log('----->>> '+servResponse);
-	                      $state.go('sidemenu.servicios',null,{reload:true});
+	                      $state.go($state.current,null,{reload:true});
 	                  });
 	              }
 	            }
@@ -225,9 +227,8 @@ angular.module('starterMiApp.contrsServicios', [])
 
      $scope.clickEliminarServicio = function()
      {
-     	var elementServicios = {};
-     	elementServicios['Elementos'] = $scope.elementosServicio; // array de objetos
-
+     	elementServicios['Elementos'] = $scope.elementosServicioExistentes; // array de objetos
+     	console.log(elementServicios);
      	var myPopup = $ionicPopup.show({
 	        title: 'Eliminar servicio',
 	        subTitle: '<span>¿Estás seguro de que deseas eliminar el servicio?</span>',
@@ -257,8 +258,8 @@ angular.module('starterMiApp.contrsServicios', [])
      $scope.reiniciarForm = function()
      {
      	$scope.form = angular.copy(nombreServicioOrginal);
-     	$scope.elementosServicio = angular.copy($scope.categoriasOriginales);
-     	console.log($scope.elementosServicio);
+     	$scope.elementosServicioExistentes = angular.copy($scope.categoriasOriginales);
+     	console.log($scope.elementosServicioExistentes);
      }
      
 

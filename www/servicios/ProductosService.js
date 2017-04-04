@@ -4,7 +4,9 @@ angular.module('starterMiApp.servsProductos', [])
 	
 	return{
 		listarProductos: listProducts,
-		listarPerfilProducto: listProductProfile
+		listarPerfilProducto: listProductProfile,
+		modificarPrecioVenta: editProductPrice,
+		eliminarProducto: deleteProduct
 	}
 
 	function listProducts(idMarca)
@@ -35,6 +37,50 @@ angular.module('starterMiApp.servsProductos', [])
 		var promesa = defered.promise;
 
 		var url = 'http://gestionestetica.fonotecaumh.es/Productos/listarPerfilProducto.php';
+		var data = {'idProducto':idProducto};
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
+	}
+
+	function editProductPrice(idProducto,precioVenta)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/Productos/modificarPrecioVenta.php';
+		var data = {'idProducto':idProducto,'precioVenta':precioVenta};
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
+	}
+
+	function deleteProduct(idProducto)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/Productos/eliminarProducto.php';
 		var data = {'idProducto':idProducto};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}

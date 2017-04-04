@@ -11,7 +11,7 @@
 
 				<label class="item item-select">
 				    <div class="input-label"><b>Proveedor:</b><span class="asteriscoObligatorio">*</span></div>
-				    <select ng-change="getProveedorModal(form.proveedorModal)" ng-model="form.proveedorModal" ng-options="proveedoresModal.nombre for proveedoresModal in proveedoresModal" required>
+				    <select ng-change="getProveedorModal(form.proveedorModal)" ng-model="form.proveedorModal" ng-options="proveedoresModal.nombre group by proveedoresModal.nombreMarca for proveedoresModal in proveedoresModal" required>
 				    <option value="">Seleccionar...</option>
 				    </select>
 			  	</label>

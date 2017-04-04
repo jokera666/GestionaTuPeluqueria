@@ -11,7 +11,7 @@ angular.module('starterMiApp.contrsSignup', [])
     	$scope.checkContrasenas = angular.equals(repetirContrasena, form.contrasena);
     	if($scope.checkContrasenas==false)
     	{
-            $ionicLoading.hide();
+        $ionicLoading.hide();
    			var alertPopup = $ionicPopup.alert({
 			     title: 'Error al registrarse',
 			     template: 'Las contraseñas no coinciden.',

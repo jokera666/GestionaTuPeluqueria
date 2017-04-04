@@ -7,7 +7,8 @@ angular.module('starterMiApp.servsProveedores', [])
 		listarPerfilProveedor: listProviderProfile,
 		insertarProveedor: insertProvider,
 		modificarPerfilProveedor: modifyProviderProfile,
-		eliminarProveedor: deleteProvider
+		eliminarProveedor: deleteProvider,
+		eliminarMarca: deleteBrand
 	}
 
 	/*Segun el parametro que le pasamos la la funcion de listar informacion
@@ -107,6 +108,28 @@ angular.module('starterMiApp.servsProveedores', [])
 
 		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/eliminarProveedor.php';
 		var data = {'idProvee':idProveedor};
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
+	}
+
+	function deleteBrand(idMarca)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/eliminarMarca.php';
+		var data = {'idMarca':idMarca};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}

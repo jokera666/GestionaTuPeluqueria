@@ -37,11 +37,20 @@
 				</label>
 				
 				<div class="item item-divider">Marcas del proveedor</div>
+
+				<!-- Mensaje de error -->
+				<div class="card" ng-class="animacion">
+			      <div class="item item-icon-left msgError">		
+			      <i class="icon ion-alert-circled"></i>
+			      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+			      </div>
+			    </div>
+			    
 				<ion-item ng-repeat = "elementoMarca in elementosMarca" for={{elementoMarca}}>
 					<div class="row">
 
 					 <div class="col-5" style="margin-right: 20px;">
-						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarMarcaExistente($index,elementoMarca.id_marca)"></button>
+						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarMarcaExistente($index,elementoMarca.id_marca,elementoMarca.nombreMarca)"></button>
       				  </div>
 
 					  <div class="col">

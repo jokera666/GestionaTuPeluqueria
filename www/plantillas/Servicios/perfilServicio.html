@@ -13,7 +13,7 @@
                 </div>
 			</div>
 			<div class="item item-divider">Categorias del servicio</div>
-				<ion-item ng-repeat = "elementoServicio in elementosServicio" for={{elementoServicio}}>
+				<ion-item ng-repeat = "elementoServicio in elementosServicioExistentes" for={{elementoServicio}}>
 					<div class="row responsive-sm">
 					
 					  <div class="col-5" style="margin-right: 20px;">
@@ -43,8 +43,8 @@
 					</div> <!-- FIN ROW -->
 				</ion-item>
 
-			 <div class="item item-divider">Añadir nueva categoria</div>
-				<ion-item ng-repeat = "todoItem in todoListElementos">
+			 <div class="item item-divider">Añadir nueva categoría</div>
+				<ion-item ng-repeat = "todoItem in todoListElementosNuevos">
 					<div class="row">
 					  <div class="col-5" style="margin-right: 20px;">
 						<button class="btnTodo button button-assertive icon ion-minus-round" ng-click="eliminarNuevaCategoria($index)"></button>
@@ -52,12 +52,23 @@
 						
 					  <div class="col">
 					  	<label class="item item-input">
-							<span class="input-label"><b>Nueva marca:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="text" name="nombreNewMarca{{$index}}" ng-model="todoItem.newMarca" required>
+							<span class="input-label"><b>Nueva categoría:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="text" name="nombreNewCategoria{{$index}}" ng-model="todoItem.newCategoria" required>
 						</label>
-						<div ng-show="formInsertProveedor.nombreNewMarca{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formInsertProveedor.nombreNewMarca{{$index}}.$invalid">Campo obligatorio.</span>
+						<div ng-show="servicioForm.nombreNewCategoria{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="servicioForm.nombreNewCategoria{{$index}}.$invalid">Campo obligatorio.</span>
 	            		</div>
+					  </div>
+
+					  <div class="col">
+					  	<label class="item item-input">
+							<span class="input-label"><b>Precio:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="precioNewCategoria{{$index}}" ng-model="todoItem.precioVenta" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+						</label>
+						<div ng-show="servicioForm.precioNewCategoria{{$index}}.$invalid">
+            				<span class="errorMensajeForm" ng-show="servicioForm.precioNewCategoria{{$index}}.$error.required">Campo obligatorio.</span>
+            				<span class="errorMensajeForm" ng-show="servicioForm.precioNewCategoria{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+                		</div>
 					  </div>
 					</div> <!-- FIN ROW -->
 				</ion-item>
