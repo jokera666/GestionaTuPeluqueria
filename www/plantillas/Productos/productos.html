@@ -27,7 +27,8 @@
 		  	    <i class="icon ion-arrow-right-c"></i>
 		  	    <h2>{{producto.nombreProducto}}</h2>
 		  	    <p>Precio de venta: {{producto.precioVenta}}€</p>
-		  	    <p>Unidades en stock: {{producto.cantidadStock}}</p>
+       	 		<p ng-show="producto.cantidadStock != 0">Unidades en stock: {{producto.cantidadStock}}</p>
+       	 		<p ng-show="producto.cantidadStock == 0" style="color: red"><b>Stock agotado!</b></p>
 		  	  </ion-item>
 		  	</ion-list>
 
