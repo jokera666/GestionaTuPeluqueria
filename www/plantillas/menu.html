@@ -27,9 +27,14 @@
     <ion-content>
       <ion-list>
         <div id="fondoPerfilSideMenu">
-          <img src="./img/foto1.jpg" alt="fotoPerfil" id="fotoPerfilSideMenu" ng-click="verPerfilUsuario()">  
+
+          <img  id="fotoPerfilSideMenu" 
+                ng-src="{{ data.urlFoto || './img/noFoto.png' }}" 
+                alt="{{data.usuario}}" 
+                ng-click="verPerfilUsuario()">
+                
         </div>
-        <h4 class="nombreUsuarioSideMenu">{{nombreUsuario}}</h4>
+        <h4 class="nombreUsuarioSideMenu">{{data.usuario}}</h4>
         <ion-item menu-close class="item item-icon-left item-icon-right" href="#/side/agenda">
           <i class="icon ion-bookmark"></i> Agenda
           <i class="icon ion-chevron-right"></i>

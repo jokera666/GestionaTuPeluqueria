@@ -1,8 +1,25 @@
 angular.module('starterMiApp.contrsSidemenu', [])
 
-.controller('SidemenuCtrl', ['$scope', '$state','$ionicPopup','$ionicLoading','$ionicPopover','$ionicSideMenuDelegate','servLogout', function($scope, $state,$ionicPopup,$ionicLoading,$ionicPopover,$ionicSideMenuDelegate,servLogout){
+.controller('SidemenuCtrl', ['$scope', '$state','$ionicPopup','$ionicLoading','$ionicPopover','$ionicSideMenuDelegate','servLogout','servUsuario', function($scope, $state,$ionicPopup,$ionicLoading,$ionicPopover,$ionicSideMenuDelegate,servLogout,servUsuario){
 
+  var idUsuario = localStorage.getItem("idUser");
   $scope.nombreUsuario = localStorage.getItem("nombreUser");
+  
+  servUsuario.listarUsuario(idUsuario).then(function(servResponse){
+    
+    if(servResponse==-1)
+    {
+      $state.go('login',null,{reload:true});
+    }
+    else
+    {
+      $scope.data = servResponse;
+      console.log($scope.data);
+    }
+
+  });
+
+
   
   var plantillaPopover = '<ion-popover-view style="height: 168px;">'+
     '<ion-content scroll="false">'+

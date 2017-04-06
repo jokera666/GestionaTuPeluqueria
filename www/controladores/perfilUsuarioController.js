@@ -1,12 +1,54 @@
 angular.module('starterMiApp.contrsPerfilUsuario', [])
 
-.controller('perfilUsuarioCtrl', ['$scope','$state','$stateParams','$ionicLoading','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover', function($scope,$state,$stateParams,$ionicLoading,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover){
+.controller('perfilUsuarioCtrl', ['$scope','$state','$stateParams','$ionicLoading','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicPopup','servUsuario', function($scope,$state,$stateParams,$ionicLoading,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicPopup,servUsuario){
 
+  var idUsuario = localStorage.getItem("idUser");
 	$scope.nombreUsuario = $stateParams.nombreUsuario;
+
+  servUsuario.listarUsuario(idUsuario).then(function(servResponse){
+    
+    if(servResponse==-1)
+    {
+      $state.go('login',null,{reload:true});
+    }
+    else
+    {
+      $scope.form = servResponse;
+      console.log($scope.form);
+    }
+
+  });
 
 	$scope.clickModificarPerfilUsuario = function (form)
 	{
-		console.log(form);
+    form['idUser'] = idUsuario;
+		console.log(form); 
+
+      var myPopup = $ionicPopup.show({
+        title: 'Guardar datos',
+        subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                  servUsuario.modificarPerfilUsuario(form).then(function(servResponse){
+                      console.log(servResponse);
+                      $state.go($state.current,null,{reload:true});
+                  });
+              }
+            }
+          }
+        ]
+      });
+
 	}
 
 	$scope.showPassOld = true;
@@ -117,9 +159,9 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
                 fileName: nombreImg,
                 chunkedMode: false,
                 mimeType: "image/jpg",
-                params : {'idCli':idCliente}
+                params : {'idUser':idUsuario}
             };
-            $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
+            $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Usuarios/subirFoto.php",imageData, options).then(function(result) {
                 console.log("SUCCESS: " + JSON.stringify(result.response));
                 $scope.opciones = result.response;
                 $state.go($state.current,null,{reload:true});
@@ -139,7 +181,7 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
     }//Fin scope.hacerFoto
 
     // 'plantillas/modalVerFotoPerfil.html' URL para ejecutar en el movil
-    $ionicModal.fromTemplateUrl('plantillas/Clientes/modalVerFotoPerfil.html', {
+    $ionicModal.fromTemplateUrl('plantillas/Usuarios/modalVerFotoPerfil.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
