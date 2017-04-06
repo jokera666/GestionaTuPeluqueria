@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsSidemenu', [])
 
-.controller('SidemenuCtrl', ['$scope', '$state','$ionicPopup','$ionicLoading','$ionicPopover','servLogout', function($scope, $state,$ionicPopup,$ionicLoading,$ionicPopover,servLogout){
+.controller('SidemenuCtrl', ['$scope', '$state','$ionicPopup','$ionicLoading','$ionicPopover','$ionicSideMenuDelegate','servLogout', function($scope, $state,$ionicPopup,$ionicLoading,$ionicPopover,$ionicSideMenuDelegate,servLogout){
 
   $scope.nombreUsuario = localStorage.getItem("nombreUser");
   
@@ -76,5 +76,11 @@ angular.module('starterMiApp.contrsSidemenu', [])
         }
       ]
     });
+  }
+
+  $scope.verPerfilUsuario = function()
+  {
+    $state.go('sidemenu.perfilUsuario',{'nombreUsuario' : $scope.nombreUsuario},{reload:false});
+    $ionicSideMenuDelegate.toggleLeft(false);
   }
 }]) // Fin SidemenuCtrl

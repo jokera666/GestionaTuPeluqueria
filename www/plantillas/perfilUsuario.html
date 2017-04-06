@@ -1,0 +1,95 @@
+<ion-view view-title="Mi perfil"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
+
+	<ion-content class="padding">
+
+	<form name="perfilForm">
+		<div id="fondoImgPerfil">
+			<!-- <img ng-show="data.urlFoto !== null" ng-src="{{data.urlFoto}}" alt="{{data.nombre}} {{data.apellido1}}"> -->
+			<img ng-show="imgURItemp !== undefined" ng-src="{{imgURItemp}}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
+			<img ng-show="imgURItemp === undefined" ng-src="{{ data.urlFoto || './img/noFoto.png' }}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
+			<button id="btnHacerFoto" class="button icon button-positive icon ion-camera" ng-click="openPopoverFoto($event)"></button>
+		</div>
+		<div class="item item-divider">Datos usuarios</div>
+			<div class="list">
+
+				<label class="item item-input">
+					<span class="input-label"><b>Nombre usuario:</b></span>
+					<input type="text" name="nombreUser" ng-blur="visitedNombre = true" ng-model="nombreUsuario" ng-disabled="nombreUser.$invalid = true">
+				</label>
+
+				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : perfilForm.contrasenaOld.$invalid && visitedContrasenaOld}">
+	               <label class="item-input-wrapper item-input" style="background-color: white;">
+						<span class="input-label"><b>Contraseña antigua:</b> <span class="asteriscoObligatorio">*</span></span>
+						<input name="contrasenaOld" type="password" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="showPassOld" required>
+						<input type="text" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="!showPassOld" required>
+					</label>
+					<a id="contrasenaOld" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
+				</div>
+				<div ng-show="perfilForm.contrasenaOld.$invalid && visitedContrasenaOld">
+            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaOld.$error.required">Campo obligatorio.</span> 
+            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaOld.$error.minlength">Minimo 8 caracteres.</span>
+                </div>
+
+				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : perfilForm.contrasenaNew.$invalid && visitedContrasenaNew}">
+					<label class="item-input-wrapper item-input" style="background-color: white;">
+						<span class="input-label"><b>Contraseña nueva:</b> <span class="asteriscoObligatorio">*</span></span>
+						<input name="contrasenaNew" type="password" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" required minlength="8" ng-show="showPassNew">
+						<input type="text" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" minlength="8" ng-show="!showPassNew" required>
+					</label>
+					<a id="contrasenaNew" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
+				</div>
+				<div ng-show="perfilForm.contrasenaNew.$invalid && visitedContrasenaNew">
+            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaNew.$error.required">Campo obligatorio.</span> 
+            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaNew.$error.minlength">Minimo 8 caracteres.</span>
+                </div>
+
+				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : perfilForm.repetirContrasena.$invalid && visitedRepeatContrasena}">
+					<label class="item-input-wrapper item-input" style="background-color: white;">
+						<span class="input-label"><b>Repetir contraseña:</b> <span class="asteriscoObligatorio">*</span></span>
+						<input name="repetirContrasena" type="password" ng-model="form.repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="showPassRepeat" required>
+						<input type="text" ng-model="form.repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="!showPassRepeat" required>
+					</label>
+					<a id="contrasenaRepeat" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
+				</div>
+				<div ng-show="visitedRepeatContrasena">
+            		<span class="errorMensajeForm" ng-show="perfilForm.repetirContrasena.$error.required">Campo obligatorio.</span> 
+            		<span class="errorMensajeForm" ng-show="perfilForm.repetirContrasena.$error.minlength">Minimo 8 caracteres.</span>
+                </div>
+                <span class="errorMensajeForm" ng-show="form.contrasenaNew!=form.repetirContrasena">Las contraseñas no coinciden.</span>
+
+				
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : perfilForm.nombreEmpresa.$invalid && visitedNombreEmpresa}">
+					<span class="input-label"><b>Nombre de empresa:</b> <span class="asteriscoObligatorio">*</span></span>
+					<input  name="nombreEmpresa" type="text" ng-model="form.nombreEmpresa" ng-blur="visitedNombreEmpresa = true" required>
+				</label>
+				<div ng-show="perfilForm.nombreEmpresa.$invalid && visitedNombreEmpresa">
+            		<span class="errorMensajeForm" ng-show="perfilForm.nombreEmpresa.$error.required">Campo obligatorio.</span> 
+                </div>
+
+				
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : perfilForm.email.$invalid && visitedEmail}">
+					<span class="input-label"><b>Correo electronico:</b> <span class="asteriscoObligatorio">*</span></span>
+					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true" required>
+				</label>
+				<div ng-show="perfilForm.email.$invalid && visitedEmail">
+            		<span class="errorMensajeForm" ng-show="perfilForm.email.$error.required">Campo obligatorio.</span> 
+            		<span class="errorMensajeForm" ng-show="perfilForm.email.$error.email">El correo electronico es incorrecto.</span>
+                </div>
+
+               <pre>perfilForm = {{ form | json }}</pre>
+
+				<div class="row  responsive-sm">
+				  	<div class="col">
+				  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="perfilForm.$invalid" ng-click="clickModificarPerfilUsuario(form)"> Guardar cambios</button>
+				  	</div>
+				  	<div class="col">
+				  		<button class="button button-block button-royal icon ion-refresh" type="reset" ng-click="reiniciarForm()"> Reiniciar</button>
+				  	</div>
+				  	<div class="col">
+				  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarUsuario()"> Borrar cuenta</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>

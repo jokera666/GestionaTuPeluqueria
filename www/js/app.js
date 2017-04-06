@@ -9,6 +9,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.contrsSignup',
                                                                 'starterMiApp.contrsSidemenu',
                                                                 'starterMiApp.contrsAgenda',
+                                                                'starterMiApp.contrsPerfilUsuario',
                                                                 'starterMiApp.contrsCaja',
                                                                 'starterMiApp.contrsClientes',
                                                                 'starterMiApp.contrsProductos',
@@ -166,6 +167,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
           controller: 'AgendaCtrl'
         }
       }
+  })
+
+  .state('sidemenu.perfilUsuario', {
+    url: '/perfil/:nombreUsuario',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/perfilUsuario.html',
+        controller: 'perfilUsuarioCtrl'
+      }
+    }
   })
 
 .state('sidemenu.caja', {
