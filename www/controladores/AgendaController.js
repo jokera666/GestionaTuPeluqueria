@@ -108,6 +108,7 @@ angular.module('starterMiApp.contrsAgenda', [])
       });
     };
 
+    var formOriginalModificarCita = '';
     $scope.clickModificarCita = function(form){
 
 
@@ -126,6 +127,7 @@ angular.module('starterMiApp.contrsAgenda', [])
         horaIni: startCita,
         horaFin: finCita
       }
+      
 
       //Incializar el formulario despues de los cambios
       $scope.form = {
@@ -516,8 +518,6 @@ angular.module('starterMiApp.contrsAgenda', [])
           }
         ]
         });
-
       }
-
     };
 }]) // Fin AgendaCtrl

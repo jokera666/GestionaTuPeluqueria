@@ -1,9 +1,11 @@
 angular.module('starterMiApp.contrsPerfilUsuario', [])
 
-.controller('perfilUsuarioCtrl', ['$scope','$state','$stateParams','$ionicLoading','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicPopup','servUsuario', function($scope,$state,$stateParams,$ionicLoading,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicPopup,servUsuario){
+.controller('perfilUsuarioCtrl', ['$scope','$state','$stateParams','$ionicLoading','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicPopup','servUsuario','servLogout', function($scope,$state,$stateParams,$ionicLoading,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicPopup,servUsuario,servLogout){
 
   var idUsuario = localStorage.getItem("idUser");
+  var formOriginal = '';
 	$scope.nombreUsuario = $stateParams.nombreUsuario;
+
 
   servUsuario.listarUsuario(idUsuario).then(function(servResponse){
     
@@ -14,7 +16,7 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
     else
     {
       $scope.form = servResponse;
-      console.log($scope.form);
+      formOriginal = angular.copy(servResponse);
     }
 
   });
@@ -24,9 +26,42 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
     form['idUser'] = idUsuario;
 		console.log(form); 
 
+    var myPopup = $ionicPopup.show({
+      title: 'Guardar datos',
+      subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
+      buttons: [
+        { 
+          text: '<b>No</b>',
+          type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servUsuario.modificarPerfilUsuario(form).then(function(servResponse){
+                    console.log(servResponse);
+                    $state.go($state.current,null,{reload:true});
+                });
+            }
+          }
+        }
+      ]
+    });
+	}
+
+  $scope.reiniciarForm = function()
+  {
+    $scope.form = angular.copy(formOriginal);
+  }
+
+  $scope.clickEliminarUsuario = function()
+  {
       var myPopup = $ionicPopup.show({
-        title: 'Guardar datos',
-        subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
+        title: 'Borrar cuenta',
+        subTitle: '<span>¿Estás seguro de que borrar su cuenta?</span>',
         buttons: [
           { 
             text: '<b>No</b>',
@@ -39,17 +74,19 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
               $ionicLoading.show();
               if (e)
               {              
-                  servUsuario.modificarPerfilUsuario(form).then(function(servResponse){
-                      console.log(servResponse);
-                      $state.go($state.current,null,{reload:true});
+                  servUsuario.eliminarCuentaUsuario(idUsuario).then(function(){
+                    servLogout.cerrarSesion().then(function(){
+                      localStorage.setItem("idUser",""); 
+                      localStorage.setItem("nombreUser","");
+                      $state.go('login',null,{reload:true});
+                    });  
                   });
               }
             }
           }
         ]
-      });
-
-	}
+      }); 
+  }
 
 	$scope.showPassOld = true;
 	$scope.showPassNew = true;

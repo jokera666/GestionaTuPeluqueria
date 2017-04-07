@@ -186,6 +186,13 @@ angular.module('starterMiApp.contrsFacturas', [])
     	}
     }
 
+    $scope.reiniciarForm = function()
+    {
+      $scope.form = {};
+      $scope.marcas = {};
+      $scope.todoListLineasCompra = {};
+    }
+
     //Limpiar la barra de busqueda
     $scope.borrarBuscador = function(){
       $scope.buscador = '';
@@ -201,12 +208,17 @@ angular.module('starterMiApp.contrsFacturas', [])
 	var idCompra = $stateParams.idCompra;
   $scope.nombreProveedor = $stateParams.nombre;
 
+  var cabeceraInicial = '';
+  var lineasFacturaIniciales = '';
+  var marcasIniciales = '';
+
   ////////////////Inciar los la cabecera de la factura CON LINEAS///////////////////////
   servCompras.listarFacturas(idCompra,'factura').then(function(servResponse){
     $scope.form = {
       numFactura: servResponse[0].numFactura,
       fechaCompra: new Date(servResponse[0].fechaCompra)
     }
+    cabeceraInicial = angular.copy(servResponse[0]); 
     $scope.totalFactura = servResponse[0].precioCompraTotal;
     $scope.formulario = $scope.form;
   });
@@ -254,6 +266,7 @@ angular.module('starterMiApp.contrsFacturas', [])
       
       ///////////////////////Inciar las lineas de compra/////////////////////// 
       $scope.todoListLineasCompra = servResponse;
+       lineasFacturaIniciales = angular.copy(servResponse); 
       /////////////////////////////////////////////////////////////////////////
 
       /* Оbtener las marcas de cada linea de compra para poder iniciar el select en 
@@ -275,7 +288,7 @@ angular.module('starterMiApp.contrsFacturas', [])
           $scope.todoListLineasCompra[i].objMarca =  $scope.misMarcas[i];
         }
       });
-
+      marcasIniciales = angular.copy($scope.misMarcas);
       $scope.respuesta = servResponse;
     }
     
@@ -387,6 +400,20 @@ angular.module('starterMiApp.contrsFacturas', [])
         ]
     });
   }
+
+  $scope.reiniciarForm = function()
+  {
+    $scope.form = {
+            numFactura: cabeceraInicial.numFactura,
+            fechaCompra: new Date(cabeceraInicial.fechaCompra)
+    };
+
+    $scope.todoListLineasCompra = angular.copy(lineasFacturaIniciales);
+    for(i=0; i<$scope.todoListLineasCompra.length; i++)
+    {
+      $scope.todoListLineasCompra[i].objMarca = angular.copy(marcasIniciales[i]);
+    }
+ }
     
 
 }]) // Fin FacturasCtrl
