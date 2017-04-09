@@ -1,6 +1,102 @@
-<ion-view view-title="Gestionar cita / Caja">
-      
-      <ion-content>
-      	<h1>Caja</h1>
-      </ion-content>
+<ion-view view-title="Caja">
+	<ion-content class="padding">
+		<form name="cajaForm">
+			<div class="item item-divider">Datos cita</div>
+			<div class="list">
+				<label class="item item-input" ng-class="{ 'errorCampoForm' : cajaForm.nombre.$invalid && visitedNombre}">
+					<span class="input-label"><b>Cliente:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombreCliente" required>
+				</label>
+				<div ng-show="cajaForm.nombre.$invalid && visitedNombre">
+            		<span class="errorMensajeForm" ng-show="cajaForm.nombre.$invalid">Campo obligatorio.</span>
+                </div>
+
+			   <label class="item item-input" ng-class="{'errorCampoForm' : cajaForm.fecha.$invalid && visitedFecha}">
+			     	<div class="input-label"><b>Fecha cita: </b><span class="asteriscoObligatorio">*</span></div>
+			     	<input type="date" name="fecha" ng-model="form.fecha" ng-blur="visitedFecha = true" required>
+			    </label>
+			    <div ng-show="cajaForm.fecha.$invalid && visitedFecha">
+	        		<span class="errorMensajeForm" ng-show="cajaForm.fecha.$invalid">Campo obligatorio.</span>
+	       	    </div>
+
+	       	    <label class="item item-select">
+				    <div class="input-label"><b>Empleado:</b><span class="asteriscoObligatorio">*</span></div>
+				    <select ng-change="getEmpleado(form.empleado)" ng-model="form.empleado" ng-options="empleados.nombre for empleados in empleados" required>
+				    <option value="">Seleccionar...</option>
+				    </select>
+			  	</label>
+
+			  	<div class="item item-divider">Servicios adquiridos</div>
+
+			  	<ion-item ng-repeat = "todoItem in todoListServicios">
+					<div class="row responsive-lg">
+					
+					<div class="col-10" style="max-width: 3%">
+						<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarServicio($index)"></button>
+          			</div>
+
+	          			<div class="col">
+			          		<label class="item item-input item-select">
+							    <div class="input-label"><b>Sección:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select ng-model="todoItem.seccion" ng-options="secciones.nombre for secciones in secciones" required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+	          			</div>
+
+
+	          			<div class="col">
+			          		<label class="item item-input item-select">
+							    <div class="input-label"><b>Servicio:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select ng-model="todoItem.servicio" ng-options="servicios.nombre for servicios in servicios" required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+	          			</div>
+
+
+	          			<div class="col">
+			          		<label class="item item-input item-select">
+							    <div class="input-label"><b>Categoría:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select ng-model="todoItem.categoria" ng-options="categorias.nombre for categorias in categorias" required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+	          			</div>
+
+					  <div class="col">
+					  	<label class="item item-input">
+							<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
+							<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+						</label>
+						<div ng-show="cajaForm.precioVenta{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="cajaForm.precioVenta{{$index}}.$error.required">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="cajaForm.precioVenta{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+	            		</div>
+					  </div>
+
+					</div> <!-- FIN ROW -->
+				</ion-item>
+					<div class="col-offset-90 padding">
+							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirServicio()"></button>
+		          	</div>
+				<div class="item item-divider">Productos adquiridos</div>
+
+			</div> <!-- Fin List -->
+
+
+
+			<div class="row  responsive-sm">
+			  	<div class="col">
+			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="cajaForm.$invalid" ng-click="clickModificarEmpleado(form)"> Guardar cambios</button>
+			  	</div>
+			  	<div class="col">
+			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
+			  	</div>
+			  	<div class="col">
+			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarEmpleado()"> Borrar empleado</button>
+				</div>
+			</div>
+		</form>
+	</ion-content>
 </ion-view>
