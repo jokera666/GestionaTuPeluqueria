@@ -20,30 +20,33 @@
             		<span class="errorMensajeForm" ng-show="clienteForm.nombre.$invalid">Campo obligatorio.</span>
                 </div>
 
-			 	<label class="item item-input">
-			    	<span class="input-label"><b>Primer Apellido:</b></span>
-			   		<input type="text" value="{{data.apellido1}}" ng-model="form.apellido1">
-			  	</label>
+			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.apellido1.$invalid && visitedApellido}">
+					<span class="input-label"><b>Primer apellido:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" value="{{data.apellido1}}" name="apellido1" ng-blur="visitedApellido = true" ng-model="form.apellido1" required>
+				</label>
+				<div ng-show="clienteForm.apellido1.$invalid && visitedApellido">
+            		<span class="errorMensajeForm" ng-show="clienteForm.apellido1.$invalid">Campo obligatorio.</span>
+                </div>
 
 			 	<label class="item item-input">
-			    	<span class="input-label"><b>Segundo Apellido:</b></span>
+			    	<span class="input-label"><b>Segundo apellido:</b></span>
 			    	<input type="text" value="{{data.apellido2}}" ng-model="form.apellido2">
 			  	</label>
 
 			  	<label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.telefono.$invalid && visitedTel}">
-			    	<span class="input-label"><b>Telefono:</b></span>
+			    	<span class="input-label"><b>Teléfono:</b></span>
 			    	<input type="tel" name="telefono" value="{{data.telefono}}" ng-model="form.telefono" ng-blur="visitedTel = true" minlength="9" maxlength="9">
 			  	</label>
 			  	<div ng-show="clienteForm.telefono.$invalid && visitedTel">
-            		<div class="errorMensajeForm" ng-show="clienteForm.telefono.$error.minlength">El numero de telefono tiene que tener 9 digitos.</div>
+            		<div class="errorMensajeForm" ng-show="clienteForm.telefono.$error.minlength">El número de teléfono tiene que tener 9 dígitos.</div>
                 </div>
 
                 <label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.email.$invalid && visitedEmail}">
-					<span class="input-label"><b>Correo electronico:</b></span>
+					<span class="input-label"><b>Correo electrónico:</b></span>
 					<input name="email" type="email" value="{{data.email}}" ng-model="form.email" ng-blur="visitedEmail = true">
 				</label>
 				<div ng-show="clienteForm.email.$invalid && visitedEmail"> 
-            		<span class="errorMensajeForm" ng-show="clienteForm.email.$invalid">El correo electronico es incorrecto.</span>
+            		<span class="errorMensajeForm" ng-show="clienteForm.email.$invalid">El correo electrónico es incorrecto.</span>
                 </div>
 
 			  	<pre>{{imgURI}}</pre>

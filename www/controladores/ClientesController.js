@@ -8,7 +8,7 @@ angular.module('starterMiApp.contrsClientes', [])
     $scope.animacion = "hide";
 
     //Listar los clientes en el list item
-    servClientes.getNombreCompleto($scope.sesionIdUser).then(function(data){
+    servClientes.listarClientes('listaClientes',$scope.sesionIdUser).then(function(data){
       if(data==-1)
       {
         $scope.mensajeError = "No hay clientes introducidos.";

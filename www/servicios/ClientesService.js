@@ -4,20 +4,20 @@ angular.module('starterMiApp.servsClientes', [])
 
     return{
 
-        getNombreCompleto:getFullName,
+        listarClientes: listClients,
         insertarCliente: addClient,
         mostrarPerfilCliente: showClientProfile,
         modificarPerfilCliente: modifyClientProfile,
         borrarPerfilCliente: deleteClientProfile 
     }
 
-    function getFullName(idUsuario)
+    function listClients(parametro,idUsuario)
     {
         var defered = $q.defer();
         var promesa = defered.promise;
 
         var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarClientes.php";
-        var data = {'q':'nombreCompleto','idUser':idUsuario};
+        var data = {'q':parametro,'idUser':idUsuario};
         var config = {
             headers : {'Content-Type' : 'application/json'}
         }
