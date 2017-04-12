@@ -394,7 +394,7 @@ angular.module('starterMiApp.contrsAgenda', [])
 
 
     //Listar los clientes en el datalist del modal
-    servClientes.getNombreCompleto($scope.sesionIdUser).then(function(data){
+    servClientes.listarClientes('citasClientes',$scope.sesionIdUser).then(function(data){
       if(data==-1)
       {
           $scope.form = {
@@ -403,10 +403,21 @@ angular.module('starterMiApp.contrsAgenda', [])
       }
       else
       {
-        $scope.nombres = data;   
+        $scope.nombres = data;
+        console.log(data);   
       }
     });
 
+    $scope.tipoCliente = [
+    {idTipoCliente: '-77',tipo:'General'},
+    {idTipoCliente: '66',tipo:'Existente'}
+    ];
+
+    $scope.getTipoCliente = function(tipoCliente)
+    {
+      console.log(tipoCliente.idTipoCliente);
+      $scope.hola = tipoCliente.idTipoCliente;
+    }
 
 
 

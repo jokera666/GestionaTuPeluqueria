@@ -8,17 +8,40 @@
 	<form name="formInsertarCita">
 	<div class="item item-divider">Datos de la cita</div>
 		<div class="list">
+
+		<label class="item item-input item-select">
+			<div class="input-label">Tipo cliente</div>
+		    <select ng-change="getTipoCliente(tipo.obj)" ng-model="tipo.obj" ng-options="tipoCliente.tipo for tipoCliente in tipoCliente">
+		    	<option value="">Seleccionar...</option>
+		    </select>
+		 </label>
 		
-		<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
-			<div class="input-label"><b>Nombre: </b><span class="asteriscoObligatorio">*</span></div>	
-		  	<input type="text" name="nombre" ng-blur="visitedNombre = true" list="clientes" ng-model="form.tituloCita" autocomplete="off" required />
-			<datalist id="clientes" autocomplete="true">
-			  <option ng-repeat="item in nombres" value="{{item.nombre}} {{item.apellido1}} {{item.apellido2}}"></option>
-			</datalist>
-		</label>
-		<div ng-show="formInsertarCita.nombre.$invalid && visitedNombre">
-        	<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Campo obligatorio.</span>
+		<div ng-show="hola === '66'">
+
+			<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
+				<div class="input-label"><b>Nombre: </b><span class="asteriscoObligatorio">*</span></div>	
+			  	<input type="text" name="nombre" ng-blur="visitedNombre = true" list="clientes" ng-model="form.tituloCita" autocomplete="off" required />
+				<datalist id="clientes" autocomplete="true">
+				  <option ng-repeat="item in nombres" id="{{item.id_cliente}}" value="{{item.nombre}} {{item.apellido1}} {{item.apellido2}}"></option>
+				</datalist>
+			</label>
+			<div ng-show="formInsertarCita.nombre.$invalid && visitedNombre">
+	        	<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Campo obligatorio.</span>
+	        </div>
         </div>
+
+		<div ng-show="hola === '-77'">
+
+		<label class="item item-input">
+	    	<span class="input-label"><b>Nombre:</b></span>
+	    	<input type="text" ng-model="form.nombre">
+	  	</label>
+
+	  	<label class="item item-input">
+	    	<span class="input-label"><b>Primer apellido:</b></span>
+	    	<input type="text" ng-model="form.apellido1">
+	  	</label>
+	  	</div>
 
 		  <label class="item item-input" ng-class="{'errorCampoForm' : formInsertarCita.fecha.$invalid && visitedFecha}">
 		    <div class="input-label"><b>Fecha cita: </b><span class="asteriscoObligatorio">*</span></div>
