@@ -6,19 +6,48 @@
 	<ion-content class="padding">
 	  
 	<form name="formModificarCita">
-	<div class="item item-divider">Datos de la cita</div>
+	<div class="item item-divider">Cita de: <b>{{nombreCliente}}</b></div>
 		<div class="list">
 		
-		<label class="item item-input" ng-class="{ 'errorCampoForm' : formModificarCita.nombre.$invalid && visitedNombre}">
-			<div class="input-label"><b>Nombre: </b><span class="asteriscoObligatorio">*</span></div>	
-		  	<input type="text" name="nombre" ng-blur="visitedNombre = true" list="clientes" ng-model="form.tituloCita" autocomplete="off" required />
-			<datalist id="clientes">
-			  <option ng-repeat="item in nombres" value="{{item.nombre}} {{item.apellido1}} {{item.apellido2}}"></option>
-			</datalist>
-		</label>
-		<div ng-show="formModificarCita.nombre.$invalid && visitedNombre">
-        	<span class="errorMensajeForm" ng-show="formModificarCita.nombre.$invalid">Campo obligatorio.</span>
+
+		<label class="item item-input item-select">
+			<div class="input-label"><b>Tipo cliente:</b><span class="asteriscoObligatorio">*</span></div>
+		    <select ng-change="getTipoClienteEdit(tipoEdit.obj)" ng-model="tipoEdit.obj" ng-options="tipoCliente.tipo for tipoCliente in tipoCliente" required>
+		    	<!-- options -->
+		    </select>
+		 </label>
+		
+		<div ng-if="showTipoClienteEdit == 66">
+
+			<label class="item item-input item-select" ng-class="{ 'errorCampoForm' : formModificarCita.nombre.$invalid && visitedNombre}">
+			    <div class="input-label"><b>Nombre: </b><span class="asteriscoObligatorio">*</span></div>
+			    <select name="nombre" ng-model="form.objClienteExistente" ng-options="nombres.nombre +' '+nombres.apellido1+' '+nombres.apellido2 for nombres in nombres">
+			    <option value="">Seleccionar...</option>
+			    </select>
+		  	</label>
+
+			<div ng-show="formModificarCita.nombre.$invalid && visitedNombre">
+	        	<span class="errorMensajeForm" ng-show="formModificarCita.nombre.$invalid">Campo obligatorio.</span>
+	        </div>
         </div>
+
+		<div ng-if="showTipoClienteEdit == -77">
+			<label class="item item-input" ng-class="{ 'errorCampoForm' : formModificarCita.nombre.$invalid && visitedNombre}">
+				<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
+				<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
+			</label>
+			<div ng-show="formModificarCita.nombre.$invalid && visitedNombre">
+        		<span class="errorMensajeForm" ng-show="formModificarCita.nombre.$invalid">Campo obligatorio.</span>
+            </div>
+
+            <label class="item item-input" ng-class="{ 'errorCampoForm' : formModificarCita.apellido1.$invalid && visitedApellido}">
+				<span class="input-label"><b>Primer apellido:</b><span class="asteriscoObligatorio">*</span></span>
+				<input type="text" name="apellido1" ng-blur="visitedApellido = true" ng-model="form.apellido1" required>
+			</label>
+			<div ng-show="formModificarCita.apellido1.$invalid && visitedApellido">
+        		<span class="errorMensajeForm" ng-show="formModificarCita.apellido1.$invalid">Campo obligatorio.</span>
+            </div>
+	  	</div>
 
 		  <label class="item item-input" ng-class="{'errorCampoForm' : formModificarCita.fecha.$invalid && visitedFecha}">
 		    <div class="input-label"><b>Fecha cita: </b><span class="asteriscoObligatorio">*</span></div>
@@ -44,7 +73,7 @@
 
 		<div class="row  responsive-sm">
 		  	<div class="col">
-		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-disabled="formModificarCita.$invalid" ng-click="clickModificarCita(form)"> Guardar cambios</button>
+		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-disabled="formModificarCita.$invalid" ng-click="clickModificarCita(form,showTipoClienteEdit)"> Guardar cambios</button>
 		  	</div>
 		</div>
 	</form>

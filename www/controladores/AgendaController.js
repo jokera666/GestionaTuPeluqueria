@@ -4,7 +4,7 @@ angular.module('starterMiApp.contrsAgenda', [])
 
     $scope.sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
-    
+
     $scope.nombreUsuario = localStorage.getItem("nombreUser");
     
     var date = new Date();
@@ -42,9 +42,8 @@ angular.module('starterMiApp.contrsAgenda', [])
       }
       else
       {
+        console.log(data);
         $scope.events = {
-                color: 'blue',
-                textColor: 'white',
                 events: data
         };
         $scope.eventSources.push($scope.events);
@@ -82,6 +81,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     
     $scope.openModalModificarCita = function(dataCita) {
     // Incializar formulario por defecto cuando se abra el modal
+    console.log(dataCita);
     var hIni = moment(dataCita.start._i).toDate();
     var hFin = moment(dataCita.end._i).toDate();
       $scope.form = {};
@@ -90,7 +90,8 @@ angular.module('starterMiApp.contrsAgenda', [])
         tituloCita: dataCita.title,
         fecha: new Date(dataCita.start),
         horaIni:  hIni,
-        horaFin:  hFin
+        horaFin:  hFin,
+        idCliente: dataCita.idCliente
       };
       $scope.modalModificarCita.show();
     }
@@ -108,67 +109,16 @@ angular.module('starterMiApp.contrsAgenda', [])
       });
     };
 
-    var formOriginalModificarCita = '';
-    $scope.clickModificarCita = function(form){
 
 
-      var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
-      var formattedHoraIni = moment(form.horaIni).format('HH:mm:ss');
-      var formattedHoraFin = moment(form.horaIni).add(30, 'minutes').format('HH:mm:ss');  // see the cloning?
-
-      var startCita = formattedDate.concat("T",formattedHoraIni);
-      var finCita = formattedDate.concat("T",formattedHoraFin);
-
-      var finHora = moment(finCita).toDate();
-      //Formulario que sera enviado para realizar la modificacion de la cita
-      $scope.formAdaptado = {
-        idCita:  form.idCita,
-        titulo:  form.tituloCita,
-        horaIni: startCita,
-        horaFin: finCita
-      }
-      
-
-      //Incializar el formulario despues de los cambios
-      $scope.form = {
-        idCita:     form.idCita,
-        tituloCita: form.tituloCita,
-        fecha:      form.fecha,
-        horaIni:    startCita,
-        horaFin:    finHora
-      }
-
-      var myPopup = $ionicPopup.show({
-      title: 'Modificar cita',
-      subTitle: '<span>¿Estás seguro de que deseas modificar la cita?</span>',
-      buttons: [
-        {
-         text: '<b>No</b>',
-         type: 'button-dark'
-        },
-        {
-          text: '<b>Sí</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            $ionicLoading.show();
-            if (e)
-            {              
-                servAgenda.modificarCita($scope.formAdaptado).then(function(){
-                  $state.go($state.current,null,{reload:true});
-                  $scope.modalModificarCita.hide();
-                });
-            }
-          }
-        }
-      ]
-      });
-    };
-
-
-    /* alert on eventClick */
+    /*----------------------------- POPUP DE GESTIONAR CITA DE UN CLIENTE ----------------------*/
+    /*----------------------------- CAJA - MODIFICAR CITA - BORRAR CITA  -----------------------*/
     $scope.alertOnEventClick = function( dataCita, jsEvent, view){
-        //alert(date.title + ' was clicked ');
-        console.log(dataCita);
+
+        console.log(dataCita.idCliente);
+        var idCliente = dataCita.idCliente;
+        $scope.nombreCliente = dataCita.title;
+
 
         var myPopup = $ionicPopup.show({
         title: 'Gestionar cita de: <b>'+dataCita.title+'</b>',
@@ -180,7 +130,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             onTap: function(e){
               if(e)
               {
-                $state.go('sidemenu.caja',{'idCita' : dataCita.id, 'fechaCita': dataCita.start},{reload:false});
+                $state.go('sidemenu.caja',{'idCita' : dataCita.id, 'fechaCita': dataCita.start, 'idCliente': idCliente},{reload:false});
               }
               else
               {
@@ -192,7 +142,6 @@ angular.module('starterMiApp.contrsAgenda', [])
             text: '<b>Modificar cita</b>',
             type: 'button-positive',
             onTap: function(e) {
-              //$ionicLoading.show();
               if (e)
               {
                   $scope.openModalModificarCita(dataCita);
@@ -247,11 +196,9 @@ angular.module('starterMiApp.contrsAgenda', [])
         });
         //Cerrar popup cuando pulses fuera
         IonicClosePopupService.register(myPopup);
-
-
-
-
     };
+    /*--------------------------------FIN POPUP---------------------------*/
+
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
       console.log('entro');
@@ -397,32 +344,46 @@ angular.module('starterMiApp.contrsAgenda', [])
     servClientes.listarClientes('citasClientes',$scope.sesionIdUser).then(function(data){
       if(data==-1)
       {
-          $scope.form = {
-             tituloCita: 'No hay clientes'
-          };
+        // No hay clientes.
       }
       else
       {
         $scope.nombres = data;
-        console.log(data);   
       }
     });
 
     $scope.tipoCliente = [
-    {idTipoCliente: '-77',tipo:'General'},
-    {idTipoCliente: '66',tipo:'Existente'}
+    {idTipoCliente: -77,tipo:'Genérico'},
+    {idTipoCliente: 66,tipo:'Existente'}
     ];
 
-    $scope.getTipoCliente = function(tipoCliente)
+    //Inciar select tipoCliente
+    $scope.tipoInsert = {
+      obj: $scope.tipoCliente[0]
+    }
+
+    $scope.tipoEdit = {
+      obj: $scope.tipoCliente[0]
+    }
+
+    $scope.showTipoClienteInsert = $scope.tipoCliente[0].idTipoCliente;
+    $scope.showTipoClienteEdit = $scope.tipoCliente[0].idTipoCliente;
+
+    $scope.getTipoClienteInset = function(tipoCliente)
     {
-      console.log(tipoCliente.idTipoCliente);
-      $scope.hola = tipoCliente.idTipoCliente;
+      $scope.showTipoClienteInsert = tipoCliente.idTipoCliente;
+    }
+
+    $scope.getTipoClienteEdit = function(tipoCliente)
+    {
+      $scope.showTipoClienteEdit = tipoCliente.idTipoCliente;
     }
 
 
+      /*--------------------------- INSERTAR CITA ------------------------------*/
+      $scope.clickInsertarCita = function(form,tipoCliente){
+      $ionicLoading.show();
 
-      $scope.clickInsertarCita = function(form){
-      
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
       var formattedHourIni = moment(form.horaIni).format('HH:mm:ss');
 
@@ -434,24 +395,63 @@ angular.module('starterMiApp.contrsAgenda', [])
       //Convertir moment formato al new Date de javascript
       var finHora = moment(finCita).toDate();
 
+      switch(tipoCliente)
+      {
+        //Clientes existentes
+        case 66:
 
-          //Inciar form con los datos introducidos por el usuarios
+          /*Inciar form con los datos introducidos por 
+          el usuarios para clientes existentes*/
           $scope.form = {
-            tituloCita: form.tituloCita,
+            objClienteExistente: form.objClienteExistente,
             fecha: form.fecha,
             horaIni:  form.horaIni,
             horaFin:  finHora
           };
 
 
-      //Objeto con propiedades para insertar la cita correctamente en la BBDD
-      // para que luego al realizar la visualizacion de las citas sea mas facil.
-       $scope.formattedFormCita = {
-        title:form.tituloCita,
-        start:startCita,
-        end:finCita,
-        idUser: $scope.sesionIdUser 
-       };
+          //Objeto con propiedades para insertar la cita correctamente en la BBDD
+          // para que luego al realizar la visualizacion de las citas sea mas facil.
+          var idCliente = form.objClienteExistente.id_cliente;
+          var nombre = form.objClienteExistente.nombre;
+          var apellido1 = form.objClienteExistente.apellido1;
+          var apellido2 = form.objClienteExistente.apellido2;
+          if(apellido2!=='')
+          {
+            var nombreCompleto = nombre.concat(' ',apellido1,' ', apellido2);
+          }
+          else
+          {
+            var nombreCompleto = nombre.concat(' ',apellido1);
+          }
+          
+          $scope.formattedFormCita = {
+            tipoCliente: tipoCliente,
+            title:nombreCompleto,
+            start:startCita,
+            end:finCita,
+            idUser: $scope.sesionIdUser,
+            idCliente: idCliente  
+          };
+
+        break;
+
+        /*Inciar form con los datos introducidos por 
+        el usuarios para clientes generales*/
+        case -77:
+
+          $scope.formattedFormCita = {
+            tipoCliente: tipoCliente,
+            nombre: form.nombre,
+            apellido1: form.apellido1,
+            start:startCita,
+            end:finCita,
+            idUser: $scope.sesionIdUser
+          };
+
+        break;
+      }
+
 
       //Obtener hora cita
       var auxHorasIni   = new Date (form.horaIni);
@@ -462,6 +462,7 @@ angular.module('starterMiApp.contrsAgenda', [])
 
       if(horasIni > horasFin || horasFin < horasIni )
       {
+        $ionicLoading.hide();
         var alertPopup = $ionicPopup.alert({
              title: 'Error al añadir cita',
              template: 'La hora de inicio tiene que ser menor que la hora fin y viceversa',
@@ -471,64 +472,139 @@ angular.module('starterMiApp.contrsAgenda', [])
       } 
       else
       {
-        var myPopup = $ionicPopup.show({
-        title: 'Añadir cita',
-        subTitle: '<span>¿Estás seguro de que deseas añadir la cita?</span>',
-        buttons: [
-          { 
-            text: '<b>No</b>',
-            type: 'button-dark',
-            onTap: function(e){
-              if(e)
-              {
-                $scope.form = {
-                  tituloCita: form.tituloCita,
-                  fecha: form.fecha,
-                  horaIni:  form.horaIni,
-                  horaFin:  ''
-                };
-              }
-              else
-              {
-                return;
-              }
-            }
-          },
+        servAgenda.insertarCita($scope.formattedFormCita).then(function(servResponse){
+          if(servResponse==-1)
           {
-            text: '<b>Sí</b>',
-            type: 'button-positive',
-            onTap: function(e) {
-              $ionicLoading.show();
-              if (e)
-              {            
-                  //Insertar cita en el calendario
-                  servAgenda.insertarCita($scope.formattedFormCita).then(function(data){
-                    //console.log(data);
-                    if(data==-1)
-                    {
-                        var alertPopup = $ionicPopup.alert({
-                             title: 'Error al añadir cita',
-                             template: 'Ha habido un problema a la hora de insertar la cita.',
-                             okText: 'Intentar de nuevo', 
-                             okType: 'button-assertive'
-                        });
-                    }
-                    else
-                    {
-                      console.log("Cita insertada correctamente.");
-                      $state.go('sidemenu.agenda',null,{reload:true});
-                      $scope.modal.hide();
-                    }
-                  });
-              }
-              else
-              {
-                return; 
-              }
-            }
+              $ionicLoading.hide();
+              var alertPopup = $ionicPopup.alert({
+                   title: 'Error al añadir cita',
+                   template: 'Ha acurrido un error a la hora de insertar la cita.',
+                   okText: 'Intentar de nuevo', 
+                   okType: 'button-assertive'
+              });
           }
-        ]
+          else
+          {
+            $state.go('sidemenu.agenda',null,{reload:true});
+            $scope.modal.hide();
+          }
         });
       }
     };
+    /*--------------------------- FIN INSERTAR CITA ------------------------------*/
+
+
+    /*--------------------------- MODIFICAR CITA ---------------------------------*/
+    $scope.clickModificarCita = function(form,tipoCliente){
+
+      var nombreClienteCita = form.tituloCita;
+
+      var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
+      var formattedHoraIni = moment(form.horaIni).format('HH:mm:ss');
+      var formattedHoraFin = moment(form.horaIni).add(30, 'minutes').format('HH:mm:ss');  // see the cloning?
+
+      var startCita = formattedDate.concat("T",formattedHoraIni);
+      var finCita = formattedDate.concat("T",formattedHoraFin);
+
+      var finHora = moment(finCita).toDate();
+
+
+      switch(tipoCliente)
+      {
+        //Clientes existentes
+        case 66:
+
+          /*Inciar form con los datos introducidos por 
+          el usuarios para clientes existentes*/
+          $scope.form = {
+            objClienteExistente: form.objClienteExistente,
+            fecha: form.fecha,
+            horaIni:  form.horaIni,
+            horaFin:  finHora
+          };
+
+
+          //Objeto con propiedades para insertar la cita correctamente en la BBDD
+          // para que luego al realizar la visualizacion de las citas sea mas facil.
+          var idCliente = form.objClienteExistente.id_cliente;
+          var nombre = form.objClienteExistente.nombre;
+          var apellido1 = form.objClienteExistente.apellido1;
+          var apellido2 = form.objClienteExistente.apellido2;
+          if(apellido2!=='')
+          {
+            var nombreCompleto = nombre.concat(' ',apellido1,' ', apellido2);
+          }
+          else
+          {
+            var nombreCompleto = nombre.concat(' ',apellido1);
+          }
+          
+          $scope.formattedFormCita = {
+
+          };
+
+          //Formulario que sera enviado para realizar la modificacion de la cita
+          $scope.formAdaptado = {
+            tipoCliente: tipoCliente,
+            idCita: form.idCita,
+            title: nombreCompleto,
+            start: startCita,
+            end: finCita,
+            idCliente: idCliente  
+          }
+
+        break;
+
+        /*Inciar form con los datos introducidos por 
+        el usuarios para clientes generales*/
+        case -77:
+
+          //Inciar form con los datos introducidos por el usuarios
+          $scope.form = {
+            nombre: form.nombre,
+            apellido1: form.apellido1,
+            fecha: form.fecha,
+            horaIni:  form.horaIni,
+            horaFin:  finHora
+          };
+
+          $scope.formAdaptado = {
+            tipoCliente: tipoCliente,
+            idCita: form.idCita,
+            nombre: form.nombre,
+            apellido1: form.apellido1,
+            start: startCita,
+            end: finCita
+          };
+
+        break;
+      }
+
+      var myPopup = $ionicPopup.show({
+      title: 'Modificar cita',
+      subTitle: '<span>¿Estás seguro de que deseas modificar la cita de <b>'+nombreClienteCita+' </b>?</span>',
+      buttons: [
+        {
+         text: '<b>No</b>',
+         type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servAgenda.modificarCita($scope.formAdaptado).then(function(){
+                  $state.go($state.current,null,{reload:true});
+                  $scope.modalModificarCita.hide();
+                });
+            }
+          }
+        }
+      ]
+      });
+    };
+    /*--------------------------- FIN MODIFICAR CITA ------------------------------*/
+
 }]) // Fin AgendaCtrl

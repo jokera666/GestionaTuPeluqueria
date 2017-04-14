@@ -181,7 +181,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
   })
 
 .state('sidemenu.caja', {
-    url: '/caja/:idCita/:fechaCita',
+    url: '/caja/:idCita/:fechaCita/:idCliente',
     views: {
       'menuContent': {
         templateUrl: 'plantillas/caja.html',

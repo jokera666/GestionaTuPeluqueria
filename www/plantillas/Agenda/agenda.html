@@ -1,6 +1,15 @@
 <ion-view view-title="Agenda (Calendario y citas previas)">
   <ion-content>
   	<div class="padding"></div>
+  	<div id="box1">
+	  	<div class="leyendaColores"></div>
+		<span> Cliente genérico</span>
+  	</div>
+  	<div id="box2">
+	  	<div class="leyendaColores1"></div>
+		<span> Cliente existente</span>
+  	</div>
+  	<div class="padding"></div>
     <div ui-calendar="uiConfig.calendar" class="calendar" ng-model="eventSources"></div>
   </ion-content>
   <button class="btnAnadir button button-positive icon ion-compose" ng-click="openModal()"></button>

@@ -199,6 +199,28 @@ text-transform: capitalize;
   left: 0 !important;
 }
 
+.leyendaColores {
+    background-color: #444;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    float: left;
+}
+
+.leyendaColores1 {
+    background-color: #886aea;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    float: left;
+}
+
+#box1{
+    float: left;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
 /*Modal tablets*/
 @media (min-width: 680px) {
   .modal {

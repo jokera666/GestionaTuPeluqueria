@@ -4,6 +4,7 @@ angular.module('starterMiApp.contrsCaja', [])
 
 	console.log($stateParams.idCita);
 	console.log($stateParams.fechaCita);
+	console.log($stateParams.idCliente);
 
 	// $scope.nombreCliente = 'Nestor';
 

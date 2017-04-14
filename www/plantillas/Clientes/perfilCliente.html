@@ -5,8 +5,8 @@
 	<form name="clienteForm">
 		<div id="fondoImgPerfil">
 			<!-- <img ng-show="data.urlFoto !== null" ng-src="{{data.urlFoto}}" alt="{{data.nombre}} {{data.apellido1}}"> -->
-			<img ng-show="imgURItemp !== undefined" ng-src="{{imgURItemp}}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
-			<img ng-show="imgURItemp === undefined" ng-src="{{ data.urlFoto || './img/noFoto.png' }}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
+			<img ng-if="imgURItemp !== undefined" ng-src="{{imgURItemp}}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
+			<img ng-if="imgURItemp === undefined" ng-src="{{ data.urlFoto || './img/noFoto.png' }}" alt="{{data.nombre}} {{data.apellido1}}" ng-click="verFoto()">
 			<button id="btnHacerFoto" class="button icon button-positive icon ion-camera" ng-click="openPopoverFoto($event)"></button>
 		</div>
 		<div class="item item-divider">Datos cliente</div>

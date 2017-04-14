@@ -10,41 +10,46 @@
 		<div class="list">
 
 		<label class="item item-input item-select">
-			<div class="input-label">Tipo cliente</div>
-		    <select ng-change="getTipoCliente(tipo.obj)" ng-model="tipo.obj" ng-options="tipoCliente.tipo for tipoCliente in tipoCliente">
-		    	<option value="">Seleccionar...</option>
+			<div class="input-label"><b>Tipo cliente:</b><span class="asteriscoObligatorio">*</span></div>
+		    <select ng-change="getTipoClienteInset(tipoInsert.obj)" ng-model="tipoInsert.obj" ng-options="tipoCliente.tipo for tipoCliente in tipoCliente" required>
+		    	<!-- options -->
 		    </select>
 		 </label>
 		
-		<div ng-show="hola === '66'">
+		<div ng-if="showTipoClienteInsert == 66">
 
-			<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
-				<div class="input-label"><b>Nombre: </b><span class="asteriscoObligatorio">*</span></div>	
-			  	<input type="text" name="nombre" ng-blur="visitedNombre = true" list="clientes" ng-model="form.tituloCita" autocomplete="off" required />
-				<datalist id="clientes" autocomplete="true">
-				  <option ng-repeat="item in nombres" id="{{item.id_cliente}}" value="{{item.nombre}} {{item.apellido1}} {{item.apellido2}}"></option>
-				</datalist>
-			</label>
+			<label class="item item-input item-select" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
+			    <div class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></div>
+			    <select name="nombre" ng-model="form.objClienteExistente" ng-options="nombres.nombre +' '+nombres.apellido1+' '+nombres.apellido2 for nombres in nombres" required>
+			    <option value="">Seleccionar...</option>
+			    </select>
+		  	</label>
+
 			<div ng-show="formInsertarCita.nombre.$invalid && visitedNombre">
 	        	<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Campo obligatorio.</span>
 	        </div>
         </div>
 
-		<div ng-show="hola === '-77'">
+		<div ng-if="showTipoClienteInsert == -77">
+			<label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
+				<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
+				<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
+			</label>
+			<div ng-show="formInsertarCita.nombre.$invalid && visitedNombre">
+        		<span class="errorMensajeForm" ng-show="formInsertarCita.nombre.$invalid">Campo obligatorio.</span>
+            </div>
 
-		<label class="item item-input">
-	    	<span class="input-label"><b>Nombre:</b></span>
-	    	<input type="text" ng-model="form.nombre">
-	  	</label>
-
-	  	<label class="item item-input">
-	    	<span class="input-label"><b>Primer apellido:</b></span>
-	    	<input type="text" ng-model="form.apellido1">
-	  	</label>
+            <label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertarCita.apellido1.$invalid && visitedApellido}">
+				<span class="input-label"><b>Primer apellido:</b><span class="asteriscoObligatorio">*</span></span>
+				<input type="text" name="apellido1" ng-blur="visitedApellido = true" ng-model="form.apellido1" required>
+			</label>
+			<div ng-show="formInsertarCita.apellido1.$invalid && visitedApellido">
+        		<span class="errorMensajeForm" ng-show="formInsertarCita.apellido1.$invalid">Campo obligatorio.</span>
+            </div>
 	  	</div>
 
 		  <label class="item item-input" ng-class="{'errorCampoForm' : formInsertarCita.fecha.$invalid && visitedFecha}">
-		    <div class="input-label"><b>Fecha cita: </b><span class="asteriscoObligatorio">*</span></div>
+		    <div class="input-label"><b>Fecha cita:</b><span class="asteriscoObligatorio">*</span></div>
 		    <input type="date" ng-model="form.fecha" name="fecha" ng-blur="visitedFecha = true" required>
 		  </label>
 		  <div ng-show="formInsertarCita.fecha.$invalid && visitedFecha">
@@ -52,7 +57,7 @@
        	  </div>
 
 		  <label class="item item-input" ng-class="{'errorCampoForm' : formInsertarCita.horaIni.$invalid && visitedHoraIni}">
-		    <div class="input-label"><b>Hora inicio: </b><span class="asteriscoObligatorio">*</span></div>
+		    <div class="input-label"><b>Hora inicio:</b><span class="asteriscoObligatorio">*</span></div>
 		    <input type="time" ng-model="form.horaIni" name="horaIni" ng-blur="visitedHoraIni = true" required >
 		  </label>
 		  <div ng-show="formInsertarCita.horaIni.$invalid && visitedHoraIni">
@@ -60,14 +65,14 @@
           </div>
 
 		  <label class="item item-input">
-		    <div class="input-label"><b>Hora Fin: </b><span class="asteriscoObligatorio">*</span></div>
+		    <div class="input-label"><b>Hora Fin:</b><span class="asteriscoObligatorio">*</span></div>
 		    <input type="time" name="horaFin" ng-model="form.horaFin" ng-disabled="horaFin.$invalid = true">
 		  </label>
 		</div>
 
 		<div class="row  responsive-sm">
 		  	<div class="col">
-		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-disabled="formInsertarCita.$invalid" ng-click="clickInsertarCita(form)"> Guardar cita</button>
+		  		<button class="button icon ion-checkmark-round button-positive button-block" type="button" ng-disabled="formInsertarCita.$invalid" ng-click="clickInsertarCita(form,showTipoClienteInsert)"> Guardar cita</button>
 		  	</div>
 		</div>
 	</form>
