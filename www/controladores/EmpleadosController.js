@@ -16,7 +16,7 @@ angular.module('starterMiApp.contrsEmpleados', [])
       $scope.animacion = "hide";
 			$scope.Empleados = servResponse;
 		}
-	})
+	});
 
     // 'plantillas/modalInsertarEmpleado.html' URL para ejecutar en el movil
     $ionicModal.fromTemplateUrl('plantillas/Empleados/modalInsertarEmpleado.html', {

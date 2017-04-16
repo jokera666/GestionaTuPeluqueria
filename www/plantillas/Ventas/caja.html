@@ -3,23 +3,38 @@
 		<form name="cajaForm">
 			<div class="item item-divider">Datos cita</div>
 			<div class="list">
+				
+			<div ng-if="ventaNueva ==''">	
 				<label class="item item-input" ng-class="{ 'errorCampoForm' : cajaForm.nombre.$invalid && visitedNombre}">
-					<span class="input-label"><b>Cliente:</b><span class="asteriscoObligatorio">*</span></span>
-					<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombreCliente" required>
+						<span class="input-label"><b>Cliente:</b><span class="asteriscoObligatorio">*</span></span>
+						<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombreCliente" required>
 				</label>
 				<div ng-show="cajaForm.nombre.$invalid && visitedNombre">
             		<span class="errorMensajeForm" ng-show="cajaForm.nombre.$invalid">Campo obligatorio.</span>
                 </div>
 
-			   <label class="item item-input" ng-class="{'errorCampoForm' : cajaForm.fecha.$invalid && visitedFecha}">
-			     	<div class="input-label"><b>Fecha cita: </b><span class="asteriscoObligatorio">*</span></div>
-			     	<input type="date" name="fecha" ng-model="form.fecha" ng-blur="visitedFecha = true" required>
-			    </label>
-			    <div ng-show="cajaForm.fecha.$invalid && visitedFecha">
-	        		<span class="errorMensajeForm" ng-show="cajaForm.fecha.$invalid">Campo obligatorio.</span>
-	       	    </div>
+		        <label class="item item-input" ng-class="{'errorCampoForm' : cajaForm.fecha.$invalid && visitedFecha}">
+				    	<div class="input-label"><b>Fecha cita:</b><span class="asteriscoObligatorio">*</span></div>
+				    	<input type="date" ng-model="form.fecha" name="fecha" ng-blur="visitedFecha = true" required>
+				</label>
+				<div ng-show="cajaForm.fecha.$invalid && visitedFecha">
+		        		<span class="errorMensajeForm" ng-show="cajaForm.fecha.$invalid">Campo obligatorio.</span>
+		       	</div>
+		    </div>
 
-	       	    <label class="item item-select">
+			<div ng-if="ventaNueva !=''">
+                <label class="item item-input">
+						<span class="input-label"><b>Cliente:</b></span>
+						<input type="text" name="nombreCli" ng-model="nombreCliente" ng-disabled="nombreCli.$invalid = true" required>
+				</label>
+
+			   <label class="item item-input">
+			     	<div class="input-label"><b>Fecha cita:</b><span class="asteriscoObligatorio">*</span></div>
+			     	<input type="date" name="fecha" ng-model="form.fecha" ng-disabled="fecha.$invalid = true" required>
+			    </label>
+			</div>
+
+	       	    <label class="item item-input item-select">
 				    <div class="input-label"><b>Empleado:</b><span class="asteriscoObligatorio">*</span></div>
 				    <select ng-change="getEmpleado(form.empleado)" ng-model="form.empleado" ng-options="empleados.nombre for empleados in empleados" required>
 				    <option value="">Seleccionar...</option>
@@ -38,7 +53,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Sección:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="todoItem.seccion" ng-options="secciones.nombre for secciones in secciones" required>
+							    <select name="seccion{{$index}}" ng-model="todoItem.seccion" ng-change="getIdSeccion(todoItem.seccion,{{$index}})" ng-options="secciones.nombre for secciones in secciones track by secciones.nombre" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -48,7 +63,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Servicio:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="todoItem.servicio" ng-options="servicios.nombre for servicios in servicios" required>
+							    <select id="servicio" name="servicio{{$index}}" ng-model="todoItem.servicio" ng-change="getNombreServicio(todoItem.servicio)" ng-options="servicios{{$index}}.nombreServicio for servicios{{$index}} in servicios{{$index}}" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -58,7 +73,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Categoría:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="todoItem.categoria" ng-options="categorias.nombre for categorias in categorias" required>
+							    <select name="categoria{{$index}}" ng-model="todoItem.categoria" ng-change="getCategoria(todoItem.categoria)" ng-options="categorias{{$index}}.nombreElemento for categorias{{$index}} in categorias{{$index}}" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -84,18 +99,10 @@
 
 			</div> <!-- Fin List -->
 
-
-
 			<div class="row  responsive-sm">
 			  	<div class="col">
-			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="cajaForm.$invalid" ng-click="clickModificarEmpleado(form)"> Guardar cambios</button>
+			  		<button class="button button-block button-positive icon ion-social-euro" type="button" ng-disabled="cajaForm.$invalid" ng-click="realizarVenta(form)"> Realizar venta</button>
 			  	</div>
-			  	<div class="col">
-			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
-			  	</div>
-			  	<div class="col">
-			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarEmpleado()"> Borrar empleado</button>
-				</div>
 			</div>
 		</form>
 	</ion-content>

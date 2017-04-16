@@ -115,7 +115,6 @@ angular.module('starterMiApp.contrsAgenda', [])
     /*----------------------------- CAJA - MODIFICAR CITA - BORRAR CITA  -----------------------*/
     $scope.alertOnEventClick = function( dataCita, jsEvent, view){
 
-        console.log(dataCita.idCliente);
         var idCliente = dataCita.idCliente;
         $scope.nombreCliente = dataCita.title;
 
@@ -130,7 +129,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             onTap: function(e){
               if(e)
               {
-                $state.go('sidemenu.caja',{'idCita' : dataCita.id, 'fechaCita': dataCita.start, 'idCliente': idCliente},{reload:false});
+                $state.go('sidemenu.caja',{'nombreCliente' : dataCita.title, 'fechaCita': dataCita.start, 'idCliente': idCliente},{reload:false});
               }
               else
               {

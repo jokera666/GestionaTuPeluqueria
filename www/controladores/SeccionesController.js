@@ -20,7 +20,7 @@ angular.module('starterMiApp.contrsSecciones', [])
           $scope.animacion = "hide";
         	$scope.secciones = data;   
       	}
-	})
+	});
 
 	$ionicModal.fromTemplateUrl('plantillas/Secciones/modalInsertarSeccion.html', {
       scope: $scope,

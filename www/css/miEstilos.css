@@ -221,8 +221,17 @@ text-transform: capitalize;
     margin-left: 5px;
 }
 
+@media only screen and (min-device-width:320px){
+  .col-offset-90 {
+      margin-left: 80%;
+  }
+}
+
 /*Modal tablets*/
 @media (min-width: 680px) {
+  .col-offset-90 {
+      margin-left: 90%;
+  }
   .modal {
     top: 0px !important;
     bottom: 0 !important;
