@@ -25,7 +25,6 @@ angular.module('starterMiApp.contrsProductos', [])
 		    
 		    var idMarca = $scope.model['marca'].id_marca;
 		    var nombreMarca = $scope.model['marca'].nombre;
-		    $scope.nombre = 'nestor';
 
 			//null es la opcion de Seleccionar...
 			if($scope.model!=null)
@@ -47,10 +46,7 @@ angular.module('starterMiApp.contrsProductos', [])
 				});
 			}
 		}
-
-
 	});
-
 
 
 	//Listar todos los productos segun la marca seleccionada

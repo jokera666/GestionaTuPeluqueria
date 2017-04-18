@@ -59,7 +59,6 @@
 						  	</label>
 	          			</div>
 
-
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Servicio:</b><span class="asteriscoObligatorio">*</span></div>
@@ -69,11 +68,10 @@
 						  	</label>
 	          			</div>
 
-
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Categoría:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="categoria{{$index}}" ng-model="todoItem.categoria" ng-change="getCategoria(todoItem.categoria)" ng-options="categorias{{$index}}.nombreElemento for categorias{{$index}} in categorias{{$index}}" required>
+							    <select name="categoria{{$index}}" ng-model="todoItem.categoria" ng-change="getCategoria(todoItem.categoria,$index)" ng-options="categorias{{$index}}.nombreElemento for categorias{{$index}} in categorias{{$index}}" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -82,7 +80,7 @@
 					  <div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+							<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-change="getPrecioVentaServicio($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 						</label>
 						<div ng-show="cajaForm.precioVenta{{$index}}.$invalid">
 	        				<span class="errorMensajeForm" ng-show="cajaForm.precioVenta{{$index}}.$error.required">Campo obligatorio.</span>
@@ -90,14 +88,90 @@
 	            		</div>
 					  </div>
 
-					</div> <!-- FIN ROW -->
-				</ion-item>
+					</div> 
+				</ion-item> <!-- FIN ROW todoList LineaServicios -->
 					<div class="col-offset-90 padding">
 							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirServicio()"></button>
 		          	</div>
 				<div class="item item-divider">Productos adquiridos</div>
+				<ion-item ng-repeat = "todoItem in todoListProductos">
+					<div class="row responsive-lg">
+					
+						<div class="col-10" style="max-width: 3%">
+							<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarProducto($index)"></button>
+	          			</div>
 
+	          			<div class="col">
+			          		<label class="item item-input item-select">
+							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select name="marca{{$index}}" ng-model="todoItem.marca" ng-change="getIdMarca(todoItem.marca,{{$index}})" ng-options="marcas.nombre group by marcas.nombreProveedor for marcas in marcas" required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+	          			</div>
+
+	          			<div class="col">
+			          		<label class="item item-input item-select">
+							    <div class="input-label"><b>Producto:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select name="producto{{$index}}" ng-model="todoItem.producto" ng-change="getIdProducto(todoItem.producto,$index)" ng-options="productos{{$index}}.nombreProducto for productos{{$index}} in productos{{$index}}" required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+	          			</div>
+
+	          			<div class="col">
+						  	<label class="item item-input">
+								<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
+								<input type="number" name="unidades{{$index}}" ng-change="getPrecioVentaProducto($index)" ng-model="todoItem.unidades" ng-init="todoItem.unidades = 1" ng-pattern="/^[1-9]\d*$/" required>
+							</label>
+							<div ng-show="cajaForm.unidades{{$index}}.$invalid">
+		        				<span class="errorMensajeForm" ng-show="cajaForm.unidades{{$index}}.$error.required">Campo obligatorio.</span>
+		        				<span class="errorMensajeForm" ng-show="cajaForm.unidades{{$index}}.$error.pattern">Solo numeros enteros.</span>
+		            		</div>
+					  	</div>
+
+					  	<div class="col">
+						  	<label class="item item-input">
+								<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
+								<input type="number" name="precioVentaProducto{{$index}}" ng-model="todoItem.precioVentaProducto" ng-change="getPrecioVentaProducto($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+							</label>
+							<div ng-show="cajaForm.precioVentaProducto{{$index}}.$invalid">
+		        				<span class="errorMensajeForm" ng-show="cajaForm.precioVentaProducto{{$index}}.$error.required">Campo obligatorio.</span>
+		        				<span class="errorMensajeForm" ng-show="cajaForm.precioVentaProducto{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+		            		</div>
+					  	</div>
+
+	          		</div>
+
+				</ion-item> <!-- FIN ROW todoList LineaProductos -->
+					<div class="col-offset-90 padding">
+							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirProducto()"></button>
+		          	</div>
 			</div> <!-- Fin List -->
+			
+			<div ng-if="todoListProductos != '' || todoListServicios != ''">
+				<div class="row responsive-sm">
+					<div class="col col-20">
+					  	<label class="item item-input">
+							<span class="input-label"><b>Descuento:</b></span>
+							<input type="number" name="descuento" ng-model="descuento" ng-init="descuento = 0" ng-blur="aplicarDescuento(descuento)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+						</label>
+					</div>
+					<div class="col col-25 col-offset-50">
+						<div class="card">
+						  <div class="item item-divider">
+						    Precio total
+						  </div>
+						  <div class="item item-text-wrap">
+						   <h1 style="text-align: center;">{{precioTotalVenta | currency:'€'}}</h1>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<pre> FROM = {{forma | json}}</pre>
 
 			<div class="row  responsive-sm">
 			  	<div class="col">
