@@ -9,15 +9,17 @@ angular.module('starterMiApp.contrsClientes', [])
 
     //Listar los clientes en el list item
     servClientes.listarClientes('listaClientes',$scope.sesionIdUser).then(function(data){
+      console.log(data);
       if(data==-1)
       {
+        $scope.noClientes = -1;
         $scope.mensajeError = "No hay clientes introducidos.";
         $scope.animacion = "animated shake show";
       }
       else
       {
         $scope.animacion = "hide";
-        $scope.clientes = data;   
+        $scope.clientes = data;  
       }
       
     });
@@ -84,6 +86,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
     $scope.clickModificarCliente = function (form){
+        console.log(form);
         var myPopup = $ionicPopup.show({
         title: 'Guardar datos',
         subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',

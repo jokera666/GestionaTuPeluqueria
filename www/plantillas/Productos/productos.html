@@ -1,6 +1,6 @@
 <ion-view view-title="Productos">
 		
-		<ion-content class="padding">
+		<ion-content class="padding" scroll="false">
 			<label class="item-full item-input item-select">
 			    <div class="input-label">Marcas</div>
 			    <select ng-change="getProducto(model.marca)" ng-model="model.marca" ng-options="marcas.nombre group by marcas.nombreProveedor for marcas in marcas">

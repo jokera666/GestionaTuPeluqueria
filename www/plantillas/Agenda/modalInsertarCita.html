@@ -20,7 +20,7 @@
 
 			<label class="item item-input item-select" ng-class="{ 'errorCampoForm' : formInsertarCita.nombre.$invalid && visitedNombre}">
 			    <div class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></div>
-			    <select name="nombre" ng-model="form.objClienteExistente" ng-options="nombres.nombre +' '+nombres.apellido1+' '+nombres.apellido2 for nombres in nombres" required>
+			    <select name="nombre" ng-model="form.objClienteExistente" ng-options="nombres.nombre +' '+nombres.apellido1+' '+nombres.apellido2 group by nombres.nombreTipo for nombres in nombres" required>
 			    <option value="">Seleccionar...</option>
 			    </select>
 		  	</label>

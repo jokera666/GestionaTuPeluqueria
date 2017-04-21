@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsCaja', [])
 
-.controller('CajaCtrl', ['$scope','$state','$stateParams','servEmpleados','servSecciones','servServicios','servCompras','servProductos','$ionicPopup','$ionicLoading', function($scope,$state,$stateParams,servEmpleados,servSecciones,servServicios,servCompras,servProductos,$ionicPopup,$ionicLoading){
+.controller('CajaCtrl', ['$scope','$state','$stateParams','$ionicPopup','$ionicLoading','servEmpleados','servSecciones','servServicios','servCompras','servProductos','servVentas','servClientes','$ionicPopup','$ionicLoading', function($scope,$state,$stateParams,$ionicPopup,$ionicLoading,servEmpleados,servSecciones,servServicios,servCompras,servProductos,servVentas,servClientes){
 
 	var idUser = localStorage.getItem("idUser");
 
@@ -10,11 +10,97 @@ angular.module('starterMiApp.contrsCaja', [])
 
 	$scope.ventaNueva = $stateParams.idCliente;
 
-	$scope.nombreCliente = nombreCliente;
+	//Listar los clientes
+    servClientes.listarClientes('citasClientes',idUser).then(function(data){
+      if(data==-1)
+      {
+        // No hay clientes.
+      }
+      else
+      {
+        $scope.nombres = data;
+      }
+    });
 
-	$scope.form = {
-		fecha: new Date(fechaCita)
-	};
+	$scope.tipoCliente = [
+	    {idTipoCliente: -77,tipo:'Genérico'},
+	    {idTipoCliente: 66,tipo:'Existente'}
+    ]; 
+
+    //Inciar select tipoCliente
+    $scope.tipoInsert = {
+      obj: $scope.tipoCliente[0]
+    }
+
+    $scope.tipoEdit = {
+      obj: $scope.tipoCliente[0]
+    }
+
+    $scope.showTipoCliente = $scope.tipoCliente[0].idTipoCliente;
+
+    $scope.getTipoClienteCaja = function(tipoCliente)
+    {
+      $scope.showTipoCliente = tipoCliente.idTipoCliente;
+    }
+
+
+	$scope.nombreCliente = nombreCliente;
+	$scope.form = [];
+
+	function numRandom(min, max) {
+  		return Math.floor(Math.random() * (max - min)) + min;
+	}
+
+	if(fechaCita != '')
+	{
+		var date = new Date(fechaCita);
+	    var d = date.getDate();
+	    var m = date.getMonth();
+	    var y = date.getFullYear();
+
+	   	var numeroAletorio = numRandom(1000,9000);
+
+	    numVenta = String(d).concat(String(m+1),String(y),String(numeroAletorio));
+
+		$scope.form = {
+			fecha: new Date(fechaCita),
+			numVenta: numVenta
+		};
+	}
+	else
+	{
+		var objForm = $scope.form = {
+			fecha: new Date()
+		};
+
+		var date = new Date(objForm.fecha);
+	    var d = date.getDate();
+	    var m = date.getMonth();
+	    var y = date.getFullYear();
+
+	   	var numeroAletorio = numRandom(1000,9000);
+
+	    numVenta = String(d).concat(String(m+1),String(y),String(numeroAletorio));
+		
+		$scope.form = {
+			fecha: new Date(),
+			numVenta: numVenta
+		};
+	}
+
+	$scope.getFecha = function(fecha)
+	{
+		var date = new Date(fecha);
+	    var d = date.getDate();
+	    var m = date.getMonth();
+	    var y = date.getFullYear();
+
+	    var numeroAletorio = numRandom(1000,9000);
+
+	    numVenta = String(d).concat(String(m+1),String(y),String(numeroAletorio));
+
+		$scope.form['numVenta'] = numVenta;
+	}
 
 	$scope.precioTotalVenta = 0;
 	var totalVentaServicios = 0;
@@ -234,6 +320,7 @@ angular.module('starterMiApp.contrsCaja', [])
 		var aux = 0;
 		if(descuento > $scope.precioTotalVenta)
 		{
+			$scope.form['descuento'] = 0;
 			var alertPopup = $ionicPopup.alert({
 			     title: 'Error al realizar el descuento',
 			     template: 'Descuento incorrecto.',
@@ -250,12 +337,95 @@ angular.module('starterMiApp.contrsCaja', [])
 	
 	$scope.realizarVenta = function(form)
 	{
-		//$ionicLoading.show();
-		form['lineasVentasServicios'] = $scope.todoListServicios;
-		form['lineasVentasProductos'] = $scope.todoListProductos;
-		form['precioVentalTotal'] = $scope.precioTotalVenta;
-		console.log(form);
-		$scope.forma = form;
+		$ionicLoading.show();	
+		if($scope.todoListServicios == '' && $scope.todoListProductos == '')
+		{
+			$ionicLoading.hide();
+			var alertPopup = $ionicPopup.alert({
+			     title: 'Error al realizar la venta',
+			     template: 'Debe seleccionar al menos un servicio o producto.',
+			     okText: 'Volver', 
+  				 okType: 'button-assertive'
+   			});
+		}
+		else
+		{	
+			form['lineasVentasServicios'] = $scope.todoListServicios;
+			form['lineasVentasProductos'] = $scope.todoListProductos;
+			form['precioVentaTotal'] = $scope.precioTotalVenta;
+			form['tipoCliente'] =  $scope.showTipoCliente;
+			form['idCliente'] = idCliente;
+			form['idUser'] = idUser;
+			$scope.forma = form;
+
+			var checkUnidades = false;
+
+			for(i=0; i<form.lineasVentasProductos.length; i++)
+			{
+				var undsVenta = form.lineasVentasProductos[i].unidades;
+				var undsStock = form.lineasVentasProductos[i].producto.cantidadStock;
+				var nombreProducto = form.lineasVentasProductos[i].producto.nombreProducto;
+				var nombreMarca = form.lineasVentasProductos[i].marca.nombre;
+				var idProducto = form.lineasVentasProductos[i].producto.idElemento;
+				// comprobar si se venden dos productos iguales.
+				//alert(idProducto);
+				if(undsVenta > undsStock)
+				{
+					$ionicLoading.hide();
+					checkUnidades = true;
+					var alertPopup = $ionicPopup.alert({
+					     title: 'Error al realizar la venta',
+					     template: 'El producto <b>'+nombreMarca+' '+nombreProducto+'</b> disponse de <b>'+undsStock+'</b> unidades en Stock y pretende vender <b>'+undsVenta+'.</b>',
+					     okText: 'Volver', 
+		  				 okType: 'button-assertive'
+		   			});
+				}
+			}
+
+			var totalUnidades = 0;
+			var undsVenta = 0;
+			console.log(form.lineasVentasProductos.sort());
+			for(var i=0; i<form.lineasVentasProductos.length; i++)
+			{
+				var idProductoI = form.lineasVentasProductos[i].producto.idElemento;
+				var undsStock = form.lineasVentasProductos[i].producto.cantidadStock;
+				var nombreMarca = form.lineasVentasProductos[i].marca.nombre;
+				var nombreProducto = form.lineasVentasProductos[i].producto.nombreProducto;
+				console.log('ENTRO i '+i);
+				for(var j=0; j<form.lineasVentasProductos.length; j++)
+				{
+					var idProductoJ = form.lineasVentasProductos[j].producto.idElemento;
+					if(idProductoI == idProductoJ)
+					{
+						console.log('ENTRO j '+j);
+						undsVenta = form.lineasVentasProductos[j].unidades;
+						console.log(undsVenta);
+						totalUnidades += undsVenta;
+						break;
+					}
+				}
+			}
+
+			if(totalUnidades > undsStock)
+			{
+				$ionicLoading.hide();
+				checkUnidades = true;
+				var alertPopup = $ionicPopup.alert({
+				     title: 'Error al realizar la venta',
+				     template: 'El producto <b>'+nombreMarca+' '+nombreProducto+'</b> disponse de <b>'+undsStock+'</b> unidades en Stock y pretende vender <b>'+totalUnidades+'.</b>',
+				     okText: 'Volver', 
+	  				 okType: 'button-assertive'
+	   			});
+	   			totalUnidades = 0;
+			}
+
+			if(checkUnidades!=true)
+			{
+				servVentas.insertarVenta(form).then(function(servResponse){
+					$state.go($state.current,null,{reload:true});
+				});
+			}
+		}
 	}
 
 }]) // Fin CajaCtrl

@@ -24,6 +24,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsSignup',
                                                                 'starterMiApp.servsUsuario',
                                                                 'starterMiApp.servsAgenda',
+                                                                'starterMiApp.servsVentas',
                                                                 'starterMiApp.servsClientes',
                                                                 'starterMiApp.servsSecciones',
                                                                 'starterMiApp.servsEmpleados',
@@ -236,6 +237,16 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
       'menuContent': {
         templateUrl: 'plantillas/Ventas/ventas.html',
         controller: 'VentasCtrl'
+      }
+    }
+  })
+
+  .state('sidemenu.perfilVenta', {
+    url: '/perfilVenta/:idVenta',
+    views: {
+      'menuContent': {
+        templateUrl: 'plantillas/Ventas/perfilVenta.html',
+        controller: 'VentasPerfilCtrl'
       }
     }
   })

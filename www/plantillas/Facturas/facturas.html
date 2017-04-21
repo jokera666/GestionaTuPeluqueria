@@ -1,5 +1,5 @@
 <ion-view view-title="Facturas/Compras">
-      <ion-content class="padding">
+      <ion-content class="padding" scroll="false">
 			<label class="item-full item-input item-select">
 			    <div class="input-label">Proveedores</div>
 			    <select ng-change="getProveedor(model.proveedor)" ng-model="model.proveedor" ng-options="proveedores.nombre group by proveedores.nombreMarca for proveedores in proveedores">

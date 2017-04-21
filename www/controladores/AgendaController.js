@@ -354,7 +354,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     $scope.tipoCliente = [
     {idTipoCliente: -77,tipo:'Genérico'},
     {idTipoCliente: 66,tipo:'Existente'}
-    ];
+    ]; 
 
     //Inciar select tipoCliente
     $scope.tipoInsert = {
@@ -382,7 +382,7 @@ angular.module('starterMiApp.contrsAgenda', [])
       /*--------------------------- INSERTAR CITA ------------------------------*/
       $scope.clickInsertarCita = function(form,tipoCliente){
       $ionicLoading.show();
-
+      console.log(form);
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
       var formattedHourIni = moment(form.horaIni).format('HH:mm:ss');
 
@@ -412,6 +412,7 @@ angular.module('starterMiApp.contrsAgenda', [])
           //Objeto con propiedades para insertar la cita correctamente en la BBDD
           // para que luego al realizar la visualizacion de las citas sea mas facil.
           var idCliente = form.objClienteExistente.id_cliente;
+          var idTipo = form.objClienteExistente.id_tipo;
           var nombre = form.objClienteExistente.nombre;
           var apellido1 = form.objClienteExistente.apellido1;
           var apellido2 = form.objClienteExistente.apellido2;
@@ -430,6 +431,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             start:startCita,
             end:finCita,
             idUser: $scope.sesionIdUser,
+            idTipo: idTipo,
             idCliente: idCliente  
           };
 
@@ -438,7 +440,6 @@ angular.module('starterMiApp.contrsAgenda', [])
         /*Inciar form con los datos introducidos por 
         el usuarios para clientes generales*/
         case -77:
-
           $scope.formattedFormCita = {
             tipoCliente: tipoCliente,
             nombre: form.nombre,
@@ -447,7 +448,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             end:finCita,
             idUser: $scope.sesionIdUser
           };
-
+          console.log($scope.formattedFormCita);
         break;
       }
 
@@ -472,6 +473,7 @@ angular.module('starterMiApp.contrsAgenda', [])
       else
       {
         servAgenda.insertarCita($scope.formattedFormCita).then(function(servResponse){
+          console.log(servResponse);
           if(servResponse==-1)
           {
               $ionicLoading.hide();
@@ -496,7 +498,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     /*--------------------------- MODIFICAR CITA ---------------------------------*/
     $scope.clickModificarCita = function(form,tipoCliente){
 
-      var nombreClienteCita = form.tituloCita;
+      var nombreClienteCita = $scope.nombreCliente;
 
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
       var formattedHoraIni = moment(form.horaIni).format('HH:mm:ss');
@@ -526,6 +528,7 @@ angular.module('starterMiApp.contrsAgenda', [])
           //Objeto con propiedades para insertar la cita correctamente en la BBDD
           // para que luego al realizar la visualizacion de las citas sea mas facil.
           var idCliente = form.objClienteExistente.id_cliente;
+          var idTipo = form.objClienteExistente.id_tipo;
           var nombre = form.objClienteExistente.nombre;
           var apellido1 = form.objClienteExistente.apellido1;
           var apellido2 = form.objClienteExistente.apellido2;
@@ -549,6 +552,7 @@ angular.module('starterMiApp.contrsAgenda', [])
             title: nombreCompleto,
             start: startCita,
             end: finCita,
+            idTipo: idTipo,
             idCliente: idCliente  
           }
 
@@ -573,7 +577,8 @@ angular.module('starterMiApp.contrsAgenda', [])
             nombre: form.nombre,
             apellido1: form.apellido1,
             start: startCita,
-            end: finCita
+            end: finCita,
+            idUser: $scope.sesionIdUser
           };
 
         break;
@@ -585,7 +590,20 @@ angular.module('starterMiApp.contrsAgenda', [])
       buttons: [
         {
          text: '<b>No</b>',
-         type: 'button-dark'
+         type: 'button-dark',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {
+              $ionicLoading.hide();              
+              $scope.form = {
+                objClienteExistente: form.objClienteExistente,
+                fecha: form.fecha,
+                horaIni:  form.horaIni,
+                horaFin:  finHora
+              };
+            }
+          }
         },
         {
           text: '<b>Sí</b>',

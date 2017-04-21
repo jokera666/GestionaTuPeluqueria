@@ -1,6 +1,41 @@
 <ion-view view-title="Ventas">
-      <ion-content>
-      	<h1>Aquí ira un formulario con los servicios obtenidos por el cliente.</h1>
-      	<h2>Esta venta fue realizada por {{nombreUsuario}}</h2>
-      </ion-content>
+    <ion-content scroll="false">
+    	<form name="ventasForm">
+			<label class="item item-input" ng-class="{'errorCampoForm' : ventasForm.fechaIni.$invalid && visitedFechaIni}">
+				<div class="input-label"><b>Desde:</b><span class="asteriscoObligatorio">*</span></div>
+				<input type="date" ng-change="getFechas(fechaIni,fechaFin)" ng-model="fechaIni" name="fechaIni" ng-blur="visitedFechaIni = true" required>
+			</label>
+				<div ng-show="ventasForm.fechaIni.$invalid && visitedFechaIni">
+				<span class="errorMensajeForm" ng-show="ventasForm.fechaIni.$invalid">Campo obligatorio.</span>
+			</div>
+
+			<label class="item item-input" ng-class="{'errorCampoForm' : ventasForm.fechaFin.$invalid && visitedFechaFin}">
+				<div class="input-label"><b>Hasta:</b><span class="asteriscoObligatorio">*</span></div>
+				<input type="date" ng-change="getFechas(fechaIni,fechaFin)" ng-model="fechaFin" name="fechaFin" ng-blur="visitedFechaFin = true" required>
+			</label>
+			<div ng-show="ventasForm.fechaFin.$invalid && visitedFechaFin">
+				<span class="errorMensajeForm" ng-show="ventasForm.fechaFin.$invalid">Campo obligatorio.</span>
+			</div>
+		</form>
+    </ion-content>
+
+	<ion-content style="margin-top: 95px;">
+  	<ion-list>
+  	  <ion-item class="item-icon-right" collection-repeat="venta in ventas | orderBy:'-fechaVenta'" href="#/side/perfilVenta/{{venta.id_venta}}">
+  	    <i class="icon ion-arrow-right-c"></i>
+  	    NºVenta: <b>{{venta.numVenta}}</b> - Fecha: <b>{{venta.fechaVenta}}</b>
+  	    <p>Valor venta: {{venta.precioVentaTotal}}€</p>
+  	  </ion-item>
+  	</ion-list>
+  	
+  	<div class="card" ng-class="animacion">
+      <div class="item item-icon-left msgError">
+      <i class="icon ion-alert-circled"></i>
+      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+      </div>
+    </div>
+	</ion-content>
+
+	
+
 </ion-view>
