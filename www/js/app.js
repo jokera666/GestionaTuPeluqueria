@@ -19,7 +19,6 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.contrsProveedores',
                                                                 'starterMiApp.contrsFacturas',
                                                                 'starterMiApp.contrsEmpleados',
-                                                                'starterMiApp.contrsAdmin',
                                                                 'starterMiApp.servsLogin',
                                                                 'starterMiApp.servsSignup',
                                                                 'starterMiApp.servsUsuario',
@@ -31,8 +30,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsServicios',
                                                                 'starterMiApp.servsProveedores',
                                                                 'starterMiApp.servsCompras',
-                                                                'starterMiApp.servsProductos',
-                                                                'starterMiApp.servsAdmin'
+                                                                'starterMiApp.servsProductos'
                                                                 ])
 
 .run(function($ionicPlatform,$state,$ionicNavBarDelegate,$rootScope,$ionicSideMenuDelegate) {
@@ -87,6 +85,10 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
           navigator.app.backHistory();
         break;
 
+        case "sidemenu.perfilUsuario":
+           navigator.app.backHistory();
+        break;
+
         case "sidemenu.perfilCliente":
            navigator.app.backHistory();
         break;
@@ -136,7 +138,6 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
   // con false da problemas en el scrolling del sidemenu
   $ionicConfigProvider.scrolling.jsScrolling(true);
   $ionicConfigProvider.views.maxCache(0);
-
 
   
   $stateProvider
@@ -351,42 +352,6 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     }
   })
 
-  // .state('sidemenu.playlists', {
-  //     url: '/playlists',
-  //     views: {
-  //       'menuContent': {
-  //         templateUrl: 'plantillas/playlists.html',
-  //         controller: 'PlaylistsCtrl'
-  //       }
-  //     }
-  // })
-
-  // .state('sidemenu.single', {
-  //   url: '/playlists/:playlistId/:titulo',
-  //   views: {
-  //     'menuContent': {
-  //       templateUrl: 'plantillas/playlist.html',
-  //       controller: 'PlaylistCtrl'
-  //     }
-  //   }
-  // })
-
-  .state('admin',{
-    url: '/admin',
-    templateUrl: 'plantillas/Admin/admin.html',
-    controller: 'AdminCtrl'
-
-  })
-
-  .state('perfilUsuario', {
-    url: '/perfilUsuario/:idUsuario',
-    templateUrl: 'plantillas/Admin/perfilUsuario.html',
-    controller: 'AdminUserProfileCtrl'
-  })
-
-
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('login');
-
-
 });

@@ -255,3 +255,16 @@ text-transform: capitalize;
   transform: none !important;
 }
 
+.list .item-radio .item-content {
+  background-color: white;
+  color: black;
+}
+.list .item-radio .radio-icon {
+  background-color: grey;
+  color: black;
+}
+.item-radio input:checked + .radio-content .item-content {
+    /* style the item content when its checked */
+    background: grey; 
+}
+

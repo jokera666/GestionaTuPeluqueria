@@ -496,8 +496,8 @@ angular.module('starterMiApp.contrsAgenda', [])
 
 
     /*--------------------------- MODIFICAR CITA ---------------------------------*/
-    $scope.clickModificarCita = function(form,tipoCliente){
-
+    $scope.clickModificarCita = function(form){
+      console.log(form);
       var nombreClienteCita = $scope.nombreCliente;
 
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
@@ -510,19 +510,14 @@ angular.module('starterMiApp.contrsAgenda', [])
       var finHora = moment(finCita).toDate();
 
 
-      switch(tipoCliente)
-      {
-        //Clientes existentes
-        case 66:
-
-          /*Inciar form con los datos introducidos por 
-          el usuarios para clientes existentes*/
-          $scope.form = {
-            objClienteExistente: form.objClienteExistente,
-            fecha: form.fecha,
-            horaIni:  form.horaIni,
-            horaFin:  finHora
-          };
+      /*Inciar form con los datos introducidos por 
+      el usuarios para clientes existentes*/
+      $scope.form = {
+        objClienteExistente: form.objClienteExistente,
+        fecha: form.fecha,
+        horaIni:  form.horaIni,
+        horaFin:  finHora
+      };
 
 
           //Objeto con propiedades para insertar la cita correctamente en la BBDD
@@ -540,14 +535,9 @@ angular.module('starterMiApp.contrsAgenda', [])
           {
             var nombreCompleto = nombre.concat(' ',apellido1);
           }
-          
-          $scope.formattedFormCita = {
-
-          };
 
           //Formulario que sera enviado para realizar la modificacion de la cita
           $scope.formAdaptado = {
-            tipoCliente: tipoCliente,
             idCita: form.idCita,
             title: nombreCompleto,
             start: startCita,
@@ -555,34 +545,6 @@ angular.module('starterMiApp.contrsAgenda', [])
             idTipo: idTipo,
             idCliente: idCliente  
           }
-
-        break;
-
-        /*Inciar form con los datos introducidos por 
-        el usuarios para clientes generales*/
-        case -77:
-
-          //Inciar form con los datos introducidos por el usuarios
-          $scope.form = {
-            nombre: form.nombre,
-            apellido1: form.apellido1,
-            fecha: form.fecha,
-            horaIni:  form.horaIni,
-            horaFin:  finHora
-          };
-
-          $scope.formAdaptado = {
-            tipoCliente: tipoCliente,
-            idCita: form.idCita,
-            nombre: form.nombre,
-            apellido1: form.apellido1,
-            start: startCita,
-            end: finCita,
-            idUser: $scope.sesionIdUser
-          };
-
-        break;
-      }
 
       var myPopup = $ionicPopup.show({
       title: 'Modificar cita',

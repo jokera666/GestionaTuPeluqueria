@@ -20,7 +20,7 @@ module.exports = function(grunt){
 		        {src: 'www/js/app.js', 						dest: 'www/todosJSmin/app.min.js'},
 		        {src: 'www/js/calendar.js', 				dest: 'www/todosJSmin/calendar.min.js'},
 		        {src: 'www/controladores/controllers.js', 	dest: 'www/todosJSmin/controllers.min.js'},
-		        {src: 'www/servicios/services.js', 			dest: 'www/todosJSmin/services.min.js'},
+		        {src: 'www/servicios/services.js', 			dest: 'www/todosJSmin/services.min.js'}
 		      ],
 		    },
 	    },

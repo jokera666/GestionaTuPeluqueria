@@ -48,10 +48,6 @@
 				<div ng-show="clienteForm.email.$invalid && visitedEmail"> 
             		<span class="errorMensajeForm" ng-show="clienteForm.email.$invalid">El correo electrónico es incorrecto.</span>
                 </div>
-                <label class="item item-input" ng-class="{ 'errorCampoForm' : clienteForm.email.$invalid && visitedEmail}">
-					<span class="input-label"><b>Correo electrónico:</b></span>
-					<input name="email" type="email" value="{{data.email}}" ng-model="form.email" ng-blur="visitedEmail = true">
-				</label>
 
                 <ion-radio ng-model="form.idTipo" ng-value="66"><b>Cliente existente</b></ion-radio>
   				<ion-radio ng-model="form.idTipo" ng-value="-77"><b>Cliente genérico</b></ion-radio>

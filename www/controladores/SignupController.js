@@ -44,15 +44,7 @@ angular.module('starterMiApp.contrsSignup', [])
                     });
 
                     alertPopup.then(function(res) {
-                        
-                        if($scope.sesionIdUser == 1)
-                        {
-                            $state.go('admin',null,{reload:true});
-                        }
-                        else
-                        {
-                            $state.go('login',null,{reload:true});
-                        }
+                      $state.go('login',null,{reload:true});
                     });
                 }
             });

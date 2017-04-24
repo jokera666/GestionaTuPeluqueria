@@ -1,7 +1,7 @@
 {
-  "name": "loginionic",
-  "version": "1.1.1",
-  "description": "LoginIonic: An Ionic project",
+  "name": "Gestiona tu peluquería",
+  "version": "1.0.0",
+  "description": "Gestión de centros de peluquería y estética",
   "dependencies": {
     "angular-messages": "^1.5.8",
     "angular-touch": "^1.5.8",
@@ -16,9 +16,10 @@
   "devDependencies": {
     "bower": "^1.3.3",
     "grunt": "^1.0.1",
-    "grunt-contrib-cssmin": "^1.0.2",
-    "grunt-contrib-uglify": "^2.0.0",
-    "gulp-util": "^2.2.14",
+    "grunt-contrib-cssmin": "^2.1.0",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-version": "^1.1.1",
+    "gulp-util": "^3.0.8",
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
