@@ -315,18 +315,40 @@ angular.module('starterMiApp.contrsCaja', [])
 		$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
 	}
 
+	var aux1 = [];
 	$scope.aplicarDescuento = function(descuento)
 	{
-		var aux = 0;
+		var totalDescuento = 0;
+		aux1.push(parseInt(descuento));
+		for(var i=0; i<aux1.length; i++)
+		{
+			totalDescuento += aux1[i];
+		}
+		console.log(totalDescuento);
+
 		if(descuento > $scope.precioTotalVenta)
 		{
+			for(var i=0; i<aux1.length; i++)
+			{
+				aux1[i] = 0;
+			}
 			$scope.form['descuento'] = 0;
+			$scope.precioTotalVenta += totalDescuento;
 			var alertPopup = $ionicPopup.alert({
 			     title: 'Error al realizar el descuento',
 			     template: 'Descuento incorrecto.',
 			     okText: 'Volver', 
   				 okType: 'button-assertive'
    			});
+		}
+		if(descuento == 0)
+		{
+			for(var i=0; i<aux1.length; i++)
+			{
+				aux1[i] = 0;
+			}
+			$scope.precioTotalVenta += totalDescuento;
+			totalDescuento = 0;
 		}
 		else
 		{
@@ -384,7 +406,6 @@ angular.module('starterMiApp.contrsCaja', [])
 
 			var totalUnidades = 0;
 			var undsVenta = 0;
-			console.log(form.lineasVentasProductos.sort());
 			for(var i=0; i<form.lineasVentasProductos.length; i++)
 			{
 				var idProductoI = form.lineasVentasProductos[i].producto.idElemento;
