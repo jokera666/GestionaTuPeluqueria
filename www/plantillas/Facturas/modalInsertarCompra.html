@@ -49,16 +49,38 @@
 							    </select>
 						  	</label>
 	          			</div>
+
 						
-					  <div class="col-25">
-					  	<label class="item item-input item-stacked-label" style="margin-top: 4px;">
-							<span class="input-label"><b>Nombre producto:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="text" name="nombreProducto{{$index}}" ng-model="todoItem.nombreProducto" required>
-						</label>
-						<div ng-show="formInsertCompra.nombreProducto{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formInsertCompra.nombreProducto{{$index}}.$invalid">Campo obligatorio.</span>
-	            		</div>
-					  </div>
+					  	<div class="col">
+					  		<label class="item item-input  item-select">
+							    <div class="input-label"><b>Tipo producto:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select ng-model="tipo.obj" ng-change="getTipoProducto(tipo.obj)" ng-options="tipoProducto.nombre for tipoProducto in tipoProducto" required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+
+							<div ng-if="showTipo==1">
+								<label class="item item-input item-select">
+								    <div class="input-label"><b>Producto:</b><span class="asteriscoObligatorio">*</span></div>
+								    <select name="producto{{$index}}" ng-model="todoItem.producto" ng-change="getIdProducto(todoItem.producto,$index)" ng-options="productos{{$index}}.nombreProducto for productos{{$index}} in productos{{$index}}" required>
+								    <option value="">Seleccionar...</option>
+								    </select>
+							  	</label>
+								<div ng-show="formInsertCompra.producto{{$index}}.$invalid">
+			        				<span class="errorMensajeForm" ng-show="formInsertCompra.producto{{$index}}.$invalid">Campo obligatorio.</span>
+			            		</div>
+							</div>
+
+							<div ng-if="showTipo==2">
+								<label class="item item-input item-stacked-label" style="margin-top: 4px;">
+									<span class="input-label"><b>Nombre producto:</b><span class="asteriscoObligatorio">*</span></span>
+									<input type="text" name="nombreProducto{{$index}}" ng-model="todoItem.nombreProducto" required>
+								</label>
+								<div ng-show="formInsertCompra.nombreProducto{{$index}}.$invalid">
+			        				<span class="errorMensajeForm" ng-show="formInsertCompra.nombreProducto{{$index}}.$invalid">Campo obligatorio.</span>
+			            		</div>
+							</div>
+					  	</div>
 
 					  <div class="col">
 					  	<label class="item item-input item-stacked-label">

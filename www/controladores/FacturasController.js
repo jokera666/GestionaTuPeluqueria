@@ -125,6 +125,31 @@ angular.module('starterMiApp.contrsFacturas', [])
     	});
     }
 
+    $scope.tipoProducto = [
+      {'id_tipo':1, 'nombre':'Existente'},
+      {'id_tipo':2, 'nombre':'Nuevo'}
+    ];
+
+    $scope.tipo = {
+      obj: $scope.tipoProducto[0]
+    }
+    $scope.showTipo = 1;
+    $scope.getTipoProducto = function(objTipo)
+    {
+      var idTipo = objTipo.id_tipo;
+      
+      switch(idTipo)
+      {
+        case 1:
+        $scope.showTipo = 1;
+        break;
+        case 2:
+        $scope.showTipo = 2;
+        break;
+      }
+    }
+
+
   $scope.todoListLineasCompra = [];
 
 	$scope.anadirLineaCompra  = function()
