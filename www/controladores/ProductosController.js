@@ -91,28 +91,44 @@ angular.module('starterMiApp.contrsProductos', [])
 	console.log(sesionIdUser);
 
 	servProductos.listarPerfilProducto(idProducto).then(function(servResponse){
-		console.log(servResponse);
+		console.log(servResponse['Ventas'].length);
 		$scope.datosProducto = {
-			nombreProveedor: servResponse[0].nombreProveedor,
-			nombreMarca: servResponse[0].nombreMarca,
-			nombreElemento: servResponse[0].nombreElemento,
-			cantidadStock: servResponse[0].cantidadStock,
-			precioVenta: servResponse[0].precioVenta
+			nombreProveedor: servResponse['infoProducto'].nombreProveedor,
+			nombreMarca: servResponse['infoProducto'].nombreMarca,
+			nombreElemento: servResponse['infoProducto'].nombreElemento,
+			cantidadStock: servResponse['infoProducto'].cantidadStock,
+			precioVenta: servResponse['infoProducto'].precioVenta
 		};
 
-		$scope.fotoProducto = servResponse[0].urlFoto;
-		$scope.altNombreFoto = servResponse[0].nombreElemento;
+		$scope.fotoProducto = servResponse['infoProducto'].urlFoto;
+		$scope.altNombreFoto = servResponse['infoProducto'].nombreElemento;
 
 	/* Оbtener los datos de cada linea de compra para de cada producto.*/
       $scope.auxLineasCompras = [];
-	  var numeroLineasCompras = servResponse.length;
+	  var numeroLineasCompras = servResponse['Compras'].length;
 	  for(i=0; i<numeroLineasCompras; i++)
 	  {
-	    $scope.auxLineasCompras.push({cantidad:servResponse[i].cantidad, precioCompra:servResponse[i].precioCompraUnd, fechaCompra:new Date(servResponse[i].fechaCompra)});
+	    $scope.auxLineasCompras.push({cantidad:servResponse['Compras'][i].cantidadCompra, precioCompra:servResponse['Compras'][i].precioCompraUnd, fechaCompra:new Date(servResponse['Compras'][i].fechaCompra)});
 	  }
 
 		$scope.productosCompra = $scope.auxLineasCompras;
+
+	/* Оbtener los datos de cada linea de venta para de cada producto.*/
+      $scope.auxLineasVentas = [];
+	  var numeroLineasVentas = servResponse['Ventas'].length;
+	  for(i=0; i<numeroLineasVentas; i++)
+	  {
+	    $scope.auxLineasVentas.push({cantidad:servResponse['Ventas'][i].cantidadVenta, precioVenta:servResponse['Ventas'][i].precioVentaUnd, fechaVenta:new Date(servResponse['Ventas'][i].fechaVenta)});
+	  }
+
+		$scope.productosVenta = $scope.auxLineasVentas;
 	});
+
+
+
+
+
+
 
 
 	$scope.productosVenta = [
