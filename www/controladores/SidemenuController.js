@@ -14,7 +14,6 @@ angular.module('starterMiApp.contrsSidemenu', [])
     else
     {
       $scope.data = servResponse;
-      console.log($scope.data);
     }
 
   });

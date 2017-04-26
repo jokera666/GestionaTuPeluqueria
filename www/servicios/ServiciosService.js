@@ -6,7 +6,8 @@ angular.module('starterMiApp.servsServicios', [])
     listarPerfilServicio: listProfileService,
     insertarServicio: addService,
     modificarServicio: editService,
-    eliminarServicio: deleteService 
+    eliminarServicio: deleteService,
+    eliminarCategoria: deleteCategory 
 	}
 
 	function nameService(idSeccion)
@@ -119,7 +120,28 @@ angular.module('starterMiApp.servsServicios', [])
         });
 
     return promesa;
+  }
 
+  function deleteCategory(id)
+  {
+    var defered = $q.defer();
+    var promesa = defered.promise;
+
+    var url = "http://gestionestetica.fonotecaumh.es/Servicios/eliminarCategoria.php";
+        var data = {'idCategoria':id};
+        var config = {
+            headers : {'Content-Type' : 'application/json'}
+        }
+
+        $http.post(url,data,config)
+          .success(function(response){
+            defered.resolve(response);
+          })
+          .error(function(err){
+            defered.reject(err);
+          });
+
+        return promesa;
   }
 
 }])

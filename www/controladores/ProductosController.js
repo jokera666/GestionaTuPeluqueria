@@ -144,27 +144,47 @@ angular.module('starterMiApp.contrsProductos', [])
 
 	});
 
-	$scope.clickEliminarProducto = function()
+	$scope.clickEliminarProducto = function(nombreProducto,nombreMarca)
 	{
-		servProductos.eliminarProducto(idProducto).then(function(servResponse){
 
-			if(servResponse==-1)
-			{
-				$ionicLoading.hide();
-	   			var alertPopup = $ionicPopup.alert({
-				     title: 'Error al borrar el producto',
-				     template: 'El producto pertenece a una venta.',
-				     okText: 'Volver', 
-	  				 okType: 'button-assertive'
-	   			});
-			}
-			else
-			{
-				$state.go('sidemenu.productos',null,{reload:true});
-			}
+		var myPopup = $ionicPopup.show({
+	        title: 'Eliminar producto',
+	        subTitle: '<span>¿Estás seguro de que deseas eliminar el producto <b>'+nombreMarca+' '+nombreProducto+'</b>?</span>',
+	        buttons: [
+	          { 
+	            text: '<b>No</b>',
+	            type: 'button-dark'
+	          },
+	          {
+	            text: '<b>Sí</b>',
+	            type: 'button-positive',
+	            onTap: function(e) {
+	              $ionicLoading.show();
+	              if (e)
+	              {              
+				    servProductos.eliminarProducto(idProducto).then(function(servResponse){
 
-			
-		});
+						if(servResponse==-1)
+						{
+							$ionicLoading.hide();
+				   			var alertPopup = $ionicPopup.alert({
+							     title: 'Error al borrar el producto',
+							     template: 'El producto pertenece a una venta.',
+							     okText: 'Volver', 
+				  				 okType: 'button-assertive'
+				   			});
+						}
+						else
+						{
+							$state.go('sidemenu.productos',null,{reload:true});
+						}
+
+					});
+	              }
+	            }
+	          }
+	        ]
+        });
 	}
 
 	$scope.clickModificarPrecioVenta = function(precioVenta)

@@ -1,6 +1,6 @@
 <ion-view view-title="Perfil del cliente"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
 
-	<ion-content class="padding">
+	<ion-content class="padding"  scrollY="false">
 
 	<form name="clienteForm">
 		<div id="fondoImgPerfil">
@@ -52,103 +52,24 @@
                 <ion-radio ng-model="form.idTipo" ng-value="66"><b>Cliente existente</b></ion-radio>
   				<ion-radio ng-model="form.idTipo" ng-value="-77"><b>Cliente genérico</b></ion-radio>
 
-			  	<pre>{{imgURI}}</pre>
-			  	<br>
-			  	<pre>{{opciones}}</pre>
-			  	<br>
-			  	<pre>{{uploadOptions1}}</pre>
 
-				<div class="item item-divider">Servicios utilizados</div>	  	
 
-				<ion-list>
-					<ion-item>
-						<div class="row responsive-sm">
-						<div class="col-5">
-							 <label class="numeracionServCliente">1.</label>
-						</div>
+				<div class="item item-divider">Servicios utilizados</div>
 
-						  <div class="col">
-						  	<label class="item item-input item-select">
-							  	<div class="input-label">Modelo de tinte</div>
-								    <select>
-								      <option selected>Shfarchkoff</option>
-								      <option>Loreal</option>
-								      <option>Fructis</option>
-								      <option>Rayfan</option>
-								      <option>Barrta</option>
-								      <option>Cara</option>
-								    </select>
-							</label>
-						  </div>
+				<ion-slide  stop-event scroll="false">
+		             <div class="card ccard" 
+		                 on-release="letDrag()"
+		              	 on-touch="stopDrag()"
+		                 on-swipe-left="nextCard()"
+		                 on-swipe-right="previousCard()"
+		                  >
+		               <div class="item test">
+		                 <i class="icon ion-chevron-left"></i>  <span>FD {{cardContent}}</span> <i class="icon ion-chevron-right"></i>
+		               </div>	                
+		             </div>
 
-						  	<div class="col">
-							  	<label class="item item-input item-select">
-							  	<div class="input-label">Numero de tinte</div>
-								    <select>
-								      <option selected>6</option>
-								      <option>6.1</option>
-								      <option>7</option>
-								      <option>7.1</option>
-								      <option>8</option>
-								      <option>8.1</option>
-								    </select>
-								</label>
-							</div>
 
-						  <div class="col">
-						  	<label class="item item-input">
-								<span class="input-label">Fecha de Tinte</span>
-								<input type="date">
-							</label>
-						  </div>
-
-						</div> <!-- FIN ROW -->
-					</ion-item>
-
-					<ion-item>
-						<div class="row responsive-sm">
-						<div class="col-5">
-							 <label class="numeracionServCliente">2.</label>
-						</div>
-
-						  <div class="col">
-						  	<label class="item item-input item-select">
-							  	<div class="input-label">Modelo de tinte</div>
-								    <select>
-								      <option>Shfarchkoff</option>
-								      <option selected>Loreal</option>
-								      <option>Fructis</option>
-								      <option>Rayfan</option>
-								      <option>Barrta</option>
-								      <option>Cara</option>
-								    </select>
-							</label>
-						  </div>
-
-						  <div class="col">
-							  	<label class="item item-input item-select">
-							  	<div class="input-label">Numero de tinte</div>
-								    <select>
-								      <option selected>6</option>
-								      <option>6.1</option>
-								      <option>7</option>
-								      <option>7.1</option>
-								      <option>8</option>
-								      <option>8.1</option>
-								    </select>
-								</label>
-							</div>
-
-						  <div class="col">
-						  	<label class="item item-input">
-								<span class="input-label">Fecha de Tinte</span>
-								<input type="date">
-							</label>
-						  </div>
-
-						</div> <!-- FIN ROW -->
-					</ion-item>
-				</ion-list>
+		        </ion-slide>	  	
 
 				<div class="row  responsive-sm">
 				  	<div class="col">

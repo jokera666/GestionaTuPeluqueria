@@ -52,7 +52,6 @@ angular.module('starterMiApp.contrsProveedores', [])
 
       form['idUser'] = $scope.sesionIdUser;
       form['nuevasMarcas']  = $scope.todoListInsertarMarca;
-      console.log(form);
 
       if($scope.todoListInsertarMarca=='')
       {
@@ -210,11 +209,11 @@ angular.module('starterMiApp.contrsProveedores', [])
       });
     }
 
-  $scope.clickEliminarProveedor = function()
+  $scope.clickEliminarProveedor = function(nombreProveedor)
   {
     var myPopup = $ionicPopup.show({
       title: 'Eliminar proveedor',
-      subTitle: '<span>¿Estás seguro de que deseas eliminar el proveedor?</span>',
+      subTitle: '<span>¿Estás seguro de que deseas eliminar el proveedor <b>'+nombreProveedor+'</b>?</span>',
       buttons: [
         {
          text: '<b>No</b>',

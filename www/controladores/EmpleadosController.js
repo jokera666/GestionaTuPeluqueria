@@ -91,10 +91,10 @@ angular.module('starterMiApp.contrsEmpleados', [])
         });
     };
 
-    $scope.clickEliminarEmpleado = function(){
+    $scope.clickEliminarEmpleado = function(nombre,apellido1){
         var myPopup = $ionicPopup.show({
         title: 'Eliminar empleado',
-        subTitle: '<span>¿Estás seguro de que deseas eliminar el empleado?</span>',
+        subTitle: '<span>¿Estás seguro de que deseas eliminar el empleado <b>'+nombre+' '+apellido1+'</b>?</span>',
         buttons: [
           { 
             text: '<b>No</b>',

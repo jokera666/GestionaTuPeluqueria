@@ -114,11 +114,11 @@ angular.module('starterMiApp.contrsSecciones', [])
     };
 
 
-    $scope.clickEliminarSeccion = function (){
+    $scope.clickEliminarSeccion = function (nombreSeccion){
 
         var myPopup = $ionicPopup.show({
         title: 'Borrar sección',
-        subTitle: '<span>¿Estás seguro de que deseas eliminar la sección?</span>',
+        subTitle: '<span>¿Estás seguro de que deseas eliminar la sección <b>'+nombreSeccion+'</b>?</span>',
         buttons: [
           { 
             text: '<b>No</b>',

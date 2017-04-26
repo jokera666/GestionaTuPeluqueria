@@ -94,14 +94,6 @@
 	          	</div>
 			</div><!-- Fin lista  -->
 
-			<pre>proveedorForm.$valid = {{ form | json }}</pre>
-			<br>
-			<pre>NuevasMarcas = {{ todoListNuevasMarcas | json }}</pre>
-			<br>
-			<pre>Marcas Existentes = {{ elementosMarca | json }}</pre>
-			<br>	
-			<pre>Resputa = {{ respuesta }}</pre>
-
 			<div class="row  responsive-sm">
 			  	<div class="col">
 			  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="proveedorForm.$invalid" ng-click="clickModificarProveedor(form)"> Guardar cambios</button>
@@ -110,7 +102,7 @@
 			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
 			  	</div>
 			  	<div class="col">
-			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarProveedor()"> Borrar proveedor</button>
+			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarProveedor(form.nombre)"> Borrar proveedor</button>
 				</div>
 			</div>
 		</form>

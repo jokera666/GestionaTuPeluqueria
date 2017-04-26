@@ -58,11 +58,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 }]) // Fin ClientesCtrl
 
-.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover){
-
-    clienteForm.$error = {
-      'required': true
-    }
+.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicSlideBoxDelegate','$ionicSideMenuDelegate', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicSlideBoxDelegate,$ionicSideMenuDelegate){
 
     var idCliente = $stateParams.idCliente;
 
@@ -72,7 +68,6 @@ angular.module('starterMiApp.contrsClientes', [])
         partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
         $scope.data = datosCliente[0];
         $scope.fotoPerfil = datosCliente[0].urlFoto;
-        console.log($scope.fotoPerfil);
         
         /* this.form es la directiva ng-model en la vista perfilCliente donde inicializo las directivas
         con los valores/datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
@@ -82,6 +77,39 @@ angular.module('starterMiApp.contrsClientes', [])
         };
         $scope.reiniciarForm();
     });
+
+    $scope.servicios = [
+      {id_servicio:1,nombre:'Peluqueria: Corte',fecha:'10/02/2017'},
+      {id_servicio:2,nombre:'Peluqueria: Medio',fecha:'11/02/2017'},
+      {id_servicio:3,nombre:'Peluqueria: Largo',fecha:'12/02/2017'}
+    ];
+
+    var max = $scope.servicios.length;
+    var i = 0;
+    $scope.nextCard = function() {
+      if(i!=max)
+      {
+         $scope.cardContent = $scope.servicios[i].nombre;
+         i++;
+      }
+     
+    };
+    $scope.previousCard = function() {
+       $ionicSideMenuDelegate.toggleLeft(false);
+      if(i!=0)
+      {
+         i--;
+         $scope.cardContent = $scope.servicios[i].nombre;
+      }
+    };
+    
+    $scope.letDrag = function() {
+     $ionicSlideBoxDelegate.enableSlide(true);
+    };
+    
+    $scope.stopDrag = function() {
+      $ionicSlideBoxDelegate.enableSlide(false);
+    };
 
 
 
