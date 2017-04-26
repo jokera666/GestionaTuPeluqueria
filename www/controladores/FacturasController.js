@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsFacturas', [])
 
-.controller('FacturasCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras){
+.controller('FacturasCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras','servProductos', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras,servProductos){
 
     var sesionIdUser = localStorage.getItem("idUser");
     console.log('Usuario con id de sesion---> '+sesionIdUser);
@@ -125,27 +125,82 @@ angular.module('starterMiApp.contrsFacturas', [])
     	});
     }
 
-    $scope.tipoProducto = [
-      {'id_tipo':1, 'nombre':'Existente'},
-      {'id_tipo':2, 'nombre':'Nuevo'}
-    ];
-
-    $scope.tipo = {
-      obj: $scope.tipoProducto[0]
-    }
-    $scope.showTipo = 1;
-    $scope.getTipoProducto = function(objTipo)
+    $scope.getTipoProducto = function(objMarca,idTipo,index)
     {
-      var idTipo = objTipo.id_tipo;
-      
-      switch(idTipo)
+        switch(parseInt(idTipo))
+        {
+          case 1:
+          if(objMarca != null)
+          {
+            var idMarca = objMarca.id_marca;
+            servProductos.listarProductos(idMarca).then(function(servResponse){
+              console.log(servResponse);
+              if(servResponse == -1)
+                {
+                  // No hay productos
+                }
+                else
+                {
+                  $scope.todoListLineasCompra[index].showTipo = 1;
+                  $scope['productos'+index] = servResponse;
+                }
+            });
+
+            $scope.getIdProducto = function (objProducto,index)
+            {
+              if(objProducto!=null)
+              { 
+                var precioVentaProducto = objProducto.precioVenta;
+                var precioCompraProducto = objProducto.precioCompraUnd;
+
+                $scope.todoListLineasCompra[index].precioVentaUnd =  precioVentaProducto;
+                $scope.todoListLineasCompra[index].precioCompraUnd =  precioCompraProducto;
+              }
+            }
+          }
+
+          $scope.todoListLineasCompra[index].showTipo = 1;
+          break;
+          case 2:
+          $scope.todoListLineasCompra[index].producto = '';
+          $scope.todoListLineasCompra[index].nombreProducto =  '';
+          $scope.todoListLineasCompra[index].precioVentaUnd =  '';
+          $scope.todoListLineasCompra[index].precioCompraUnd =  '';
+          $scope.todoListLineasCompra[index].showTipo = 2;
+          break;
+        }
+    }
+
+    $scope.getIdMarca = function (objMarca,index)
+    {
+      if(objMarca != null)
       {
-        case 1:
-        $scope.showTipo = 1;
-        break;
-        case 2:
-        $scope.showTipo = 2;
-        break;
+        var idMarca = objMarca.id_marca;
+        servProductos.listarProductos(idMarca).then(function(servResponse){
+          console.log(servResponse);
+          if(servResponse == -1)
+            {
+              // No hay productos
+            }
+            else
+            {
+              $scope.todoListLineasCompra[index].showTipo = 1;
+              $scope.idTipo = '1';
+              $scope['productos'+index] = servResponse;
+            }
+        });
+
+        $scope.getIdProducto = function (objProducto,index)
+        {
+          if(objProducto!=null)
+          { 
+            var precioVentaProducto = objProducto.precioVenta;
+            var precioCompraProducto = objProducto.precioCompraUnd;
+
+            $scope.todoListLineasCompra[index].precioVentaUnd =  precioVentaProducto;
+            $scope.todoListLineasCompra[index].precioCompraUnd =  precioCompraProducto;
+          }
+        }
       }
     }
 

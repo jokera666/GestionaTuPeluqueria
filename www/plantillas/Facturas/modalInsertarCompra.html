@@ -44,7 +44,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="todoItem.marca" ng-options="marcas.nombre for marcas in marcas" required>
+							    <select ng-model="todoItem.marca" ng-change="getIdMarca(todoItem.marca,$index)" ng-options="marcas.nombre for marcas in marcas" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -54,12 +54,14 @@
 					  	<div class="col">
 					  		<label class="item item-input  item-select">
 							    <div class="input-label"><b>Tipo producto:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="tipo.obj" ng-change="getTipoProducto(tipo.obj)" ng-options="tipoProducto.nombre for tipoProducto in tipoProducto" required>
+							    <select ng-model="idTipo" ng-change="getTipoProducto(todoItem.marca,idTipo,$index)" required>
 							    <option value="">Seleccionar...</option>
+							    <option value="1">Existente</option>
+							    <option value="2">Nuevo</option>
 							    </select>
 						  	</label>
 
-							<div ng-if="showTipo==1">
+							<div ng-if="todoItem.showTipo==1">
 								<label class="item item-input item-select">
 								    <div class="input-label"><b>Producto:</b><span class="asteriscoObligatorio">*</span></div>
 								    <select name="producto{{$index}}" ng-model="todoItem.producto" ng-change="getIdProducto(todoItem.producto,$index)" ng-options="productos{{$index}}.nombreProducto for productos{{$index}} in productos{{$index}}" required>
@@ -71,7 +73,7 @@
 			            		</div>
 							</div>
 
-							<div ng-if="showTipo==2">
+							<div ng-if="todoItem.showTipo==2">
 								<label class="item item-input item-stacked-label" style="margin-top: 4px;">
 									<span class="input-label"><b>Nombre producto:</b><span class="asteriscoObligatorio">*</span></span>
 									<input type="text" name="nombreProducto{{$index}}" ng-model="todoItem.nombreProducto" required>

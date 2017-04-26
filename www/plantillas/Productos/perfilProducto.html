@@ -46,70 +46,93 @@
     			</div>
 
 			  	<div class="item item-divider">Datos compra</div>
-				<ion-list>
-					<ion-item ng-repeat = "itemProducto in productosCompra" for={{itemProducto}}>
-						<div class="row responsive-sm">
-							<div class="col-5">
-								 <label class="numeracionServCliente">{{$index+1}}.</label>
-							</div>
 
-							  <div class="col">
-							  	<label class="item item-input">
-									<span class="input-label">Unidades:</span>
-									<input type="text" name="cantidad" ng-model="itemProducto.cantidad" ng-disabled="cantidad.$invalid = true">
-								</label>
-							  </div>
+				<div ng-if="noCompras==1">
+					<div class="card" ng-class="animacion">
+				      <div class="item item-icon-left msgError">		
+				      <i class="icon ion-alert-circled"></i>
+				      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+				      </div>
+				    </div>
+				</div>
 
-							  	<div class="col">
-							  	<label class="item item-input">
-									<span class="input-label">Precio compra:</span>
-									<input type="text" name="precioCompra" ng-model="itemProducto.precioCompra" ng-disabled="precioCompra.$invalid = true">
-								</label>
+				<div ng-if="noCompras!=1">
+					<ion-list>
+						<ion-item ng-repeat = "itemProducto in productosCompra" for={{itemProducto}}>
+							<div class="row responsive-sm">
+								<div class="col-5">
+									 <label class="numeracionServCliente">{{$index+1}}.</label>
 								</div>
 
-							  <div class="col">
-							  	<label class="item item-input">
-									<span class="input-label">Fecha de compra:</span>
-									<input type="date" name="fechaCompra" ng-model="itemProducto.fechaCompra" ng-disabled="fechaCompra.$invalid = true">
-								</label>
-							  </div>
-						</div> <!-- FIN ROW -->
-					</ion-item>
+								  <div class="col">
+								  	<label class="item item-input">
+										<span class="input-label">Unidades:</span>
+										<input type="text" name="cantidad" ng-model="itemProducto.cantidad" ng-disabled="cantidad.$invalid = true">
+									</label>
+								  </div>
 
-				</ion-list>
+								  	<div class="col">
+								  	<label class="item item-input">
+										<span class="input-label">Precio compra:</span>
+										<input type="text" name="precioCompra" ng-model="itemProducto.precioCompra" ng-disabled="precioCompra.$invalid = true">
+									</label>
+									</div>
 
-				<div class="item item-divider">Datos venta</div>  	
+								  <div class="col">
+								  	<label class="item item-input">
+										<span class="input-label">Fecha de compra:</span>
+										<input type="date" name="fechaCompra" ng-model="itemProducto.fechaCompra" ng-disabled="fechaCompra.$invalid = true">
+									</label>
+								  </div>
+							</div> <!-- FIN ROW -->
+						</ion-item>
 
-				<ion-list>
-					<ion-item ng-repeat = "itemProducto in productosVenta" for={{itemProducto}}>
-						<div class="row responsive-sm">
-							<div class="col-5">
-								 <label class="numeracionServCliente">{{$index+1}}.</label>
-							</div>
+					</ion-list>
+				</div>
 
-							  <div class="col">
-							  	<label class="item item-input">
-									<span class="input-label">Unidades:</span>
-									<input type="text" name="cantidad" ng-model="itemProducto.cantidad" ng-disabled="cantidad.$invalid = true">
-								</label>
-							  </div>
+				<div class="item item-divider">Datos venta</div>
 
-							  	<div class="col">
-							  	<label class="item item-input">
-									<span class="input-label">Precio venta:</span>
-									<input type="text" name="precioVenta" ng-model="itemProducto.precioVenta" ng-disabled="precioVenta.$invalid = true">
-								</label>
+				<div ng-if="noVentas==1">
+					<div class="card" ng-class="animacion">
+				      <div class="item item-icon-left msgError">		
+				      <i class="icon ion-alert-circled"></i>
+				      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+				      </div>
+				    </div>
+				</div>  	
+
+				<div ng-if="noVentas!=1">
+					<ion-list>
+						<ion-item ng-repeat = "itemProducto in productosVenta" for={{itemProducto}}>
+							<div class="row responsive-sm">
+								<div class="col-5">
+									 <label class="numeracionServCliente">{{$index+1}}.</label>
 								</div>
 
-							  <div class="col">
-							  	<label class="item item-input">
-									<span class="input-label">Fecha de venta:</span>
-									<input type="date" name="fechaVenta" ng-model="itemProducto.fechaVenta" ng-disabled="fechaVenta.$invalid = true">
-								</label>
-							  </div>
-						</div> <!-- FIN ROW -->
-					</ion-item>
-				</ion-list>
+								  <div class="col">
+								  	<label class="item item-input">
+										<span class="input-label">Unidades:</span>
+										<input type="text" name="cantidad" ng-model="itemProducto.cantidad" ng-disabled="cantidad.$invalid = true">
+									</label>
+								  </div>
+
+								  	<div class="col">
+								  	<label class="item item-input">
+										<span class="input-label">Precio venta:</span>
+										<input type="text" name="precioVenta" ng-model="itemProducto.precioVenta" ng-disabled="precioVenta.$invalid = true">
+									</label>
+									</div>
+
+								  <div class="col">
+								  	<label class="item item-input">
+										<span class="input-label">Fecha de venta:</span>
+										<input type="date" name="fechaVenta" ng-model="itemProducto.fechaVenta" ng-disabled="fechaVenta.$invalid = true">
+									</label>
+								  </div>
+							</div> <!-- FIN ROW -->
+						</ion-item>
+					</ion-list>
+				</div>
 
 				<div class="row  responsive-sm">
 				  	<div class="col">

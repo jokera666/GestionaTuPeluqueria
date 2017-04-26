@@ -86,12 +86,12 @@ angular.module('starterMiApp.contrsProductos', [])
 
 .controller('ProductoPerfilCtrl', ['$scope', '$state','$stateParams','$ionicPopover','$cordovaCamera','$cordovaFileTransfer','$ionicLoading','$ionicPopup','$ionicModal','servCompras','servProductos', function($scope, $state,$stateParams,$ionicPopover,$cordovaCamera,$cordovaFileTransfer,$ionicLoading,$ionicPopup,$ionicModal,servCompras,servProductos){
     
+	$scope.animacion = "hide";
 	var sesionIdUser = localStorage.getItem("idUser");
 	var idProducto = $stateParams.idProducto;
 	console.log(sesionIdUser);
 
 	servProductos.listarPerfilProducto(idProducto).then(function(servResponse){
-		console.log(servResponse['Ventas'].length);
 		$scope.datosProducto = {
 			nombreProveedor: servResponse['infoProducto'].nombreProveedor,
 			nombreMarca: servResponse['infoProducto'].nombreMarca,
@@ -103,39 +103,46 @@ angular.module('starterMiApp.contrsProductos', [])
 		$scope.fotoProducto = servResponse['infoProducto'].urlFoto;
 		$scope.altNombreFoto = servResponse['infoProducto'].nombreElemento;
 
-	/* Оbtener los datos de cada linea de compra para de cada producto.*/
-      $scope.auxLineasCompras = [];
-	  var numeroLineasCompras = servResponse['Compras'].length;
-	  for(i=0; i<numeroLineasCompras; i++)
+	  /* Оbtener los datos de cada linea de compra para de cada producto.*/
+	  if(servResponse['Compras']!=null)
 	  {
-	    $scope.auxLineasCompras.push({cantidad:servResponse['Compras'][i].cantidadCompra, precioCompra:servResponse['Compras'][i].precioCompraUnd, fechaCompra:new Date(servResponse['Compras'][i].fechaCompra)});
+			$scope.animacion = "hide";
+			$scope.auxLineasCompras = [];
+			var numeroLineasCompras = servResponse['Compras'].length;
+			for(i=0; i<numeroLineasCompras; i++)
+			{
+				$scope.auxLineasCompras.push({cantidad:servResponse['Compras'][i].cantidadCompra, precioCompra:servResponse['Compras'][i].precioCompraUnd, fechaCompra:new Date(servResponse['Compras'][i].fechaCompra)});
+			}
+			$scope.productosCompra = $scope.auxLineasCompras;
+	  }
+	  else
+	  {
+			$scope.noCompras = 1;
+			$scope.mensajeError = "No hay compras realizadas.";
+			$scope.animacion = "animated shake show";
 	  }
 
-		$scope.productosCompra = $scope.auxLineasCompras;
 
-	/* Оbtener los datos de cada linea de venta para de cada producto.*/
-      $scope.auxLineasVentas = [];
-	  var numeroLineasVentas = servResponse['Ventas'].length;
-	  for(i=0; i<numeroLineasVentas; i++)
+	  /* Оbtener los datos de cada linea de venta para de cada producto.*/
+	  if(servResponse['Ventas']!=null)
 	  {
-	    $scope.auxLineasVentas.push({cantidad:servResponse['Ventas'][i].cantidadVenta, precioVenta:servResponse['Ventas'][i].precioVentaUnd, fechaVenta:new Date(servResponse['Ventas'][i].fechaVenta)});
+	  	  $scope.animacion = "hide";
+		  $scope.auxLineasVentas = [];
+		  var numeroLineasVentas = servResponse['Ventas'].length;
+		  for(i=0; i<numeroLineasVentas; i++)
+		  {
+		    $scope.auxLineasVentas.push({cantidad:servResponse['Ventas'][i].cantidadVenta, precioVenta:servResponse['Ventas'][i].precioVentaUnd, fechaVenta:new Date(servResponse['Ventas'][i].fechaVenta)});
+		  }
+		  $scope.productosVenta = $scope.auxLineasVentas;
+	  }
+	  else
+	  {
+	  		$scope.noVentas = 1;
+			$scope.mensajeError = "No hay ventas realizadas.";
+			$scope.animacion = "animated shake show";
 	  }
 
-		$scope.productosVenta = $scope.auxLineasVentas;
 	});
-
-
-
-
-
-
-
-
-	$scope.productosVenta = [
-	{cantidad: 1, precioVenta: 12.55, fechaVenta: new Date('2017-03-28T10:06:50.999Z')},
-	{cantidad: 3, precioVenta: 13.55, fechaVenta: new Date('2017-03-29T10:06:50.999Z')},
-	{cantidad: 5, precioVenta: 12.55, fechaVenta: new Date('2017-03-30T10:06:50.999Z')}
-	];
 
 	$scope.clickEliminarProducto = function()
 	{
