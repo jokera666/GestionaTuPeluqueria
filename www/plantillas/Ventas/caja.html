@@ -198,14 +198,23 @@
 			</div> <!-- Fin List -->
 			
 			<div ng-if="todoListProductos != '' || todoListServicios != ''">
-				<div class="row responsive-md">
-					<div class="col col-20">
+				<div class="row responsive-lg">
+					<div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Descuento:</b></span>
 							<input type="number" name="descuento" ng-model="form.descuento" ng-init="form.descuento = 0" ng-blur="aplicarDescuento(form.descuento)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 						</label>
 					</div>
-					<div class="col col-25 col-offset-50">
+					<div class="col">
+
+					<label class="item item-input">
+						<span class="input-label">Observaciones:</span>
+
+						<textarea placeholder="Observaciones" rows="6" cols="100" name="comment" id="comment-textarea" ng-model="report.comment">
+      					</textarea>
+					</label>
+					</div>
+					<div class="col" style="margin-top: -21px;">
 						<div class="card">
 						  <div class="item item-divider">
 						    Precio total

@@ -1,6 +1,6 @@
 <ion-view view-title="Perfil del cliente"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
 
-	<ion-content class="padding"  scrollY="false">
+	<ion-content class="padding"  scroll="true">
 
 	<form name="clienteForm">
 		<div id="fondoImgPerfil">
@@ -54,9 +54,9 @@
 
 
 
-				<div class="item item-divider">Servicios utilizados</div>
+				<!-- <div class="item item-divider">Servicios utilizados</div> -->
 
-				<ion-slide  stop-event scroll="false">
+<!-- 				<ion-slide  stop-event scroll="false">
 		             <div class="card ccard" 
 		                 on-release="letDrag()"
 		              	 on-touch="stopDrag()"
@@ -69,7 +69,50 @@
 		             </div>
 
 
-		        </ion-slide>	  	
+		        </ion-slide>	 --> 
+		        <div class="row row-center responsive-md">
+		        <div class="col">
+		        	<button class="button icon ion-chevron-left" ng-click="nextSlide()"></button>
+		        </div>
+		        <div class="col-90">
+		        	
+				<ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false">
+				  <ion-slide ng-repeat="item in servicios">
+					<div class="list card">
+					<div class="item item-divider">Servicios utilizados</div>
+					  <a href="#" class="item item-icon-left">
+					    <i class="icon ion-home"></i>
+					    {{item.nombreSeccion}}
+					  </a>
+
+					  <a href="#" class="item item-icon-left">
+					    <i class="icon ion-ios-telephone"></i>
+					    {{item.nombreServicio}}
+					  </a>
+
+					  <a href="#" class="item item-icon-left">
+					    <i class="icon ion-wifi"></i>
+					    {{item.nombreCategoria}}
+					  </a>
+
+					  <a href="#" class="item item-icon-left">
+					    <i class="icon ion-card"></i>
+					    {{item.fecha}}
+					  </a>
+
+					</div>
+				  </ion-slide>
+				</ion-slide-box>
+
+		        </div>
+		        <div class="col col col-offset-70">
+		        	<button class="button icon ion-chevron-right" ng-click="previousSlide()"></button>
+		        </div>
+		        </div> 	
+
+
+
+
 
 				<div class="row  responsive-sm">
 				  	<div class="col">
@@ -85,4 +128,23 @@
 			</div>
 		</form>
 	</ion-content>
+<!-- 				<ion-content scroll="false">
+				  <ion-slides  options="options" slider="data.slider" show-pager="false">
+				    <ion-slide-page>
+				     	<div class="item test">
+		                 <i class="icon ion-chevron-left"></i>  <span><h1>BLUE</h1></span> <i class="icon ion-chevron-right"></i>
+		               </div>	
+				    </ion-slide-page>
+				    <ion-slide-page>
+				      <div class="item test">
+		                 <i class="icon ion-chevron-left"></i>  <span><h1>RED</h1></span> <i class="icon ion-chevron-right"></i>
+		               </div>	
+				    </ion-slide-page>
+				    <ion-slide-page>
+				      <div class="item test">
+		                 <i class="icon ion-chevron-left"></i>  <span><h1>GREEN</h1></span> <i class="icon ion-chevron-right"></i>
+		               </div>	
+				    </ion-slide-page>
+				  </ion-slides>
+				</ion-content> -->
 </ion-view>

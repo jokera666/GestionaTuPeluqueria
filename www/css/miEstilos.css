@@ -268,3 +268,13 @@ text-transform: capitalize;
     background: grey; 
 }
 
+#comment-textarea {
+    background-color: white;
+  
+/*     width: 90%;
+    height: 75%;*/
+
+
+    //border: solid 1px #ddd;
+}
+
