@@ -63,7 +63,9 @@ angular.module('starterMiApp.contrsClientes', [])
     var idCliente = $stateParams.idCliente;
 
     servClientes.mostrarPerfilCliente(idCliente).then(function(datosCliente){
-
+        console.log(datosCliente);
+        //$scope.servicios = datosCliente[1];
+        //console.log($scope.servicios);
         /*$scope.data es la informacion que se va mostrar en el perfil del cliente a
         partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
         $scope.data = datosCliente[0];
@@ -79,68 +81,19 @@ angular.module('starterMiApp.contrsClientes', [])
     });
 
     $scope.servicios = [
-      {id_servicio:1,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreCategoria:'Hombre',fecha:'11/02/2017'},
-      {id_servicio:1,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreCategoria:'Mujer',fecha:'12/02/2017'},
-      {id_servicio:1,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreCategoria:'Niño',fecha:'13/02/2017'}
+      {id_servicio:1,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Hombre',fechaVenta:'11/02/2017'},
+      {id_servicio:1,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Mujer',fechaVenta:'12/02/2017'},
+      {id_servicio:2,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Niño',fechaVenta:'13/02/2017'},
+      {id_servicio:3,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Niño',fechaVenta:'14/02/2017'},
     ];
 
-      $scope.nextSlide = function() {
-    $ionicSlideBoxDelegate.next();
-  }
+    $scope.nextSlide = function() {
+      $ionicSlideBoxDelegate.next();
+    }
 
-        $scope.previousSlide = function() {
-    $ionicSlideBoxDelegate.previous();
-  }
-
-    // var max = $scope.servicios.length;
-    // var i = 0;
-    // $scope.nextCard = function() {
-    //   if(i!=max)
-    //   {
-    //      $scope.cardContent = $scope.servicios[i].nombre;
-    //      i++;
-    //   }
-     
-    // };
-    // $scope.previousCard = function() {
-    //    $ionicSideMenuDelegate.toggleLeft(false);
-    //   if(i!=0)
-    //   {
-    //      i--;
-    //      $scope.cardContent = $scope.servicios[i].nombre;
-    //   }
-    // };
-    
-    // $scope.letDrag = function() {
-    //  $ionicSlideBoxDelegate.enableSlide(true);
-    // };
-    
-    // $scope.stopDrag = function() {
-    //   $ionicSlideBoxDelegate.enableSlide(false);
-    // };
-    
-    // $scope.options = {
-    //   loop: false,
-    //   effect: 'fade',
-    //   speed: 500,
-    // }
-
-    // $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
-    //   // data.slider is the instance of Swiper
-    //   $scope.slider = data.slider;
-    // });
-
-    // $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
-    //   console.log('Slide change is beginning');
-    // });
-
-    // $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
-    //   // note: the indexes are 0-based
-    //   $scope.activeIndex = data.slider.activeIndex;
-    //   $scope.previousIndex = data.slider.previousIndex;
-    // });
-
-
+    $scope.previousSlide = function() {
+      $ionicSlideBoxDelegate.previous();
+    }
 
 
     $scope.clickModificarCliente = function (form){

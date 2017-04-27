@@ -52,24 +52,6 @@
                 <ion-radio ng-model="form.idTipo" ng-value="66"><b>Cliente existente</b></ion-radio>
   				<ion-radio ng-model="form.idTipo" ng-value="-77"><b>Cliente genérico</b></ion-radio>
 
-
-
-				<!-- <div class="item item-divider">Servicios utilizados</div> -->
-
-<!-- 				<ion-slide  stop-event scroll="false">
-		             <div class="card ccard" 
-		                 on-release="letDrag()"
-		              	 on-touch="stopDrag()"
-		                 on-swipe-left="nextCard()"
-		                 on-swipe-right="previousCard()"
-		                  >
-		               <div class="item test">
-		                 <i class="icon ion-chevron-left"></i>  <span>FD {{cardContent}}</span> <i class="icon ion-chevron-right"></i>
-		               </div>	                
-		             </div>
-
-
-		        </ion-slide>	 --> 
 		        <div class="row row-center responsive-md">
 		        <div class="col">
 		        	<button class="button icon ion-chevron-left" ng-click="nextSlide()"></button>
@@ -77,8 +59,8 @@
 		        <div class="col-90">
 		        	
 				<ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false">
-				  <ion-slide ng-repeat="item in servicios">
-					<div class="list card">
+				  <ion-slide>
+					<div class="list card" ng-repeat="item in servicios track by (servicios.id_servicio + $index)">
 					<div class="item item-divider">Servicios utilizados</div>
 					  <a href="#" class="item item-icon-left">
 					    <i class="icon ion-home"></i>
@@ -92,12 +74,12 @@
 
 					  <a href="#" class="item item-icon-left">
 					    <i class="icon ion-wifi"></i>
-					    {{item.nombreCategoria}}
+					    {{item.nombreElemento}}
 					  </a>
 
 					  <a href="#" class="item item-icon-left">
 					    <i class="icon ion-card"></i>
-					    {{item.fecha}}
+					    {{item.fechaVenta}}
 					  </a>
 
 					</div>
