@@ -1,0 +1,23 @@
+{
+    "alwaysRun": true,
+    "recursiveFolderSearch": true,
+    "foldersToProcess": [
+        "js",
+        "controladores",
+        "servicios",
+        "css",
+        "img",
+        "build"
+    ],
+    "uglifyJsOptions": {
+        "compress": {
+            "drop_console": true
+        },
+        "fromString": true,
+        "mangle": false
+    },
+    "cleanCssOptions": {
+        "noAdvanced": true,
+        "keepSpecialComments": 0
+    }
+}
