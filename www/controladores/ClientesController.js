@@ -61,9 +61,25 @@ angular.module('starterMiApp.contrsClientes', [])
 .controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicSlideBoxDelegate','$ionicSideMenuDelegate', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicSlideBoxDelegate,$ionicSideMenuDelegate){
 
     var idCliente = $stateParams.idCliente;
+    $ionicSlideBoxDelegate.update();
 
-    servClientes.mostrarPerfilCliente(idCliente).then(function(datosCliente){
-        console.log(datosCliente);
+    servClientes.mostrarCabeceraPerfilCliente(idCliente).then(function(datosCliente){
+  //       $scope.servicios = datosCliente;
+  //       console.log($scope.servicios);
+  //        $scope.event = [];
+  //       // for(var i=1; i<datosCliente.length; i++)
+  //       // {
+  //       //    $scope.servicios = datosCliente[i];
+
+  //       //    //$scope.event.push({lineas:datosCliente[i]});
+
+  //       // }
+  //       $ionicSlideBoxDelegate.update();
+
+  //   console.log($scope.event);
+
+
+
         //$scope.servicios = datosCliente[1];
         //console.log($scope.servicios);
         /*$scope.data es la informacion que se va mostrar en el perfil del cliente a
@@ -80,14 +96,68 @@ angular.module('starterMiApp.contrsClientes', [])
         $scope.reiniciarForm();
     });
 
-    $scope.servicios = [
-      {id_servicio:1,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Hombre',fechaVenta:'11/02/2017'},
-      {id_servicio:1,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Mujer',fechaVenta:'12/02/2017'},
-      {id_servicio:2,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Niño',fechaVenta:'13/02/2017'},
-      {id_servicio:3,nombreSeccion:'Peluqueria',nombreServicio:'Corte',nombreElemento:'Niño',fechaVenta:'14/02/2017'},
-    ];
+    servClientes.mostrarPerfilCliente(idCliente).then(function(servResponse){
+      console.log(servResponse);
+      $scope.servicios = servResponse;
+      $ionicSlideBoxDelegate.update();
+      console.log($scope.servicios);
 
-    $scope.nextSlide = function() {
+      $scope.numVenta = $scope.servicios[0][0].numVenta;
+      //$scope.fechaVenta = moment(new Date()).format('DD/MM/YYYY');
+      $scope.fechaVenta = $scope.servicios[0][0].fechaVenta;
+      $scope.slideHasChanged = function(index) {
+        for(var i = 0; i<$scope.servicios[index].length; i++)
+        {
+          var aux = $scope.servicios[index][i].nombreProducto;
+          if( aux == null)
+          {
+            $scope.noProductos = -1;
+            $scope.mensajeError = "No hay productos adqueridos";
+          }
+          else
+          {
+            $scope.noProductos = 1;
+          } 
+          
+          console.log($scope.servicios[index][i].nombreProducto);
+        }
+        $scope.numVenta = $scope.servicios[index][0].numVenta;
+        //$scope.fechaVenta = moment(new Date($scope.servicios[index][0].fechaVenta)).format('DD/MM/YYYY');
+        $scope.fechaVenta = $scope.servicios[index][0].fechaVenta;
+      };
+
+    });
+
+    //     $scope.productos = {
+    //     0: [{
+    //         idVenta: 32,
+    //         nombreProducto: "Wella Champu 1L"
+    //     }, {
+    //         idVenta: 32,
+    //         nombreProducto: "Wella Champu 2L"
+    //     }, {
+    //         idVenta: 32,
+    //         nombreProducto: "Wella Champu 3L"
+    //     }, {
+    //         idVenta: 32,
+    //         nombreProducto: "Wella Champu 4L"
+    //     }],
+    //     1: [{
+    //         idVenta: 333,
+    //         nombreProducto: "Fructis Acondicionador 1L"
+    //     }, {
+    //         idVenta: 333,
+    //         nombreProducto: "Fructis Acondicionador 2L"
+    //     }, {
+    //         idVenta: 333,
+    //         nombreProducto: "Fructis Acondicionador 3L"
+    //     }, {
+    //         idVenta: 333,
+    //         nombreProducto: "Fructis Acondicionador 4L"
+    //     }]
+    // }
+
+    $scope.nextSlide = function(fecha) {
       $ionicSlideBoxDelegate.next();
     }
 

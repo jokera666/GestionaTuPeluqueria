@@ -6,6 +6,7 @@ angular.module('starterMiApp.servsClientes', [])
 
         listarClientes: listClients,
         insertarCliente: addClient,
+        mostrarCabeceraPerfilCliente: showHeadClientProfile,
         mostrarPerfilCliente: showClientProfile,
         modificarPerfilCliente: modifyClientProfile,
         borrarPerfilCliente: deleteClientProfile 
@@ -57,6 +58,28 @@ angular.module('starterMiApp.servsClientes', [])
                 defered.resolve(response);
             })
             .error(function(err){
+                defered.reject(err);
+            });
+
+        return promesa;
+    }
+
+    function showHeadClientProfile(idCliente)
+    {
+        var defered = $q.defer();
+        var promesa = defered.promise;
+
+        var url = "http://gestionestetica.fonotecaumh.es/Clientes/listarCabeceraPerfilCliente.php";
+        var data = {'idCli':idCliente};
+        var config = {
+            headers : {'Content-Type' : 'application/json'}
+        }
+
+        $http.post(url,data,config)
+            .success(function (response){
+                defered.resolve(response);
+            })
+            .error(function (err){
                 defered.reject(err);
             });
 
