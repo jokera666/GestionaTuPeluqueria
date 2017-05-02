@@ -34,6 +34,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 ])
 
 .run(function($ionicPlatform,$state,$ionicNavBarDelegate,$rootScope,$ionicSideMenuDelegate) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -41,6 +42,22 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     setTimeout(function() {
         navigator.splashscreen.hide();
     }, 300);
+
+    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+      
+      var id = localStorage.getItem("idUser");
+      console.log($state.current.name);
+      console.log(event);
+      if(id == '')
+      {
+
+      }
+    // if (toState.authenticate && !AuthService.isAuthenticated()){
+    //   // User isn’t authenticated
+    //   $state.transitionTo("login");
+    //   event.preventDefault(); 
+    // }
+  });
 
     //Al realizar el $state.go reload para no quitar el NavBar
     $rootScope.$on('$ionicView.enter', function(e) {

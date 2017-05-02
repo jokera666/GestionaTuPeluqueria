@@ -55,7 +55,7 @@
 				<div ng-if="noElementosComperciales!=-1">
 			        <div class="row row-center responsive-md">
 				        <div class="col">
-				        	<button class="button icon ion-chevron-left" ng-click="previousSlide()"></button>
+				        	<button class="button icon ion-chevron-left" ng-click="nextSlide()"></button>
 				        </div>
 				        <div class="col-90">
 							
@@ -65,7 +65,9 @@
 								<div class="list card">
 									
 									<div class="item item-divider item-text-wrap">Servicios utilizados en {{fechaVenta | date:'dd/MM/yyyy'}} con Nº Venta: {{numVenta}}</div>
-									  <div ng-if="noServicio!=-1" class="item item-text-wrap" ng-repeat="item1 in servicios[$index] | filter: { nombreServicio: '' }"><b>Sección: </b>{{item1.nombreSeccion}} <b>Servicio: </b>{{item1.nombreServicio}} {{item1.nombreElemento}} <b>Precio de venta: </b>{{item1.precioVentaUnd | currency:"€"}}
+									  <div ng-if="noServicio!=-1" class="item item-text-wrap" 
+									  	   ng-repeat="item1 in servicios[$index] | filter: { nombreServicio: '' }">
+									  	   {{item1.idVenta}} <b>Sección: </b>{{item1.nombreSeccion}} <b>Servicio: </b>{{item1.nombreServicio}} {{item1.nombreElemento}} <b>Precio de venta: </b>{{item1.precioVentaUnd | currency:"€"}}
 									  </div>
 									  <div ng-if="noServicio==-1">
 										<div class="card">
@@ -77,8 +79,9 @@
 									  </div>
 									  
 									  <div class="item item-divider item-text-wrap">Productos adqueridos en {{fechaVenta | date:'dd/MM/yyyy'}} con Nº Venta: {{numVenta}}</div>
-									 <div ng-if="noProductos!=-1" class="item item-text-wrap" ng-repeat="item1 in servicios[$index] | filter: { nombreProducto: '' }">
-									    <b>Nombre: </b>{{item1.nombreMarca}} {{item1.nombreProducto}}  <b>Unidades: </b>{{item1.cantidad}} <b>Precio de venta: </b>{{item1.precioVentaUndProducto | currency:"€"}}
+									 <div ng-if="noProductos!=-1" class="item item-text-wrap" 
+									 	  ng-repeat="item1 in servicios[$index] | filter: { nombreProducto: '' }">
+									    {{item1.idVenta}} <b>Nombre: </b>{{item1.nombreMarca}} {{item1.nombreProducto}}  <b>Unidades: </b>{{item1.cantidad}} <b>Precio de venta: </b>{{item1.precioVentaUndProducto | currency:"€"}}
 									  </div>
 									  <div ng-if="noProductos==-1">
 										<div class="card">
@@ -90,8 +93,9 @@
 									  </div>
 
 									  	<div class="item item-divider">Observaciones</div>
-										<div ng-if="noObservaciones!=-1" class="item item-text-wrap" ng-repeat="item1 in servicios[$index] | filter: { observaciones: '' }">
-										{{item1.observaciones}}
+										<div ng-if="noObservaciones!=-1" class="item item-text-wrap" 
+											 ng-repeat="item1 in servicios[$index] | filter: { observaciones: '' }">
+										{{item1.idVenta}} {{item1.observaciones}}
 										</div>
 										<div ng-if="noObservaciones==-1">
 											<div class="card">
@@ -109,7 +113,7 @@
 						</div>
 
 				        <div class="col col col-offset-70">
-				        	<button class="button icon ion-chevron-right" ng-click="nextSlide()"></button>
+				        	<button class="button icon ion-chevron-right" ng-click="previousSlide()"></button>
 				        </div>
 					</div> <!-- Fin Slide box -->
 		        </div> 	<!-- fin Scope noElementosComerciales -->
@@ -140,23 +144,4 @@
 			</div>
 		</form>
 	</ion-content>
-<!-- 				<ion-content scroll="false">
-				  <ion-slides  options="options" slider="data.slider" show-pager="false">
-				    <ion-slide-page>
-				     	<div class="item test">
-		                 <i class="icon ion-chevron-left"></i>  <span><h1>BLUE</h1></span> <i class="icon ion-chevron-right"></i>
-		               </div>	
-				    </ion-slide-page>
-				    <ion-slide-page>
-				      <div class="item test">
-		                 <i class="icon ion-chevron-left"></i>  <span><h1>RED</h1></span> <i class="icon ion-chevron-right"></i>
-		               </div>	
-				    </ion-slide-page>
-				    <ion-slide-page>
-				      <div class="item test">
-		                 <i class="icon ion-chevron-left"></i>  <span><h1>GREEN</h1></span> <i class="icon ion-chevron-right"></i>
-		               </div>	
-				    </ion-slide-page>
-				  </ion-slides>
-				</ion-content> -->
 </ion-view>
