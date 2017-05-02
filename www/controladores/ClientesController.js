@@ -61,7 +61,6 @@ angular.module('starterMiApp.contrsClientes', [])
 .controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicSlideBoxDelegate','$ionicSideMenuDelegate', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicSlideBoxDelegate,$ionicSideMenuDelegate){
 
     var idCliente = $stateParams.idCliente;
-    $ionicSlideBoxDelegate.update();
 
     servClientes.mostrarCabeceraPerfilCliente(idCliente).then(function(datosCliente){
   //       $scope.servicios = datosCliente;
@@ -98,35 +97,116 @@ angular.module('starterMiApp.contrsClientes', [])
 
     servClientes.mostrarPerfilCliente(idCliente).then(function(servResponse){
       console.log(servResponse);
-      $scope.servicios = servResponse;
-      $ionicSlideBoxDelegate.update();
-      console.log($scope.servicios);
 
-      $scope.numVenta = $scope.servicios[0][0].numVenta;
-      //$scope.fechaVenta = moment(new Date()).format('DD/MM/YYYY');
-      $scope.fechaVenta = $scope.servicios[0][0].fechaVenta;
-      $scope.slideHasChanged = function(index) {
-        for(var i = 0; i<$scope.servicios[index].length; i++)
-        {
-          var aux = $scope.servicios[index][i].nombreProducto;
-          if( aux == null)
-          {
-            $scope.noProductos = -1;
-            $scope.mensajeError = "No hay productos adqueridos";
-          }
-          else
-          {
-            $scope.noProductos = 1;
-          } 
-          
-          console.log($scope.servicios[index][i].nombreProducto);
-        }
-        $scope.numVenta = $scope.servicios[index][0].numVenta;
-        //$scope.fechaVenta = moment(new Date($scope.servicios[index][0].fechaVenta)).format('DD/MM/YYYY');
-        $scope.fechaVenta = $scope.servicios[index][0].fechaVenta;
-      };
+      if(servResponse == -1)
+      {
+        $scope.noElementosComperciales = -1;
+        $scope.mensajeError = "No hay ventas disponibles.";
+      }
+      else
+      {
+        $ionicSlideBoxDelegate.update();
+        $scope.servicios = servResponse;
+        
+
+        $scope.numVenta = $scope.servicios[$scope.servicios.length-1][0].numVenta;
+        $scope.fechaVenta = $scope.servicios[$scope.servicios.length-1][0].fechaVenta;
+        
+        // var lastIndex = $scope.servicios.length-1;
+        //   for(var i = 0; i<$scope.servicios[lastIndex].length; i++)
+        //   {
+        //     var aux = $scope.servicios[lastIndex][i].nombreServicio;
+        //     if(aux == '' || aux == null)
+        //     {
+        //       $scope.noServicio = -1;
+        //       $scope.mensajeError1 = "No hay servicios utilizados";
+        //     }
+        //     else
+        //     {
+        //       $scope.noServicio = 1;
+        //     } 
+        //   }
+
+        //   for(var i = 0; i<$scope.servicios[lastIndex].length; i++)
+        //   {
+        //     var aux = $scope.servicios[lastIndex][i].nombreProducto;
+
+        //     if(aux == '' || aux == null)
+        //     {
+        //       $scope.noProductos = -1;
+        //       $scope.mensajeError2 = "No hay productos adqueridos";
+        //     }
+        //     else
+        //     {
+        //       $scope.noProductos = 1;
+        //     } 
+        //   }
+
+        //   for(var i = 0; i<$scope.servicios[lastIndex].length; i++)
+        //   {
+        //     var aux = $scope.servicios[lastIndex][i].observaciones;
+        //     if(aux == '' || aux == null)
+        //     {
+        //       $scope.noObservaciones = -1;
+        //       $scope.mensajeError3 = "No hay observaciones anotadas";
+        //     }
+        //     else
+        //     {
+        //       $scope.noObservaciones = 1;
+        //     } 
+        //   }
+      }
 
     });
+
+    // $scope.slideHasChanged = function(index)
+    // {
+    //     $ionicSlideBoxDelegate.update();
+    //     $scope.numVenta = $scope.servicios[index][0].numVenta;
+    //     $scope.fechaVenta = $scope.servicios[index][0].fechaVenta;
+
+    //     for(var i = 0; i<$scope.servicios[index].length; i++)
+    //     {
+    //       var aux = $scope.servicios[index][i].nombreServicio;
+    //       if(aux == '' || aux == null)
+    //       {
+    //         $scope.noServicio = -1;
+    //         $scope.mensajeError1 = "No hay servicios utilizados";
+    //       }
+    //       else
+    //       {
+    //         $scope.noServicio = 1;
+    //       } 
+    //     }
+
+    //     for(var i = 0; i<$scope.servicios[index].length; i++)
+    //     {
+    //       var aux = $scope.servicios[index][i].nombreProducto;
+    //       if(aux == '' || aux == null)
+    //       {
+    //         $scope.noProductos = -1;
+    //         $scope.mensajeError2 = "No hay productos adqueridos";
+    //       }
+    //       else
+    //       {
+    //         $scope.noProductos = 1;
+    //       } 
+    //     }
+
+    //     for(var i = 0; i<$scope.servicios[index].length; i++)
+    //     {
+    //       var aux = $scope.servicios[index][i].observaciones;
+    //       if(aux == '' || aux == null)
+    //       {
+    //         $scope.noObservaciones = -1;
+    //         $scope.mensajeError3 = "No hay observaciones anotadas";
+    //       }
+    //       else
+    //       {
+    //         $scope.noObservaciones = 1;
+    //       } 
+    //     }
+    // };
 
     //     $scope.productos = {
     //     0: [{
