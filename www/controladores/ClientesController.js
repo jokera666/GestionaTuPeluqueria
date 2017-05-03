@@ -63,12 +63,12 @@ angular.module('starterMiApp.contrsClientes', [])
     var idCliente = $stateParams.idCliente;
 
     servClientes.mostrarCabeceraPerfilCliente(idCliente).then(function(datosCliente){
-  //       $scope.servicios = datosCliente;
-  //       console.log($scope.servicios);
+  //       $scope.elementosComerciales = datosCliente;
+  //       console.log($scope.elementosComerciales);
   //        $scope.event = [];
   //       // for(var i=1; i<datosCliente.length; i++)
   //       // {
-  //       //    $scope.servicios = datosCliente[i];
+  //       //    $scope.elementosComerciales = datosCliente[i];
 
   //       //    //$scope.event.push({lineas:datosCliente[i]});
 
@@ -79,8 +79,8 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
 
-        //$scope.servicios = datosCliente[1];
-        //console.log($scope.servicios);
+        //$scope.elementosComerciales = datosCliente[1];
+        //console.log($scope.elementosComerciales);
         /*$scope.data es la informacion que se va mostrar en el perfil del cliente a
         partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
         $scope.data = datosCliente[0];
@@ -106,55 +106,11 @@ angular.module('starterMiApp.contrsClientes', [])
       else
       {
         $ionicSlideBoxDelegate.update();
-        $scope.servicios = servResponse;
-        
-
-        //$scope.numVenta = $scope.servicios[$scope.servicios.length-1][0].numVenta;
-        //$scope.fechaVenta = $scope.servicios[$scope.servicios.length-1][0].fechaVenta;
-        
-        // var lastIndex = $scope.servicios.length-1;
-        //   for(var i = 0; i<$scope.servicios[lastIndex].length; i++)
-        //   {
-        //     var aux = $scope.servicios[lastIndex][i].nombreServicio;
-        //     if(aux == '' || aux == null)
-        //     {
-        //       $scope.noServicio = -1;
-        //       $scope.mensajeError1 = "No hay servicios utilizados";
-        //     }
-        //     else
-        //     {
-        //       $scope.noServicio = 1;
-        //     } 
-        //   }
-
-        //   for(var i = 0; i<$scope.servicios[lastIndex].length; i++)
-        //   {
-        //     var aux = $scope.servicios[lastIndex][i].nombreProducto;
-
-        //     if(aux == '' || aux == null)
-        //     {
-        //       $scope.noProductos = -1;
-        //       $scope.mensajeError2 = "No hay productos adqueridos";
-        //     }
-        //     else
-        //     {
-        //       $scope.noProductos = 1;
-        //     } 
-        //   }
-
-        //   for(var i = 0; i<$scope.servicios[lastIndex].length; i++)
-        //   {
-        //     var aux = $scope.servicios[lastIndex][i].observaciones;
-        //     if(aux == '' || aux == null)
-        //     {
-        //       $scope.noObservaciones = -1;
-        //       $scope.mensajeError3 = "No hay observaciones anotadas";
-        //     }
-        //     else
-        //     {
-        //       $scope.noObservaciones = 1;
-        //     } 
-        //   }
+        console.log(servResponse);
+        $scope.elementosComerciales = servResponse;
+        //Inciar la cabecera de los elementosComerciales
+        $scope.numVenta = $scope.elementosComerciales[0][0].numVenta;
+        $scope.fechaVenta = $scope.elementosComerciales[0][0].fechaVenta;
       }
 
     });
@@ -162,82 +118,9 @@ angular.module('starterMiApp.contrsClientes', [])
     $scope.slideHasChanged = function(index)
     {
         $ionicSlideBoxDelegate.update();
-        $scope.numVenta = $scope.servicios[index][0].numVenta;
-        $scope.fechaVenta = $scope.servicios[index][0].fechaVenta;
-
-        for(var i = 0; i<$scope.servicios[index].length; i++)
-        {
-          var aux = $scope.servicios[index][i].nombreServicio;
-          console.log(aux);
-          if(aux === undefined)
-          {
-            alert('entro');
-            $scope.noServicio = -1;
-            $scope.mensajeError1 = "No hay servicios utilizados";
-          }
-          else
-          {
-            $scope.noServicio = 1;
-          } 
-        }
-
-        for(var i = 0; i<$scope.servicios[index].length; i++)
-        {
-          var aux = $scope.servicios[index][i].nombreProducto;
-          if(aux == null || aux == '')
-          {
-            $scope.noProductos = -1;
-            $scope.mensajeError2 = "No hay productos adqueridos";
-          }
-          else
-          {
-            $scope.noProductos = 1;
-          } 
-        }
-
-        for(var i = 0; i<$scope.servicios[index].length; i++)
-        {
-          var aux = $scope.servicios[index][i].observaciones;
-          if(aux == '' || aux == null)
-          {
-            $scope.noObservaciones = -1;
-            $scope.mensajeError3 = "No hay observaciones anotadas";
-          }
-          else
-          {
-            $scope.noObservaciones = 1;
-          } 
-        }
+        $scope.numVenta = $scope.elementosComerciales[index][0].numVenta;
+        $scope.fechaVenta = $scope.elementosComerciales[index][0].fechaVenta;
     };
-
-    //     $scope.productos = {
-    //     0: [{
-    //         idVenta: 32,
-    //         nombreProducto: "Wella Champu 1L"
-    //     }, {
-    //         idVenta: 32,
-    //         nombreProducto: "Wella Champu 2L"
-    //     }, {
-    //         idVenta: 32,
-    //         nombreProducto: "Wella Champu 3L"
-    //     }, {
-    //         idVenta: 32,
-    //         nombreProducto: "Wella Champu 4L"
-    //     }],
-    //     1: [{
-    //         idVenta: 333,
-    //         nombreProducto: "Fructis Acondicionador 1L"
-    //     }, {
-    //         idVenta: 333,
-    //         nombreProducto: "Fructis Acondicionador 2L"
-    //     }, {
-    //         idVenta: 333,
-    //         nombreProducto: "Fructis Acondicionador 3L"
-    //     }, {
-    //         idVenta: 333,
-    //         nombreProducto: "Fructis Acondicionador 4L"
-    //     }]
-    // }
 
     $scope.nextSlide = function(fecha) {
       $ionicSlideBoxDelegate.next();

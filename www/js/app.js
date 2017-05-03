@@ -33,7 +33,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsProductos'
                                                                 ])
 
-.run(function($ionicPlatform,$state,$ionicNavBarDelegate,$rootScope,$ionicSideMenuDelegate) {
+.run(function($ionicPlatform,$state,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$rootScope,$ionicSideMenuDelegate) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -46,28 +46,22 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
       
       var id = localStorage.getItem("idUser");
-      console.log($state.current.name);
-      console.log(event);
       if(id == '')
       {
 
       }
-    // if (toState.authenticate && !AuthService.isAuthenticated()){
-    //   // User isn’t authenticated
-    //   $state.transitionTo("login");
-    //   event.preventDefault(); 
-    // }
-  });
+    });
 
     //Al realizar el $state.go reload para no quitar el NavBar
     $rootScope.$on('$ionicView.enter', function(e) {
       $ionicNavBarDelegate.showBar(true);
+      //$ionicSlideBoxDelegate.update();
+      //$('.slider-slides,.slider-slide').height('auto');
     });
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
