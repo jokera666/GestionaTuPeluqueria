@@ -1,4 +1,4 @@
-<ion-view view-title="Perfil del cliente"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
+<ion-view view-title="Perfil del cliente"  cache-view="false"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
 
 	<ion-content class="padding"  scroll="true">
 
@@ -49,8 +49,8 @@
             		<span class="errorMensajeForm" ng-show="clienteForm.email.$invalid">El correo electrónico es incorrecto.</span>
                 </div>
 
-                <ion-radio ng-model="form.idTipo" value="{{data.idTipo}}" ng-value="66"><b>Cliente existente</b></ion-radio>
-  				<ion-radio ng-model="form.idTipo" value="{{data.idTipo}}" ng-value="-77"><b>Cliente genérico</b></ion-radio>
+                <ion-radio ng-model="form.idTipo" ng-init="idTipo = 66" ng-value="66"><b>Cliente existente</b></ion-radio>
+  				<ion-radio ng-model="form.idTipo" ng-init="idTipo = -77" ng-value="-77"><b>Cliente genérico</b></ion-radio>
 
 				<div ng-if="noElementosComperciales!=-1">
 			        <div class="row row-center responsive-md">
@@ -111,7 +111,7 @@
 				  		<button class="button button-block button-positive icon ion-edit" type="button" ng-disabled="clienteForm.$invalid" ng-click="clickModificarCliente(form)"> Guardar cambios</button>
 				  	</div>
 				  	<div class="col">
-				  		<button class="button button-block button-royal icon ion-refresh" type="reset" ng-click="reiniciarForm()"> Reiniciar</button>
+				  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
 				  	</div>
 				  	<div class="col">
 				  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarCliente()"> Borrar cliente</button>

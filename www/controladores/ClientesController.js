@@ -62,6 +62,8 @@ angular.module('starterMiApp.contrsClientes', [])
 
     var idCliente = $stateParams.idCliente;
 
+
+
     servClientes.mostrarCabeceraPerfilCliente(idCliente).then(function(datosCliente){
   //       $scope.elementosComerciales = datosCliente;
   //       console.log($scope.elementosComerciales);
@@ -88,11 +90,10 @@ angular.module('starterMiApp.contrsClientes', [])
         
         /* this.form es la directiva ng-model en la vista perfilCliente donde inicializo las directivas
         con los valores/datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
-        this.form = $scope.data;
+        $scope.form = $scope.data;
         $scope.reiniciarForm = function(){
-         this.form = angular.copy($scope.data);   
+         $scope.form = angular.copy($scope.data);   
         };
-        $scope.reiniciarForm();
     });
 
     servClientes.mostrarPerfilCliente(idCliente).then(function(servResponse){
@@ -105,21 +106,22 @@ angular.module('starterMiApp.contrsClientes', [])
       }
       else
       {
-        $ionicSlideBoxDelegate.update();
         console.log(servResponse);
         $scope.elementosComerciales = servResponse;
+
         //Inciar la cabecera de los elementosComerciales
         $scope.numVenta = $scope.elementosComerciales[0][0].numVenta;
         $scope.fechaVenta = $scope.elementosComerciales[0][0].fechaVenta;
+        $ionicSlideBoxDelegate.update();
       }
 
     });
 
     $scope.slideHasChanged = function(index)
     {
-        $ionicSlideBoxDelegate.update();
         $scope.numVenta = $scope.elementosComerciales[index][0].numVenta;
         $scope.fechaVenta = $scope.elementosComerciales[index][0].fechaVenta;
+        $ionicSlideBoxDelegate.update();
     };
 
     $scope.nextSlide = function(fecha) {
@@ -149,7 +151,8 @@ angular.module('starterMiApp.contrsClientes', [])
               if (e)
               {              
                   servClientes.modificarPerfilCliente(form).then(function(){
-                      $state.go($state.current,null,{reload:true});
+                       $state.go($state.current,null,{reload:true});
+                      //location.reload();
                   });
               }
               else

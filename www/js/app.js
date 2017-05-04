@@ -33,7 +33,7 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
                                                                 'starterMiApp.servsProductos'
                                                                 ])
 
-.run(function($ionicPlatform,$state,$ionicNavBarDelegate,$ionicSlideBoxDelegate,$rootScope,$ionicSideMenuDelegate) {
+.run(function($ionicPlatform,$state,$ionicNavBarDelegate,$rootScope,$ionicSlideBoxDelegate,$ionicSideMenuDelegate) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -55,8 +55,6 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
     //Al realizar el $state.go reload para no quitar el NavBar
     $rootScope.$on('$ionicView.enter', function(e) {
       $ionicNavBarDelegate.showBar(true);
-      //$ionicSlideBoxDelegate.update();
-      //$('.slider-slides,.slider-slide').height('auto');
     });
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
