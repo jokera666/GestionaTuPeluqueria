@@ -21,7 +21,7 @@
 
 	<ion-content style="margin-top: 95px;">
   	<ion-list>
-  	  <ion-item class="item-icon-right" collection-repeat="venta in ventas | orderBy:'-fechaVenta'" href="#/side/perfilVenta/{{venta.id_venta}}">
+  	  <ion-item class="item-icon-right" collection-repeat="venta in ventas" href="#/side/perfilVenta/{{venta.id_venta}}">
   	    <i class="icon ion-arrow-right-c"></i>
   	    NºVenta: <b>{{venta.numVenta}}</b> - Fecha: <b>{{venta.fechaVenta}}</b>
   	    <p>Valor venta: {{venta.precioVentaTotal}}€</p>
