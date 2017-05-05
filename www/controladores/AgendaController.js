@@ -42,7 +42,6 @@ angular.module('starterMiApp.contrsAgenda', [])
       }
       else
       {
-        console.log(data);
         $scope.events = {
                 events: data
         };
@@ -245,12 +244,6 @@ angular.module('starterMiApp.contrsAgenda', [])
         }
       });
     };
-     /* Render Tooltip */
-    // $scope.eventRender = function( event, element, view ) {
-    //     element.attr({'tooltip': event.title,
-    //                   'tooltip-append-to-body': true});
-    //     $compile(element)($scope);
-    // };
 
       $scope.uiConfig = {
         calendar: {
@@ -268,19 +261,16 @@ angular.module('starterMiApp.contrsAgenda', [])
             maxTime: '21:00',
             drop: $scope.drop,
             header: {
-                left: 'list, month, agendaWeek, basicDay, agendaDay',
+                left: 'list, month, agendaWeek, agendaDay',
                 center: 'title',
                 right: 'prev,today,next'
             },
             buttonText: {
-              // prev: 'Anterior',
-              // next: 'Siguiente',
-              // prevYear: '&nbsp;&lt;&lt;&nbsp;',
-              // nextYear: '&nbsp;&gt;&gt;&nbsp;',
               today:  'Hoy',
+              list:   'Día actual',
               month:  'Mes',
               week:   'Semana',
-              day:    'Dia Actual'
+              day:    'Agenda'
           },
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,

@@ -4,7 +4,8 @@ angular.module('starterMiApp.servsVentas', [])
 .service('servVentas',['$q','$http', function($q, $http){
     return{
         insertarVenta: insertSell,
-        listarVentas: listSells
+        listarVentas: listSells,
+        listarCabeceraVenta: listHeadSell
     }
 
     function insertSell(datosForm)
@@ -36,6 +37,28 @@ angular.module('starterMiApp.servsVentas', [])
 
         var url = "http://gestionestetica.fonotecaumh.es/Ventas/listarVentas.php";
         var data = {'idUser':id, 'ini':fechaIni,'fin':FechaFin};
+        var config = {
+            headers : {'Content-Type' : 'application/json'}
+        }
+
+        $http.post(url,data,config)
+            .success(function(respuesta){
+                defered.resolve(respuesta);
+            })
+            .error(function(err){
+                defered.reject(err);
+            });
+
+        return promesa;
+    }
+
+    function listHeadSell(idVenta)
+    {
+        var defered = $q.defer();
+        var promesa = defered.promise;
+
+        var url = "http://gestionestetica.fonotecaumh.es/Ventas/listarCabeceraVenta.php";
+        var data = {'idVenta':idVenta};
         var config = {
             headers : {'Content-Type' : 'application/json'}
         }

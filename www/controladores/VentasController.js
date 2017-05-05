@@ -14,10 +14,6 @@ angular.module('starterMiApp.contrsVentas', [])
 	var fechaActualMasMes  = fechaActual.setMonth(fechaActual.getMonth()+1);
 	$scope.fechaFin = new Date(fechaActualMasMes);
 
-	//console.log('Fecha Ini-->'+$scope.fechaIni);
-	//console.log('Fecha Fin-->'+$scope.fechaFin);
-	
-
 	servVentas.listarVentas(idUser,$scope.fechaIni,$scope.fechaFin).then(function(servResponse){
 		console.log(servResponse);
 		if(servResponse==-1)
@@ -80,9 +76,68 @@ angular.module('starterMiApp.contrsVentas', [])
 	}
 }]) // Fin VentasCtrl
 
-.controller('VentasPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','servVentas', function($scope,$state,$stateParams,$ionicPopup,servVentas){
+.controller('VentasPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','servClientes','servEmpleados','servVentas', function($scope,$state,$stateParams,$ionicPopup,servClientes,servEmpleados,servVentas){
 
 	var idVenta = $stateParams.idVenta;
-	console.log(idVenta);
+	var idUser = localStorage.getItem("idUser");
+	$scope.form = [];
+	$scope.nombres = [];
+	$scope.empleados = [];
+
+	//Listar los clientes
+    servClientes.listarClientes('citasClientes',idUser).then(function(servResponse){
+      if(servResponse==-1)
+      {
+        // No hay clientes.
+      }
+      else
+      {
+        $scope.nombres = servResponse;
+      }
+    });
+
+    servEmpleados.listarEmpleados(idUser).then(function(servResponse){
+		if(servResponse == -1)
+		{
+			// No hay empleados
+		}
+		else
+		{
+			$scope.empleados = servResponse;
+		}
+	});
+	
+
+	servVentas.listarCabeceraVenta(idVenta).then(function(servResponse){
+
+		var idCliente = servResponse.idCliente;
+		var idEmpleado = servResponse.idEmpleado;
+
+		for(var i = 0; i<$scope.nombres.length; i++)
+		{
+			if($scope.nombres[i].id_cliente == idCliente)
+			{
+				var indexCliente = i;
+			}
+		}
+
+		for(var i = 0; i<$scope.empleados.length; i++)
+		{
+			if($scope.empleados[i].id_empleado == idEmpleado)
+			{
+				var indexEmpleado = i;
+			}
+		}
+
+		$scope.form['objCliente'] = $scope.nombres[indexCliente];
+		$scope.form['objEmpleado'] = $scope.empleados[indexEmpleado];
+	});
+
+	$scope.modificarVenta = function(form)
+	{
+		console.log(form);
+		$scope.forma = form;
+		$state.go($state.current,null,{reload:true});
+	}
 
 }]) // Fin VentasPerfilCtrl

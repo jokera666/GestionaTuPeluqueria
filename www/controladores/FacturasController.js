@@ -300,7 +300,6 @@ angular.module('starterMiApp.contrsFacturas', [])
     }
     cabeceraInicial = angular.copy(servResponse[0]); 
     $scope.totalFactura = servResponse[0].precioCompraTotal;
-    $scope.formulario = $scope.form;
   });
   //////////////////////////////////////////////////////////////////////////////////////
 
@@ -369,7 +368,6 @@ angular.module('starterMiApp.contrsFacturas', [])
         }
       });
       marcasIniciales = angular.copy($scope.misMarcas);
-      $scope.respuesta = servResponse;
     }
     
 	});
@@ -413,16 +411,12 @@ angular.module('starterMiApp.contrsFacturas', [])
   {
     $scope.todoListNuevasLineasCompra.splice(index, 1);
   };
-  $scope.nuevasLineas = $scope.todoListNuevasLineasCompra;
-
 
 
   $scope.clickModificarFactura = function(form)
   {
     form['lineasExistentes'] = $scope.todoListLineasCompra;
     form['nuevasLineas'] = $scope.todoListNuevasLineasCompra;
-    console.log(form);
-
 
     var myPopup = $ionicPopup.show({
         title: 'Modificar factura',

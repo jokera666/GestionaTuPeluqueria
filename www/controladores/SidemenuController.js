@@ -13,7 +13,7 @@ angular.module('starterMiApp.contrsSidemenu', [])
     }
     else
     {
-      $scope.data = servResponse;
+      $scope.data1 = servResponse;
     }
 
   });

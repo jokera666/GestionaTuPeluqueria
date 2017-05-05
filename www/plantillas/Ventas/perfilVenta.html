@@ -1,93 +1,43 @@
 <ion-view view-title="Perfil venta">
 	<ion-content class="padding">
-		<form name="ventaForm">
+		<form name="perfilperfilVentaForm">
 			<div class="item item-divider">Cabecera venta</div>
 			<div class="list">
 				
-			<div ng-if="ventaNueva ==''">	
 
 
-		<label class="item item-input item-select">
-			<div class="input-label"><b>Tipo cliente:</b><span class="asteriscoObligatorio">*</span></div>
-		    <select ng-change="getTipoClienteCaja(tipoInsert.obj)" ng-model="tipoInsert.obj" ng-options="tipoCliente.tipo for tipoCliente in tipoCliente" required>
-		    	<!-- options -->
-		    </select>
-		 </label>
-		
-		<div ng-if="showTipoCliente == 66">
-
-			<label class="item item-input item-select" ng-class="{ 'errorCampoForm' : ventaForm.nombre.$invalid && visitedNombre}">
+			<label class="item item-input item-select" ng-class="{ 'errorCampoForm' : perfilVentaForm.nombre.$invalid && visitedNombre}">
 			    <div class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></div>
-			    <select name="nombre" ng-model="form.objClienteExistente" ng-options="nombres.nombre +' '+nombres.apellido1+' '+nombres.apellido2 group by nombres.nombreTipo for nombres in nombres" required>
+			    <select name="nombre" ng-model="form.objCliente" ng-options="nombres.nombre +' '+nombres.apellido1+' '+nombres.apellido2 group by nombres.nombreTipo for nombres in nombres" required>
 			    <option value="">Seleccionar...</option>
 			    </select>
 		  	</label>
 
-			<div ng-show="ventaForm.nombre.$invalid && visitedNombre">
-	        	<span class="errorMensajeForm" ng-show="ventaForm.nombre.$invalid">Campo obligatorio.</span>
+			<div ng-show="perfilVentaForm.nombre.$invalid && visitedNombre">
+	        	<span class="errorMensajeForm" ng-show="perfilVentaForm.nombre.$invalid">Campo obligatorio.</span>
 	        </div>
-        </div>
 
-		<div ng-if="showTipoCliente == -77">
-			<label class="item item-input" ng-class="{ 'errorCampoForm' : ventaForm.nombre.$invalid && visitedNombre}">
-				<span class="input-label"><b>Nombre:</b><span class="asteriscoObligatorio">*</span></span>
-				<input type="text" name="nombre" ng-blur="visitedNombre = true" ng-model="form.nombre" required>
+
+	        <label class="item item-input" ng-class="{'errorCampoForm' : perfilVentaForm.fecha.$invalid && visitedFecha}">
+			    	<div class="input-label"><b>Fecha cita:</b><span class="asteriscoObligatorio">*</span></div>
+			    	<input type="date" ng-model="form.fecha" ng-change="getFecha(form.fecha)" name="fecha" ng-blur="visitedFecha = true" required>
 			</label>
-			<div ng-show="ventaForm.nombre.$invalid && visitedNombre">
-        		<span class="errorMensajeForm" ng-show="ventaForm.nombre.$invalid">Campo obligatorio.</span>
-            </div>
+			<div ng-show="perfilVentaForm.fecha.$invalid && visitedFecha">
+	        		<span class="errorMensajeForm" ng-show="perfilVentaForm.fecha.$invalid">Campo obligatorio.</span>
+	       	</div>
 
-            <label class="item item-input" ng-class="{ 'errorCampoForm' : ventaForm.apellido1.$invalid && visitedApellido}">
-				<span class="input-label"><b>Primer apellido:</b><span class="asteriscoObligatorio">*</span></span>
-				<input type="text" name="apellido1" ng-blur="visitedApellido = true" ng-model="form.apellido1" required>
+	       	<label class="item item-input">
+					<span class="input-label"><b>Numero venta:</b><span class="asteriscoObligatorio">*</span></span>
+					<input type="text" name="numVenta" ng-model="form.numVenta" ng-disabled="numVenta.$invalid = true" required>
 			</label>
-			<div ng-show="ventaForm.apellido1.$invalid && visitedApellido">
-        		<span class="errorMensajeForm" ng-show="ventaForm.apellido1.$invalid">Campo obligatorio.</span>
-            </div>
-	  	</div>
 
 
-
-		        <label class="item item-input" ng-class="{'errorCampoForm' : ventaForm.fecha.$invalid && visitedFecha}">
-				    	<div class="input-label"><b>Fecha cita:</b><span class="asteriscoObligatorio">*</span></div>
-				    	<input type="date" ng-model="form.fecha" ng-change="getFecha(form.fecha)" name="fecha" ng-blur="visitedFecha = true" required>
-				</label>
-				<div ng-show="ventaForm.fecha.$invalid && visitedFecha">
-		        		<span class="errorMensajeForm" ng-show="ventaForm.fecha.$invalid">Campo obligatorio.</span>
-		       	</div>
-
-		       	<label class="item item-input">
-						<span class="input-label"><b>Numero venta:</b><span class="asteriscoObligatorio">*</span></span>
-						<input type="text" name="numVenta" ng-model="form.numVenta" ng-disabled="numVenta.$invalid = true" required>
-				</label>
-		    </div>
-
-			<div ng-if="ventaNueva !=''">
-                <label class="item item-input">
-						<span class="input-label"><b>Cliente:</b><span class="asteriscoObligatorio">*</span></span>
-						<input type="text" name="nombreCli" ng-model="nombreCliente" ng-disabled="nombreCli.$invalid = true" required>
-				</label>
-
-		        <label class="item item-input" ng-class="{'errorCampoForm' : ventaForm.fecha.$invalid && visitedFecha}">
-				    	<div class="input-label"><b>Fecha cita:</b><span class="asteriscoObligatorio">*</span></div>
-				    	<input type="date" ng-model="form.fecha" ng-change="getFecha(form.fecha)" name="fecha" ng-blur="visitedFecha = true" required>
-				</label>
-				<div ng-show="ventaForm.fecha.$invalid && visitedFecha">
-		        		<span class="errorMensajeForm" ng-show="ventaForm.fecha.$invalid">Campo obligatorio.</span>
-		       	</div>
-
-			   	<label class="item item-input">
-						<span class="input-label"><b>Numero venta:</b><span class="asteriscoObligatorio">*</span></span>
-						<input type="text" name="numVenta" ng-model="form.numVenta" ng-disabled="numVenta.$invalid = true" required>
-				</label>
-			</div>
-
-	       	    <label class="item item-input item-select">
-				    <div class="input-label"><b>Empleado:</b><span class="asteriscoObligatorio">*</span></div>
-				    <select ng-change="getEmpleado(form.empleado)" ng-model="form.empleado" ng-options="empleados.nombre for empleados in empleados" required>
-				    <option value="">Seleccionar...</option>
-				    </select>
-			  	</label>
+       	    <label class="item item-input item-select">
+			    <div class="input-label"><b>Empleado:</b><span class="asteriscoObligatorio">*</span></div>
+			    <select ng-model="form.objEmpleado" ng-options="empleados.nombre for empleados in empleados" required>
+			    <option value="">Seleccionar...</option>
+			    </select>
+		  	</label>
 
 			  	<div class="item item-divider">Servicios adquiridos</div>
 
@@ -130,9 +80,9 @@
 							<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-change="getPrecioVentaServicio($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 						</label>
-						<div ng-show="ventaForm.precioVenta{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="ventaForm.precioVenta{{$index}}.$error.required">Campo obligatorio.</span>
-	        				<span class="errorMensajeForm" ng-show="ventaForm.precioVenta{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+						<div ng-show="perfilVentaForm.precioVenta{{$index}}.$invalid">
+	        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVenta{{$index}}.$error.required">Campo obligatorio.</span>
+	        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVenta{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
 	            		</div>
 					  </div>
 
@@ -172,9 +122,9 @@
 								<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
 								<input type="number" name="unidades{{$index}}" ng-change="getPrecioVentaProducto($index)" ng-model="todoItem.unidades" ng-init="todoItem.unidades = 1" ng-pattern="/^[1-9]\d*$/" required>
 							</label>
-							<div ng-show="ventaForm.unidades{{$index}}.$invalid">
-		        				<span class="errorMensajeForm" ng-show="ventaForm.unidades{{$index}}.$error.required">Campo obligatorio.</span>
-		        				<span class="errorMensajeForm" ng-show="ventaForm.unidades{{$index}}.$error.pattern">Solo numeros enteros.</span>
+							<div ng-show="perfilVentaForm.unidades{{$index}}.$invalid">
+		        				<span class="errorMensajeForm" ng-show="perfilVentaForm.unidades{{$index}}.$error.required">Campo obligatorio.</span>
+		        				<span class="errorMensajeForm" ng-show="perfilVentaForm.unidades{{$index}}.$error.pattern">Solo numeros enteros.</span>
 		            		</div>
 					  	</div>
 
@@ -183,9 +133,9 @@
 								<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
 								<input type="number" name="precioVentaProducto{{$index}}" ng-model="todoItem.precioVentaProducto" ng-change="getPrecioVentaProducto($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 							</label>
-							<div ng-show="ventaForm.precioVentaProducto{{$index}}.$invalid">
-		        				<span class="errorMensajeForm" ng-show="ventaForm.precioVentaProducto{{$index}}.$error.required">Campo obligatorio.</span>
-		        				<span class="errorMensajeForm" ng-show="ventaForm.precioVentaProducto{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+							<div ng-show="perfilVentaForm.precioVentaProducto{{$index}}.$invalid">
+		        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVentaProducto{{$index}}.$error.required">Campo obligatorio.</span>
+		        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVentaProducto{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
 		            		</div>
 					  	</div>
 
@@ -223,7 +173,7 @@
 
 			<div class="row  responsive-sm">
 			  	<div class="col">
-			  		<button class="button button-block button-positive icon ion-social-euro" type="button" ng-disabled="ventaForm.$invalid" ng-click="realizarVenta(form)"> Realizar venta</button>
+			  		<button class="button button-block button-positive icon ion-social-euro" type="button" ng-disabled="perfilVentaForm.$invalid" ng-click="modificarVenta(form)"> Modificar venta</button>
 			  	</div>
 			</div>
 		</form>

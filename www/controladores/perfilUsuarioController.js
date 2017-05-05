@@ -24,7 +24,6 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
 	$scope.clickModificarPerfilUsuario = function (form)
 	{
     form['idUser'] = idUsuario;
-		console.log(form); 
 
     var myPopup = $ionicPopup.show({
       title: 'Guardar datos',
