@@ -61,7 +61,7 @@ angular.module('starterMiApp.contrsClientes', [])
 .controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicSlideBoxDelegate','$ionicSideMenuDelegate', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicSlideBoxDelegate,$ionicSideMenuDelegate){
 
     var idCliente = $stateParams.idCliente;
-
+    $ionicSlideBoxDelegate.update();
 
 
     servClientes.mostrarCabeceraPerfilCliente(idCliente).then(function(datosCliente){

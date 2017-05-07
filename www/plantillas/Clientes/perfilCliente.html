@@ -1,6 +1,6 @@
 <ion-view view-title="Perfil del cliente"> <!-- view-title: Es el titulo que se muestra en la pestaña del navegador-->
 
-	<ion-content class="padding"  scroll="true">
+	<ion-content class="padding">
 
 	<form name="clienteForm">
 		<div id="fondoImgPerfil">
@@ -59,7 +59,7 @@
 				        <div class="col-90">
 							<!-- ng-if='elementosComerciales' es la solucion de bug del scroll refresh view -->
 							<ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false" ng-if='elementosComerciales'>
-							  <ion-slide ng-repeat="item in elementosComerciales track by $index" style="width: 100%;">
+							  <ion-slide ng-repeat="item in elementosComerciales track by $index">
 								
 								<div class="list card">
 									
