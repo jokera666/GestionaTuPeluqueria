@@ -80,6 +80,7 @@ angular.module('starterMiApp.contrsVentas', [])
 
 	var idVenta = $stateParams.idVenta;
 	var idUser = localStorage.getItem("idUser");
+	console.log('USER ID: '+idUser);
 	$scope.nombres = [];
 	$scope.empleados = [];
 	$scope.secciones = [];
@@ -145,6 +146,7 @@ angular.module('starterMiApp.contrsVentas', [])
 	var totalVentaProductos = 0;
 	var auxTotalServicios = 0;
 	var auxTotalProductos = 0;
+	var iterador = 0;
 
 	servVentas.listarServiciosVenta(idVenta).then(function(servResponse){
 		//console.log(servResponse);
@@ -158,7 +160,7 @@ angular.module('starterMiApp.contrsVentas', [])
       for(i=0; i<numeroLineasVentas; i++)
       {
         $scope.misSecciones.push({id_seccion:servResponse[i].id_seccion, nombre:servResponse[i].nombreSeccion});
-        //$scope.misServicios.push({nombreServicio:servResponse[i].nombreServicio});
+        $scope.misServicios.push({nombreServicio:servResponse[i].nombreServicio});
       }
 
 
@@ -171,21 +173,28 @@ angular.module('starterMiApp.contrsVentas', [])
 	      	else
 	      	{
 	        	$scope.secciones = servResponse;
-
+	        	// console.log(servResponse);
 	        	for(var i=0; i<numeroLineasVentas; i++)
 		        {
 		         	$scope.todoListServicios[i].seccion =  $scope.misSecciones[i];
-
-				
 		        } 
 
 
-	        	angular.forEach(servResponse, function(val, key,obj) {
-    				// console.log(val.id_seccion);
-    				// console.log(key);
-    				// console.log(obj);
-	    			servServicios.nombreServicio(val.id_seccion).then(function(servResponse){
-				        	console.log(servResponse);
+	        	angular.forEach($scope.misSecciones, function(val, key,obj) {
+	        		console.log('key: '+key);
+	        		console.log(' id '+val.id_seccion);
+	    			servServicios.nombreServicio(val.id_seccion).then(function(servResponse1){
+	    				console.log(servResponse1);
+	    				$scope['servicios'+key] = servResponse1;
+
+				        	// angular.forEach(servResponse1, function(val, key,obj) {
+				        	// 	//console.log(servResponse1);
+				        	// 	//console.log(key);
+				        	// 	//console.log(iterador);
+				        	
+				        	
+				        	// });
+				        	//$scope.servicios = servResponse;
 				        	// if(i != 0)
 				        	// {
 				        	// 	i--;
@@ -194,16 +203,22 @@ angular.module('starterMiApp.contrsVentas', [])
 							//$scope.misServicios = servResponse;
 							//console.log($scope.misServicios);
 							//$scope.servicios0 = servResponse;
-							if(servResponse == -1)
-						    {
-						    	// No hay servicios
-						    }
-						    else
-						    {
+							// if(servResponse == -1)
+						 //    {
+						 //    	// No hay servicios
+						 //    }
+						 //    else
+						 //    {
 						       
-						    }
+						 //    }
 					});	
 				});
+
+				for(i=0; i<numeroLineasVentas; i++)
+		        {
+		         	$scope.todoListServicios[i].servicio =  $scope.misServicios[i];
+		         	console.log($scope.misServicios[i]); 
+		        } 
 	      	}
 		});
 
