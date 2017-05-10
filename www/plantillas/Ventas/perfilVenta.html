@@ -60,7 +60,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Servicio:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="servicio{{$index}}" ng-model="todoItem.servicio" ng-change="getNombreServicio(todoItem.servicio,{{$index}})" ng-options="servicios{{$index}}.nombreServicio for servicios{{$index}} in servicios{{$index}} track by servicios{{$index}}.nombreServicio" required>
+							    <select name="servicio{{$index}}" ng-model="todoItem.servicio" ng-change="getNombreServicio(todoItem.servicio,todoItem.seccion,{{$index}})" ng-options="servicios{{$index}}.nombreServicio for servicios{{$index}} in servicios{{$index}} track by servicios{{$index}}.nombreServicio" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -69,7 +69,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Categoría:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="categoria{{$index}}" ng-model="todoItem.categoria" ng-change="getCategoria(todoItem.categoria,$index)" ng-options="categorias{{$index}}.nombreElemento for categorias{{$index}} in categorias{{$index}}" required>
+							    <select name="categoria{{$index}}" ng-model="todoItem.categoria" ng-change="getCategoria(todoItem.categoria,$index)" ng-options="categorias{{$index}}.nombreElemento for categorias{{$index}} in categorias{{$index}} track by categorias{{$index}}.nombreElemento" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>

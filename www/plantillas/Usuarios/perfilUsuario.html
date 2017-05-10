@@ -20,37 +20,37 @@
 				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : perfilForm.contrasenaOld.$invalid && visitedContrasenaOld}">
 	               <label class="item-input-wrapper item-input" style="background-color: white;">
 						<span class="input-label"><b>Contraseña antigua:</b></span>
-						<input name="contrasenaOld" type="password" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="showPassOld">
+						<input name="contrasenaOld" type="password" placeholder="Mínimo 8 caracteres" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="showPassOld">
 						<input type="text" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="!showPassOld">
 					</label>
 					<a id="contrasenaOld" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
 				</div>
 				<div ng-show="perfilForm.contrasenaOld.$invalid && visitedContrasenaOld"> 
-            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaOld.$error.minlength">Minimo 8 caracteres.</span>
+            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaOld.$error.minlength">Mínimo 8 caracteres.</span>
                 </div>
 
 				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : perfilForm.contrasenaNew.$invalid && visitedContrasenaNew}">
 					<label class="item-input-wrapper item-input" style="background-color: white;">
 						<span class="input-label"><b>Contraseña nueva:</b></span>
-						<input name="contrasenaNew" type="password" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" minlength="8" ng-show="showPassNew">
+						<input name="contrasenaNew" type="password" placeholder="Mínimo 8 caracteres" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" minlength="8" ng-show="showPassNew">
 						<input type="text" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" minlength="8" ng-show="!showPassNew">
 					</label>
 					<a id="contrasenaNew" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
 				</div>
 				<div ng-show="perfilForm.contrasenaNew.$invalid && visitedContrasenaNew"> 
-            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaNew.$error.minlength">Minimo 8 caracteres.</span>
+            		<span class="errorMensajeForm" ng-show="perfilForm.contrasenaNew.$error.minlength">Mínimo 8 caracteres.</span>
                 </div>
 
 				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : perfilForm.repetirContrasena.$invalid && visitedRepeatContrasena}">
 					<label class="item-input-wrapper item-input" style="background-color: white;">
 						<span class="input-label"><b>Repetir contraseña:</b></span>
-						<input name="repetirContrasena" type="password" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="showPassRepeat" ng-pattern="form.contrasenaNew">
+						<input name="repetirContrasena" type="password" placeholder="Mínimo 8 caracteres" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="showPassRepeat" ng-pattern="form.contrasenaNew">
 						<input type="text" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="!showPassRepeat">
 					</label>
 					<a id="contrasenaRepeat" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
 				</div>
 				<div ng-show="perfilForm.repetirContrasena.$invalid && visitedRepeatContrasena"> 
-            		<span class="errorMensajeForm" ng-show="perfilForm.repetirContrasena.$error.minlength">Minimo 8 caracteres.</span>
+            		<span class="errorMensajeForm" ng-show="perfilForm.repetirContrasena.$error.minlength">Mínimo 8 caracteres.</span>
             		<span class="errorMensajeForm" ng-show="perfilForm.repetirContrasena.$error.pattern">Las contraseñas no coinciden.</span>
                 </div>
 
@@ -65,12 +65,12 @@
 
 				
 				<label class="item item-input" ng-class="{ 'errorCampoForm' : perfilForm.email.$invalid && visitedEmail}">
-					<span class="input-label"><b>Correo electronico:</b> <span class="asteriscoObligatorio">*</span></span>
+					<span class="input-label"><b>Correo electrónico:</b> <span class="asteriscoObligatorio">*</span></span>
 					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true" required>
 				</label>
 				<div ng-show="perfilForm.email.$invalid && visitedEmail">
             		<span class="errorMensajeForm" ng-show="perfilForm.email.$error.required">Campo obligatorio.</span> 
-            		<span class="errorMensajeForm" ng-show="perfilForm.email.$error.email">El correo electronico es incorrecto.</span>
+            		<span class="errorMensajeForm" ng-show="perfilForm.email.$error.email">El correo electrónico es incorrecto.</span>
                 </div>
 
 				<div class="row  responsive-sm">

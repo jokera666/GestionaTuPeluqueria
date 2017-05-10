@@ -80,6 +80,11 @@
 											 ng-repeat="item1 in elementosComerciales[$index] | filter: { observaciones: '' } | unique: 'observaciones'">
 											{{item1.observaciones}}
 										</div>
+										<div class="item item-text-wrap" 
+											 ng-repeat="item1 in elementosComerciales[$index] | filter: { idVenta: '' } | unique: 'idVenta'">
+											<a class="button icon button-block ion-arrow-graph-up-right button-calm" href="#/side/perfilVenta/{{item1.idVenta}}"> Ver venta</a>
+										</div>
+
 									  
 								</div>
 							  </ion-slide>

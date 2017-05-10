@@ -22,21 +22,21 @@
 				
 				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.contrasena.$invalid && visitedContrasena}">
 					<span class="input-label"><b>Contraseña:</b> <span class="asteriscoObligatorio">*</span></span>
-					<input name="contrasena" type="password" ng-model="form.contrasena" ng-blur="visitedContrasena = true" required minlength="8">
+					<input name="contrasena" type="password" placeholder="Mínimo 8 caracteres" ng-model="form.contrasena" ng-blur="visitedContrasena = true" required minlength="8">
 				</label>
 				<div ng-show="signupForm.contrasena.$invalid && visitedContrasena">
             		<span class="errorMensajeForm" ng-show="signupForm.contrasena.$error.required">Campo obligatorio.</span> 
-            		<span class="errorMensajeForm" ng-show="signupForm.contrasena.$error.minlength">Minimo 8 caracteres.</span>
+            		<span class="errorMensajeForm" ng-show="signupForm.contrasena.$error.minlength">Mínimo 8 caracteres.</span>
                 </div>
 
 				
 				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.repetirContrasena.$invalid && visitedRepeatContrasena}">
 					<span class="input-label"><b>Repetir Contraseña:</b> <span class="asteriscoObligatorio">*</span></span>
-					<input name="repetirContrasena" type="password" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" required minlength="8">
+					<input name="repetirContrasena" type="password" placeholder="Mínimo 8 caracteres" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" required minlength="8">
 				</label>
 				<div ng-show="signupForm.repetirContrasena.$invalid && visitedRepeatContrasena">
             		<span class="errorMensajeForm" ng-show="signupForm.repetirContrasena.$error.required">Campo obligatorio.</span> 
-            		<span class="errorMensajeForm" ng-show="signupForm.repetirContrasena.$error.minlength">Minimo 8 caracteres.</span>
+            		<span class="errorMensajeForm" ng-show="signupForm.repetirContrasena.$error.minlength">Mínimo 8 caracteres.</span>
                 </div>
 
 				
@@ -50,12 +50,12 @@
 
 				
 				<label class="item item-input" ng-class="{ 'errorCampoForm' : signupForm.email.$invalid && visitedEmail}">
-					<span class="input-label"><b>Correo electronico:</b> <span class="asteriscoObligatorio">*</span></span>
+					<span class="input-label"><b>Correo electrónico:</b> <span class="asteriscoObligatorio">*</span></span>
 					<input name="email" type="email" ng-model="form.email" ng-blur="visitedEmail = true" required>
 				</label>
 				<div ng-show="signupForm.email.$invalid && visitedEmail">
             		<span class="errorMensajeForm" ng-show="signupForm.email.$error.required">Campo obligatorio.</span> 
-            		<span class="errorMensajeForm" ng-show="signupForm.email.$error.email">El correo electronico es incorrecto.</span>
+            		<span class="errorMensajeForm" ng-show="signupForm.email.$error.email">El correo electrónico es incorrecto.</span>
                 </div>
 
 				<!-- type='file' no funciona -->

@@ -18,7 +18,7 @@
                 </div>
 
                 <label class="item item-input" ng-class="{ 'errorCampoForm' : formInsertProveedor.telefono.$invalid && visitedTel}">
-			    	<span class="input-label"><b>Telefono:</b></span>
+			    	<span class="input-label"><b>Teléfono:</b></span>
 			    	<input type="tel" name="telefono" ng-model="form.telefono" ng-blur="visitedTel = true" minlength="9" maxlength="9">
 			  	</label>
 			  	<div ng-show="formInsertProveedor.telefono.$invalid && visitedTel">
@@ -26,7 +26,7 @@
                 </div>
 
 				<label class="item item-input">
-					<span class="input-label"><b>Email:</b></span>
+					<span class="input-label"><b>Correo electrónico:</b></span>
 					<input type="email" name="email" ng-model="form.email">
 				</label>
 
