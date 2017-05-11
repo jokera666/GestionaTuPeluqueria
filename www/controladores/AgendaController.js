@@ -81,6 +81,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     $scope.openModalModificarCita = function(dataCita) {
     // Incializar formulario por defecto cuando se abra el modal
     console.log(dataCita);
+    var idCliente = dataCita.idCliente;
     var hIni = moment(dataCita.start._i).toDate();
     var hFin = moment(dataCita.end._i).toDate();
       $scope.form = {};
@@ -92,6 +93,17 @@ angular.module('starterMiApp.contrsAgenda', [])
         horaFin:  hFin,
         idCliente: dataCita.idCliente
       };
+
+      for(var i = 0; i<$scope.nombres.length; i++)
+      {
+        if($scope.nombres[i].id_cliente == idCliente)
+        {
+          var indexCliente = i;
+        }
+      }
+      $scope.form['objClienteExistente'] = $scope.nombres[indexCliente];
+
+
       $scope.modalModificarCita.show();
     }
 
@@ -489,7 +501,6 @@ angular.module('starterMiApp.contrsAgenda', [])
     $scope.clickModificarCita = function(form){
       console.log(form);
       var nombreClienteCita = $scope.nombreCliente;
-
       var formattedDate = moment(form.fecha).format('YYYY-MM-DD');
       var formattedHoraIni = moment(form.horaIni).format('HH:mm:ss');
       var formattedHoraFin = moment(form.horaIni).add(30, 'minutes').format('HH:mm:ss');  // see the cloning?
