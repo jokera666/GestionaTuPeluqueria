@@ -15,7 +15,6 @@ angular.module('starterMiApp.contrsVentas', [])
 	$scope.fechaFin = new Date(fechaActualMasMes);
 
 	servVentas.listarVentas(idUser,$scope.fechaIni,$scope.fechaFin).then(function(servResponse){
-		console.log(servResponse);
 		if(servResponse==-1)
 		{
 	        $scope.mensajeError = "No hay ventas realizadas entre el periodo seleccionado.";
@@ -49,8 +48,7 @@ angular.module('starterMiApp.contrsVentas', [])
 		{
 			fechaIni.setHours(00, 00, 00);
 			fechaFin.setHours(23, 59, 00);
-			console.log('Fecha Ini-->'+fechaIni);
-			console.log('Fecha Fin-->'+fechaFin);
+
 			$scope.fechaIni = fechaIni;
 			$scope.fechaFin = fechaFin;
 
@@ -76,7 +74,7 @@ angular.module('starterMiApp.contrsVentas', [])
 	}
 }]) // Fin VentasCtrl
 
-.controller('VentasPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','servClientes','servEmpleados','servSecciones','servServicios','servVentas','$parse', function($scope,$state,$stateParams,$ionicPopup,servClientes,servEmpleados,servSecciones,servServicios,servVentas,$parse){
+.controller('VentasPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','servClientes','servEmpleados','servSecciones','servServicios','servVentas','servCompras','servProductos', function($scope,$state,$stateParams,$ionicPopup,servClientes,servEmpleados,servSecciones,servServicios,servVentas,servCompras,servProductos){
 
 	var idVenta = $stateParams.idVenta;
 	var idUser = localStorage.getItem("idUser");
@@ -88,11 +86,11 @@ angular.module('starterMiApp.contrsVentas', [])
 	
 
 	servVentas.listarCabeceraVenta(idVenta).then(function(servResponse){
-		console.log(servResponse);
 		var idCliente = servResponse.idCliente;
 		$scope.form['fecha'] = new Date(servResponse.fechaVenta);
 		$scope.form['numVenta'] = servResponse.numVenta;
 		$scope.form['descuento'] = parseInt(servResponse.descuento);
+		$scope.form['observaciones'] = servResponse.observaciones;
 		$scope.precioTotalVenta = parseInt(servResponse.precioVentaTotal);
 		var idEmpleado = servResponse.idEmpleado;
 
@@ -142,6 +140,8 @@ angular.module('starterMiApp.contrsVentas', [])
 	});//FIN listarCabeceraVenta
 
 
+	/* ========================== CARGAR LINEAS DE VENTAS SERVICIOS =========================== */
+
 	$scope.todoListServicios = [];
 	$scope.precioTotalVenta = 0;
 	var totalVentaServicios = 0;
@@ -151,7 +151,7 @@ angular.module('starterMiApp.contrsVentas', [])
 	var idSeccion = 0; // Variable global para el change de la Seccion
 
 	servVentas.listarServiciosVenta(idVenta).then(function(servResponse){
-		console.log(servResponse);
+		//console.log(servResponse);
 		$scope.todoListServicios = servResponse;
 
 		/* Оbtener las secciones de cada linea de venta para poder iniciar el select en 
@@ -211,12 +211,11 @@ angular.module('starterMiApp.contrsVentas', [])
 	        	});
 
 	        	angular.forEach($scope.misPreciosVenta, function(val, key,obj) {
-	        		$scope.todoListServicios[key].precioVenta =  parseInt(val.precioVenta);
+	        		$scope.todoListServicios[key].precioVenta =  val.precioVenta;
 	        	});
 
 	      	}//Fin else
 		});
-
 	}); // FIN listaarServiciosVenta
 
 		$scope.getIdSeccion = function(objSeccion,index)
@@ -291,8 +290,108 @@ angular.module('starterMiApp.contrsVentas', [])
 			}	
 		}
 
-	/*--------------------------TODOLIST SERVICIOS VENTAS------------------------------*/
+	/* ========================== FIN CARGAR LINEAS DE VENTAS SERVICIOS =========================== */
+	
+	
 
+
+	/* ============================= CARGAR LINEAS DE VENTAS PRODUCTOS ============================= */	
+	$scope.marca = [];		
+	servVentas.listarProductosVenta(idVenta).then(function(servResponse){
+		console.log(servResponse);
+		$scope.todoListProductos = servResponse;
+
+		/* Оbtener las secciones de cada linea de venta para poder iniciar el select en 
+       cada linea de venta.*/
+		$scope.misMarcas = [];
+		$scope.misProductos = [];
+		$scope. misUnidades = [];
+		$scope.misPreciosVentaPro = [];
+		var numeroLineasVentas = servResponse.length;
+		for(i=0; i<numeroLineasVentas; i++)
+		{
+			$scope.misMarcas.push({id_marca:servResponse[i].id_marca, nombre:servResponse[i].nombre});
+			$scope.misProductos.push({idElemento:servResponse[i].idElemento, nombreProducto:servResponse[i].nombreProducto});
+			$scope.misUnidades.push({unidades:servResponse[i].cantidad});
+			$scope.misPreciosVentaPro.push({precioVenta:servResponse[i].precioVentaUnd});
+		}
+
+		 servCompras.listarMarcas(idUser,'usuario').then(function(servResponse){
+           	if(servResponse==-1)
+		    {
+		    	// No hay secciones
+		    } 
+		    else
+		    {
+		    	$scope.marcas = servResponse;
+
+		    	angular.forEach($scope.misMarcas, function(val, key,obj) {
+	        		//Incializar el SELECT con el nombreMarca de la linea de venta correspondiente
+	        		$scope.todoListProductos[key].marca = val;
+
+	        		//Listar todas las opciones del SELECT Productos
+	    			servProductos.listarProductos(val.id_marca).then(function(servResponse1){
+	    				$scope['productos'+key] = servResponse1;
+					});// Fin servicio listarProductos	
+				}); // Fin foreach misSecciones
+
+				angular.forEach($scope.misProductos, function(val, key,obj) {
+	        		//Incializar el SELECT con el nombreProducto de la linea de venta correspondiente
+	        		$scope.todoListProductos[key].producto =  val;
+	        	});
+
+				angular.forEach($scope.misUnidades, function(val, key,obj) {
+	        		$scope.todoListProductos[key].unidades =  val.unidades;
+	        	});
+
+	        	angular.forEach($scope.misPreciosVentaPro, function(val, key,obj) {
+	        		$scope.todoListProductos[key].precioVentaProducto =  val.precioVenta;
+	        	});
+		    }
+		});// Fin servicio listarMarcas
+	}); // Fin listarProductosVenta
+
+	$scope.getIdMarca = function (objMarca,index)
+	{
+		if(objMarca != null)
+		{
+			var idMarca = objMarca.id_marca;
+			servProductos.listarProductos(idMarca).then(function(servResponse){
+				if(servResponse == -1)
+			    {
+			    	// No hay productos
+			    }
+			    else
+			    {
+			      	$scope['productos'+index] = servResponse;
+			    }
+			});
+
+			$scope.getIdProducto = function (objProducto,index)
+			{
+				if(objProducto!=null)
+				{	
+					var precioVentaProducto = objProducto.precioVenta;
+					var precio = 0;
+					totalVentaProductos = 0;
+					$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
+					$scope.todoListProductos[index].unidades = 1;
+					for(i=0; i<$scope.todoListProductos.length; i++)
+					{
+						precio = $scope.todoListProductos[i].precioVentaProducto;
+						totalVentaProductos += precio;
+					}
+					auxTotalProductos = totalVentaProductos;
+					$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+				}
+			}
+		}
+	}
+
+	/* ========================== FIN CARGAR LINEAS DE VENTAS PRODUCTOS =========================== */
+
+
+	/*--------------------------TODOLIST SERVICIOS VENTAS------------------------------*/
 	$scope.anadirServicio  = function()
 	{
 		if($scope.todoListServicios == '' && $scope.todoListProductos == '')
@@ -310,10 +409,10 @@ angular.module('starterMiApp.contrsVentas', [])
   		$scope.precioTotalVenta -= valorRestado;
         $scope.todoListServicios.splice(index, 1);
   	};
+	/*--------------------------FIN TODOLIST SERVICIOS VENTAS------------------------------*/
 
-  	$scope.todoListProductos = [];
-	/*--------------------------TODOLIST SERVICIOS VENTAS------------------------------*/
-
+ 	/*--------------------------TODOLIST PRODUCTOS VENTAS----------------------------------*/ 
+	$scope.todoListProductos = [];
 	$scope.anadirProducto  = function()
 	{
 		if($scope.todoListServicios == '' && $scope.todoListProductos == '')
@@ -333,7 +432,8 @@ angular.module('starterMiApp.contrsVentas', [])
         $scope.todoListProductos.splice(index, 1); 	
   	};
 
-  	/*--------------------------FIN TODOLIST SERVICIOS VENTAS--------------------------*/ 
+  	/*--------------------------FIN TODOLIST PRODUCTOS VENTAS-----------------------------*/ 
+
 
 
 

@@ -102,7 +102,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="marca{{$index}}" ng-model="todoItem.marca" ng-change="getIdMarca(todoItem.marca,{{$index}})" ng-options="marcas.nombre group by marcas.nombreProveedor for marcas in marcas" required>
+							    <select name="marca{{$index}}" ng-model="todoItem.marca" ng-change="getIdMarca(todoItem.marca,{{$index}})" ng-options="marcas.nombre group by marcas.nombreProveedor for marcas in marcas track by marcas.nombre" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -111,7 +111,7 @@
 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Producto:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="producto{{$index}}" ng-model="todoItem.producto" ng-change="getIdProducto(todoItem.producto,$index)" ng-options="productos{{$index}}.nombreProducto for productos{{$index}} in productos{{$index}}" required>
+							    <select name="producto{{$index}}" ng-model="todoItem.producto" ng-change="getIdProducto(todoItem.producto,$index)" ng-options="productos{{$index}}.nombreProducto for productos{{$index}} in productos{{$index}} track by productos{{$index}}.nombreProducto" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -120,7 +120,7 @@
 	          			<div class="col">
 						  	<label class="item item-input">
 								<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
-								<input type="number" name="unidades{{$index}}" ng-change="getPrecioVentaProducto($index)" ng-model="todoItem.unidades" ng-init="todoItem.unidades = 1" ng-pattern="/^[1-9]\d*$/" required>
+								<input type="number" name="unidades{{$index}}" ng-change="getPrecioVentaProducto($index)" ng-model="todoItem.unidades" ng-pattern="/^[1-9]\d*$/" required>
 							</label>
 							<div ng-show="perfilVentaForm.unidades{{$index}}.$invalid">
 		        				<span class="errorMensajeForm" ng-show="perfilVentaForm.unidades{{$index}}.$error.required">Campo obligatorio.</span>
@@ -146,16 +146,25 @@
 							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirProducto()"></button>
 		          	</div>
 			</div> <!-- Fin List -->
-			
+
 			<div ng-if="todoListProductos != '' || todoListServicios != ''">
-				<div class="row responsive-sm">
-					<div class="col col-20">
+				<div class="row responsive-lg">
+					<div class="col">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Descuento:</b></span>
 							<input type="number" name="descuento" ng-model="form.descuento" ng-init="form.descuento = 0" ng-blur="aplicarDescuento(form.descuento)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 						</label>
 					</div>
-					<div class="col col-25 col-offset-50">
+					<div class="col">
+
+					<label class="item item-input">
+						<span class="input-label">Observaciones:</span>
+
+						<textarea placeholder="Observaciones" rows="6" cols="100" name="comment" id="comment-textarea" ng-model="form.observaciones">
+      					</textarea>
+					</label>
+					</div>
+					<div class="col" style="margin-top: -21px;">
 						<div class="card">
 						  <div class="item item-divider">
 						    Precio total
@@ -169,7 +178,7 @@
 			</div>
 
 
-			<pre> FROM = {{forma}}</pre>
+			<pre> FROM = {{forma | json}}</pre>
 
 			<div class="row  responsive-sm">
 			  	<div class="col">
