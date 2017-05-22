@@ -40,54 +40,65 @@
 		  	</label>
 
 			  	<div class="item item-divider">Servicios adquiridos</div>
+				
+				<div ng-if="noServiciosVenta!=-1">
+				  	<ion-item ng-repeat = "todoItem in todoListServicios">
+							<div class="row responsive-lg">
+								<div class="col-10" style="max-width: 3%">
+									<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarServicio($index)"></button>
+			          			</div>
 
-			  	<ion-item ng-repeat = "todoItem in todoListServicios">
-					<div class="row responsive-lg">
+			          			<div class="col">
+					          		<label class="item item-input item-select">
+									    <div class="input-label"><b>Sección:</b><span class="asteriscoObligatorio">*</span></div>
+									    <select name="seccion{{$index}}" ng-model="todoItem.seccion" ng-change="getIdSeccion(todoItem.seccion,{{$index}})" ng-options="secciones.nombre for secciones in secciones track by secciones.nombre" required>
+									    <option value="">Seleccionar...</option>
+									    </select>
+								  	</label>
+			          			</div>
+
+			          			<div class="col">
+					          		<label class="item item-input item-select">
+									    <div class="input-label"><b>Servicio:</b><span class="asteriscoObligatorio">*</span></div>
+									    <select name="servicio{{$index}}" ng-model="todoItem.servicio" ng-change="getNombreServicio(todoItem.servicio,todoItem.seccion,{{$index}})" ng-options="servicios{{$index}}.nombreServicio for servicios{{$index}} in servicios{{$index}} track by servicios{{$index}}.nombreServicio" required>
+									    <option value="">Seleccionar...</option>
+									    </select>
+								  	</label>
+			          			</div>
+
+			          			<div class="col">
+					          		<label class="item item-input item-select">
+									    <div class="input-label"><b>Categoría:</b><span class="asteriscoObligatorio">*</span></div>
+									    <select name="categoria{{$index}}" ng-model="todoItem.categoria" ng-change="getCategoria(todoItem.categoria,$index)" ng-options="categorias{{$index}}.nombreElemento for categorias{{$index}} in categorias{{$index}} track by categorias{{$index}}.nombreElemento" required>
+									    <option value="">Seleccionar...</option>
+									    </select>
+								  	</label>
+			          			</div>
+
+							  <div class="col">
+								  	<label class="item item-input">
+										<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
+										<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-change="getPrecioVentaServicio($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+									</label>
+									<div ng-show="perfilVentaForm.precioVenta{{$index}}.$invalid">
+				        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVenta{{$index}}.$error.required">Campo obligatorio.</span>
+				        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVenta{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+				            		</div>
+							  	</div>
+							</div> 
+					</ion-item> <!-- FIN ROW todoList LineaServicios -->
+				</div>
+
 					
-					<div class="col-10" style="max-width: 3%">
-						<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarServicio($index)"></button>
-          			</div>
+					<div ng-if="noServiciosVenta==-1">
+						<div class="card">
+					      <div class="item item-icon-left msgError">		
+					      <i class="icon ion-alert-circled"></i>
+					      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+					      </div>
+					    </div>
+				  	</div>
 
-	          			<div class="col">
-			          		<label class="item item-input item-select">
-							    <div class="input-label"><b>Sección:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="seccion{{$index}}" ng-model="todoItem.seccion" ng-change="getIdSeccion(todoItem.seccion,{{$index}})" ng-options="secciones.nombre for secciones in secciones track by secciones.nombre" required>
-							    <option value="">Seleccionar...</option>
-							    </select>
-						  	</label>
-	          			</div>
-
-	          			<div class="col">
-			          		<label class="item item-input item-select">
-							    <div class="input-label"><b>Servicio:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="servicio{{$index}}" ng-model="todoItem.servicio" ng-change="getNombreServicio(todoItem.servicio,todoItem.seccion,{{$index}})" ng-options="servicios{{$index}}.nombreServicio for servicios{{$index}} in servicios{{$index}} track by servicios{{$index}}.nombreServicio" required>
-							    <option value="">Seleccionar...</option>
-							    </select>
-						  	</label>
-	          			</div>
-
-	          			<div class="col">
-			          		<label class="item item-input item-select">
-							    <div class="input-label"><b>Categoría:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select name="categoria{{$index}}" ng-model="todoItem.categoria" ng-change="getCategoria(todoItem.categoria,$index)" ng-options="categorias{{$index}}.nombreElemento for categorias{{$index}} in categorias{{$index}} track by categorias{{$index}}.nombreElemento" required>
-							    <option value="">Seleccionar...</option>
-							    </select>
-						  	</label>
-	          			</div>
-
-					  <div class="col">
-					  	<label class="item item-input">
-							<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-change="getPrecioVentaServicio($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
-						</label>
-						<div ng-show="perfilVentaForm.precioVenta{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVenta{{$index}}.$error.required">Campo obligatorio.</span>
-	        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVenta{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
-	            		</div>
-					  </div>
-
-					</div> 
-				</ion-item> <!-- FIN ROW todoList LineaServicios -->
 					<div class="col-offset-90 padding">
 							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirServicio()"></button>
 		          	</div>
@@ -140,11 +151,20 @@
 					  	</div>
 
 	          		</div>
-
 				</ion-item> <!-- FIN ROW todoList LineaProductos -->
-					<div class="col-offset-90 padding">
-							<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirProducto()"></button>
-		          	</div>
+			
+				<div ng-if="noProductosVenta==-1">
+					<div class="card">
+				      <div class="item item-icon-left msgError">		
+				      <i class="icon ion-alert-circled"></i>
+				      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+				      </div>
+				    </div>
+			  	</div>
+
+				<div class="col-offset-90 padding">
+						<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirProducto()"></button>
+	          	</div>
 			</div> <!-- Fin List -->
 
 			<div ng-if="todoListProductos != '' || todoListServicios != ''">

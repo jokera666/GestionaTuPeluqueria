@@ -84,6 +84,9 @@
 										<input type="date" name="fechaCompra" ng-model="itemProducto.fechaCompra" ng-disabled="fechaCompra.$invalid = true">
 									</label>
 								  </div>
+								  <div class="col-5" style="margin-top: -5px;">
+								  	<a class="button icon button-block ion-clipboard button-balanced" href="#/side/perfilFactura/{{itemProducto.idCompra}}/{{itemProducto.nombreProveedor}}"> Ver compra</a>
+								  </div>
 							</div> <!-- FIN ROW -->
 						</ion-item>
 
@@ -128,6 +131,9 @@
 										<span class="input-label">Fecha de venta:</span>
 										<input type="date" name="fechaVenta" ng-model="itemProducto.fechaVenta" ng-disabled="fechaVenta.$invalid = true">
 									</label>
+								  </div>
+								  <div class="col-5" style="margin-top: -5px;">
+								  	<a class="button icon button-block ion-arrow-graph-up-right button-calm" href="#/side/perfilVenta/{{itemProducto.idVenta}}"> Ver venta</a>
 								  </div>
 							</div> <!-- FIN ROW -->
 						</ion-item>

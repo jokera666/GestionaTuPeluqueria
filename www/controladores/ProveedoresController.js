@@ -199,7 +199,7 @@ angular.module('starterMiApp.contrsProveedores', [])
             if (e)
             {              
                 servProveedores.modificarPerfilProveedor(form).then(function(data){
-                  $state.go($state.current,null,{reload:true});
+                  $state.go('sidemenu.proveedores',null,{reload:true});
                   $scope.modal.hide();
                 });
             }

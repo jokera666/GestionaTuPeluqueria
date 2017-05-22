@@ -92,6 +92,7 @@ angular.module('starterMiApp.contrsProductos', [])
 	console.log(sesionIdUser);
 
 	servProductos.listarPerfilProducto(idProducto).then(function(servResponse){
+		console.log(servResponse);
 		$scope.datosProducto = {
 			nombreProveedor: servResponse['infoProducto'].nombreProveedor,
 			nombreMarca: servResponse['infoProducto'].nombreMarca,
@@ -111,9 +112,10 @@ angular.module('starterMiApp.contrsProductos', [])
 			var numeroLineasCompras = servResponse['Compras'].length;
 			for(i=0; i<numeroLineasCompras; i++)
 			{
-				$scope.auxLineasCompras.push({cantidad:servResponse['Compras'][i].cantidadCompra, precioCompra:servResponse['Compras'][i].precioCompraUnd, fechaCompra:new Date(servResponse['Compras'][i].fechaCompra)});
+				$scope.auxLineasCompras.push({idCompra:servResponse['Compras'][i].id_compra, cantidad:servResponse['Compras'][i].cantidadCompra, nombreProveedor:servResponse['Compras'][i].nombreProveedor, precioCompra:servResponse['Compras'][i].precioCompraUnd, fechaCompra:new Date(servResponse['Compras'][i].fechaCompra)});
 			}
 			$scope.productosCompra = $scope.auxLineasCompras;
+			console.log($scope.productosCompra);
 	  }
 	  else
 	  {
@@ -131,7 +133,7 @@ angular.module('starterMiApp.contrsProductos', [])
 		  var numeroLineasVentas = servResponse['Ventas'].length;
 		  for(i=0; i<numeroLineasVentas; i++)
 		  {
-		    $scope.auxLineasVentas.push({cantidad:servResponse['Ventas'][i].cantidadVenta, precioVenta:servResponse['Ventas'][i].precioVentaUnd, fechaVenta:new Date(servResponse['Ventas'][i].fechaVenta)});
+		    $scope.auxLineasVentas.push({idVenta:servResponse['Ventas'][i].id_venta,nombreProveedor:servResponse['Ventas'][i].nombreProveedor, cantidad:servResponse['Ventas'][i].cantidadVenta, precioVenta:servResponse['Ventas'][i].precioVentaUnd, fechaVenta:new Date(servResponse['Ventas'][i].fechaVenta)});
 		  }
 		  $scope.productosVenta = $scope.auxLineasVentas;
 	  }
@@ -190,7 +192,7 @@ angular.module('starterMiApp.contrsProductos', [])
 	$scope.clickModificarPrecioVenta = function(precioVenta)
 	{
 		servProductos.modificarPrecioVenta(idProducto,precioVenta).then(function(){
-			$state.go($state.current,null,{reload:true});
+			$state.go('sidemenu.productos',null,{reload:true});
 		});
 	}
 

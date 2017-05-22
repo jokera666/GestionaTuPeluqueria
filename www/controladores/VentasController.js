@@ -366,25 +366,25 @@ angular.module('starterMiApp.contrsVentas', [])
 			      	$scope['productos'+index] = servResponse;
 			    }
 			});
-
-			$scope.getIdProducto = function (objProducto,index)
+		}
+	}
+	
+	$scope.getIdProducto = function (objProducto,index)
+	{
+		if(objProducto!=null)
+		{	
+			var precioVentaProducto = objProducto.precioVenta;
+			var precio = 0;
+			totalVentaProductos = 0;
+			$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
+			$scope.todoListProductos[index].unidades = 1;
+			for(i=0; i<$scope.todoListProductos.length; i++)
 			{
-				if(objProducto!=null)
-				{	
-					var precioVentaProducto = objProducto.precioVenta;
-					var precio = 0;
-					totalVentaProductos = 0;
-					$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
-					$scope.todoListProductos[index].unidades = 1;
-					for(i=0; i<$scope.todoListProductos.length; i++)
-					{
-						precio = $scope.todoListProductos[i].precioVentaProducto;
-						totalVentaProductos += precio;
-					}
-					auxTotalProductos = totalVentaProductos;
-					$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
-				}
+				precio = $scope.todoListProductos[i].precioVentaProducto;
+				totalVentaProductos += precio;
 			}
+			auxTotalProductos = totalVentaProductos;
+			$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
 		}
 	}
 

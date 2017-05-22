@@ -238,7 +238,7 @@ angular.module('starterMiApp.contrsServicios', [])
 	              if (e)
 	              {              
 	                  servServicios.modificarServicio(form).then(function(servResponse){
-	                      $state.go($state.current,null,{reload:true});
+	                      $state.go('sidemenu.servicios',null,{reload:true});
 	                  });
 	              }
 	            }
