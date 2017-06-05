@@ -89,9 +89,9 @@ angular.module('starterMiApp.contrsVentas', [])
 		var idCliente = servResponse.idCliente;
 		$scope.form['fecha'] = new Date(servResponse.fechaVenta);
 		$scope.form['numVenta'] = servResponse.numVenta;
-		$scope.form['descuento'] = parseInt(servResponse.descuento);
 		$scope.form['observaciones'] = servResponse.observaciones;
 		$scope.precioTotalVenta = parseInt(servResponse.precioVentaTotal);
+		$scope.form['descuento'] = parseInt(servResponse.descuento);
 		var idEmpleado = servResponse.idEmpleado;
 
 		servClientes.listarClientes('citasClientes',idUser).then(function(servResponse){
@@ -151,71 +151,80 @@ angular.module('starterMiApp.contrsVentas', [])
 	var idSeccion = 0; // Variable global para el change de la Seccion
 
 	servVentas.listarServiciosVenta(idVenta).then(function(servResponse){
-		//console.log(servResponse);
-		$scope.todoListServicios = servResponse;
-
-		/* Оbtener las secciones de cada linea de venta para poder iniciar el select en 
-       cada linea de venta.*/
-		$scope.misSecciones = [];
-		$scope.misServicios = [];
-		$scope.misCategorias = [];
-		$scope.misPreciosVenta = [];
-		var numeroLineasVentas = servResponse.length;
-		for(i=0; i<numeroLineasVentas; i++)
+		console.log(servResponse);
+		if(servResponse == -1)
 		{
-			$scope.misSecciones.push({id_seccion:servResponse[i].id_seccion, nombre:servResponse[i].nombreSeccion});
-			$scope.misServicios.push({nombreServicio:servResponse[i].nombreServicio, idSeccion:servResponse[i].id_seccion});
-			$scope.misCategorias.push({nombreElemento:servResponse[i].nombreElemento});
-			$scope.misPreciosVenta.push({precioVenta:servResponse[i].precioVentaUnd});
+			$scope.noServiciosVenta = -1;
+			$scope.mensajeError = "No hay servicios adquiridos en esta venta.";
 		}
+		else
+		{
+			$scope.noServiciosVenta = 0;
+			$scope.todoListServicios = servResponse;
+
+			/* Оbtener las secciones de cada linea de venta para poder iniciar el select en 
+	       cada linea de venta.*/
+			$scope.misSecciones = [];
+			$scope.misServicios = [];
+			$scope.misCategorias = [];
+			$scope.misPreciosVenta = [];
+			var numeroLineasVentas = servResponse.length;
+			for(i=0; i<numeroLineasVentas; i++)
+			{
+				$scope.misSecciones.push({id_seccion:servResponse[i].id_seccion, nombre:servResponse[i].nombreSeccion});
+				$scope.misServicios.push({nombreServicio:servResponse[i].nombreServicio, idSeccion:servResponse[i].id_seccion});
+				$scope.misCategorias.push({nombreElemento:servResponse[i].nombreElemento});
+				$scope.misPreciosVenta.push({precioVenta:servResponse[i].precioVentaUnd});
+			}
 
 
-		/*------------------------- LISTAR SECCIONES-----------------------*/ 
-		servSecciones.listarSecciones(idUser).then(function(servResponse){
-			if(servResponse==-1)
-		    {
-		    	// No hay secciones
-		    }
-	      	else
-	      	{
-	      		//Listar todas las opciones del SELECT Secciones
-	        	$scope.secciones = servResponse;
+			/*------------------------- LISTAR SECCIONES-----------------------*/ 
+			servSecciones.listarSecciones(idUser).then(function(servResponse){
+				if(servResponse==-1)
+			    {
+			    	// No hay secciones
+			    }
+		      	else
+		      	{
+		      		//Listar todas las opciones del SELECT Secciones
+		        	$scope.secciones = servResponse;
 
 
-	        	angular.forEach($scope.misSecciones, function(val, key,obj) {
-	        		//Incializar el SELECT con el nombreSeccion de la linea de venta correspondiente
-	        		$scope.todoListServicios[key].seccion = val;
+		        	angular.forEach($scope.misSecciones, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreSeccion de la linea de venta correspondiente
+		        		$scope.todoListServicios[key].seccion = val;
 
-	        		//Listar todas las opciones del SELECT Servicios
-	    			servServicios.nombreServicio(val.id_seccion).then(function(servResponse1){
-	    				$scope['servicios'+key] = servResponse1;
+		        		//Listar todas las opciones del SELECT Servicios
+		    			servServicios.nombreServicio(val.id_seccion).then(function(servResponse1){
+		    				$scope['servicios'+key] = servResponse1;
 
-					});// Fin servicio nombreServicio	
-				}); // Fin foreach misSecciones
-	        	
-	        	angular.forEach($scope.misServicios, function(val, key,obj) {
-	        		//Incializar el SELECT con el nombreServicio de la linea de venta correspondiente
-	        		$scope.todoListServicios[key].servicio =  val;
-	        		
-	        		var nombreServicio = val.nombreServicio;
-	        		var id_seccion = val.idSeccion;
+						});// Fin servicio nombreServicio	
+					}); // Fin foreach misSecciones
+		        	
+		        	angular.forEach($scope.misServicios, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreServicio de la linea de venta correspondiente
+		        		$scope.todoListServicios[key].servicio =  val;
+		        		
+		        		var nombreServicio = val.nombreServicio;
+		        		var id_seccion = val.idSeccion;
 
-		        	servServicios.listarPerfilServicio(id_seccion,nombreServicio).then(function(servResponse){
-		        		//Listar todas las opciones del SELECT Categorias segun la seccion y el servicio
-						$scope['categorias'+key] = servResponse;
-		     		});// Fin servicio listarPerfilServicio	
-	        	});// Fin foreach misServicios
+			        	servServicios.listarPerfilServicio(id_seccion,nombreServicio).then(function(servResponse){
+			        		//Listar todas las opciones del SELECT Categorias segun la seccion y el servicio
+							$scope['categorias'+key] = servResponse;
+			     		});// Fin servicio listarPerfilServicio	
+		        	});// Fin foreach misServicios
 
-	        	angular.forEach($scope.misCategorias, function(val, key,obj) {
-	        		$scope.todoListServicios[key].categoria =  val;
-	        	});
+		        	angular.forEach($scope.misCategorias, function(val, key,obj) {
+		        		$scope.todoListServicios[key].categoria =  val;
+		        	});
 
-	        	angular.forEach($scope.misPreciosVenta, function(val, key,obj) {
-	        		$scope.todoListServicios[key].precioVenta =  val.precioVenta;
-	        	});
+		        	angular.forEach($scope.misPreciosVenta, function(val, key,obj) {
+		        		$scope.todoListServicios[key].precioVenta =  val.precioVenta;
+		        	});
 
-	      	}//Fin else
-		});
+		      	}//Fin else
+			});
+		}
 	}); // FIN listaarServiciosVenta
 
 		$scope.getIdSeccion = function(objSeccion,index)
@@ -299,56 +308,66 @@ angular.module('starterMiApp.contrsVentas', [])
 	$scope.marca = [];		
 	servVentas.listarProductosVenta(idVenta).then(function(servResponse){
 		console.log(servResponse);
-		$scope.todoListProductos = servResponse;
-
-		/* Оbtener las secciones de cada linea de venta para poder iniciar el select en 
-       cada linea de venta.*/
-		$scope.misMarcas = [];
-		$scope.misProductos = [];
-		$scope. misUnidades = [];
-		$scope.misPreciosVentaPro = [];
-		var numeroLineasVentas = servResponse.length;
-		for(i=0; i<numeroLineasVentas; i++)
+		if(servResponse == -1)
 		{
-			$scope.misMarcas.push({id_marca:servResponse[i].id_marca, nombre:servResponse[i].nombre});
-			$scope.misProductos.push({idElemento:servResponse[i].idElemento, nombreProducto:servResponse[i].nombreProducto});
-			$scope.misUnidades.push({unidades:servResponse[i].cantidad});
-			$scope.misPreciosVentaPro.push({precioVenta:servResponse[i].precioVentaUnd});
+			$scope.noProductosVenta = -1;
+			$scope.mensajeError = "No hay productos vendidos en esta venta.";
 		}
+		else
+		{	
+			$scope.noProductosVenta = 0;
+			$scope.todoListProductos = servResponse;
 
-		 servCompras.listarMarcas(idUser,'usuario').then(function(servResponse){
-           	if(servResponse==-1)
-		    {
-		    	// No hay secciones
-		    } 
-		    else
-		    {
-		    	$scope.marcas = servResponse;
+			/* Оbtener las secciones de cada linea de venta para poder iniciar el select en 
+	       	cada linea de venta.*/
+			$scope.misMarcas = [];
+			$scope.misProductos = [];
+			$scope. misUnidades = [];
+			$scope.misPreciosVentaPro = [];
+			var numeroLineasVentas = servResponse.length;
+			for(i=0; i<numeroLineasVentas; i++)
+			{
+				$scope.misMarcas.push({id_marca:servResponse[i].id_marca, nombre:servResponse[i].nombre});
+				$scope.misProductos.push({idElemento:servResponse[i].idElemento, nombreProducto:servResponse[i].nombreProducto});
+				$scope.misUnidades.push({unidades:servResponse[i].cantidad});
+				$scope.misPreciosVentaPro.push({precioVenta:servResponse[i].precioVentaUnd});
+			}
 
-		    	angular.forEach($scope.misMarcas, function(val, key,obj) {
-	        		//Incializar el SELECT con el nombreMarca de la linea de venta correspondiente
-	        		$scope.todoListProductos[key].marca = val;
+			 servCompras.listarMarcas(idUser,'usuario').then(function(servResponse){
+	           	if(servResponse==-1)
+			    {
+			    	// No hay secciones
+			    } 
+			    else
+			    {
+			    	$scope.marcas = servResponse;
 
-	        		//Listar todas las opciones del SELECT Productos
-	    			servProductos.listarProductos(val.id_marca).then(function(servResponse1){
-	    				$scope['productos'+key] = servResponse1;
-					});// Fin servicio listarProductos	
-				}); // Fin foreach misSecciones
+			    	angular.forEach($scope.misMarcas, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreMarca de la linea de venta correspondiente
+		        		$scope.todoListProductos[key].marca = val;
 
-				angular.forEach($scope.misProductos, function(val, key,obj) {
-	        		//Incializar el SELECT con el nombreProducto de la linea de venta correspondiente
-	        		$scope.todoListProductos[key].producto =  val;
-	        	});
+		        		//Listar todas las opciones del SELECT Productos
+		    			servProductos.listarProductos(val.id_marca).then(function(servResponse1){
+		    				$scope['productos'+key] = servResponse1;
+						});// Fin servicio listarProductos	
+					}); // Fin foreach misSecciones
 
-				angular.forEach($scope.misUnidades, function(val, key,obj) {
-	        		$scope.todoListProductos[key].unidades =  val.unidades;
-	        	});
+					angular.forEach($scope.misProductos, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreProducto de la linea de venta correspondiente
+		        		$scope.todoListProductos[key].producto =  val;
+		        	});
 
-	        	angular.forEach($scope.misPreciosVentaPro, function(val, key,obj) {
-	        		$scope.todoListProductos[key].precioVentaProducto =  val.precioVenta;
-	        	});
-		    }
-		});// Fin servicio listarMarcas
+					angular.forEach($scope.misUnidades, function(val, key,obj) {
+		        		$scope.todoListProductos[key].unidades =  val.unidades;
+		        	});
+
+		        	angular.forEach($scope.misPreciosVentaPro, function(val, key,obj) {
+		        		$scope.todoListProductos[key].precioVentaProducto =  val.precioVenta;
+		        	});
+			    }
+			});// Fin servicio listarMarcas
+		}
+		
 	}); // Fin listarProductosVenta
 
 	$scope.getIdMarca = function (objMarca,index)
@@ -388,12 +407,72 @@ angular.module('starterMiApp.contrsVentas', [])
 		}
 	}
 
+	$scope.getPrecioVentaProducto = function(index)
+	{
+		totalVentaProductos = 0;
+		var unidades = 1;
+		var precio 	 = 0;
+
+		for(i=0; i<$scope.todoListProductos.length; i++)
+		{
+			precio = $scope.todoListProductos[i].precioVentaProducto;
+			unidades = $scope.todoListProductos[i].unidades;
+			totalVentaProductos += unidades*precio;
+		}
+		auxTotalProductos = totalVentaProductos; 
+		$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+	}
+
+	var aux1 = [];
+	$scope.aplicarDescuento = function(descuento)
+	{
+		var totalDescuento = 0;
+		aux1.push(parseInt(descuento));
+		for(var i=0; i<aux1.length; i++)
+		{
+			totalDescuento += aux1[i];
+		}
+		console.log(totalDescuento);
+
+		if(descuento > $scope.precioTotalVenta)
+		{
+			for(var i=0; i<aux1.length; i++)
+			{
+				aux1[i] = 0;
+			}
+			$scope.form['descuento'] = 0;
+			$scope.precioTotalVenta += totalDescuento;
+			var alertPopup = $ionicPopup.alert({
+			     title: 'Error al realizar el descuento',
+			     template: 'Descuento incorrecto.',
+			     okText: 'Volver', 
+  				 okType: 'button-assertive'
+   			});
+		}
+		if(descuento == 0)
+		{
+			for(var i=0; i<aux1.length; i++)
+			{
+				aux1[i] = 0;
+			}
+			$scope.precioTotalVenta += totalDescuento;
+			totalDescuento = 0;
+		}
+		else
+		{
+			 aux = descuento;
+			 $scope.precioTotalVenta -= aux;
+		}
+	}
+
 	/* ========================== FIN CARGAR LINEAS DE VENTAS PRODUCTOS =========================== */
 
 
 	/*--------------------------TODOLIST SERVICIOS VENTAS------------------------------*/
 	$scope.anadirServicio  = function()
 	{
+		$scope.noServiciosVenta = 0;
+		listarServicio();
 		if($scope.todoListServicios == '' && $scope.todoListProductos == '')
 	  	{
 	  		auxTotalServicios = 0;
@@ -415,6 +494,8 @@ angular.module('starterMiApp.contrsVentas', [])
 	$scope.todoListProductos = [];
 	$scope.anadirProducto  = function()
 	{
+		$scope.noProductosVenta = 0;
+		listarProducto();
 		if($scope.todoListServicios == '' && $scope.todoListProductos == '')
 	  	{
 			auxTotalServicios = 0;
@@ -439,9 +520,139 @@ angular.module('starterMiApp.contrsVentas', [])
 
 	$scope.modificarVenta = function(form)
 	{
-		console.log(form);
+		form['lineasVentaServicio'] = $scope.todoListServicios;
+		form['lineasVentasProducto'] = $scope.todoListProductos;
 		$scope.forma = form;
+		console.log(form);
 		//$state.go($state.current,null,{reload:true});
+	}
+
+
+	function listarProducto()
+	{
+			 servCompras.listarMarcas(idUser,'usuario').then(function(servResponse){
+	           	if(servResponse==-1)
+			    {
+			    	// No hay secciones
+			    } 
+			    else
+			    {
+			    	$scope.marcas = servResponse;
+
+			    	angular.forEach($scope.misMarcas, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreMarca de la linea de venta correspondiente
+		        		$scope.todoListProductos[key].marca = val;
+
+		        		//Listar todas las opciones del SELECT Productos
+		    			servProductos.listarProductos(val.id_marca).then(function(servResponse1){
+		    				$scope['productos'+key] = servResponse1;
+						});// Fin servicio listarProductos	
+					}); // Fin foreach misSecciones
+
+					angular.forEach($scope.misProductos, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreProducto de la linea de venta correspondiente
+		        		$scope.todoListProductos[key].producto =  val;
+		        	});
+
+					angular.forEach($scope.misUnidades, function(val, key,obj) {
+		        		$scope.todoListProductos[key].unidades =  val.unidades;
+		        	});
+
+		        	angular.forEach($scope.misPreciosVentaPro, function(val, key,obj) {
+		        		$scope.todoListProductos[key].precioVentaProducto =  val.precioVenta;
+		        	});
+			    }
+			});// Fin servicio listarMarcas
+	}
+
+	function listarServicio()
+	{
+		servSecciones.listarSecciones(idUser).then(function(servResponse){
+				if(servResponse==-1)
+			    {
+			    	// No hay secciones
+			    }
+		      	else
+		      	{
+		      		//Listar todas las opciones del SELECT Secciones
+		        	$scope.secciones = servResponse;
+
+
+		      	}//Fin else
+			});
+
+		$scope.getIdSeccion = function(objSeccion,index)
+		{
+			console.log(index);
+			if(objSeccion!=null)
+			{
+				idSeccion = objSeccion.id_seccion;
+				console.log(idSeccion);
+
+				/*------------------------- LISTAR SERVICIOS -----------------------*/
+				servServicios.nombreServicio(idSeccion).then(function(servResponse){
+					console.log(index);
+					console.log(servResponse);
+					if(servResponse == -1)
+				    {
+				    	// No hay servicios
+				    }
+				    else
+				    {
+				      	$scope['servicios'+index] = servResponse;
+				      	console.log(servResponse);
+				    }
+				});
+			}
+		}
+
+		$scope.getNombreServicio = function(objServicio,objSeccion,index)
+		{	
+			console.log(objSeccion);
+			if(objServicio!=null)
+			{
+				var nombreServicio = objServicio.nombreServicio;
+				var id_seccion = objSeccion.id_seccion;
+
+				if(idSeccion != 0)
+				{
+					/*------------------------- LISTAR CATEGORIAS -----------------------*/
+					servServicios.listarPerfilServicio(idSeccion,nombreServicio).then(function(servResponse){
+						$scope['categorias'+index] = servResponse;
+		     		});
+				}
+				else
+				{
+					/*------------------------- LISTAR CATEGORIAS -----------------------*/
+					servServicios.listarPerfilServicio(id_seccion,nombreServicio).then(function(servResponse){
+						$scope['categorias'+index] = servResponse;
+		     		});
+				}
+
+
+			}
+		}
+
+		$scope.getCategoria = function(objCategoria,index)
+		{
+			if(objCategoria != null)
+			{
+				totalVentaServicios = 0;
+				var precio = 0;
+				var precioVenta = objCategoria.precioVenta;
+				$scope.todoListServicios[index].precioVenta = precioVenta;
+
+				for(i=0; i<$scope.todoListServicios.length; i++)
+				{
+					precio = $scope.todoListServicios[i].precioVenta;
+					totalVentaServicios += precio;
+				}
+
+				auxTotalServicios = totalVentaServicios;
+				$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+			}	
+		}
+
 	}
 
 }]) // Fin VentasPerfilCtrl
