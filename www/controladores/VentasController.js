@@ -7,14 +7,15 @@ angular.module('starterMiApp.contrsVentas', [])
 
 	var fechaIni = new Date();
 	fechaIni.setHours(00, 00, 00);
-	$scope.fechaIni = fechaIni;
+	fechaIni.setMonth(fechaIni.getMonth()-1);
+	$scope.fechaDesde = fechaIni;
 
 	var fechaActual = new Date();
 	fechaActual.setHours(23, 59, 00);
-	var fechaActualMasMes  = fechaActual.setMonth(fechaActual.getMonth()+1);
-	$scope.fechaFin = new Date(fechaActualMasMes);
+	var fechaActualMasMes  = fechaActual.setMonth(fechaActual.getMonth());
+	$scope.fechaHasta = new Date(fechaActualMasMes);
 
-	servVentas.listarVentas(idUser,$scope.fechaIni,$scope.fechaFin).then(function(servResponse){
+	servVentas.listarVentas(idUser,$scope.fechaDesde,$scope.fechaHasta).then(function(servResponse){
 		if(servResponse==-1)
 		{
 	        $scope.mensajeError = "No hay ventas realizadas entre el periodo seleccionado.";
@@ -32,10 +33,10 @@ angular.module('starterMiApp.contrsVentas', [])
 		}
 	});
 
-	$scope.getFechas = function(fechaIni,fechaFin)
+	$scope.getFechas = function(fechaDesde,fechaHasta)
 	{
 		$scope.animacion = "hide";
-		if(fechaIni > fechaFin || fechaFin < fechaIni)
+		if(fechaDesde > fechaHasta || fechaHasta < fechaDesde)
 		{
 			var alertPopup = $ionicPopup.alert({
 			     title: 'Error de fechas',
@@ -46,16 +47,17 @@ angular.module('starterMiApp.contrsVentas', [])
 		}
 		else
 		{
-			fechaIni.setHours(00, 00, 00);
-			fechaFin.setHours(23, 59, 00);
+			fechaDesde.setHours(00, 00, 00);
+			fechaHasta.setHours(23, 59, 00);
 
-			$scope.fechaIni = fechaIni;
-			$scope.fechaFin = fechaFin;
+			$scope.fechaDesde = fechaDesde;
+			$scope.fechaHasta = fechaHasta;
 
-			servVentas.listarVentas(idUser,$scope.fechaIni,$scope.fechaFin).then(function(servResponse){
+			servVentas.listarVentas(idUser,$scope.fechaDesde,$scope.fechaHasta).then(function(servResponse){
 				console.log(servResponse);
 				if(servResponse==-1)
 				{
+					$scope.ventas = '';
 			        $scope.mensajeError = "No hay ventas realizadas entre el periodo seleccionado.";
 			        $scope.animacion = "animated shake show";
 				}
@@ -517,17 +519,6 @@ angular.module('starterMiApp.contrsVentas', [])
 
 
 
-
-	$scope.modificarVenta = function(form)
-	{
-		form['lineasVentaServicio'] = $scope.todoListServicios;
-		form['lineasVentasProducto'] = $scope.todoListProductos;
-		$scope.forma = form;
-		console.log(form);
-		//$state.go($state.current,null,{reload:true});
-	}
-
-
 	function listarProducto()
 	{
 			 servCompras.listarMarcas(idUser,'usuario').then(function(servResponse){
@@ -653,6 +644,28 @@ angular.module('starterMiApp.contrsVentas', [])
 			}	
 		}
 
+	}
+
+	$scope.modificarVenta = function(form)
+	{
+
+		angular.forEach($scope.todoListServicios, function(val, key,obj) {
+			/*Estos elementos del objeto se eliminan ya que solo se utilizaron
+			para inicializar las lineas de la venta*/
+    		delete val.id_seccion;
+    		delete val.idElemento;
+    		delete val.nombreElemento;
+    		delete val.nombreSeccion;
+    		delete val.nombreServicio;
+    		delete val.precioVentaUnd;
+    	});
+
+		form['lineasVentaServicio'] = $scope.todoListServicios;
+		form['lineasVentasProducto'] = $scope.todoListProductos;
+		$scope.forma = $scope.todoListServicios;
+		$scope.forma1 = $scope.todoListProductos;
+		console.log(form);
+		//$state.go($state.current,null,{reload:true});
 	}
 
 }]) // Fin VentasPerfilCtrl

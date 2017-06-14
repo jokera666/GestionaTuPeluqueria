@@ -1,20 +1,20 @@
 <ion-view view-title="Ventas">
     <ion-content scroll="false">
     	<form name="ventasForm">
-			<label class="item item-input" ng-class="{'errorCampoForm' : ventasForm.fechaIni.$invalid && visitedFechaIni}">
+			<label class="item item-input" ng-class="{'errorCampoForm' : ventasForm.fechaDesde.$invalid && visitedfechaDesde}">
 				<div class="input-label"><b>Desde:</b><span class="asteriscoObligatorio">*</span></div>
-				<input type="date" ng-change="getFechas(fechaIni,fechaFin)" ng-model="fechaIni" name="fechaIni" ng-blur="visitedFechaIni = true" required>
+				<input type="date" ng-change="getFechas(fechaDesde,fechaHasta)" ng-model="fechaDesde" name="fechaDesde" ng-blur="visitedfechaDesde = true" required>
 			</label>
-				<div ng-show="ventasForm.fechaIni.$invalid && visitedFechaIni">
-				<span class="errorMensajeForm" ng-show="ventasForm.fechaIni.$invalid">Campo obligatorio.</span>
+				<div ng-show="ventasForm.fechaDesde.$invalid && visitedfechaDesde">
+				<span class="errorMensajeForm" ng-show="ventasForm.fechaDesde.$invalid">Campo obligatorio.</span>
 			</div>
 
-			<label class="item item-input" ng-class="{'errorCampoForm' : ventasForm.fechaFin.$invalid && visitedFechaFin}">
+			<label class="item item-input" ng-class="{'errorCampoForm' : ventasForm.fechaHasta.$invalid && visitedfechaHasta}">
 				<div class="input-label"><b>Hasta:</b><span class="asteriscoObligatorio">*</span></div>
-				<input type="date" ng-change="getFechas(fechaIni,fechaFin)" ng-model="fechaFin" name="fechaFin" ng-blur="visitedFechaFin = true" required>
+				<input type="date" ng-change="getFechas(fechaDesde,fechaHasta)" ng-model="fechaHasta" name="fechaHasta" ng-blur="visitedfechaHasta = true" required>
 			</label>
-			<div ng-show="ventasForm.fechaFin.$invalid && visitedFechaFin">
-				<span class="errorMensajeForm" ng-show="ventasForm.fechaFin.$invalid">Campo obligatorio.</span>
+			<div ng-show="ventasForm.fechaHasta.$invalid && visitedfechaHasta">
+				<span class="errorMensajeForm" ng-show="ventasForm.fechaHasta.$invalid">Campo obligatorio.</span>
 			</div>
 		</form>
     </ion-content>
