@@ -433,18 +433,15 @@ angular.module('starterMiApp.contrsVentas', [])
 			totalVentaProductos += unidades*precio;
 		}
 
-		var totalPrecioProductos = 0;
-		var precioProducto = 0;
-		var unidades = 1;
+		// var totalPrecioProductos = 0;
+		// var precioProducto = 0;
+		// var unidades = 1;
 
-		for(i=0; i<$scope.todoListProductos.length; i++)
-		{
-			precioProducto = $scope.todoListProductos[i].precioVentaUnd;
-			unidades = $scope.todoListProductos[i].cantidad;
-			totalPrecioProductos += unidades*precioProducto;
-			console.log(totalPrecioProductos);
-		}
-
+		// for(i=0; i<$scope.todoListServicios.length; i++)
+		// {
+		// 	precio = $scope.todoListServicios[i].precioVenta;
+		// 	totalVentaServicios += precio;
+		// }
 
 		auxTotalProductos = totalVentaProductos; 
 		$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
@@ -459,24 +456,35 @@ angular.module('starterMiApp.contrsVentas', [])
 		var totalPrecioProductos = 0;
 
 		var precio = 0;
+		var miArray = [];
 
 		for(i=0; i<$scope.todoListProductos.length; i++)
 		{
-			precioProducto = $scope.todoListProductos[i].precioVentaUnd;
-			unidades = $scope.todoListProductos[i].cantidad;
+			precioProducto = $scope.todoListProductos[i].precioVentaProducto;
+			unidades = $scope.todoListProductos[i].unidades;
 			totalPrecioProductos += unidades*precioProducto;
-			console.log(totalPrecioProductos);
+			miArray.push(totalPrecioProductos);
+			//console.log(totalPrecioProductos);
 		}
-
+		
 		for(i=0; i<$scope.todoListServicios.length; i++)
 		{
 			precio = $scope.todoListServicios[i].precioVenta;
+			miArray.push(precio);
 			totalVentaServicios += precio;
 		}
+		console.log(miArray);
+		var Totall = 0;
+		for(var i = 0; i<miArray.length; i++)
+		{
+			Totall += miArray[i];
+		}
+		console.log(Totall);
+
 		auxTotalServicios = totalVentaServicios + totalPrecioProductos;
 		$scope.precioTotalVenta = auxTotalServicios;
 
-		console.log($scope.precioTotalVenta);
+		//console.log($scope.precioTotalVenta);
 	}
 
 	var aux1 = [];
