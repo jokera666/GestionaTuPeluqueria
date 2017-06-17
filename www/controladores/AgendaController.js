@@ -327,16 +327,7 @@ angular.module('starterMiApp.contrsAgenda', [])
     }
 
     $scope.closeModal = function() {
-      
       $scope.modal.hide();
-      $scope.modal.remove();
-      $scope.form = {};
-      $ionicModal.fromTemplateUrl('plantillas/Agenda/modalInsertarCita.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function(modal) {
-        $scope.modal = modal;
-      });
     };
 
 

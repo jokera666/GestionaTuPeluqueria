@@ -1,6 +1,6 @@
 <ion-view view-title="Perfil venta">
 	<ion-content class="padding">
-		<form name="perfilperfilVentaForm">
+		<form name="perfilVentaForm">
 			<div class="item item-divider">Cabecera venta</div>
 			<div class="list">
 				
@@ -78,7 +78,7 @@
 							  <div class="col">
 								  	<label class="item item-input">
 										<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
-										<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-change="getPrecioVentaServicio($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+										<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-change="calcularPrecioTotal($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 									</label>
 									<div ng-show="perfilVentaForm.precioVenta{{$index}}.$invalid">
 				        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVenta{{$index}}.$error.required">Campo obligatorio.</span>
@@ -134,7 +134,7 @@
 		          			<div class="col">
 							  	<label class="item item-input">
 									<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
-									<input type="number" name="unidades{{$index}}" ng-change="getPrecioVentaProducto($index)" ng-model="todoItem.unidades" ng-pattern="/^[1-9]\d*$/" required>
+									<input type="number" name="unidades{{$index}}" ng-change="calcularPrecioTotal($index)" ng-model="todoItem.unidades" ng-pattern="/^[1-9]\d*$/" required>
 								</label>
 								<div ng-show="perfilVentaForm.unidades{{$index}}.$invalid">
 			        				<span class="errorMensajeForm" ng-show="perfilVentaForm.unidades{{$index}}.$error.required">Campo obligatorio.</span>
@@ -145,7 +145,7 @@
 						  	<div class="col">
 							  	<label class="item item-input">
 									<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
-									<input type="number" name="precioVentaProducto{{$index}}" ng-model="todoItem.precioVentaProducto" ng-change="getPrecioVentaProducto($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+									<input type="number" name="precioVentaProducto{{$index}}" ng-model="todoItem.precioVentaProducto" ng-change="calcularPrecioTotal($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 								</label>
 								<div ng-show="perfilVentaForm.precioVentaProducto{{$index}}.$invalid">
 			        				<span class="errorMensajeForm" ng-show="perfilVentaForm.precioVentaProducto{{$index}}.$error.required">Campo obligatorio.</span>
@@ -179,6 +179,9 @@
 							<span class="input-label"><b>Descuento:</b></span>
 							<input type="number" name="descuento" ng-model="form.descuento" ng-blur="aplicarDescuento(form.descuento)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 						</label>
+						<div ng-show="perfilVentaForm.descuento.$invalid">
+	        				<span class="errorMensajeForm" ng-show="perfilVentaForm.descuento.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
+	            		</div>
 					</div>
 					<div class="col">
 

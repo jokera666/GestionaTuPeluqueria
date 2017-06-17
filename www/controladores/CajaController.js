@@ -319,7 +319,7 @@ angular.module('starterMiApp.contrsCaja', [])
 	$scope.aplicarDescuento = function(descuento)
 	{
 		var totalDescuento = 0;
-		aux1.push(parseInt(descuento));
+		aux1.push(parseFloat(descuento));
 		for(var i=0; i<aux1.length; i++)
 		{
 			totalDescuento += aux1[i];

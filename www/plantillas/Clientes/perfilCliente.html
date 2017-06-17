@@ -69,7 +69,7 @@
 									  	   {{item1.idVenta}} <b>Sección: </b>{{item1.nombreSeccion}} <b>Servicio: </b>{{item1.nombreServicio}} {{item1.nombreElemento}} <b>Precio de venta: </b>{{item1.precioVentaUnd | currency:"€"}}
 									  </div>
 									  
-									  <div class="item item-divider item-text-wrap">Productos adqueridos en {{fechaVenta | date:'dd/MM/yyyy'}} con Nº Venta: {{numVenta}}</div>
+									  <div class="item item-divider item-text-wrap">Productos adquiridos en {{fechaVenta | date:'dd/MM/yyyy'}} con Nº Venta: {{numVenta}}</div>
 									 <div class="item item-text-wrap" 
 									 	  ng-repeat="item1 in elementosComerciales[$index] | filter: { nombreProducto: '' }">
 									    {{item1.idVenta}} <b>Nombre: </b>{{item1.nombreMarca}} {{item1.nombreProducto}}  <b>Unidades: </b>{{item1.cantidad}} <b>Precio de venta: </b>{{item1.precioVentaUndProducto | currency:"€"}}

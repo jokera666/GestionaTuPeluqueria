@@ -7,7 +7,7 @@ angular.module('starterMiApp.contrsVentas', [])
 
 	var fechaIni = new Date();
 	fechaIni.setHours(00, 00, 00);
-	fechaIni.setMonth(fechaIni.getMonth()-1);
+	fechaIni.setDate(fechaIni.getDate() - 7);
 	$scope.fechaDesde = fechaIni;
 
 	var fechaActual = new Date();
@@ -146,10 +146,6 @@ angular.module('starterMiApp.contrsVentas', [])
 
 	$scope.todoListServicios = [];
 	$scope.precioTotalVenta = 0;
-	var totalVentaServicios = 0;
-	var totalVentaProductos = 0;
-	var auxTotalServicios = 0;
-	var auxTotalProductos = 0;
 	var idSeccion = 0; // Variable global para el change de la Seccion
 
 	servVentas.listarServiciosVenta(idVenta).then(function(servResponse){
@@ -284,31 +280,10 @@ angular.module('starterMiApp.contrsVentas', [])
 		$scope.getCategoria = function(objCategoria,index)
 		{
 			if(objCategoria != null)
-			{
-				totalVentaServicios = 0;
-				var precio = 0;
+			{	
 				var precioVenta = objCategoria.precioVenta;
 				$scope.todoListServicios[index].precioVenta = precioVenta;
-
-				for(i=0; i<$scope.todoListServicios.length; i++)
-				{
-					precio = $scope.todoListServicios[i].precioVenta;
-					totalVentaServicios += precio;
-				}
-
-				var precioProducto = 0;
-				var unidades = 1;
-				var totalPrecioProductos = 0;
-				for(i=0; i<$scope.todoListProductos.length; i++)
-				{
-					precioProducto = $scope.todoListProductos[i].precioVentaUnd;
-					unidades = $scope.todoListProductos[i].cantidad;
-					totalPrecioProductos += unidades*precioProducto;
-					console.log(totalPrecioProductos);
-				}
-
-				auxTotalServicios = totalVentaServicios + totalPrecioProductos;
-				$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+				$scope.calcularPrecioTotal(index);
 			}	
 		}
 
@@ -406,92 +381,50 @@ angular.module('starterMiApp.contrsVentas', [])
 		if(objProducto!=null)
 		{	
 			var precioVentaProducto = objProducto.precioVenta;
-			var precio = 0;
-			totalVentaProductos = 0;
-			$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
+
 			$scope.todoListProductos[index].unidades = 1;
-			for(i=0; i<$scope.todoListProductos.length; i++)
-			{
-				precio = $scope.todoListProductos[i].precioVentaProducto;
-				totalVentaProductos += precio;
-			}
-			auxTotalProductos = totalVentaProductos;
-			$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+
+			$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
+
+			$scope.calcularPrecioTotal(index);
 		}
 	}
 
-	$scope.getPrecioVentaProducto = function(index)
+	$scope.calcularPrecioTotal = function(index)
 	{
-		totalVentaProductos = 0;
-		var unidades = 1;
-		var precio 	 = 0;
-
-		for(i=0; i<$scope.todoListProductos.length; i++)
-		{
-			precio = $scope.todoListProductos[i].precioVentaProducto;
-			unidades = $scope.todoListProductos[i].unidades;
-			totalVentaProductos += unidades*precio;
-		}
-
-		// var totalPrecioProductos = 0;
-		// var precioProducto = 0;
-		// var unidades = 1;
-
-		// for(i=0; i<$scope.todoListServicios.length; i++)
-		// {
-		// 	precio = $scope.todoListServicios[i].precioVenta;
-		// 	totalVentaServicios += precio;
-		// }
-
-		auxTotalProductos = totalVentaProductos; 
-		$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
-	}
-
-	$scope.getPrecioVentaServicio = function(index)
-	{
-		totalVentaServicios = 0;
-
 		var precioProducto = 0;
 		var unidades = 1;
-		var totalPrecioProductos = 0;
-
-		var precio = 0;
-		var miArray = [];
-
-		for(i=0; i<$scope.todoListProductos.length; i++)
-		{
-			precioProducto = $scope.todoListProductos[i].precioVentaProducto;
-			unidades = $scope.todoListProductos[i].unidades;
-			totalPrecioProductos += unidades*precioProducto;
-			miArray.push(totalPrecioProductos);
-			//console.log(totalPrecioProductos);
-		}
+		var precioServicio = 0;
+		var precioUnidadProducto = 0;
 		
-		for(i=0; i<$scope.todoListServicios.length; i++)
-		{
-			precio = $scope.todoListServicios[i].precioVenta;
-			miArray.push(precio);
-			totalVentaServicios += precio;
-		}
-		console.log(miArray);
-		var Totall = 0;
+		var miArray = [];
+		var auxTotalVenta = 0;
+
+		angular.forEach($scope.todoListServicios, function(clave){
+			precioServicio = clave.precioVenta;
+			miArray.push(precioServicio);
+		});
+
+		angular.forEach($scope.todoListProductos, function(clave, key,obj) {
+    		precioProducto = clave.precioVentaProducto;
+    		unidades = clave.unidades;
+    		precioUnidadProducto = unidades*precioProducto;
+			miArray.push(precioUnidadProducto);
+    	});
+		
 		for(var i = 0; i<miArray.length; i++)
 		{
-			Totall += miArray[i];
+			auxTotalVenta += miArray[i];
 		}
-		console.log(Totall);
 
-		auxTotalServicios = totalVentaServicios + totalPrecioProductos;
-		$scope.precioTotalVenta = auxTotalServicios;
-
-		//console.log($scope.precioTotalVenta);
+		$scope.precioTotalVenta = auxTotalVenta;
 	}
 
 	var aux1 = [];
 	$scope.aplicarDescuento = function(descuento)
 	{
 		var totalDescuento = 0;
-		aux1.push(parseInt(descuento));
+		aux1.push(parseFloat(descuento));
 		for(var i=0; i<aux1.length; i++)
 		{
 			totalDescuento += aux1[i];
@@ -537,11 +470,9 @@ angular.module('starterMiApp.contrsVentas', [])
 	$scope.anadirServicio  = function()
 	{
 		$scope.noServiciosVenta = 0;
-		//listarServicio();
+		listarServicio();
 		if($scope.todoListServicios == '' && $scope.todoListProductos == '')
 	  	{
-	  		auxTotalServicios = 0;
-	  		auxTotalProductos = 0;
 	  		$scope.precioTotalVenta = 0;
 	  	}
 		$scope.todoListServicios.push({});
@@ -560,11 +491,9 @@ angular.module('starterMiApp.contrsVentas', [])
 	$scope.anadirProducto  = function()
 	{
 		$scope.noProductosVenta = 0;
-		//listarProducto();
+		listarProducto();
 		if($scope.todoListServicios == '' && $scope.todoListProductos == '')
 	  	{
-			auxTotalServicios = 0;
-	  		auxTotalProductos = 0;
 	  		$scope.precioTotalVenta = 0;
 	  	}
 		$scope.todoListProductos.push({});
@@ -581,44 +510,47 @@ angular.module('starterMiApp.contrsVentas', [])
   	/*--------------------------FIN TODOLIST PRODUCTOS VENTAS-----------------------------*/ 
 
 
+  	/*Es una funcion necesaria si la venta no tiene servicios o productos introducidos
+	para cuando carge la linea nueva se inicialice*/
+	function listarProducto()
+	{
+			 servCompras.listarMarcas(idUser,'usuario').then(function(servResponse){
+	           	if(servResponse==-1)
+			    {
+			    	// No hay secciones
+			    } 
+			    else
+			    {
+			    	$scope.marcas = servResponse;
 
-	// function listarProducto()
-	// {
-	// 		 servCompras.listarMarcas(idUser,'usuario').then(function(servResponse){
-	//            	if(servResponse==-1)
-	// 		    {
-	// 		    	// No hay secciones
-	// 		    } 
-	// 		    else
-	// 		    {
-	// 		    	$scope.marcas = servResponse;
+			    	angular.forEach($scope.misMarcas, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreMarca de la linea de venta correspondiente
+		        		$scope.todoListProductos[key].marca = val;
 
-	// 		    	angular.forEach($scope.misMarcas, function(val, key,obj) {
-	// 	        		//Incializar el SELECT con el nombreMarca de la linea de venta correspondiente
-	// 	        		$scope.todoListProductos[key].marca = val;
+		        		//Listar todas las opciones del SELECT Productos
+		    			servProductos.listarProductos(val.id_marca).then(function(servResponse1){
+		    				$scope['productos'+key] = servResponse1;
+						});// Fin servicio listarProductos	
+					}); // Fin foreach misSecciones
 
-	// 	        		//Listar todas las opciones del SELECT Productos
-	// 	    			servProductos.listarProductos(val.id_marca).then(function(servResponse1){
-	// 	    				$scope['productos'+key] = servResponse1;
-	// 					});// Fin servicio listarProductos	
-	// 				}); // Fin foreach misSecciones
+					angular.forEach($scope.misProductos, function(val, key,obj) {
+		        		//Incializar el SELECT con el nombreProducto de la linea de venta correspondiente
+		        		$scope.todoListProductos[key].producto =  val;
+		        	});
 
-	// 				angular.forEach($scope.misProductos, function(val, key,obj) {
-	// 	        		//Incializar el SELECT con el nombreProducto de la linea de venta correspondiente
-	// 	        		$scope.todoListProductos[key].producto =  val;
-	// 	        	});
+					angular.forEach($scope.misUnidades, function(val, key,obj) {
+		        		$scope.todoListProductos[key].unidades =  val.unidades;
+		        	});
 
-	// 				angular.forEach($scope.misUnidades, function(val, key,obj) {
-	// 	        		$scope.todoListProductos[key].unidades =  val.unidades;
-	// 	        	});
+		        	angular.forEach($scope.misPreciosVentaPro, function(val, key,obj) {
+		        		$scope.todoListProductos[key].precioVentaProducto =  val.precioVenta;
+		        	});
+			    }
+			});// Fin servicio listarMarcas
+	}
 
-	// 	        	angular.forEach($scope.misPreciosVentaPro, function(val, key,obj) {
-	// 	        		$scope.todoListProductos[key].precioVentaProducto =  val.precioVenta;
-	// 	        	});
-	// 		    }
-	// 		});// Fin servicio listarMarcas
-	// }
-
+	/*Es una funcion necesaria si la venta no tiene servicios o productos introducidos
+	para cuando carge la linea nueva se inicialice*/
 	function listarServicio()
 	{
 		servSecciones.listarSecciones(idUser).then(function(servResponse){
@@ -682,31 +614,8 @@ angular.module('starterMiApp.contrsVentas', [])
 						$scope['categorias'+index] = servResponse;
 		     		});
 				}
-
-
 			}
 		}
-
-		$scope.getCategoria = function(objCategoria,index)
-		{
-			if(objCategoria != null)
-			{
-				totalVentaServicios = 0;
-				var precio = 0;
-				var precioVenta = objCategoria.precioVenta;
-				$scope.todoListServicios[index].precioVenta = precioVenta;
-
-				for(i=0; i<$scope.todoListServicios.length; i++)
-				{
-					precio = $scope.todoListServicios[i].precioVenta;
-					totalVentaServicios += precio;
-				}
-
-				auxTotalServicios = totalVentaServicios;
-				$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
-			}	
-		}
-
 	}
 
 	$scope.modificarVenta = function(form)
@@ -731,10 +640,10 @@ angular.module('starterMiApp.contrsVentas', [])
 			para inicializar las lineas de la venta*/
 
 			/*Elementos eliminados para los Productos*/
-    		//delete val.cantidad;
+    		delete val.cantidad;
     		delete val.idElemento;
     		delete val.id_marca;
-    		//delete val.precioVentaUnd;
+    		delete val.precioVentaUnd;
     		delete val.nombre;
     		delete val.nombreProducto;
 
