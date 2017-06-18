@@ -284,6 +284,13 @@ angular.module('starterMiApp.contrsAgenda', [])
               week:   'Semana',
               day:    'Agenda'
           },
+          eventLimit: true,//limita los eventos en la vista Mes
+          eventLimitText: "Ver más",
+          views: {
+               month: {
+                 eventLimit: 3
+               }
+           },
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize

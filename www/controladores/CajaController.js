@@ -217,36 +217,13 @@ angular.module('starterMiApp.contrsCaja', [])
 			$scope.getCategoria = function(objCategoria,index)
 			{
 				if(objCategoria != null)
-				{
-					totalVentaServicios = 0;
-					var precio = 0;
+				{	
 					var precioVenta = objCategoria.precioVenta;
 					$scope.todoListServicios[index].precioVenta = precioVenta;
-
-					for(i=0; i<$scope.todoListServicios.length; i++)
-					{
-						precio = $scope.todoListServicios[i].precioVenta;
-						totalVentaServicios += precio;
-					}
-
-					auxTotalServicios = totalVentaServicios;
-					$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+					$scope.calcularPrecioTotal(index);
 				}	
 			}
 		}
-	}
-
-	$scope.getPrecioVentaServicio = function(index)
-	{
-		totalVentaServicios = 0;
-		var precio = 0;
-		for(i=0; i<$scope.todoListServicios.length; i++)
-		{
-			precio = $scope.todoListServicios[i].precioVenta;
-			totalVentaServicios += precio;
-		}
-		auxTotalServicios = totalVentaServicios;
-		$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
 	}
 
 	//Obtener todas las marcas del usuario
@@ -283,36 +260,42 @@ angular.module('starterMiApp.contrsCaja', [])
 				if(objProducto!=null)
 				{	
 					var precioVentaProducto = objProducto.precioVenta;
-					var precio = 0;
-					totalVentaProductos = 0;
-					$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
 					$scope.todoListProductos[index].unidades = 1;
-					for(i=0; i<$scope.todoListProductos.length; i++)
-					{
-						precio = $scope.todoListProductos[i].precioVentaProducto;
-						totalVentaProductos += precio;
-					}
-					auxTotalProductos = totalVentaProductos;
-					$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+					$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
+					$scope.calcularPrecioTotal(index);
 				}
 			}
 		}
 	}
 
-	$scope.getPrecioVentaProducto = function(index)
+	$scope.calcularPrecioTotal = function(index)
 	{
-		totalVentaProductos = 0;
+		var precioProducto = 0;
 		var unidades = 1;
-		var precio 	 = 0;
+		var precioServicio = 0;
+		var precioUnidadProducto = 0;
+		
+		var miArray = [];
+		var auxTotalVenta = 0;
 
-		for(i=0; i<$scope.todoListProductos.length; i++)
+		angular.forEach($scope.todoListServicios, function(clave){
+			precioServicio = clave.precioVenta;
+			miArray.push(precioServicio);
+		});
+
+		angular.forEach($scope.todoListProductos, function(clave, key,obj) {
+    		precioProducto = clave.precioVentaProducto;
+    		unidades = clave.unidades;
+    		precioUnidadProducto = unidades*precioProducto;
+			miArray.push(precioUnidadProducto);
+    	});
+		
+		for(var i = 0; i<miArray.length; i++)
 		{
-			precio = $scope.todoListProductos[i].precioVentaProducto;
-			unidades = $scope.todoListProductos[i].unidades;
-			totalVentaProductos += unidades*precio;
+			auxTotalVenta += miArray[i];
 		}
-		auxTotalProductos = totalVentaProductos; 
-		$scope.precioTotalVenta = auxTotalServicios + auxTotalProductos;
+
+		$scope.precioTotalVenta = auxTotalVenta;
 	}
 
 	var aux1 = [];
@@ -380,69 +363,79 @@ angular.module('starterMiApp.contrsCaja', [])
 			form['idUser'] = idUser;
 			$scope.forma = form;
 
+			/*Es un objeto para guardar como clave el id del producto y como valor las 
+			veces que se repite.*/
+			var objCountIdProductos = {};
+			/*Variable global para calcular el sumatorio de las unidades que se preteden vender
+			en caso de que un producto se repita*/
+			var totalUnidades = 0;
+			/*Es una variable global que si todo esta correcto con las unidades 
+			de los productos que se pretenden vender respecto a su stock se realiza
+			la venta y si no aparecen los mensajes de error.*/
 			var checkUnidades = false;
 
-			for(i=0; i<form.lineasVentasProductos.length; i++)
-			{
-				var undsVenta = form.lineasVentasProductos[i].unidades;
-				var undsStock = form.lineasVentasProductos[i].producto.cantidadStock;
-				var nombreProducto = form.lineasVentasProductos[i].producto.nombreProducto;
-				var nombreMarca = form.lineasVentasProductos[i].marca.nombre;
-				var idProducto = form.lineasVentasProductos[i].producto.idElemento;
-				// comprobar si se venden dos productos iguales.
-				//alert(idProducto);
+			/*Comprobar en las lineas de venta hay productos que se repiten y sumar
+			sus unidades que se pretenden vender para ver si se pasan del stock de
+			este producto.*/
+			angular.forEach($scope.todoListProductos, function(val, key,obj) {
+				var idProducto = val['producto'].idElemento;
+				var undsStock = val['producto'].cantidadStock;
+				var nombreProducto = val['producto'].nombreProducto;
+				var nombreMarca = val['marca'].nombre; 
+
+				objCountIdProductos[idProducto] = (objCountIdProductos[idProducto] || 0)+1;
+				if(objCountIdProductos[idProducto] > 1)
+				{
+				 	angular.forEach($scope.todoListProductos, function(val1, key,obj) {
+				 		var idProductoRepetido = val1['producto'].idElemento;
+				 		var unidadesProductoRepetido = val1.unidades;
+				 		if(idProducto == idProductoRepetido)
+				 		{
+				 			totalUnidades += unidadesProductoRepetido;
+				 		}
+			    	});
+
+		    		if( totalUnidades > undsStock)
+			    	{
+			    		$ionicLoading.hide();
+				    	var alertPopup = $ionicPopup.alert({
+						     title: 'Error al realizar la venta',
+						     template: 'El producto <b>'+nombreMarca+' '+nombreProducto+'</b> disponse de <b>'+undsStock+'</b> unidades en Stock y pretende vender <b>'+totalUnidades+'.</b>',
+						     okText: 'Volver', 
+			  				 okType: 'button-assertive'
+			   			});
+			   			checkUnidades = true;
+			    	}	
+				}
+				totalUnidades = 0;
+	    	});
+
+
+			/*Comprueba si solamente un producto se pasa de unidades comparado
+			con su stock disponible*/
+			angular.forEach($scope.todoListProductos, function(val){
+				var undsVenta = val.unidades;
+				var undsStock = val['producto'].cantidadStock;
+				var nombreProducto = val['producto'].nombreProducto;
+				var nombreMarca = val['marca'].nombre;
+
 				if(undsVenta > undsStock)
 				{
 					$ionicLoading.hide();
-					checkUnidades = true;
 					var alertPopup = $ionicPopup.alert({
 					     title: 'Error al realizar la venta',
 					     template: 'El producto <b>'+nombreMarca+' '+nombreProducto+'</b> disponse de <b>'+undsStock+'</b> unidades en Stock y pretende vender <b>'+undsVenta+'.</b>',
 					     okText: 'Volver', 
 		  				 okType: 'button-assertive'
 		   			});
+		   			checkUnidades = true;
 				}
-			}
-
-			var totalUnidades = 0;
-			var undsVenta = 0;
-			for(var i=0; i<form.lineasVentasProductos.length; i++)
-			{
-				var idProductoI = form.lineasVentasProductos[i].producto.idElemento;
-				var undsStock = form.lineasVentasProductos[i].producto.cantidadStock;
-				var nombreMarca = form.lineasVentasProductos[i].marca.nombre;
-				var nombreProducto = form.lineasVentasProductos[i].producto.nombreProducto;
-				console.log('ENTRO i '+i);
-				for(var j=0; j<form.lineasVentasProductos.length; j++)
-				{
-					var idProductoJ = form.lineasVentasProductos[j].producto.idElemento;
-					if(idProductoI == idProductoJ)
-					{
-						console.log('ENTRO j '+j);
-						undsVenta = form.lineasVentasProductos[j].unidades;
-						console.log(undsVenta);
-						totalUnidades += undsVenta;
-						break;
-					}
-				}
-			}
-
-			if(totalUnidades > undsStock)
-			{
-				$ionicLoading.hide();
-				checkUnidades = true;
-				var alertPopup = $ionicPopup.alert({
-				     title: 'Error al realizar la venta',
-				     template: 'El producto <b>'+nombreMarca+' '+nombreProducto+'</b> disponse de <b>'+undsStock+'</b> unidades en Stock y pretende vender <b>'+totalUnidades+'.</b>',
-				     okText: 'Volver', 
-	  				 okType: 'button-assertive'
-	   			});
-	   			totalUnidades = 0;
-			}
+			});
 
 			if(checkUnidades!=true)
 			{
 				servVentas.insertarVenta(form).then(function(servResponse){
+					console.log(servResponse);
 					$state.go($state.current,null,{reload:true});
 				});
 			}

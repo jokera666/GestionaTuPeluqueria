@@ -7,7 +7,8 @@ angular.module('starterMiApp.servsVentas', [])
         listarVentas: listSells,
         listarCabeceraVenta: listHeadSell,
         listarServiciosVenta: listServicesSell,
-        listarProductosVenta: listProductsSell
+        listarProductosVenta: listProductsSell,
+        modificarVenta: editSell
     }
 
     function insertSell(datosForm)
@@ -105,6 +106,28 @@ angular.module('starterMiApp.servsVentas', [])
 
         var url = "http://gestionestetica.fonotecaumh.es/Ventas/listarProductosVenta.php";
         var data = {'idVenta':idVenta};
+        var config = {
+            headers : {'Content-Type' : 'application/json'}
+        }
+
+        $http.post(url,data,config)
+            .success(function(respuesta){
+                defered.resolve(respuesta);
+            })
+            .error(function(err){
+                defered.reject(err);
+            });
+
+        return promesa;
+    }
+
+    function editSell(datosForm)
+    {
+        var defered = $q.defer();
+        var promesa = defered.promise;
+
+        var url = "http://gestionestetica.fonotecaumh.es/Ventas/modificarVenta.php";
+        var data = datosForm;
         var config = {
             headers : {'Content-Type' : 'application/json'}
         }

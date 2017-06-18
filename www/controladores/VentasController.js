@@ -84,16 +84,17 @@ angular.module('starterMiApp.contrsVentas', [])
 	$scope.nombres = [];
 	$scope.empleados = [];
 	$scope.secciones = [];
-	$scope.form = [];
+	$scope.form = this;
 	
 
 	servVentas.listarCabeceraVenta(idVenta).then(function(servResponse){
 		var idCliente = servResponse.idCliente;
+		$scope.form['idVenta'] = idVenta;
 		$scope.form['fecha'] = new Date(servResponse.fechaVenta);
 		$scope.form['numVenta'] = servResponse.numVenta;
 		$scope.form['observaciones'] = servResponse.observaciones;
-		$scope.precioTotalVenta = parseInt(servResponse.precioVentaTotal);
-		$scope.form['descuento'] = parseInt(servResponse.descuento);
+		$scope.precioTotalVenta = parseFloat(servResponse.precioVentaTotal);
+		$scope.form['descuento'] = parseFloat(servResponse.descuento);
 		var idEmpleado = servResponse.idEmpleado;
 
 		servClientes.listarClientes('citasClientes',idUser).then(function(servResponse){
@@ -171,7 +172,7 @@ angular.module('starterMiApp.contrsVentas', [])
 			{
 				$scope.misSecciones.push({id_seccion:servResponse[i].id_seccion, nombre:servResponse[i].nombreSeccion});
 				$scope.misServicios.push({nombreServicio:servResponse[i].nombreServicio, idSeccion:servResponse[i].id_seccion});
-				$scope.misCategorias.push({nombreElemento:servResponse[i].nombreElemento});
+				$scope.misCategorias.push({idElemento:servResponse[i].idElemento,nombreElemento:servResponse[i].nombreElemento});
 				$scope.misPreciosVenta.push({precioVenta:servResponse[i].precioVentaUnd});
 			}
 
@@ -316,7 +317,7 @@ angular.module('starterMiApp.contrsVentas', [])
 			for(i=0; i<numeroLineasVentas; i++)
 			{
 				$scope.misMarcas.push({id_marca:servResponse[i].id_marca, nombre:servResponse[i].nombre});
-				$scope.misProductos.push({idElemento:servResponse[i].idElemento, nombreProducto:servResponse[i].nombreProducto});
+				$scope.misProductos.push({idElemento:servResponse[i].idElemento, nombreProducto:servResponse[i].nombreProducto,unidades:servResponse[i].cantidad});
 				$scope.misUnidades.push({unidades:servResponse[i].cantidad});
 				$scope.misPreciosVentaPro.push({precioVenta:servResponse[i].precioVentaUnd});
 			}
@@ -343,6 +344,7 @@ angular.module('starterMiApp.contrsVentas', [])
 					angular.forEach($scope.misProductos, function(val, key,obj) {
 		        		//Incializar el SELECT con el nombreProducto de la linea de venta correspondiente
 		        		$scope.todoListProductos[key].producto =  val;
+		        		$scope.todoListProductos[key].oldProducto =  val;
 		        	});
 
 					angular.forEach($scope.misUnidades, function(val, key,obj) {
@@ -381,11 +383,8 @@ angular.module('starterMiApp.contrsVentas', [])
 		if(objProducto!=null)
 		{	
 			var precioVentaProducto = objProducto.precioVenta;
-
 			$scope.todoListProductos[index].unidades = 1;
-
 			$scope.todoListProductos[index].precioVentaProducto =  precioVentaProducto;
-
 			$scope.calcularPrecioTotal(index);
 		}
 	}
@@ -631,7 +630,7 @@ angular.module('starterMiApp.contrsVentas', [])
     		delete val.nombreElemento;
     		delete val.nombreSeccion;
     		delete val.nombreServicio;
-    		//delete val.precioVentaUnd;
+    		delete val.precioVentaUnd;
 
     	});
 
@@ -651,10 +650,13 @@ angular.module('starterMiApp.contrsVentas', [])
 
 		form['lineasVentaServicio'] = $scope.todoListServicios;
 		form['lineasVentasProducto'] = $scope.todoListProductos;
-		$scope.forma = $scope.todoListServicios;
-		$scope.forma1 = $scope.todoListProductos;
+		form['precioVentaTotal'] = $scope.precioTotalVenta;
+		$scope.forma = form;
 		console.log(form);
-		//$state.go($state.current,null,{reload:true});
+		servVentas.modificarVenta(form).then(function(servResponse){
+			console.log(servResponse);
+			$state.go($state.current,null,{reload:true});
+		});
 	}
 
 }]) // Fin VentasPerfilCtrl
