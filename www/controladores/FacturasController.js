@@ -296,7 +296,8 @@ angular.module('starterMiApp.contrsFacturas', [])
   servCompras.listarFacturas(idCompra,'factura').then(function(servResponse){
     $scope.form = {
       numFactura: servResponse[0].numFactura,
-      fechaCompra: new Date(servResponse[0].fechaCompra)
+      fechaCompra: new Date(servResponse[0].fechaCompra),
+      idProveedor: servResponse[0].idProveedor
     }
     cabeceraInicial = angular.copy(servResponse[0]); 
     $scope.totalFactura = servResponse[0].precioCompraTotal;
@@ -314,7 +315,8 @@ angular.module('starterMiApp.contrsFacturas', [])
         servCompras.listarFacturas(idCompra,'factura').then(function(servResponse){
           $scope.form = {
             numFactura: servResponse[0].numFactura,
-            fechaCompra: new Date(servResponse[0].fechaCompra)
+            fechaCompra: new Date(servResponse[0].fechaCompra),
+            idProveedor: servResponse[0].idProveedor
           }
           $scope.totalFactura = servResponse[0].precioCompraTotal;
           $scope.form['idCompra'] = idCompra;
