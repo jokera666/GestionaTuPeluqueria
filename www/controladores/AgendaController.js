@@ -35,7 +35,6 @@ angular.module('starterMiApp.contrsAgenda', [])
 
     //Listar los citas en el calendario
     servAgenda.listarCitas($scope.sesionIdUser).then(function(data){
-      //console.log(data);
       if(data==-1)
       {
         console.log("No tiene citas introducidos");

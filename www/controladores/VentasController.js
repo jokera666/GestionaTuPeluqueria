@@ -651,8 +651,7 @@ angular.module('starterMiApp.contrsVentas', [])
 		form['lineasVentaServicio'] = $scope.todoListServicios;
 		form['lineasVentasProducto'] = $scope.todoListProductos;
 		form['precioVentaTotal'] = $scope.precioTotalVenta;
-		$scope.forma = form;
-		console.log(form);
+
 		servVentas.modificarVenta(form).then(function(servResponse){
 			console.log(servResponse);
 			$state.go($state.current,null,{reload:true});

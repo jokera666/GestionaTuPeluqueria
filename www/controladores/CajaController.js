@@ -361,7 +361,6 @@ angular.module('starterMiApp.contrsCaja', [])
 			form['tipoCliente'] =  $scope.showTipoCliente;
 			form['idCliente'] = idCliente;
 			form['idUser'] = idUser;
-			$scope.forma = form;
 
 			/*Es un objeto para guardar como clave el id del producto y como valor las 
 			veces que se repite.*/
@@ -435,8 +434,7 @@ angular.module('starterMiApp.contrsCaja', [])
 			if(checkUnidades!=true)
 			{
 				servVentas.insertarVenta(form).then(function(servResponse){
-					console.log(servResponse);
-					$state.go($state.current,null,{reload:true});
+					$state.go('sidemenu.ventas',null,{reload:true});
 				});
 			}
 		}
