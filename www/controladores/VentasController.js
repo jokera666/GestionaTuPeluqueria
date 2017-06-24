@@ -76,7 +76,7 @@ angular.module('starterMiApp.contrsVentas', [])
 	}
 }]) // Fin VentasCtrl
 
-.controller('VentasPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','servClientes','servEmpleados','servSecciones','servServicios','servVentas','servCompras','servProductos', function($scope,$state,$stateParams,$ionicPopup,servClientes,servEmpleados,servSecciones,servServicios,servVentas,servCompras,servProductos){
+.controller('VentasPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','$ionicLoading','servClientes','servEmpleados','servSecciones','servServicios','servVentas','servCompras','servProductos', function($scope,$state,$stateParams,$ionicPopup,$ionicLoading,servClientes,servEmpleados,servSecciones,servServicios,servVentas,servCompras,servProductos){
 
 	var idVenta = $stateParams.idVenta;
 	var idUser = localStorage.getItem("idUser");
@@ -154,7 +154,7 @@ angular.module('starterMiApp.contrsVentas', [])
 		if(servResponse == -1)
 		{
 			$scope.noServiciosVenta = -1;
-			$scope.mensajeError = "No hay servicios adquiridos en esta venta.";
+			$scope.mensajeErrorServicio = "No hay servicios adquiridos en esta venta.";
 		}
 		else
 		{
@@ -300,7 +300,7 @@ angular.module('starterMiApp.contrsVentas', [])
 		if(servResponse == -1)
 		{
 			$scope.noProductosVenta = -1;
-			$scope.mensajeError = "No hay productos vendidos en esta venta.";
+			$scope.mensajeErrorProducto = "No hay productos vendidos en esta venta.";
 		}
 		else
 		{	
@@ -477,11 +477,36 @@ angular.module('starterMiApp.contrsVentas', [])
 		$scope.todoListServicios.push({});
 	};
 
-	$scope.eliminarServicio = function (index)
-  	{
-	  	var valorRestado = $scope.todoListServicios[index].precioVenta;
-  		$scope.precioTotalVenta -= valorRestado;
-        $scope.todoListServicios.splice(index, 1);
+	$scope.eliminarServicio = function (index,idLinea,idElemento,nombreServicio,nombreElemento)
+  	{	
+
+  		var myPopup = $ionicPopup.show({
+	    title: 'Borrar línea de venta',
+	    subTitle: '<span>¿Estás seguro de que deseas borrar la línea de la venta con el servicio <b>'+nombreServicio+' '+nombreElemento+'</b> ?</span>',
+	    buttons: [
+	      { 
+	        text: '<b>No</b>',
+	        type: 'button-dark'
+	      },
+	      {
+	        text: '<b>Sí</b>',
+	        type: 'button-positive',
+	        onTap: function(e) {
+	          $ionicLoading.show();
+	          if (e)
+	          {
+	          	//idVenta es una variable global que se pasa por get desde listarFacturas              
+			    servVentas.eliminarLineaVenta(idVenta,idLinea,idElemento).then(function(servResponse){
+				  	var valorRestado = $scope.todoListServicios[index].precioVenta;
+			  		$scope.precioTotalVenta -= valorRestado;
+			        $scope.todoListServicios.splice(index, 1);
+			        $state.go($state.current,null,{reload:true});
+		  		});
+	          }
+	        }
+	      }
+	    ]
+	   	});
   	};
 	/*--------------------------FIN TODOLIST SERVICIOS VENTAS------------------------------*/
 
@@ -498,12 +523,36 @@ angular.module('starterMiApp.contrsVentas', [])
 		$scope.todoListProductos.push({});
 	};
 
-	$scope.eliminarProducto = function (index)
+	$scope.eliminarProducto = function (index,idLinea,idElemento,nombreMarca,nombreProducto)
   	{
-  		var valorRestado = $scope.todoListProductos[index].precioVentaProducto;
-  		var unidades = $scope.todoListProductos[index].unidades;
-  		$scope.precioTotalVenta -= valorRestado*unidades;
-        $scope.todoListProductos.splice(index, 1); 	
+	  	var myPopup = $ionicPopup.show({
+	    title: 'Borrar línea de venta',
+	    subTitle: '<span>¿Estás seguro de que deseas borrar la línea de la venta con el producto <b>'+nombreMarca+' '+nombreProducto+'</b> ?</span>',
+	    buttons: [
+	      { 
+	        text: '<b>No</b>',
+	        type: 'button-dark'
+	      },
+	      {
+	        text: '<b>Sí</b>',
+	        type: 'button-positive',
+	        onTap: function(e) {
+	          $ionicLoading.show();
+	          if (e)
+	          {
+	          	//idVenta es una variable global que se pasa por get desde listarFacturas              
+			    servVentas.eliminarLineaVenta(idVenta,idLinea,idElemento).then(function(servResponse){
+			  		var valorRestado = $scope.todoListProductos[index].precioVentaProducto;
+			  		var unidades = $scope.todoListProductos[index].unidades;
+			  		$scope.precioTotalVenta -= valorRestado*unidades;
+			        $scope.todoListProductos.splice(index, 1); 	
+			        $state.go($state.current,null,{reload:true});
+		  		});
+	          }
+	        }
+	      }
+	    ]
+	   	});
   	};
 
   	/*--------------------------FIN TODOLIST PRODUCTOS VENTAS-----------------------------*/ 

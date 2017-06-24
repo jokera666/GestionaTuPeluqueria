@@ -42,8 +42,9 @@
 			  	<ion-item ng-repeat = "todoItem in todoListLineasCompra">
 					<div class="row responsive-lg">
 					
+					<!-- todoList eliminar producto -->
 					<div class="col-10" style="max-width: 3%">
-						<button ng-model="todoItem.id_lineaCompras" class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index,todoItem.id_lineaCompras,todoItem.nombreElemento,todoItem.cantidad,todoItem.id_compra,todoItem.objMarca['id_marca'])"></button>
+						<button ng-model="todoItem.id_lineaCompras" class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index,todoItem.id_compra,todoItem.id_lineaCompras,todoItem.idProducto,todoItem.nombreElemento,todoItem.nombre,todoItem.cantidad)"></button>
           			</div>
 
 	          			<div class="col">

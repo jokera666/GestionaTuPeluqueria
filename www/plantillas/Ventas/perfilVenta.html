@@ -44,8 +44,10 @@
 				<div ng-if="noServiciosVenta==0">
 				  	<ion-item ng-repeat = "todoItem in todoListServicios" ng-if="todoListServicios">
 							<div class="row responsive-lg">
+
+								<!-- Boton todoList eliminar servicio -->
 								<div class="col-10" style="max-width: 3%">
-									<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarServicio($index)"></button>
+									<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarServicio($index,todoItem.id_lineaVentas,todoItem.idElemento,todoItem.nombreServicio,todoItem.nombreElemento)"></button>
 			          			</div>
 
 			          			<div class="col">
@@ -94,7 +96,7 @@
 						<div class="card">
 					      <div class="item item-icon-left msgError">		
 					      <i class="icon ion-alert-circled"></i>
-					      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+					      <span ng-bind-html="mensajeErrorServicio" class="item-text-wrap"></span>
 					      </div>
 					    </div>
 				  	</div>
@@ -109,8 +111,9 @@
 					<ion-item ng-repeat = "todoItem in todoListProductos" ng-if="todoListProductos">
 						<div class="row responsive-lg">
 						
+							<!-- Boton todolist eliminar producto -->
 							<div class="col-10" style="max-width: 3%">
-								<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarProducto($index)"></button>
+								<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarProducto($index,todoItem.id_lineaVentas,todoItem.idElemento,todoItem.nombre,todoItem.nombreProducto)"></button>
 		          			</div>
 
 		          			<div class="col">
@@ -162,7 +165,7 @@
 					<div class="card">
 				      <div class="item item-icon-left msgError">		
 				      <i class="icon ion-alert-circled"></i>
-				      <span ng-bind-html="mensajeError" class="item-text-wrap"></span>
+				      <span ng-bind-html="mensajeErrorProducto" class="item-text-wrap"></span>
 				      </div>
 				    </div>
 			  	</div>

@@ -334,6 +334,7 @@ angular.module('starterMiApp.contrsFacturas', [])
     }
     else
     {
+      console.log(servResponse);
       $scope.mensajeError = "";
       $scope.animacion = "hide";
       // Convierte la fecha obtenida(DD/MM/YYYY) del servidior en formato Date de javascript
@@ -374,33 +375,45 @@ angular.module('starterMiApp.contrsFacturas', [])
     
 	});
 
-  $scope.eliminarLineaCompra = function (index,idLinea,nombreProducto,unidades,idCompra,idMarca)
+  $scope.eliminarLineaCompra = function (index,idCompra,idLinea,idProducto,nombreProducto,nombreMarca, unidades)
   {
-        var myPopup = $ionicPopup.show({
-        title: 'Borrar linea de factura',
-        subTitle: '<span>¿Estás seguro de que deseas borrar la linea de la factura con producto <b>'+nombreProducto+'</b> ?</span>',
-        buttons: [
-          { 
-            text: '<b>No</b>',
-            type: 'button-dark'
-          },
-          {
-            text: '<b>Sí</b>',
-            type: 'button-positive',
-            onTap: function(e) {
-              $ionicLoading.show();
-              if (e)
-              {              
-                  servCompras.eliminarLineaFactura(idLinea,nombreProducto,unidades,idCompra,idMarca).then(function(servResponse){
-                      console.log(servResponse);
-                      $scope.todoListLineasCompra.splice(index, 1);
-                      $state.go($state.current,null,{reload:true});
+    var myPopup = $ionicPopup.show({
+    title: 'Borrar linea de factura',
+    subTitle: '<span>¿Estás seguro de que deseas borrar la línea de la factura con el producto <b>'+nombreMarca+' '+nombreProducto+'</b> ?</span>',
+    buttons: [
+      { 
+        text: '<b>No</b>',
+        type: 'button-dark'
+      },
+      {
+        text: '<b>Sí</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          $ionicLoading.show();
+          if (e)
+          {              
+              servCompras.eliminarLineaFactura(idCompra,idLinea,idProducto,unidades).then(function(servResponse){
+                if(servResponse==-1)
+                {
+                  $ionicLoading.hide();
+                  var alertPopup = $ionicPopup.alert({
+                     title: 'Error al borrar la línea de la factura',
+                     template: 'El producto <b>'+nombreMarca +' '+nombreProducto+'</b> pertenece a una venta.',
+                     okText: 'Volver', 
+                     okType: 'button-assertive'
                   });
-              }
-            }
+                }
+                else
+                {
+                  $scope.todoListLineasCompra.splice(index, 1);
+                  $state.go($state.current,null,{reload:true});
+                }
+              });
           }
-        ]
-        });
+        }
+      }
+    ]
+    });
   };
 
   //Todolist Nuevas lineas de compras
@@ -436,7 +449,6 @@ angular.module('starterMiApp.contrsFacturas', [])
               if (e)
               {              
                   servCompras.modificarPerfilFactura(form).then(function(servResponse){
-                    console.log(servResponse);
                     $state.go($state.current,null,{reload:true});
                   });
               }
@@ -453,7 +465,7 @@ angular.module('starterMiApp.contrsFacturas', [])
     console.log(form);
     var myPopup = $ionicPopup.show({
         title: 'Borrar factura',
-        subTitle: '<span>¿Estás seguro de que deseas modificar la factura con numero <b>'+form.numFactura+'</b> ?</span>',
+        subTitle: '<span>¿Estás seguro de que deseas borrar la factura con numero <b>'+form.numFactura+'</b> ?</span>',
         buttons: [
           { 
             text: '<b>No</b>',
@@ -466,10 +478,23 @@ angular.module('starterMiApp.contrsFacturas', [])
               $ionicLoading.show();
               if (e)
               {              
-                  servCompras.eliminarFactura(form).then(function(servResponse){
-                    console.log(servResponse);
+                servCompras.eliminarFactura(form).then(function(servResponse){
+                  if(servResponse!='')
+                  {
+                    $ionicLoading.hide();
+                    var alertPopup = $ionicPopup.alert({
+                       title: 'Error al borrar la factura',
+                       template: 'El producto <b>'+servResponse+'</b> pertenece a una venta.',
+                       okText: 'Volver', 
+                       okType: 'button-assertive'
+                    });
+                  }
+                  else
+                  {
+                    
                     $state.go('sidemenu.facturas',null,{reload:true});
-                  });
+                  }
+                });
               }
             }
           }
@@ -489,7 +514,7 @@ angular.module('starterMiApp.contrsFacturas', [])
     {
       $scope.todoListLineasCompra[i].objMarca = angular.copy(marcasIniciales[i]);
     }
- }
+  }
     
 
 }]) // Fin FacturasCtrl

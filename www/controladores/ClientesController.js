@@ -97,16 +97,14 @@ angular.module('starterMiApp.contrsClientes', [])
     });
 
     servClientes.mostrarPerfilCliente(idCliente).then(function(servResponse){
-      console.log(servResponse);
 
-      if(servResponse == -1)
+      if(servResponse == -1 || servResponse == '')
       {
         $scope.noElementosComperciales = -1;
         $scope.mensajeError = "No hay ventas disponibles.";
       }
       else
       {
-        console.log(servResponse);
         $scope.elementosComerciales = servResponse;
 
         //Inciar la cabecera de los elementosComerciales

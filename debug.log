@@ -21,3 +21,5 @@
 [0428/120414.308:ERROR:process_info.cc(625)] range at 0xfff8b000, size 0xf84 fully unreadable
 [0428/120414.308:ERROR:process_info.cc(625)] range at 0xfff88000, size 0xf84 fully unreadable
 [0428/120414.308:ERROR:process_info.cc(625)] range at 0xfff85000, size 0xf84 fully unreadable
+[0624/175851.168:ERROR:exception_snapshot_win.cc(87)] thread ID 3868 not found in process
+[0624/175851.179:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::Initialize failed

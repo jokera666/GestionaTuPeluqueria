@@ -8,7 +8,8 @@ angular.module('starterMiApp.servsVentas', [])
         listarCabeceraVenta: listHeadSell,
         listarServiciosVenta: listServicesSell,
         listarProductosVenta: listProductsSell,
-        modificarVenta: editSell
+        modificarVenta: editSell,
+        eliminarLineaVenta: deleteSellLine
     }
 
     function insertSell(datosForm)
@@ -142,5 +143,27 @@ angular.module('starterMiApp.servsVentas', [])
 
         return promesa;
     }
+
+    function deleteSellLine(idVenta,idLinea,idElemento)
+    {
+        var defered = $q.defer();
+        var promesa = defered.promise;
+
+        var url = 'http://gestionestetica.fonotecaumh.es/Ventas/eliminarLineaVenta.php';
+        var data = {'idVenta':idVenta,'idLinea':idLinea,'idElemento':idElemento};
+        var config = {
+            headers : {'Content-Type' : 'application/json'}
+        }
+
+        $http.post(url,data,config)
+            .success(function(response){
+                defered.resolve(response);
+            })
+            .error(function(err){
+                defered.reject(err);
+            });
+
+        return promesa;
+    } 
 
 }])

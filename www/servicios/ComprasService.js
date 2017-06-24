@@ -101,13 +101,13 @@ angular.module('starterMiApp.servsCompras', [])
 		return promesa;
 	}
 
-	function deleteInvoiceLine(idLinea,nombreProducto,unidades,idCompra,idMarca)
+	function deleteInvoiceLine(idCompra,idLinea,idProducto,unidades)
 	{
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
 		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/eliminarLineaFactura.php';
-		var data = {'idLinea':idLinea, 'nombreProducto':nombreProducto,'unidades':unidades, 'idCompra':idCompra,'idMarca':idMarca};
+		var data = {'idCompra':idCompra,'idLinea':idLinea,'idProducto':idProducto,'unidades':unidades};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}
