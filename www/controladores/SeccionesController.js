@@ -3,13 +3,11 @@ angular.module('starterMiApp.contrsSecciones', [])
 .controller('SeccionesCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servSecciones', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servSecciones){
 
 	var sesionIdUser = localStorage.getItem("idUser");
-  console.log('Usuario con id de sesion---> '+sesionIdUser);
   $scope.animacion = "hide";
 
 	$scope.secciones = [];
 
 	servSecciones.listarSecciones(sesionIdUser).then(function(data){
-		console.log(data);
 		if(data==-1)
 	    {
 	      	$scope.mensajeError = "No hay secciones introducidos";
@@ -72,7 +70,6 @@ angular.module('starterMiApp.contrsSecciones', [])
 .controller('SeccionPerfilCtrl', ['$scope','$state','$stateParams','$ionicPopup','$ionicLoading','servSecciones', function($scope,$state,$stateParams,$ionicPopup,$ionicLoading,servSecciones){
 
 	var sesionIdUser = localStorage.getItem("idUser");
-    console.log('Usuario con id de sesion---> '+sesionIdUser);
 
     var idSeccion = $stateParams.idSeccion;
 

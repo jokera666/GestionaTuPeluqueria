@@ -210,13 +210,13 @@
 
 			<div class="row  responsive-sm">
 			  	<div class="col">
-			  		<button class="button button-block button-positive icon ion-social-euro" type="button" ng-disabled="perfilVentaForm.$invalid" ng-click="modificarVenta(form)"> Modificar venta</button>
+			  		<button class="button button-block button-positive icon ion-social-euro" type="button" ng-disabled="perfilVentaForm.$invalid" ng-click="clickModificarVenta(form)"> Modificar venta</button>
 			  	</div>
-			  	<div class="col">
+<!-- 			  	<div class="col">
 			  		<button class="button button-block button-royal icon ion-refresh" type="button" ng-click="reiniciarForm()"> Reiniciar</button>
-			  	</div>
+			  	</div> -->
 			  	<div class="col">
-			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarVenta(form)"> Borrar venta</button>
+			  		<button class="button button-block button-assertive icon ion-trash-b" type="button" ng-click="clickEliminarVenta(form.numVenta)"> Borrar venta</button>
 				</div>
 			</div>
 		</form>

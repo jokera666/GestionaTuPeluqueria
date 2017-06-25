@@ -40,8 +40,7 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
             $ionicLoading.show();
             if (e)
             {              
-                servUsuario.modificarPerfilUsuario(form).then(function(servResponse){
-                    console.log(servResponse);
+                servUsuario.modificarPerfilUsuario(form).then(function(){
                     $state.go($state.current,null,{reload:true});
                 });
             }
@@ -92,7 +91,6 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
 	$scope.showPassRepeat = true;
 	$scope.verPass = function (event)
 	{
-		console.log(event.currentTarget.id);
 		var idInputPass = event.currentTarget.id;
 		switch(idInputPass)
 		{
@@ -198,12 +196,12 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
                 params : {'idUser':idUsuario}
             };
             $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Usuarios/subirFoto.php",imageData, options).then(function(result) {
-                console.log("SUCCESS: " + JSON.stringify(result.response));
+                //console.log("SUCCESS: " + JSON.stringify(result.response));
                 $scope.opciones = result.response;
                 $state.go($state.current,null,{reload:true});
                 // location.reload(); // refrescar la pagina entera por javascript
             }, function(err) {
-                console.log("ERROR: " + JSON.stringify(err));
+                //console.log("ERROR: " + JSON.stringify(err));
                 $scope.opciones = "ERROR: " + JSON.stringify(err);
             }, function (progress) {
                 // constant progress updates
@@ -236,8 +234,4 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
     {
       $scope.openModalVerFoto();
     }
-
-	// console.log($stateParams.idCita);
-	//console.log($stateParams.fechaCita);
-
 }]) // Fin CajaCtrl

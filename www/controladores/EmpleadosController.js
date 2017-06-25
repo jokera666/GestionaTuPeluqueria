@@ -34,13 +34,12 @@ angular.module('starterMiApp.contrsEmpleados', [])
 
 
     $scope.clickInsertarEmpleado = function (form){
-      //console.log(form);
       $scope.modal.hide();
       $ionicLoading.show();
       form['idUser'] = $scope.sesionIdUser;
       
       servEmpleados.insertarEmpleado(form).then(function(){
-        $state.go($state.current,null,{reload:true});            
+        $state.go('sidemenu.empleados',null,{reload:true});            
       });
     };
 
@@ -65,7 +64,6 @@ angular.module('starterMiApp.contrsEmpleados', [])
 	});
 
 	$scope.clickModificarEmpleado = function(form){
-     	console.log(form);
         var myPopup = $ionicPopup.show({
         title: 'Guardar datos',
         subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',

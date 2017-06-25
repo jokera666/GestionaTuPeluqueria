@@ -54,7 +54,6 @@ angular.module('starterMiApp.contrsVentas', [])
 			$scope.fechaHasta = fechaHasta;
 
 			servVentas.listarVentas(idUser,$scope.fechaDesde,$scope.fechaHasta).then(function(servResponse){
-				console.log(servResponse);
 				if(servResponse==-1)
 				{
 					$scope.ventas = '';
@@ -80,7 +79,6 @@ angular.module('starterMiApp.contrsVentas', [])
 
 	var idVenta = $stateParams.idVenta;
 	var idUser = localStorage.getItem("idUser");
-	console.log('USER ID: '+idUser);
 	$scope.nombres = [];
 	$scope.empleados = [];
 	$scope.secciones = [];
@@ -150,7 +148,6 @@ angular.module('starterMiApp.contrsVentas', [])
 	var idSeccion = 0; // Variable global para el change de la Seccion
 
 	servVentas.listarServiciosVenta(idVenta).then(function(servResponse){
-		console.log(servResponse);
 		if(servResponse == -1)
 		{
 			$scope.noServiciosVenta = -1;
@@ -228,16 +225,12 @@ angular.module('starterMiApp.contrsVentas', [])
 
 		$scope.getIdSeccion = function(objSeccion,index)
 		{
-			console.log(index);
 			if(objSeccion!=null)
 			{
 				idSeccion = objSeccion.id_seccion;
-				console.log(idSeccion);
 
 				/*------------------------- LISTAR SERVICIOS -----------------------*/
 				servServicios.nombreServicio(idSeccion).then(function(servResponse){
-					console.log(index);
-					console.log(servResponse);
 					if(servResponse == -1)
 				    {
 				    	// No hay servicios
@@ -245,7 +238,6 @@ angular.module('starterMiApp.contrsVentas', [])
 				    else
 				    {
 				      	$scope['servicios'+index] = servResponse;
-				      	console.log(servResponse);
 				    }
 				});
 			}
@@ -253,7 +245,6 @@ angular.module('starterMiApp.contrsVentas', [])
 
 		$scope.getNombreServicio = function(objServicio,objSeccion,index)
 		{	
-			console.log(objSeccion);
 			if(objServicio!=null)
 			{
 				var nombreServicio = objServicio.nombreServicio;
@@ -296,7 +287,6 @@ angular.module('starterMiApp.contrsVentas', [])
 	/* ============================= CARGAR LINEAS DE VENTAS PRODUCTOS ============================= */	
 	$scope.marca = [];		
 	servVentas.listarProductosVenta(idVenta).then(function(servResponse){
-		console.log(servResponse);
 		if(servResponse == -1)
 		{
 			$scope.noProductosVenta = -1;
@@ -428,7 +418,6 @@ angular.module('starterMiApp.contrsVentas', [])
 		{
 			totalDescuento += aux1[i];
 		}
-		console.log(totalDescuento);
 
 		if(descuento > $scope.precioTotalVenta)
 		{
@@ -617,16 +606,12 @@ angular.module('starterMiApp.contrsVentas', [])
 
 		$scope.getIdSeccion = function(objSeccion,index)
 		{
-			console.log(index);
 			if(objSeccion!=null)
 			{
 				idSeccion = objSeccion.id_seccion;
-				console.log(idSeccion);
 
 				/*------------------------- LISTAR SERVICIOS -----------------------*/
 				servServicios.nombreServicio(idSeccion).then(function(servResponse){
-					console.log(index);
-					console.log(servResponse);
 					if(servResponse == -1)
 				    {
 				    	// No hay servicios
@@ -634,7 +619,6 @@ angular.module('starterMiApp.contrsVentas', [])
 				    else
 				    {
 				      	$scope['servicios'+index] = servResponse;
-				      	console.log(servResponse);
 				    }
 				});
 			}
@@ -642,7 +626,6 @@ angular.module('starterMiApp.contrsVentas', [])
 
 		$scope.getNombreServicio = function(objServicio,objSeccion,index)
 		{	
-			console.log(objSeccion);
 			if(objServicio!=null)
 			{
 				var nombreServicio = objServicio.nombreServicio;
@@ -666,45 +649,176 @@ angular.module('starterMiApp.contrsVentas', [])
 		}
 	}
 
-	$scope.modificarVenta = function(form)
+	$scope.clickModificarVenta = function(form)
 	{
+		var myPopup = $ionicPopup.show({
+        title: 'Modificar venta',
+        subTitle: '<span>¿Estás seguro de que deseas modificar la venta con numero <b>'+form.numVenta+'</b> ?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {
+					if($scope.todoListServicios == '' && $scope.todoListProductos == '')
+					{
+						$ionicLoading.hide();
+						var alertPopup = $ionicPopup.alert({
+						     title: 'Error al modificar la venta',
+						     template: 'No hay nada que modificar.',
+						     okText: 'Volver', 
+			  				 okType: 'button-assertive'
+			   			});
+					}
+					else
+					{	
+				        angular.forEach($scope.todoListServicios, function(val, key,obj) {
+							/*Estos elementos del objeto se eliminan ya que solo se utilizaron
+							para inicializar las lineas de la venta*/
 
-		angular.forEach($scope.todoListServicios, function(val, key,obj) {
-			/*Estos elementos del objeto se eliminan ya que solo se utilizaron
-			para inicializar las lineas de la venta*/
+							/*Elementos eliminados para los Servicios*/
+				    		delete val.id_seccion;
+				    		delete val.idElemento;
+				    		delete val.nombreElemento;
+				    		delete val.nombreSeccion;
+				    		delete val.nombreServicio;
+				    		delete val.precioVentaUnd;
 
-			/*Elementos eliminados para los Servicios*/
-    		delete val.id_seccion;
-    		delete val.idElemento;
-    		delete val.nombreElemento;
-    		delete val.nombreSeccion;
-    		delete val.nombreServicio;
-    		delete val.precioVentaUnd;
+				    	});
 
+						form['lineasVentaServicio'] = $scope.todoListServicios;
+						form['lineasVentasProducto'] = $scope.todoListProductos;
+						form['precioVentaTotal'] = $scope.precioTotalVenta;
+
+						/*Es un objeto para guardar como clave el id del producto y como valor las 
+						veces que se repite.*/
+						var objCountIdProductos = {};
+						/*Variable global para calcular el sumatorio de las unidades que se preteden vender
+						en caso de que un producto se repita*/
+						var totalUnidades = 0;
+						/*Es una variable global que si todo esta correcto con las unidades 
+						de los productos que se pretenden vender respecto a su stock se realiza
+						la venta y si no aparecen los mensajes de error.*/
+						var checkUnidades = false;
+
+						/*Comprobar en las lineas de venta hay productos que se repiten y sumar
+						sus unidades que se pretenden vender para ver si se pasan del stock de
+						este producto.*/
+						angular.forEach($scope.todoListProductos, function(val, key,obj) {
+							var idProducto = val['producto'].idElemento;
+							var undsStock = val['producto'].cantidadStock;
+							var nombreProducto = val['producto'].nombreProducto;
+							var nombreMarca = val['marca'].nombre; 
+
+							objCountIdProductos[idProducto] = (objCountIdProductos[idProducto] || 0)+1;
+							if(objCountIdProductos[idProducto] > 1)
+							{
+							 	angular.forEach($scope.todoListProductos, function(val1, key,obj) {
+							 		var idProductoRepetido = val1['producto'].idElemento;
+							 		var unidadesProductoRepetido = val1.unidades;
+							 		if(idProducto == idProductoRepetido)
+							 		{
+							 			totalUnidades += unidadesProductoRepetido;
+							 		}
+						    	});
+
+					    		if( totalUnidades > undsStock)
+						    	{
+						    		$ionicLoading.hide();
+							    	var alertPopup = $ionicPopup.alert({
+									     title: 'Error al realizar la venta',
+									     template: 'El producto <b>'+nombreMarca+' '+nombreProducto+'</b> disponse de <b>'+undsStock+'</b> unidades en Stock y pretende vender <b>'+totalUnidades+'.</b>',
+									     okText: 'Volver', 
+						  				 okType: 'button-assertive'
+						   			});
+						   			checkUnidades = true;
+						    	}	
+							}
+							totalUnidades = 0;
+				    	});
+
+
+						/*Comprueba si solamente un producto se pasa de unidades comparado
+						con su stock disponible*/
+						angular.forEach($scope.todoListProductos, function(val){
+							var undsVenta = val.unidades;
+							var undsStock = val['producto'].cantidadStock;
+							var nombreProducto = val['producto'].nombreProducto;
+							var nombreMarca = val['marca'].nombre;
+
+							if(undsVenta > undsStock)
+							{
+								$ionicLoading.hide();
+								var alertPopup = $ionicPopup.alert({
+								     title: 'Error al realizar la venta',
+								     template: 'El producto <b>'+nombreMarca+' '+nombreProducto+'</b> disponse de <b>'+undsStock+'</b> unidades en Stock y pretende vender <b>'+undsVenta+'.</b>',
+								     okText: 'Volver', 
+					  				 okType: 'button-assertive'
+					   			});
+					   			checkUnidades = true;
+							}
+						});
+
+						if(checkUnidades!=true)
+						{
+							servVentas.modificarVenta(form).then(function(){
+								$state.go('sidemenu.ventas',null,{reload:true});
+							});
+						}
+					}
+              	}
+            }
+          }
+        ]
     	});
-
-    	angular.forEach($scope.todoListProductos, function(val, key,obj) {
-			/*Estos elementos del objeto se eliminan ya que solo se utilizaron
-			para inicializar las lineas de la venta*/
-
-			/*Elementos eliminados para los Productos*/
-    		delete val.cantidad;
-    		delete val.idElemento;
-    		delete val.id_marca;
-    		delete val.precioVentaUnd;
-    		delete val.nombre;
-    		delete val.nombreProducto;
-
-    	});
-
-		form['lineasVentaServicio'] = $scope.todoListServicios;
-		form['lineasVentasProducto'] = $scope.todoListProductos;
-		form['precioVentaTotal'] = $scope.precioTotalVenta;
-
-		servVentas.modificarVenta(form).then(function(servResponse){
-			console.log(servResponse);
-			$state.go($state.current,null,{reload:true});
-		});
 	}
+
+	$scope.clickEliminarVenta = function(numVenta)
+	{
+		var myPopup = $ionicPopup.show({
+        title: 'Borrar venta',
+        subTitle: '<span>¿Estás seguro de que deseas borrar la venta con numero <b>'+numVenta+'</b> ?</span>',
+        buttons: [
+          { 
+            text: '<b>No</b>',
+            type: 'button-dark'
+          },
+          {
+            text: '<b>Sí</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              $ionicLoading.show();
+              if (e)
+              {              
+                servVentas.eliminarVenta(idVenta).then(function(servResponse){
+                	$state.go('sidemenu.ventas',null,{reload:true});
+                });
+              }
+            }
+          }
+        ]
+    	});
+	}
+
+	// $scope.reiniciarForm = function()
+	// {
+	// 	console.log($scope.form);
+	// 	$scope.form = {
+	// 	        numFactura: cabeceraInicial.numFactura,
+	// 	        fecha: new Date()
+	// 	};
+
+	// 	// $scope.todoListLineasCompra = angular.copy(lineasFacturaIniciales);
+	// 	// for(i=0; i<$scope.todoListLineasCompra.length; i++)
+	// 	// {
+	// 	//   $scope.todoListLineasCompra[i].objMarca = angular.copy(marcasIniciales[i]);
+	// 	// }
+	// }
 
 }]) // Fin VentasPerfilCtrl

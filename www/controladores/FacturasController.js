@@ -3,12 +3,10 @@ angular.module('starterMiApp.contrsFacturas', [])
 .controller('FacturasCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras','servProductos', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras,servProductos){
 
     var sesionIdUser = localStorage.getItem("idUser");
-    console.log('Usuario con id de sesion---> '+sesionIdUser);
     $scope.animacion = "hide";
 	
 	//Obtener los proveedores en el select en la vista listarFacturas
 	servProveedores.listarProveedores(sesionIdUser,'getNameProveedores').then(function(servResponse){
-		  console.log(servResponse);
 	    if(servResponse == -1)
 	    {
 	    	$scope.mensajeError = 'No hay proveedores introducidos.<br />Para añadir un nuevo proveedor: <a href="#/side/proveedores">Pulse aqui</a>';
@@ -18,7 +16,6 @@ angular.module('starterMiApp.contrsFacturas', [])
 	    {
       	$scope.proveedores = servResponse;
       	$scope.proveedoresModal = servResponse;
-        console.log($scope.proveedoresModal);
         //Inciar el select con el primer Proveedor en listarFacturas
         $scope.model = {
             proveedor: $scope.proveedores[0]
@@ -31,7 +28,6 @@ angular.module('starterMiApp.contrsFacturas', [])
         if($scope.model!=null)
         {
             servCompras.listarFacturas(idProveedor,'proveedor').then(function(servResponse){
-                console.log(servResponse);
                 if(servResponse == -1)
                 {
                     $scope.compras = '';
@@ -65,9 +61,7 @@ angular.module('starterMiApp.contrsFacturas', [])
 			var idProveedor = infoProveedor.id_proveedor;
       var nombreProveedor = infoProveedor.nombre;
       $scope.nombreProUrl = infoProveedor.nombre;
-			//console.log(idProveedor);
 			servCompras.listarFacturas(idProveedor,'proveedor').then(function(servResponse){
-				console.log(servResponse);
 				if(servResponse == -1)
 			    {
 			    	$scope.compras = '';
@@ -116,11 +110,9 @@ angular.module('starterMiApp.contrsFacturas', [])
     	$scope.todoListLineasCompra = [];
 
     	var idProveedor = infoProveedor.id_proveedor;
-    	console.log(infoProveedor.id_proveedor);
     	
     	//Obtener las marcas segun el proveedor seleccionado
     	servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
-            console.log(servResponse);
     		$scope.marcas = servResponse;
     	});
     }
@@ -134,7 +126,6 @@ angular.module('starterMiApp.contrsFacturas', [])
           {
             var idMarca = objMarca.id_marca;
             servProductos.listarProductos(idMarca).then(function(servResponse){
-              console.log(servResponse);
               if(servResponse == -1)
                 {
                   // No hay productos
@@ -177,7 +168,6 @@ angular.module('starterMiApp.contrsFacturas', [])
       {
         var idMarca = objMarca.id_marca;
         servProductos.listarProductos(idMarca).then(function(servResponse){
-          console.log(servResponse);
           if(servResponse == -1)
             {
               // No hay productos
@@ -221,7 +211,6 @@ angular.module('starterMiApp.contrsFacturas', [])
     {
     	$ionicLoading.show();
     	form['Lineas'] = $scope.todoListLineasCompra;
-    	console.log(form); 
     	if($scope.todoListLineasCompra=='')
     	{
     		$ionicLoading.hide();
@@ -245,7 +234,6 @@ angular.module('starterMiApp.contrsFacturas', [])
     	else
     	{
      		servCompras.insertarFactura(form).then(function(servResponse){
-     			console.log(servResponse);
      			if(servResponse == -1)
      			{
      				$ionicLoading.hide();
@@ -283,7 +271,6 @@ angular.module('starterMiApp.contrsFacturas', [])
 .controller('FacturaPerfilCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras){
 
 	var sesionIdUser = localStorage.getItem("idUser");
-	console.log('Usuario con id de sesion---> '+sesionIdUser);
   $scope.animacion = "hide";
 	var idCompra = $stateParams.idCompra;
   $scope.nombreProveedor = $stateParams.nombre;
@@ -321,7 +308,6 @@ angular.module('starterMiApp.contrsFacturas', [])
           $scope.totalFactura = servResponse[0].precioCompraTotal;
           $scope.form['idCompra'] = idCompra;
           $scope.form['idProveedor'] = servResponse[0].idProveedor;
-          console.log($scope.form);
           $scope.formulario = $scope.form;
 
           //Iniciar las marcas segun el proveedor en caso de que las lineas esten vacias
@@ -334,7 +320,6 @@ angular.module('starterMiApp.contrsFacturas', [])
     }
     else
     {
-      console.log(servResponse);
       $scope.mensajeError = "";
       $scope.animacion = "hide";
       // Convierte la fecha obtenida(DD/MM/YYYY) del servidior en formato Date de javascript
@@ -462,7 +447,6 @@ angular.module('starterMiApp.contrsFacturas', [])
   {
     form['lineasExistentes'] = $scope.todoListLineasCompra;
     form['idCompra'] = idCompra;
-    console.log(form);
     var myPopup = $ionicPopup.show({
         title: 'Borrar factura',
         subTitle: '<span>¿Estás seguro de que deseas borrar la factura con numero <b>'+form.numFactura+'</b> ?</span>',

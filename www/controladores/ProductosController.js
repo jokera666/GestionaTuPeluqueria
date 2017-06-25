@@ -30,7 +30,6 @@ angular.module('starterMiApp.contrsProductos', [])
 			if($scope.model!=null)
 			{
 				servProductos.listarProductos(idMarca).then(function(servResponse){
-					console.log(servResponse);
 					if(servResponse == -1)
 				    {
 				    	$scope.productos = '';
@@ -52,7 +51,6 @@ angular.module('starterMiApp.contrsProductos', [])
 	//Listar todos los productos segun la marca seleccionada
 	$scope.getProducto = function(infoMarca)
 	{
-		console.log(infoMarca);
 		$scope.animacion = "hide";
 
 		//null es la opcion de Seleccionar...
@@ -61,7 +59,6 @@ angular.module('starterMiApp.contrsProductos', [])
 			var idMarca = infoMarca.id_marca;
 			var nombreMarca = infoMarca.nombre; 
 			servProductos.listarProductos(idMarca).then(function(servResponse){
-				console.log(servResponse);
 				if(servResponse == -1)
 			    {
 			    	$scope.productos = '';
@@ -89,10 +86,8 @@ angular.module('starterMiApp.contrsProductos', [])
 	$scope.animacion = "hide";
 	var sesionIdUser = localStorage.getItem("idUser");
 	var idProducto = $stateParams.idProducto;
-	console.log(sesionIdUser);
 
 	servProductos.listarPerfilProducto(idProducto).then(function(servResponse){
-		console.log(servResponse);
 		$scope.datosProducto = {
 			nombreProveedor: servResponse['infoProducto'].nombreProveedor,
 			nombreMarca: servResponse['infoProducto'].nombreMarca,
@@ -115,7 +110,6 @@ angular.module('starterMiApp.contrsProductos', [])
 				$scope.auxLineasCompras.push({idCompra:servResponse['Compras'][i].id_compra, cantidad:servResponse['Compras'][i].cantidadCompra, nombreProveedor:servResponse['Compras'][i].nombreProveedor, precioCompra:servResponse['Compras'][i].precioCompraUnd, fechaCompra:new Date(servResponse['Compras'][i].fechaCompra)});
 			}
 			$scope.productosCompra = $scope.auxLineasCompras;
-			console.log($scope.productosCompra);
 	  }
 	  else
 	  {
@@ -262,12 +256,12 @@ angular.module('starterMiApp.contrsProductos', [])
 	            params : {'idPro':idProducto}
 	        };
 	        $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Productos/subirFoto.php",imageData, options).then(function(result) {
-	            console.log("SUCCESS: " + JSON.stringify(result.response));
+	            //console.log("SUCCESS: " + JSON.stringify(result.response));
 	            $scope.opciones = result.response;
 	            $state.go($state.current,null,{reload:true});
 	            // location.reload(); // refrescar la pagina entera por javascript
 	        }, function(err) {
-	            console.log("ERROR: " + JSON.stringify(err));
+	            //console.log("ERROR: " + JSON.stringify(err));
 	            $scope.opciones = "ERROR: " + JSON.stringify(err);
 	        }, function (progress) {
 	            // constant progress updates

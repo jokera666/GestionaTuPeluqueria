@@ -4,12 +4,10 @@ angular.module('starterMiApp.contrsClientes', [])
     
 
     $scope.sesionIdUser = localStorage.getItem("idUser");
-    console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
     $scope.animacion = "hide";
 
     //Listar los clientes en el list item
     servClientes.listarClientes('listaClientes',$scope.sesionIdUser).then(function(data){
-      console.log(data);
       if(data==-1)
       {
         $scope.noClientes = -1;
@@ -43,11 +41,10 @@ angular.module('starterMiApp.contrsClientes', [])
     $scope.clickInsertarCliente = function (form){
       $scope.modal.hide();
       $ionicLoading.show();
-      console.log(form);
       form['idUser'] = $scope.sesionIdUser;
       
       servClientes.insertarCliente(form).then(function(){
-        $state.go($state.current,null,{reload:true});
+        $state.go('sidemenu.clientes',null,{reload:true});
       });
     };
 
@@ -65,24 +62,6 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
     servClientes.mostrarCabeceraPerfilCliente(idCliente).then(function(datosCliente){
-  //       $scope.elementosComerciales = datosCliente;
-  //       console.log($scope.elementosComerciales);
-  //        $scope.event = [];
-  //       // for(var i=1; i<datosCliente.length; i++)
-  //       // {
-  //       //    $scope.elementosComerciales = datosCliente[i];
-
-  //       //    //$scope.event.push({lineas:datosCliente[i]});
-
-  //       // }
-  //       $ionicSlideBoxDelegate.update();
-
-  //   console.log($scope.event);
-
-
-
-        //$scope.elementosComerciales = datosCliente[1];
-        //console.log($scope.elementosComerciales);
         /*$scope.data es la informacion que se va mostrar en el perfil del cliente a
         partir de los datos obtenidos del servicio servClientes.mostrarPerfilCliente*/
         $scope.data = datosCliente[0];
@@ -132,7 +111,6 @@ angular.module('starterMiApp.contrsClientes', [])
 
 
     $scope.clickModificarCliente = function (form){
-        console.log(form);
         var myPopup = $ionicPopup.show({
         title: 'Guardar datos',
         subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',
@@ -150,7 +128,6 @@ angular.module('starterMiApp.contrsClientes', [])
               {              
                   servClientes.modificarPerfilCliente(form).then(function(){
                        $state.go('sidemenu.clientes',null,{reload:true});
-                      //location.reload();
                   });
               }
               else
@@ -264,12 +241,12 @@ angular.module('starterMiApp.contrsClientes', [])
                 params : {'idCli':idCliente}
             };
             $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
-                console.log("SUCCESS: " + JSON.stringify(result.response));
+                //console.log("SUCCESS: " + JSON.stringify(result.response));
                 $scope.opciones = result.response;
                 $state.go($state.current,null,{reload:true});
                 // location.reload(); // refrescar la pagina entera por javascript
             }, function(err) {
-                console.log("ERROR: " + JSON.stringify(err));
+                //console.log("ERROR: " + JSON.stringify(err));
                 $scope.opciones = "ERROR: " + JSON.stringify(err);
             }, function (progress) {
                 // constant progress updates

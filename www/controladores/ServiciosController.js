@@ -3,7 +3,6 @@ angular.module('starterMiApp.contrsServicios', [])
 .controller('ServiciosCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servSecciones','servServicios', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servSecciones,servServicios){
 
    	$scope.sesionIdUser = localStorage.getItem("idUser");
-    console.log('Usuario con id de sesion---> '+$scope.sesionIdUser);
     $scope.animacion = "hide";
 
 	servSecciones.listarSecciones($scope.sesionIdUser).then(function(servResponse){
@@ -112,11 +111,6 @@ angular.module('starterMiApp.contrsServicios', [])
 		//Añadir al objeto form(que el formulario del post de insertar servicio)
 		//los elementos_comerciales 
 		form['Elementos'] = $scope.todoListElementos;
-		//console.log(form);
-		//console.log("SUCCESS: " + JSON.stringify(form));
-		//console.log('Elementos a vender---> '+$scope.todoListElementos);
-		//console.log('Elementos a vender---> '+JSON.stringify($scope.todoListElementos));
-		//console.log(form.seccionModal);
 		if($scope.todoListElementos == '')
 		{
 			$ionicLoading.hide();
@@ -130,7 +124,6 @@ angular.module('starterMiApp.contrsServicios', [])
 		else
 		{
 			servServicios.insertarServicio(form).then(function(servResponse){
-				console.log(servResponse);
 				if(servResponse == -1)
 				{
 					$ionicLoading.hide();
@@ -221,7 +214,6 @@ angular.module('starterMiApp.contrsServicios', [])
      	form['categoriasExistentes'] = $scope.elementosServicioExistentes;
      	form['categoriasNuevas'] = $scope.todoListElementosNuevos;
      	form['idSeccion'] = idSeccion;
-     	console.log(form);
      	var myPopup = $ionicPopup.show({
 	        title: 'Modificar datos',
 	        subTitle: '<span>¿Estás seguro de que deseas realizar los cambios?</span>',

@@ -95,7 +95,6 @@ angular.module('starterMiApp.contrsProveedores', [])
   //El objeto 0 son los datos del proveedor y el resto de objetos el id y el nombre
   //de la marca de dicho proveedor.
   servProveedores.listarPerfilProveedor(idProveedor).then(function(servResponse){
-    console.log(servResponse);
     var datosPerfilProveedor = servResponse[0];
     datosPerfilProveedorIniciales = angular.copy(servResponse[0]);
     $scope.form = datosPerfilProveedor;
@@ -182,7 +181,6 @@ angular.module('starterMiApp.contrsProveedores', [])
     form['idProvedor']        = idProveedor;
     form['nuevasMarcas']      = $scope.todoListNuevasMarcas;
     form['marcasExistentes']  = $scope.elementosMarca;
-    console.log(form);
     var myPopup = $ionicPopup.show({
       title: 'Modificar proveedor',
       subTitle: '<span>¿Estás seguro de que deseas modificar el proveedor?</span>',
@@ -200,7 +198,6 @@ angular.module('starterMiApp.contrsProveedores', [])
             {              
                 servProveedores.modificarPerfilProveedor(form).then(function(data){
                   $state.go('sidemenu.proveedores',null,{reload:true});
-                  $scope.modal.hide();
                 });
             }
           }

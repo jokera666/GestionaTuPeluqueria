@@ -166,7 +166,6 @@ angular.module('starterMiApp.contrsCaja', [])
 
 	/*------------------------- LISTAR SECCIONES-----------------------*/ 
 	servSecciones.listarSecciones(idUser).then(function(servResponse){
-		console.log(servResponse);
 		if(servResponse==-1)
 	    {
 	    	// No hay secciones
@@ -179,19 +178,16 @@ angular.module('starterMiApp.contrsCaja', [])
 
 	$scope.getIdSeccion = function(objSeccion,index)
 	{
-		console.log(index);
 		if(objSeccion!=null)
 		{
 			var idSeccion = objSeccion.id_seccion;
-			console.log(idSeccion);
 
 			/*------------------------- LISTAR SERVICIOS -----------------------*/
 			servServicios.nombreServicio(idSeccion).then(function(servResponse){
-				console.log(index);
-				console.log(servResponse);
 				if(servResponse == -1)
 			    {
 			    	// No hay servicios
+			    	$scope['servicios'+index] = [];
 			    }
 			    else
 			    {
@@ -203,9 +199,7 @@ angular.module('starterMiApp.contrsCaja', [])
 			{
 				if(objServicio!=null)
 				{
-					console.log(objServicio);
 					var nombreServicio = objServicio.nombreServicio;
-					console.log(nombreServicio);
 
 					/*------------------------- LISTAR CATEGORIAS -----------------------*/
 					servServicios.listarPerfilServicio(idSeccion,nombreServicio).then(function(servResponse){
@@ -247,7 +241,13 @@ angular.module('starterMiApp.contrsCaja', [])
 			servProductos.listarProductos(idMarca).then(function(servResponse){
 				if(servResponse == -1)
 			    {
-			    	// No hay productos
+			    	$scope['productos'+index] = [];
+			    	// No hay productos y en la vista tiene que ir
+			    	// con el track by $index
+			    	// $scope['productos'+index] = [
+			    	// 	{nombreProducto: 'no hay producto'}
+			    	// ];
+
 			    }
 			    else
 			    {
@@ -307,7 +307,6 @@ angular.module('starterMiApp.contrsCaja', [])
 		{
 			totalDescuento += aux1[i];
 		}
-		console.log(totalDescuento);
 
 		if(descuento > $scope.precioTotalVenta)
 		{
