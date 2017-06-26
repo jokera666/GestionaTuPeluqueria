@@ -23,7 +23,7 @@ angular.module('starterMiApp.contrsSidemenu', [])
   var plantillaPopover = '<ion-popover-view style="height: 168px;">'+
     '<ion-content scroll="false">'+
         '<div class="list">'+
-            '<a class="item item-icon-left" href="#">'+
+            '<a class="item item-icon-left" ng-click="ayuda()">'+
               '<i class="icon ion-help-circled"></i>'+
                 'Ayuda'+
             '</a>'+
@@ -51,12 +51,23 @@ angular.module('starterMiApp.contrsSidemenu', [])
     $scope.popover.hide();
   };
 
+  $scope.ayuda = function() {
+    $scope.popover.hide();
+    var alertPopup = $ionicPopup.alert({
+     title: 'Ayuda',
+     cssClass: 'tamanoPopup',
+     templateUrl: 'plantillas/Moremenu/ayuda.html',
+     okText: 'Ok', 
+     okType: 'button-positive'
+    });
+  };
+
   $scope.acercaDe = function() {
     $scope.popover.hide();
     var alertPopup = $ionicPopup.alert({
      title: 'Acerca De...',
      cssClass: 'tamanoPopup',
-     template: '<a class="button button-full button-balanced icon-left ion-email" href="mailto:jokera666@gmail.com" target="_blank"> Contancte con el administrador.</a>',
+     templateUrl: 'plantillas/Moremenu/acercaDe.html',
      okText: 'Ok', 
      okType: 'button-positive'
     });

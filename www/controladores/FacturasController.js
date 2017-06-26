@@ -268,7 +268,7 @@ angular.module('starterMiApp.contrsFacturas', [])
 
 }]) // Fin FacturasCtrl
 
-.controller('FacturaPerfilCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras){
+.controller('FacturaPerfilCtrl', ['$scope','$state','$stateParams','$ionicModal','$ionicPopup','$ionicLoading','servProveedores','servCompras','servProductos', function($scope,$state,$stateParams,$ionicModal,$ionicPopup,$ionicLoading,servProveedores,servCompras,servProductos){
 
 	var sesionIdUser = localStorage.getItem("idUser");
   $scope.animacion = "hide";
@@ -338,11 +338,36 @@ angular.module('starterMiApp.contrsFacturas', [])
 
       /* Оbtener las marcas de cada linea de compra para poder iniciar el select en 
        cada linea de compra.*/
+
+        $scope.tipoProducto = [
+        {idTipo: 1, nombreTipo:'Existente'},
+        {idTipo: 2, nombreTipo:'Nuevo'}
+        ]; 
+
+        //Inciar select tipoCliente
+        $scope.idTipo = {
+          obj: $scope.tipoProducto[0]
+        }
+
       $scope.misMarcas = [];
       var numeroLineasCompras = servResponse.length;
       for(i=0; i<numeroLineasCompras; i++)
       {
         $scope.misMarcas.push({id_marca:servResponse[i].id_marca, nombre:servResponse[i].nombre});
+            servProductos.listarProductos(servResponse[i].id_marca).then(function(servResponse){
+              if(servResponse == -1)
+                {
+                  // No hay productos
+                }
+                else
+                {
+                  console.log(servResponse);
+                  $scope['productos'+i]  = [
+                    {nombreProducto:servResponse.nombreProducto}
+                  ];
+                }
+            });
+
       }
         
       var idProveedor = servResponse[0].idProveedor;
@@ -356,6 +381,54 @@ angular.module('starterMiApp.contrsFacturas', [])
         }
       });
       marcasIniciales = angular.copy($scope.misMarcas);
+
+    $scope.getTipoProducto = function(objMarca,idTipo,index)
+    {
+        console.log(objMarca);
+        switch(parseInt(idTipo))
+        {
+          case 1:
+          if(objMarca != null)
+          {
+            var idMarca = objMarca.id_marca;
+            servProductos.listarProductos(idMarca).then(function(servResponse){
+              if(servResponse == -1)
+                {
+                  // No hay productos
+                }
+                else
+                {
+                  $scope.todoListLineasCompra[index].showTipo = 1;
+                  $scope['productos'+index] = servResponse;
+                }
+            });
+
+            $scope.getIdProducto = function (objProducto,index)
+            {
+              if(objProducto!=null)
+              { 
+                var precioVentaProducto = objProducto.precioVenta;
+                var precioCompraProducto = objProducto.precioCompraUnd;
+
+                $scope.todoListLineasCompra[index].precioVenta =  precioVentaProducto;
+                $scope.todoListLineasCompra[index].precioCompraUnd =  precioCompraProducto;
+              }
+            }
+          }
+
+          $scope.todoListLineasCompra[index].showTipo = 1;
+          break;
+          case 2:
+          $scope.todoListLineasCompra[index].producto = '';
+          $scope.todoListLineasCompra[index].nombreProducto =  '';
+          $scope.todoListLineasCompra[index].precioVenta =  '';
+          $scope.todoListLineasCompra[index].precioCompraUnd =  '';
+          $scope.todoListLineasCompra[index].showTipo = 2;
+          break;
+        }
+    }
+
+
     }
     
 	});
