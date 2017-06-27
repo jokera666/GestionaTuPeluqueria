@@ -248,6 +248,32 @@ text-transform: capitalize;
   .platform-ios.platform-cordova .modal-wrapper .modal .bar-subheader {
     top: 64px;
   }
+
+  .micol-4{
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 10%;
+  -ms-flex: 0 0 10%;
+  -webkit-flex: 0 0 10%;
+  flex: 0 0 10%;
+  max-width: 10%;
+}
+
+  .micol-18{
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 10%;
+  -ms-flex: 0 0 10%;
+  -webkit-flex: 0 0 10%;
+  flex: 0 0 10%;
+  max-width: 18%;
+}
+
+  .micol-22{
+  max-width: 22%;
+}
+
+
 }
 
 #divFotoPerfil .scroll{

@@ -47,10 +47,20 @@
 						<button ng-model="todoItem.id_lineaCompras" class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index,todoItem.id_compra,todoItem.id_lineaCompras,todoItem.idProducto,todoItem.nombreElemento,todoItem.nombre,todoItem.cantidad)"></button>
           			</div>
 
-	          			<div class="col">
+<!-- 	          			<div class="col">
 			          		<label class="item item-input item-select">
 							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
 							    <select ng-model="todoItem.objMarca" ng-options="miMarca.nombre for miMarca in marcas track by miMarca.nombre"  required>
+							    <option value="">Seleccionar...</option>
+							    </select>
+						  	</label>
+	          			</div> -->
+
+
+	          			<div class="col micol-22">
+			          		<label class="item item-input item-select">
+							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
+							    <select ng-model="todoItem.objMarca" ng-change="getIdMarca(todoItem.objMarca,$index)" ng-options="miMarca.nombre for miMarca in marcas track by miMarca.nombre" required>
 							    <option value="">Seleccionar...</option>
 							    </select>
 						  	</label>
@@ -59,7 +69,7 @@
 	          			<div class="col">
 					  		<label class="item item-input  item-select">
 							    <div class="input-label"><b>Tipo producto:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="idTipo.obj" ng-options="tipoProducto.nombreTipo for tipoProducto in tipoProducto" ng-change="getTipoProducto(todoItem.objMarca,idTipo.obj,$index)" required>
+							    <select ng-model="todoItem.idTipo" ng-options="tipoProducto.nombreTipo for tipoProducto in tipoProducto track by tipoProducto.nombreTipo" ng-change="getTipoProducto(todoItem.objMarca,todoItem.idTipo,$index)" required>
 							    <option value="">Seleccionar...</option>
 							    <option value="1">Existente</option>
 							    <option value="2">Nuevo</option>
@@ -69,7 +79,7 @@
 							<div ng-if="todoItem.showTipo==1">
 								<label class="item item-input item-select">
 								    <div class="input-label"><b>Producto:</b><span class="asteriscoObligatorio">*</span></div>
-								    <select name="producto{{$index}}" ng-model="todoItem.producto" ng-change="getIdProducto(todoItem.producto,$index)" ng-options="productos{{$index}}.nombreProducto for productos{{$index}} in productos{{$index}} track by productos.nombreProducto" required>
+								    <select ng-model="todoItem.producto" ng-change="getIdProducto(todoItem.producto,$index)" ng-options="productos{{$index}}.nombreProducto for productos{{$index}} in productos{{$index}} track by productos{{$index}}.nombreProducto" required>
 								    <option value="">Seleccionar...</option>
 								    </select>
 							  	</label>
@@ -89,17 +99,8 @@
 							</div>
 					  	</div>
 						
-<!-- 					  <div class="col-25">
-					  	<label class="item item-input item-stacked-label" style="margin-top: 4px;">
-							<span class="input-label"><b>Nombre producto:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="text" name="nombreElemento{{$index}}" ng-model="todoItem.nombreElemento" required>
-						</label>
-						<div ng-show="formModificarFactura.nombreElemento{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.nombreElemento{{$index}}.$invalid">Campo obligatorio.</span>
-	            		</div>
-					  </div> -->
 
-					  <div class="col">
+					  <div class="col micol-4">
 					  	<label class="item item-input item-stacked-label">
 							<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="number" name="cantidad{{$index}}" ng-model="todoItem.cantidad" ng-pattern="/^\d*$/" required>
@@ -110,7 +111,7 @@
 	            		</div>
 					  </div>
 
-					  <div class="col">
+					  <div class="col micol-18">
 					  	<label class="item item-input item-stacked-label">
 							<span class="input-label"><b>Compra Precio/Und:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="number" name="precioCompraUnd{{$index}}" ng-model="todoItem.precioCompraUnd" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
@@ -121,7 +122,7 @@
 	            		</div>
 					  </div>
 
-					  <div class="col">
+					  <div class="col micol-18">
 					  	<label class="item item-input item-stacked-label">
 							<span class="input-label"><b>VentaPrecio/Und:</b><span class="asteriscoObligatorio">*</span></span>
 							<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>

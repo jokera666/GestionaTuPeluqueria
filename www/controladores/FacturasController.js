@@ -339,36 +339,47 @@ angular.module('starterMiApp.contrsFacturas', [])
       /* Оbtener las marcas de cada linea de compra para poder iniciar el select en 
        cada linea de compra.*/
 
+        //Definicion de las opciones en el Select de tipo de Producto
         $scope.tipoProducto = [
         {idTipo: 1, nombreTipo:'Existente'},
         {idTipo: 2, nombreTipo:'Nuevo'}
         ]; 
 
-        //Inciar select tipoCliente
-        $scope.idTipo = {
-          obj: $scope.tipoProducto[0]
-        }
+        //Inicializar las lineas en el todo list como Existentes
+        angular.forEach($scope.todoListLineasCompra, function(val, key,obj) {
+          $scope.todoListLineasCompra[key].idTipo =  {idTipo: 1, nombreTipo:'Existente'};
+          $scope.todoListLineasCompra[key].showTipo = 1;
+        });
 
       $scope.misMarcas = [];
       var numeroLineasCompras = servResponse.length;
       for(i=0; i<numeroLineasCompras; i++)
       {
         $scope.misMarcas.push({id_marca:servResponse[i].id_marca, nombre:servResponse[i].nombre});
-            servProductos.listarProductos(servResponse[i].id_marca).then(function(servResponse){
+
+      }
+
+        /*Inicializar las opciones de cada select que corrsponde con la marca
+        de cada linea de compra respectivamente*/
+        angular.forEach($scope.misMarcas, function(val, key,obj) {
+            servProductos.listarProductos(val.id_marca).then(function(servResponse){
               if(servResponse == -1)
                 {
                   // No hay productos
                 }
                 else
                 {
-                  console.log(servResponse);
-                  $scope['productos'+i]  = [
-                    {nombreProducto:servResponse.nombreProducto}
-                  ];
+                  $scope['productos'+key]  = servResponse;
                 }
             });
+        });
 
-      }
+        /*Iniciar el select de cada linea de compra respectivamente con su nombre de
+        producto*/
+        angular.forEach(servResponse, function(val, key,obj) {
+          $scope.todoListLineasCompra[key].producto =  {nombreProducto:val.nombreElemento};
+          console.log( $scope.todoListLineasCompra[key].producto);
+        });
         
       var idProveedor = servResponse[0].idProveedor;
       servCompras.listarMarcas(idProveedor,'proveedor').then(function(servResponse){
@@ -382,10 +393,15 @@ angular.module('starterMiApp.contrsFacturas', [])
       });
       marcasIniciales = angular.copy($scope.misMarcas);
 
-    $scope.getTipoProducto = function(objMarca,idTipo,index)
+   
+
+    }
+
+    $scope.getTipoProducto = function(objMarca,objIdTipo,index)
     {
-        console.log(objMarca);
-        switch(parseInt(idTipo))
+        var idTipo = objIdTipo.idTipo;
+        console.log(idTipo);
+        switch(idTipo)
         {
           case 1:
           if(objMarca != null)
@@ -398,37 +414,61 @@ angular.module('starterMiApp.contrsFacturas', [])
                 }
                 else
                 {
-                  $scope.todoListLineasCompra[index].showTipo = 1;
                   $scope['productos'+index] = servResponse;
                 }
             });
-
-            $scope.getIdProducto = function (objProducto,index)
-            {
-              if(objProducto!=null)
-              { 
-                var precioVentaProducto = objProducto.precioVenta;
-                var precioCompraProducto = objProducto.precioCompraUnd;
-
-                $scope.todoListLineasCompra[index].precioVenta =  precioVentaProducto;
-                $scope.todoListLineasCompra[index].precioCompraUnd =  precioCompraProducto;
-              }
-            }
           }
 
+          
+          $scope.todoListLineasCompra[index].idTipo =  {idTipo: 1, nombreTipo:'Existente'};
           $scope.todoListLineasCompra[index].showTipo = 1;
           break;
           case 2:
           $scope.todoListLineasCompra[index].producto = '';
           $scope.todoListLineasCompra[index].nombreProducto =  '';
+          $scope.todoListLineasCompra[index].cantidad =  1;
           $scope.todoListLineasCompra[index].precioVenta =  '';
           $scope.todoListLineasCompra[index].precioCompraUnd =  '';
+          $scope.todoListLineasCompra[index].idTipo =  {idTipo: 2, nombreTipo:'Nuevo'};
           $scope.todoListLineasCompra[index].showTipo = 2;
+          
           break;
         }
     }
 
+    $scope.getIdProducto = function (objProducto,index)
+    {
+      console.log(objProducto);
+      if(objProducto!=null)
+      { 
+        var precioVentaProducto = objProducto.precioVenta;
+        var precioCompraProducto = objProducto.precioCompraUnd;
 
+        $scope.todoListLineasCompra[index].precioVenta =  precioVentaProducto;
+        $scope.todoListLineasCompra[index].precioCompraUnd =  precioCompraProducto;
+      }
+    }
+
+    $scope.getIdMarca = function (objMarca,index)
+    {
+      if(objMarca != null)
+      {
+        console.log(objMarca);
+        var idMarca = objMarca.id_marca;
+        servProductos.listarProductos(idMarca).then(function(servResponse){
+          if(servResponse == -1)
+            {
+              // No hay productos
+            }
+            else
+            {
+              
+              $scope.todoListLineasCompra[index].idTipo = {idTipo: 1, nombreTipo:'Existente'};
+              $scope['productos'+index] = servResponse;
+              $scope.todoListLineasCompra[index].showTipo = 1;
+            }
+        });
+      }
     }
     
 	});
