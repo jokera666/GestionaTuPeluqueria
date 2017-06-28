@@ -284,7 +284,8 @@ angular.module('starterMiApp.contrsFacturas', [])
     $scope.form = {
       numFactura: servResponse[0].numFactura,
       fechaCompra: new Date(servResponse[0].fechaCompra),
-      idProveedor: servResponse[0].idProveedor
+      idProveedor: servResponse[0].idProveedor,
+      id_compra: idCompra
     }
     cabeceraInicial = angular.copy(servResponse[0]); 
     $scope.totalFactura = servResponse[0].precioCompraTotal;
@@ -378,7 +379,6 @@ angular.module('starterMiApp.contrsFacturas', [])
         producto*/
         angular.forEach(servResponse, function(val, key,obj) {
           $scope.todoListLineasCompra[key].producto =  {nombreProducto:val.nombreElemento};
-          console.log( $scope.todoListLineasCompra[key].producto);
         });
         
       var idProveedor = servResponse[0].idProveedor;
@@ -400,7 +400,6 @@ angular.module('starterMiApp.contrsFacturas', [])
     $scope.getTipoProducto = function(objMarca,objIdTipo,index)
     {
         var idTipo = objIdTipo.idTipo;
-        console.log(idTipo);
         switch(idTipo)
         {
           case 1:
@@ -438,7 +437,6 @@ angular.module('starterMiApp.contrsFacturas', [])
 
     $scope.getIdProducto = function (objProducto,index)
     {
-      console.log(objProducto);
       if(objProducto!=null)
       { 
         var precioVentaProducto = objProducto.precioVenta;
@@ -453,7 +451,6 @@ angular.module('starterMiApp.contrsFacturas', [])
     {
       if(objMarca != null)
       {
-        console.log(objMarca);
         var idMarca = objMarca.id_marca;
         servProductos.listarProductos(idMarca).then(function(servResponse){
           if(servResponse == -1)
@@ -514,22 +511,21 @@ angular.module('starterMiApp.contrsFacturas', [])
     });
   };
 
-  //Todolist Nuevas lineas de compras
-  $scope.todoListNuevasLineasCompra = [];
+  // BOTONES DEL TODOLIST
   $scope.anadirLineaCompra  = function()
   {
-    $scope.todoListNuevasLineasCompra.push({});
+    $scope.todoListLineasCompra.push({cantidad:1});
   };
   $scope.eliminarNuevaLinea  = function(index)
   {
-    $scope.todoListNuevasLineasCompra.splice(index, 1);
+    $scope.todoListLineasCompra.splice(index, 1);
   };
 
 
   $scope.clickModificarFactura = function(form)
   {
-    form['lineasExistentes'] = $scope.todoListLineasCompra;
-    form['nuevasLineas'] = $scope.todoListNuevasLineasCompra;
+    form['lineasCompra'] = $scope.todoListLineasCompra;
+    console.log(form);
 
     var myPopup = $ionicPopup.show({
         title: 'Modificar factura',
@@ -558,7 +554,7 @@ angular.module('starterMiApp.contrsFacturas', [])
 
   $scope.clickEliminarFactura = function(form)
   {
-    form['lineasExistentes'] = $scope.todoListLineasCompra;
+    form['lineasCompra'] = $scope.todoListLineasCompra;
     form['idCompra'] = idCompra;
     var myPopup = $ionicPopup.show({
         title: 'Borrar factura',

@@ -47,15 +47,6 @@
 						<button ng-model="todoItem.id_lineaCompras" class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarLineaCompra($index,todoItem.id_compra,todoItem.id_lineaCompras,todoItem.idProducto,todoItem.nombreElemento,todoItem.nombre,todoItem.cantidad)"></button>
           			</div>
 
-<!-- 	          			<div class="col">
-			          		<label class="item item-input item-select">
-							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="todoItem.objMarca" ng-options="miMarca.nombre for miMarca in marcas track by miMarca.nombre"  required>
-							    <option value="">Seleccionar...</option>
-							    </select>
-						  	</label>
-	          			</div> -->
-
 
 	          			<div class="col micol-22">
 			          		<label class="item item-input item-select">
@@ -135,71 +126,6 @@
 
 					</div> <!-- FIN ROW -->
 				</ion-item>
-
-				<div class="item item-divider item-text-wrap">Añadir nueva línea</div>
-				<ion-item ng-repeat = "todoItem in todoListNuevasLineasCompra">
-					<div class="row responsive-lg">
-					
-					<div class="col-10" style="max-width: 3%">
-						<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarNuevaLinea($index)"></button>
-          			</div>
-
-	          			<div class="col">
-			          		<label class="item item-input item-select">
-							    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
-							    <select ng-model="todoItem.marca" ng-options="marcas.nombre for marcas in marcas" required>
-							    <option value="">Seleccionar...</option>
-							    </select>
-						  	</label>
-	          			</div>
-						
-					  <div class="col-25">
-					  	<label class="item item-input item-stacked-label" style="margin-top: 4px;">
-							<span class="input-label"><b>Nombre producto:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="text" name="nombreProducto{{$index}}" ng-model="todoItem.nombreProducto" required>
-						</label>
-						<div ng-show="formModificarFactura.nombreProducto{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.nombreProducto{{$index}}.$invalid">Campo obligatorio.</span>
-	            		</div>
-					  </div>
-
-					  <div class="col">
-					  	<label class="item item-input item-stacked-label">
-							<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="unidades{{$index}}" ng-model="todoItem.unidades" ng-init="todoItem.unidades = 1" ng-pattern="/^\d*$/" required>
-						</label>
-						<div ng-show="formModificarFactura.unidades{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.unidades{{$index}}.$error.required">Campo obligatorio.</span>
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.unidades{{$index}}.$error.pattern">Solo numeros enteros.</span>
-	            		</div>
-					  </div>
-
-					  <div class="col">
-					  	<label class="item item-input item-stacked-label">
-							<span class="input-label"><b>Compra Precio/Und:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioCompraUnd{{$index}}" ng-model="todoItem.precioCompraUnd" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
-						</label>
-						<div ng-show="formModificarFactura.precioCompraUnd{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.precioCompraUnd{{$index}}.$error.required">Campo obligatorio.</span>
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.precioCompraUnd{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
-	            		</div>
-					  </div>
-
-					  <div class="col">
-					  	<label class="item item-input item-stacked-label">
-							<span class="input-label"><b>VentaPrecio/Und:</b><span class="asteriscoObligatorio">*</span></span>
-							<input type="number" name="precioVentaUnd{{$index}}" ng-model="todoItem.precioVentaUnd" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
-						</label>
-						<div ng-show="formModificarFactura.precioVentaUnd{{$index}}.$invalid">
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.precioVentaUnd{{$index}}.$error.required">Campo obligatorio.</span>
-	        				<span class="errorMensajeForm" ng-show="formModificarFactura.precioVentaUnd{{$index}}.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
-	            		</div>
-					  </div>
-
-					</div> <!-- FIN ROW -->
-				</ion-item>
-
-			</div>
 			
 			<div class="col-offset-90" style="margin-top: 20px;">
 					<button class="btnTodo button button-balanced icon ion-plus-round" ng-click="anadirLineaCompra()"></button>
