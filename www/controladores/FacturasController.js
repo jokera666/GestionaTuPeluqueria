@@ -379,6 +379,7 @@ angular.module('starterMiApp.contrsFacturas', [])
         producto*/
         angular.forEach(servResponse, function(val, key,obj) {
           $scope.todoListLineasCompra[key].producto =  {nombreProducto:val.nombreElemento};
+          $scope.todoListLineasCompra[key]['cantidadesAnteriores'] = servResponse[key].cantidad;
         });
         
       var idProveedor = servResponse[0].idProveedor;
@@ -459,7 +460,6 @@ angular.module('starterMiApp.contrsFacturas', [])
             }
             else
             {
-              
               $scope.todoListLineasCompra[index].idTipo = {idTipo: 1, nombreTipo:'Existente'};
               $scope['productos'+index] = servResponse;
               $scope.todoListLineasCompra[index].showTipo = 1;
@@ -472,43 +472,54 @@ angular.module('starterMiApp.contrsFacturas', [])
 
   $scope.eliminarLineaCompra = function (index,idCompra,idLinea,idProducto,nombreProducto,nombreMarca, unidades)
   {
-    var myPopup = $ionicPopup.show({
-    title: 'Borrar linea de factura',
-    subTitle: '<span>¿Estás seguro de que deseas borrar la línea de la factura con el producto <b>'+nombreMarca+' '+nombreProducto+'</b> ?</span>',
-    buttons: [
-      { 
-        text: '<b>No</b>',
-        type: 'button-dark'
-      },
-      {
-        text: '<b>Sí</b>',
-        type: 'button-positive',
-        onTap: function(e) {
-          $ionicLoading.show();
-          if (e)
-          {              
-              servCompras.eliminarLineaFactura(idCompra,idLinea,idProducto,unidades).then(function(servResponse){
-                if(servResponse==-1)
-                {
-                  $ionicLoading.hide();
-                  var alertPopup = $ionicPopup.alert({
-                     title: 'Error al borrar la línea de la factura',
-                     template: 'El producto <b>'+nombreMarca +' '+nombreProducto+'</b> pertenece a una venta.',
-                     okText: 'Volver', 
-                     okType: 'button-assertive'
-                  });
-                }
-                else
-                {
-                  $scope.todoListLineasCompra.splice(index, 1);
-                  $state.go($state.current,null,{reload:true});
-                }
-              });
+
+    //Si la linea es nueva eliminarla directamente
+    if(idLinea==undefined)
+    {
+      $scope.todoListLineasCompra.splice(index, 1); 
+    }
+    else
+    {
+      var myPopup = $ionicPopup.show({
+      title: 'Borrar linea de factura',
+      subTitle: '<span>¿Estás seguro de que deseas borrar la línea de la factura con el producto <b>'+nombreMarca+' '+nombreProducto+'</b> ?</span>',
+      buttons: [
+        { 
+          text: '<b>No</b>',
+          type: 'button-dark'
+        },
+        {
+          text: '<b>Sí</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            $ionicLoading.show();
+            if (e)
+            {              
+                servCompras.eliminarLineaFactura(idCompra,idLinea,idProducto,unidades).then(function(servResponse){
+                  if(servResponse==-1)
+                  {
+                    $ionicLoading.hide();
+                    var alertPopup = $ionicPopup.alert({
+                       title: 'Error al borrar la línea de la factura',
+                       template: 'El producto <b>'+nombreMarca +' '+nombreProducto+'</b> pertenece a una venta.',
+                       okText: 'Volver', 
+                       okType: 'button-assertive'
+                    });
+                  }
+                  else
+                  {
+                    $scope.todoListLineasCompra.splice(index, 1);
+                    $state.go($state.current,null,{reload:true});
+                  }
+                });
+            }
           }
         }
-      }
-    ]
-    });
+      ]
+      });
+    }
+
+
   };
 
   // BOTONES DEL TODOLIST
