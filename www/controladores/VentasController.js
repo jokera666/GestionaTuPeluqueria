@@ -470,7 +470,20 @@ angular.module('starterMiApp.contrsVentas', [])
   	{	
   		if(idLinea==undefined)
   		{
-  			$scope.todoListServicios.splice(index, 1); 
+	  		if($scope.todoListServicios[index].seccion==undefined && $scope.todoListServicios[index].servicio==undefined)
+	  		{
+	  			$scope.todoListServicios.splice(index, 1);
+	  		}
+	  		else if($scope.todoListServicios[index].precioVenta==undefined)
+	  		{
+	  			$scope.todoListServicios.splice(index, 1);
+	  		}
+	  		else
+	  		{
+		  		var valorRestado = $scope.todoListServicios[index].precioVenta;
+		  		$scope.precioTotalVenta -= valorRestado;
+		        $scope.todoListServicios.splice(index, 1);
+	  		}
   		}
   		else
   		{
@@ -523,7 +536,21 @@ angular.module('starterMiApp.contrsVentas', [])
   		//Si la linea es nueva eliminarla directamente
   		if(idLinea==undefined)
   		{
-  			$scope.todoListProductos.splice(index, 1); 
+	  		if($scope.todoListProductos[index].marca==undefined && $scope.todoListProductos[index].producto==undefined)
+	  		{
+	  			$scope.todoListProductos.splice(index, 1);
+	  		}
+	  		else if($scope.todoListProductos[index].precioVentaProducto==undefined)
+	  		{
+	  			$scope.todoListProductos.splice(index, 1);
+	  		}
+	  		else
+	  		{
+		  		var valorRestado = $scope.todoListProductos[index].precioVentaProducto;
+		  		var unidades = $scope.todoListProductos[index].unidades;
+		  		$scope.precioTotalVenta -= valorRestado*unidades;
+		        $scope.todoListProductos.splice(index, 1); 	
+	  		}
   		}
   		else
   		{

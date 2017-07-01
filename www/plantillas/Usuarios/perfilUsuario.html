@@ -21,7 +21,7 @@
 	               <label class="item-input-wrapper item-input" style="background-color: white;">
 						<span class="input-label"><b>Contraseña antigua:</b></span>
 						<input name="contrasenaOld" type="password" placeholder="Mínimo 8 caracteres" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="showPassOld">
-						<input type="text" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="!showPassOld">
+						<input type="text" placeholder="Mínimo 8 caracteres" ng-model="form.contrasenaOld" ng-blur="visitedContrasenaOld = true"  minlength="8" ng-show="!showPassOld">
 					</label>
 					<a id="contrasenaOld" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
 				</div>
@@ -33,7 +33,7 @@
 					<label class="item-input-wrapper item-input" style="background-color: white;">
 						<span class="input-label"><b>Contraseña nueva:</b></span>
 						<input name="contrasenaNew" type="password" placeholder="Mínimo 8 caracteres" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" minlength="8" ng-show="showPassNew">
-						<input type="text" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" minlength="8" ng-show="!showPassNew">
+						<input type="text" placeholder="Mínimo 8 caracteres" ng-model="form.contrasenaNew" ng-blur="visitedContrasenaNew = true" minlength="8" ng-show="!showPassNew">
 					</label>
 					<a id="contrasenaNew" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
 				</div>
@@ -45,7 +45,7 @@
 					<label class="item-input-wrapper item-input" style="background-color: white;">
 						<span class="input-label"><b>Repetir contraseña:</b></span>
 						<input name="repetirContrasena" type="password" placeholder="Mínimo 8 caracteres" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="showPassRepeat" ng-pattern="form.contrasenaNew">
-						<input type="text" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="!showPassRepeat">
+						<input type="text" placeholder="Mínimo 8 caracteres" ng-model="repetirContrasena" ng-blur="visitedRepeatContrasena = true" minlength="8" ng-show="!showPassRepeat">
 					</label>
 					<a id="contrasenaRepeat" ng-click="verPass($event)" class="button button-icon icon ion-eye"></a>
 				</div>

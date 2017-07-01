@@ -62,6 +62,16 @@ angular.module('starterMiApp.contrsSidemenu', [])
     });
   };
 
+  $scope.ayuda1 = [
+  {descripcion:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis sequi explicabo dicta doloremque vel nisi quisquam, quasi modi, laboriosam nulla? Aliquid quae optio vero nam, voluptatibus natus beatae quos iusto.'},
+  {descripcion:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis sequi explicabo dicta doloremque vel nisi quisquam, quasi modi, laboriosam nulla? Aliquid quae optio vero nam, voluptatibus natus beatae quos iusto.'},
+  {descripcion:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis sequi explicabo dicta doloremque vel nisi quisquam, quasi modi, laboriosam nulla? Aliquid quae optio vero nam, voluptatibus natus beatae quos iusto.'}
+  ];
+
+  $scope.toggleDescripcion = function(item){
+    item.resumido = !item.resumido;
+  }
+
   $scope.acercaDe = function() {
     $scope.popover.hide();
     var alertPopup = $ionicPopup.alert({

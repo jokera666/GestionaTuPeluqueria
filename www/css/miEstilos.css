@@ -220,6 +220,13 @@ text-transform: capitalize;
     margin-left: 5px;
 }
 
+.noresumido{
+	background-color: #fdf2d1 !important;
+}
+.noresumido .item-content{
+	background: transparent;
+}
+
 @media only screen and (min-device-width:320px){
   .col-offset-90 {
       margin-left: 80%;
