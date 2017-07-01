@@ -9,7 +9,7 @@
 			<img ng-show="imgURItemp === undefined" ng-src="{{ fotoProducto || './img/noFoto.png' }}" alt="{{altNombreFoto}}" ng-click="verFoto()">
 			<button id="btnHacerFoto" class="button icon button-positive icon ion-camera" ng-click="openPopoverFoto($event)"></button>
 		</div>
-		<div class="item item-divider">Datos producto</div>
+		<div class="item item-divider">Datos del producto</div>
 			<div class="list">
 
 				<label class="item item-input">
@@ -22,30 +22,38 @@
 						<input type="text" name="nombreMarca" ng-model="datosProducto.nombreMarca" ng-disabled="nombreMarca.$invalid = true">
 				</label>
 
-				<label class="item item-input">
-						<span class="input-label"><b>Nombre producto:</b></span>
-						<input type="text" name="nombreProducto" ng-model="datosProducto.nombreElemento" ng-disabled="nombreProducto.$invalid = true">
-				</label>
+
+				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : formPerfilProducto.nombreProducto.$invalid && visitednombreProducto}">
+					 <label class="item-input-wrapper item-input" style="background-color: white;">
+							<span class="input-label"><b>Nombre producto:</b></span>
+							<input type="text" name="nombreProducto" ng-model="datosProducto.nombreElemento" ng-blur="visitednombreProducto = true" required>
+					</label>
+
+				    <button class="button button-small button-positive icon ion-edit" type="button" ng-disabled="formPerfilProducto.nombreProducto.$invalid" ng-click="clickModificarNombreProducto(datosProducto.nombreElemento)"> Cambiar nombre</button>
+ 			 	</div>
+		 		<div ng-show="formPerfilProducto.nombreProducto.$invalid && visitednombreProducto">
+					<span class="errorMensajeForm" ng-show="formPerfilProducto.nombreProducto.$error.required">El campo no se puede dejar vacío.</span>
+    			</div>
 
 				<label class="item item-input">
-						<span class="input-label"><b>Unides stock:</b></span>
+						<span class="input-label"><b>Unidades en stock:</b></span>
 						<input type="text" name="unidades" ng-model="datosProducto.cantidadStock" ng-disabled="unidades.$invalid = true">
 				</label>
 
 				<div class="item item-input-inset" ng-class="{ 'errorCampoForm' : formPerfilProducto.precioVentaUnd.$invalid && visitedPrevioVenta}">
-					 <label class="item-input-wrapper item-input item-stacked-label" style="background-color: white;">
-							<span class="input-label"><b>VentaPrecio/Und:</b><span class="asteriscoObligatorio">*</span></span>
+					 <label class="item-input-wrapper item-input" style="background-color: white;">
+							<span class="input-label"><b>Venta Precio/Und:</b></span>
 							<input type="number" name="precioVentaUnd" ng-model="datosProducto.precioVenta" ng-blur="visitedPrevioVenta = true" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
 					</label>
 
-				    <button class="button button-small button-positive icon ion-edit" type="button" ng-disabled="formPerfilProducto.$invalid" ng-click="clickModificarPrecioVenta(datosProducto.precioVenta)"> Guardar cambios</button>
+				    <button class="button button-small button-positive icon ion-edit" type="button" ng-disabled="formPerfilProducto.precioVentaUnd.$invalid" ng-click="clickModificarPrecioVenta(datosProducto.precioVenta)"> Cambiar precio</button>
  			 	</div>
 		 		<div ng-show="formPerfilProducto.precioVentaUnd.$invalid && visitedPrevioVenta">
-					<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.required">Campo obligatorio.</span>
+					<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.required">El campo no se puede dejar vacío.</span>
 					<span class="errorMensajeForm" ng-show="formPerfilProducto.precioVentaUnd.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
     			</div>
 
-			  	<div class="item item-divider">Datos compra</div>
+			  	<div class="item item-divider">Historial de compras</div>
 
 				<div ng-if="noCompras==1">
 					<div class="card" ng-class="animacion">
@@ -59,7 +67,7 @@
 				<div ng-if="noCompras!=1">
 					<ion-list>
 						<ion-item ng-repeat = "itemProducto in productosCompra" for={{itemProducto}}>
-							<div class="row responsive-sm">
+							<div class="row responsive-md">
 								<div class="col-5">
 									 <label class="numeracionServCliente">{{$index+1}}.</label>
 								</div>
@@ -93,7 +101,7 @@
 					</ion-list>
 				</div>
 
-				<div class="item item-divider">Datos venta</div>
+				<div class="item item-divider">Historial de ventas</div>
 
 				<div ng-if="noVentas==1">
 					<div class="card" ng-class="animacion">
@@ -107,7 +115,7 @@
 				<div ng-if="noVentas!=1">
 					<ion-list>
 						<ion-item ng-repeat = "itemProducto in productosVenta" for={{itemProducto}}>
-							<div class="row responsive-sm">
+							<div class="row responsive-md">
 								<div class="col-5">
 									 <label class="numeracionServCliente">{{$index+1}}.</label>
 								</div>

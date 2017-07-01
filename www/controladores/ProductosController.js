@@ -190,6 +190,15 @@ angular.module('starterMiApp.contrsProductos', [])
 		});
 	}
 
+	
+
+	$scope.clickModificarNombreProducto = function(nuevoNombre)
+	{
+		servProductos.modificarNombreProducto(idProducto,nuevoNombre).then(function(){
+			$state.go('sidemenu.productos',null,{reload:true});
+		});
+	}
+
 	var plantillaPopover = '<ion-popover-view style="height: 114px;">'+
     '<ion-content scroll="false">'+
         '<div class="list">'+

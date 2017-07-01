@@ -269,9 +269,39 @@ text-transform: capitalize;
   max-width: 18%;
 }
 
+  .micol-15{
+  max-width: 15%;
+}
+
+  .micol-20{
+  max-width: 20%;
+}
+
   .micol-22{
   max-width: 22%;
 }
+
+  .micol-25{
+  max-width: 25%;
+}
+
+  .micol-28{
+  max-width: 28%;
+}
+
+  .micol-50{
+  max-width: 50%;
+}
+
+  .precioTotalVenta{
+  max-width: 35%;
+  margin-top: -21px;
+}
+
+
+
+
+
 
 
 }

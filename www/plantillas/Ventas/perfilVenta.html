@@ -46,7 +46,7 @@
 							<div class="row responsive-lg">
 
 								<!-- Boton todoList eliminar servicio -->
-								<div class="col-10" style="max-width: 3%">
+								<div class="col-10" style="max-width: 3.5%">
 									<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarServicio($index,todoItem.id_lineaVentas,todoItem.idElemento,todoItem.nombreServicio,todoItem.nombreElemento)"></button>
 			          			</div>
 
@@ -77,7 +77,7 @@
 								  	</label>
 			          			</div>
 
-							  <div class="col">
+							  <div class="col mi-col20">
 								  	<label class="item item-input">
 										<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
 										<input type="number" name="precioVenta{{$index}}" ng-model="todoItem.precioVenta" ng-change="calcularPrecioTotal($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
@@ -112,11 +112,11 @@
 						<div class="row responsive-lg">
 						
 							<!-- Boton todolist eliminar producto -->
-							<div class="col-10" style="max-width: 3%">
+							<div class="col-10" style="max-width: 3.5%">
 								<button class="btnTodo button button-assertive icon ion-minus-round" style="margin-left: -16px" ng-click="eliminarProducto($index,todoItem.id_lineaVentas,todoItem.idElemento,todoItem.nombre,todoItem.nombreProducto)"></button>
 		          			</div>
 
-		          			<div class="col">
+		          			<div class="col micol-28">
 				          		<label class="item item-input item-select">
 								    <div class="input-label"><b>Marca:</b><span class="asteriscoObligatorio">*</span></div>
 								    <select name="marca{{$index}}" ng-model="todoItem.marca" ng-change="getIdMarca(todoItem.marca,{{$index}})" ng-options="marcas.nombre group by marcas.nombreProveedor for marcas in marcas track by marcas.nombre" required>
@@ -134,7 +134,7 @@
 							  	</label>
 		          			</div>
 
-		          			<div class="col">
+		          			<div class="col micol-15">
 							  	<label class="item item-input">
 									<span class="input-label"><b>Unidades:</b><span class="asteriscoObligatorio">*</span></span>
 									<input type="number" name="unidades{{$index}}" ng-change="calcularPrecioTotal($index)" ng-model="todoItem.unidades" ng-pattern="/^[1-9]\d*$/" required>
@@ -145,7 +145,7 @@
 			            		</div>
 						  	</div>
 
-						  	<div class="col">
+						  	<div class="col micol-20">
 							  	<label class="item item-input">
 									<span class="input-label"><b>Precio venta:</b><span class="asteriscoObligatorio">*</span></span>
 									<input type="number" name="precioVentaProducto{{$index}}" ng-model="todoItem.precioVentaProducto" ng-change="calcularPrecioTotal($index)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
@@ -177,7 +177,7 @@
 
 			<div ng-if="todoListServicios != '' || todoListProductos != ''">
 				<div class="row responsive-lg">
-					<div class="col">
+					<div class="col micol-15">
 					  	<label class="item item-input">
 							<span class="input-label"><b>Descuento:</b></span>
 							<input type="number" name="descuento" ng-model="form.descuento" ng-blur="aplicarDescuento(form.descuento)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
@@ -186,7 +186,7 @@
 	        				<span class="errorMensajeForm" ng-show="perfilVentaForm.descuento.$error.pattern">No se admiten numeros negativos y solo dos decimales.</span>
 	            		</div>
 					</div>
-					<div class="col">
+					<div class="col micol-50">
 
 					<label class="item item-input">
 						<span class="input-label">Observaciones:</span>
@@ -195,7 +195,7 @@
       					</textarea>
 					</label>
 					</div>
-					<div class="col" style="margin-top: -21px;">
+					<div class="col precioTotalVenta">
 						<div class="card">
 						  <div class="item item-divider">
 						    Precio total

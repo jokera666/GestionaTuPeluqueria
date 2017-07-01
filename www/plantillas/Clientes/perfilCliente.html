@@ -52,11 +52,11 @@
   				<ion-radio ng-model="form.idTipo" ng-init="idTipo = -77" ng-value="-77"><b>Cliente genérico</b></ion-radio>
 
 				<div ng-if="noElementosComperciales!=-1">
-			        <div class="row row-center responsive-md">
+			        <div class="row row-center responsive-lg">
 				        <div class="col">
 				        	<button class="button icon ion-chevron-left" ng-click="nextSlide()"></button>
 				        </div>
-				        <div class="col-90">
+				        <div class="col-90" style="max-width: 86%;">
 							<!-- ng-if='elementosComerciales' es la solucion de bug del scroll refresh view -->
 							<ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false" ng-if='elementosComerciales'>
 							  <ion-slide ng-repeat="item in elementosComerciales track by $index">
@@ -65,14 +65,12 @@
 									
 									<div class="item item-divider item-text-wrap">Servicios utilizados en {{fechaVenta | date:'dd/MM/yyyy'}} con Nº Venta: {{numVenta}}</div>
 									  <div class="item item-text-wrap" 
-									  	   ng-repeat="item1 in elementosComerciales[$index] | filter: { nombreServicio: '' }">
-									  	   {{item1.idVenta}} <b>Sección: </b>{{item1.nombreSeccion}} <b>Servicio: </b>{{item1.nombreServicio}} {{item1.nombreElemento}} <b>Precio de venta: </b>{{item1.precioVentaUnd | currency:"€"}}
+									  	   ng-repeat="item1 in elementosComerciales[$index] | filter: { nombreServicio: '' }"><b>Sección: </b>{{item1.nombreSeccion}} <b>Servicio: </b>{{item1.nombreServicio}} {{item1.nombreElemento}} <b>Precio de venta: </b>{{item1.precioVentaUnd | currency:"€"}}
 									  </div>
 									  
 									  <div class="item item-divider item-text-wrap">Productos adquiridos en {{fechaVenta | date:'dd/MM/yyyy'}} con Nº Venta: {{numVenta}}</div>
 									 <div class="item item-text-wrap" 
-									 	  ng-repeat="item1 in elementosComerciales[$index] | filter: { nombreProducto: '' }">
-									    {{item1.idVenta}} <b>Nombre: </b>{{item1.nombreMarca}} {{item1.nombreProducto}}  <b>Unidades: </b>{{item1.cantidad}} <b>Precio de venta: </b>{{item1.precioVentaUndProducto | currency:"€"}}
+									 	  ng-repeat="item1 in elementosComerciales[$index] | filter: { nombreProducto: '' }"><b>Nombre: </b>{{item1.nombreMarca}} {{item1.nombreProducto}}  <b>Unidades: </b>{{item1.cantidad}} <b>Precio de venta: </b>{{item1.precioVentaUndProducto | currency:"€"}}
 									  </div>
 
 									  	<div class="item item-divider">Observaciones</div>
@@ -92,7 +90,7 @@
 
 						</div>
 
-				        <div class="col col col-offset-70">
+				        <div class="col">
 				        	<button id="butonDerecha" class="button icon ion-chevron-right" ng-click="previousSlide()"></button>
 				        </div>
 					</div> <!-- Fin Slide box -->

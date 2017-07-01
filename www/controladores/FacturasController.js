@@ -554,7 +554,7 @@ angular.module('starterMiApp.contrsFacturas', [])
               if (e)
               {              
                   servCompras.modificarPerfilFactura(form).then(function(servResponse){
-                    $state.go($state.current,null,{reload:true});
+                    $state.go('sidemenu.facturas',null,{reload:true});
                   });
               }
             }

@@ -6,6 +6,7 @@ angular.module('starterMiApp.servsProductos', [])
 		listarProductos: listProducts,
 		listarPerfilProducto: listProductProfile,
 		modificarPrecioVenta: editProductPrice,
+		modificarNombreProducto: editProductName,
 		eliminarProducto: deleteProduct
 	}
 
@@ -60,6 +61,28 @@ angular.module('starterMiApp.servsProductos', [])
 
 		var url = 'http://gestionestetica.fonotecaumh.es/Productos/modificarPrecioVenta.php';
 		var data = {'idProducto':idProducto,'precioVenta':precioVenta};
+		var config = {
+			headers : {'Content-Type' : 'application/json'}
+		}
+
+		$http.post(url,data,config)
+			.success(function(response){
+				defered.resolve(response);
+			})
+			.error(function(err){
+				defered.reject(err);
+			});
+
+		return promesa;
+	}
+
+	function editProductName(idProducto,nombre)
+	{
+		var defered = $q.defer();
+		var promesa = defered.promise;
+
+		var url = 'http://gestionestetica.fonotecaumh.es/Productos/modificarNombreProducto.php';
+		var data = {'idProducto':idProducto,'nombreProducto':nombre};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
 		}
