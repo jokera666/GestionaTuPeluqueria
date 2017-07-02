@@ -119,6 +119,10 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
           navigator.app.backHistory();
         break;
 
+        case "sidemenu.perfilVenta":
+          navigator.app.backHistory();
+        break;
+
         case "sidemenu.perfilProducto":
           navigator.app.backHistory();
         break;

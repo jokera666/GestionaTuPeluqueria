@@ -1,15 +1,29 @@
-	<ion-content class="padding ">
 
-    <ion-list class="list" show-reorder="data.showReorder"> 
-      <ion-item class="item-thumbnail-left item-text-wrap"
-          ng-repeat="item in ayuda1"
-          ng-click="toggleDescripcion(item)"
-          ng-class="{'noresumido' : item.resumido}"
-           >
-        <p ng-show="!item.resumido">{{item.descripcion | limitTo: 85}}
-          {{item.descripcion.length > 85 ?  '&hellip;':'' }}</p>
-        <p ng-show="item.resumido">{{item.descripcion}}</p>
-      </ion-item>
+    <ion-list>
+      <div class="item item-divider">Agenda</div> 
+        <ion-item class="item-text-wrap">
+          En la opción <b>Agenda</b> podrá añadir y gestionar las citas previas de los clientes.
+        </ion-item>
+      <div class="item item-divider">Clientes</div> 
+        <ion-item class="item-text-wrap">
+          En la opción <b>Clientes</b> podrá obtener un listado de todos los clientes dados de alta en la aplicación y ver el perfil de cada uno con su información e historial de los productos y/o servicios adquiridos en el centro.
+          <br /><br /> 
+          <b>Clientes existentes:</b> son los clientes dados previamente en la opción de Clientes.
+          <br /><br />
+          <b>Clientes genéricos</b>: son los clientes que no tienen ficha y se dan de alta directamente solo con el nombre y apellido dentro de la opción Caja o Añadir cita.
+        </ion-item>
+      <div class="item item-divider">Secciones y servicios</div>
+        <ion-item class="item-text-wrap">
+          Las secciones son las agrupaciones de los servicios prestados por el centro es decir: (La sección <b>Peluquería</b>  contiene el servicio <b>Corte de pelo</b> y este servicio tendrá diferentes <b>categorías con sus precios</b> por ejemplo <b>Hombre 10€</b>, <b>Mujer 12€</b> y <b>Niño 5€</b>).
+        </ion-item>
+      <div class="item item-divider">Compras</div>
+        <ion-item class="item-text-wrap">
+        <b>En compras (facturas recibidas) se podrán añadir las facturas recibidas por los proveedores del centro, de esta manera se podrá dar de alta un producto.</b> A la hora de dar de alta una factura nueva la introducción del <b>precio de compra del producto se deberá de introducir sin IVA</b> ya que posteriormente la aplicación aplicaría el IVA automáticamente. El precio de venta que se vaya a introducir tendrá que ser el PVP que podrá ser modificado en el perfil del producto en cualquier momento. 
+        </ion-item>
+      <div class="item item-divider">Ventas</div>
+        <ion-item class="item-text-wrap">
+        En la opción <b>Caja</b>  se podrá realizar una venta (factura emitida) y también desde la opción  Agenda seleccionando una cita en el calendario. <b>Para poder realizar una venta el gestor de la App deberá de dar de alta previamente al menos un producto o servicio y un empleado.</b>  En la opción Ventas se visualizaran todas las facturas emitidas durante la última semana o modificando el periodo con las fechas de inicio y fin.     
+        </ion-item>
     </ion-list>
-  </ion-content>
-      <a class="button button-full button-balanced icon-left ion-email" href="mailto:jokera666@gmail.com" target="_blank"> Contacte con el administrador</a>
+    
+    <a class="button button-full button-balanced icon-left ion-email" href="mailto:jokera666@gmail.com" target="_blank"> Contacte con el administrador</a>

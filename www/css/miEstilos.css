@@ -5,6 +5,14 @@
 	font-weight: bold;
 }
 
+.contactoLogin{
+  bottom: 5%; 
+  position: fixed; 
+  right: 5%; 
+  font-size: 20px;
+  padding: inherit;
+}
+
 .msgErrorNombre{
   color: black;
   text-decoration: underline;
