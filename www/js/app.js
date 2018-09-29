@@ -145,6 +145,8 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
               hideOnStateChange: true
   })
 
+.constant('baseURL','http://gestionestetica.huxeffect.com/appBackEnd/')
+
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
   $ionicConfigProvider.navBar.alignTitle('center');
@@ -152,7 +154,6 @@ angular.module('starterMiApp', ['ionic','ngAnimate','ngMessages','ui.calendar','
   // con false da problemas en el scrolling del sidemenu
   $ionicConfigProvider.scrolling.jsScrolling(true);
   $ionicConfigProvider.views.maxCache(0);
-
   
   $stateProvider
 

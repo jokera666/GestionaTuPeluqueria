@@ -55,7 +55,7 @@ angular.module('starterMiApp.contrsClientes', [])
 
 }]) // Fin ClientesCtrl
 
-.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicSlideBoxDelegate','$ionicSideMenuDelegate', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicSlideBoxDelegate,$ionicSideMenuDelegate){
+.controller('ClientePerfilCtrl', ['$scope','$state','$stateParams','$ionicLoading','$ionicPopup','servClientes','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicSlideBoxDelegate','$ionicSideMenuDelegate', 'baseURL', function($scope,$state,$stateParams,$ionicLoading,$ionicPopup,servClientes,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicSlideBoxDelegate,$ionicSideMenuDelegate,baseURL){
 
     var idCliente = $stateParams.idCliente;
     $ionicSlideBoxDelegate.update();
@@ -240,7 +240,7 @@ angular.module('starterMiApp.contrsClientes', [])
                 mimeType: "image/jpg",
                 params : {'idCli':idCliente}
             };
-            $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Clientes/subirFoto.php",imageData, options).then(function(result) {
+            $cordovaFileTransfer.upload(baseURL+"Clientes/subirFoto.php",imageData, options).then(function(result) {
                 //console.log("SUCCESS: " + JSON.stringify(result.response));
                 $scope.opciones = result.response;
                 $state.go($state.current,null,{reload:true});

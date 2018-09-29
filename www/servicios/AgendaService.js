@@ -1,7 +1,7 @@
 angular.module('starterMiApp.servsAgenda', [])
 
 
-.service('servAgenda',['$q','$http', function($q, $http){
+.service('servAgenda',['$q','$http', 'baseURL', function($q, $http, baseURL){
     return{
         listarCitas:    listBookings,
         insertarCita:   addBooking,
@@ -14,7 +14,7 @@ angular.module('starterMiApp.servsAgenda', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Agenda/listarCitas.php";
+        var url = baseURL+"Agenda/listarCitas.php";
         var data = {'idUser':id};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -35,7 +35,7 @@ angular.module('starterMiApp.servsAgenda', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Agenda/insertarCita.php";
+        var url = baseURL+"Agenda/insertarCita.php";
         var data = datosForm;
         var config = {
             headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
@@ -56,7 +56,7 @@ angular.module('starterMiApp.servsAgenda', [])
         var defered = $q.defer();
         var promesa = defered.promise;
         
-        var url ="http://gestionestetica.fonotecaumh.es/Agenda/ModificarCita.php";
+        var url = baseURL+"Agenda/ModificarCita.php";
         var data = datosForm;
         var config = {
             headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
@@ -77,7 +77,7 @@ angular.module('starterMiApp.servsAgenda', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url ="http://gestionestetica.fonotecaumh.es/Agenda/BorrarCita.php";
+        var url = baseURL+"Agenda/BorrarCita.php";
         var data = {'idCita':id};
         var config = {
             headers : {'Content-Type' : 'application/json'}

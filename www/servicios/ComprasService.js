@@ -1,6 +1,6 @@
 angular.module('starterMiApp.servsCompras', [])
 
-.service('servCompras', ['$q', '$http', function($q, $http){
+.service('servCompras', ['$q', '$http', 'baseURL', function($q, $http, baseURL){
 	
 	return{
 		listarFacturas: listInvoice,
@@ -18,7 +18,7 @@ angular.module('starterMiApp.servsCompras', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/listarFacturas.php';
+		var url = baseURL+'ComprasFacturas/listarFacturas.php';
 		var data = {'idRol':idRol,'getBy':getBy};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -40,7 +40,7 @@ angular.module('starterMiApp.servsCompras', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/insertarFactura.php';
+		var url = baseURL+'ComprasFacturas/insertarFactura.php';
 		var data = datosForm;
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -62,7 +62,7 @@ angular.module('starterMiApp.servsCompras', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/listarMarcas.php';
+		var url = baseURL+'ComprasFacturas/listarMarcas.php';
 		var data = {'idRol':idRol,'getBy':getBy};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -84,7 +84,7 @@ angular.module('starterMiApp.servsCompras', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/listarPerfilFactura.php';
+		var url = baseURL+'ComprasFacturas/listarPerfilFactura.php';
 		var data = {'idCompra':idCompra};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -106,7 +106,7 @@ angular.module('starterMiApp.servsCompras', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/eliminarLineaFactura.php';
+		var url = baseURL+'ComprasFacturas/eliminarLineaFactura.php';
 		var data = {'idCompra':idCompra,'idLinea':idLinea,'idProducto':idProducto,'unidades':unidades};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -128,7 +128,7 @@ angular.module('starterMiApp.servsCompras', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/modificarPerfilFactura.php';
+		var url = baseURL+'ComprasFacturas/modificarPerfilFactura.php';
 		var data = datosForm;
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -150,7 +150,7 @@ angular.module('starterMiApp.servsCompras', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/ComprasFacturas/eliminarFactura.php';
+		var url = baseURL+'ComprasFacturas/eliminarFactura.php';
 		var data = datosForm;
 		var config = {
 			headers : {'Content-Type' : 'application/json'}

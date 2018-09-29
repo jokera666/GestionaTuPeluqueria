@@ -1,6 +1,6 @@
 angular.module('starterMiApp.servsServicios', [])
 
-.service('servServicios',['$q','$http', function($q,$http){
+.service('servServicios',['$q','$http', 'baseURL', function($q, $http, baseURL){
 	return{
 		nombreServicio: nameService,
     listarPerfilServicio: listProfileService,
@@ -15,7 +15,7 @@ angular.module('starterMiApp.servsServicios', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = "http://gestionestetica.fonotecaumh.es/Servicios/listarServicios.php";
+		var url = baseURL+"Servicios/listarServicios.php";
         var data = {'idSeccion':idSeccion};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -37,7 +37,7 @@ angular.module('starterMiApp.servsServicios', [])
       var defered = $q.defer();
       var promesa = defered.promise;
 
-      var url = "http://gestionestetica.fonotecaumh.es/Servicios/listarPerfilServicio.php";
+      var url = baseURL+"Servicios/listarPerfilServicio.php";
       var data = {'idSeccion':idSeccion,'nombreServicio':nombreServicio};
       var config = {
           headers : {'Content-Type' : 'application/json'}
@@ -60,7 +60,7 @@ angular.module('starterMiApp.servsServicios', [])
       var defered = $q.defer();
       var promesa = defered.promise;
 
-      var url = "http://gestionestetica.fonotecaumh.es/Servicios/insertarServicios.php";
+      var url = baseURL+"Servicios/insertarServicios.php";
       var data = datosForm;
       var config = {
           headers : {'Content-Type' : 'application/json'}
@@ -82,7 +82,7 @@ angular.module('starterMiApp.servsServicios', [])
     var defered = $q.defer();
     var promesa = defered.promise;
 
-    var url = 'http://gestionestetica.fonotecaumh.es/Servicios/modificarServicio.php';
+    var url = baseURL+'Servicios/modificarServicio.php';
     var data = datosForm;
     var config = {
       headers : { 'Content-Type' : 'application/json'}
@@ -105,7 +105,7 @@ angular.module('starterMiApp.servsServicios', [])
     var defered = $q.defer();
     var promesa = defered.promise;
 
-    var url = 'http://gestionestetica.fonotecaumh.es/Servicios/eliminarServicio.php';
+    var url = baseURL+'Servicios/eliminarServicio.php';
     var data = datosForm;
     var config = {
       headers : { 'Content-Type' : 'application/json'}
@@ -127,7 +127,7 @@ angular.module('starterMiApp.servsServicios', [])
     var defered = $q.defer();
     var promesa = defered.promise;
 
-    var url = "http://gestionestetica.fonotecaumh.es/Servicios/eliminarCategoria.php";
+    var url = baseURL+"Servicios/eliminarCategoria.php";
         var data = {'idCategoria':id};
         var config = {
             headers : {'Content-Type' : 'application/json'}

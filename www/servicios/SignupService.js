@@ -1,7 +1,7 @@
 angular.module('starterMiApp.servsSignup', [])
 
 
-.service('servSignup',['$q','$http', function($q, $http){
+.service('servSignup',['$q','$http','baseURL', function($q, $http, baseURL){
     return{
         registrarUsuario: signUp
     }
@@ -11,7 +11,7 @@ angular.module('starterMiApp.servsSignup', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Signup.php";
+        var url = baseURL+"Signup.php";
         var data = datosForm;
         var config = {
             headers : {'Content-Type' : 'application/json'}

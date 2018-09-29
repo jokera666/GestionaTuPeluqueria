@@ -1,7 +1,7 @@
 angular.module('starterMiApp.servsUsuario', [])
 
 
-.service('servUsuario',['$q','$http', function($q, $http){
+.service('servUsuario',['$q','$http', 'baseURL', function($q, $http, baseURL){
     return{
         listarUsuario: listUser,
         modificarPerfilUsuario: editUserProfile,
@@ -13,7 +13,7 @@ angular.module('starterMiApp.servsUsuario', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Usuarios/listarUsuario.php";
+        var url = baseURL+"Usuarios/listarUsuario.php";
         var data = {'idUser':idUser};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -34,7 +34,7 @@ angular.module('starterMiApp.servsUsuario', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Usuarios/modificarPerfilUsuario.php";
+        var url = baseURL+"Usuarios/modificarPerfilUsuario.php";
         var data = formData;
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -55,7 +55,7 @@ angular.module('starterMiApp.servsUsuario', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Usuarios/eliminarCuentaUsuario.php";
+        var url = baseURL+"Usuarios/eliminarCuentaUsuario.php";
         var data = {'idUser':idUser};
         var config = {
             headers : {'Content-Type' : 'application/json'}

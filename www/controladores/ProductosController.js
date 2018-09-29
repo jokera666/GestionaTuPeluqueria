@@ -81,7 +81,7 @@ angular.module('starterMiApp.contrsProductos', [])
 
 }]) // Fin ProductosCtrl
 
-.controller('ProductoPerfilCtrl', ['$scope', '$state','$stateParams','$ionicPopover','$cordovaCamera','$cordovaFileTransfer','$ionicLoading','$ionicPopup','$ionicModal','servCompras','servProductos', function($scope, $state,$stateParams,$ionicPopover,$cordovaCamera,$cordovaFileTransfer,$ionicLoading,$ionicPopup,$ionicModal,servCompras,servProductos){
+.controller('ProductoPerfilCtrl', ['$scope', '$state','$stateParams','$ionicPopover','$cordovaCamera','$cordovaFileTransfer','$ionicLoading','$ionicPopup','$ionicModal','servCompras','servProductos', 'baseURL', function($scope, $state,$stateParams,$ionicPopover,$cordovaCamera,$cordovaFileTransfer,$ionicLoading,$ionicPopup,$ionicModal,servCompras,servProductos,baseURL){
     
 	$scope.animacion = "hide";
 	var sesionIdUser = localStorage.getItem("idUser");
@@ -264,7 +264,7 @@ angular.module('starterMiApp.contrsProductos', [])
 	            mimeType: "image/jpg",
 	            params : {'idPro':idProducto}
 	        };
-	        $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Productos/subirFoto.php",imageData, options).then(function(result) {
+	        $cordovaFileTransfer.upload(baseURL+"Productos/subirFoto.php",imageData, options).then(function(result) {
 	            //console.log("SUCCESS: " + JSON.stringify(result.response));
 	            $scope.opciones = result.response;
 	            $state.go($state.current,null,{reload:true});

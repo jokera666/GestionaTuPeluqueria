@@ -1,6 +1,6 @@
 angular.module('starterMiApp.servsProductos', [])
 
-.service('servProductos', ['$q', '$http', function($q, $http){
+.service('servProductos', ['$q', '$http', 'baseURL', function($q, $http, baseURL){
 	
 	return{
 		listarProductos: listProducts,
@@ -15,7 +15,7 @@ angular.module('starterMiApp.servsProductos', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Productos/listarProductos.php';
+		var url = baseURL+'Productos/listarProductos.php';
 		var data = {'idMarca':idMarca};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -37,7 +37,7 @@ angular.module('starterMiApp.servsProductos', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Productos/listarPerfilProducto.php';
+		var url = baseURL+'Productos/listarPerfilProducto.php';
 		var data = {'idProducto':idProducto};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -59,7 +59,7 @@ angular.module('starterMiApp.servsProductos', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Productos/modificarPrecioVenta.php';
+		var url = baseURL+'Productos/modificarPrecioVenta.php';
 		var data = {'idProducto':idProducto,'precioVenta':precioVenta};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -81,7 +81,7 @@ angular.module('starterMiApp.servsProductos', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Productos/modificarNombreProducto.php';
+		var url = baseURL+'Productos/modificarNombreProducto.php';
 		var data = {'idProducto':idProducto,'nombreProducto':nombre};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -103,7 +103,7 @@ angular.module('starterMiApp.servsProductos', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Productos/eliminarProducto.php';
+		var url = baseURL+'Productos/eliminarProducto.php';
 		var data = {'idProducto':idProducto};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}

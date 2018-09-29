@@ -1,7 +1,7 @@
 angular.module('starterMiApp.servsVentas', [])
 
 
-.service('servVentas',['$q','$http', function($q, $http){
+.service('servVentas',['$q','$http', 'baseURL', function($q, $http, baseURL){
     return{
         insertarVenta: insertSell,
         listarVentas: listSells,
@@ -18,7 +18,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Ventas/insertarVenta.php";
+        var url = baseURL+"Ventas/insertarVenta.php";
         var data = datosForm;
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -40,7 +40,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Ventas/listarVentas.php";
+        var url = baseURL+"Ventas/listarVentas.php";
         var data = {'idUser':id, 'ini':fechaIni,'fin':FechaFin};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -62,7 +62,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Ventas/listarCabeceraVenta.php";
+        var url = baseURL+"Ventas/listarCabeceraVenta.php";
         var data = {'idVenta':idVenta};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -84,7 +84,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Ventas/listarServiciosVenta.php";
+        var url = baseURL+"Ventas/listarServiciosVenta.php";
         var data = {'idVenta':idVenta};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -106,7 +106,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Ventas/listarProductosVenta.php";
+        var url = baseURL+"Ventas/listarProductosVenta.php";
         var data = {'idVenta':idVenta};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -128,7 +128,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Ventas/modificarVenta.php";
+        var url = baseURL+"Ventas/modificarVenta.php";
         var data = datosForm;
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -150,7 +150,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = 'http://gestionestetica.fonotecaumh.es/Ventas/eliminarLineaVenta.php';
+        var url = baseURL+'Ventas/eliminarLineaVenta.php';
         var data = {'idVenta':idVenta,'idLinea':idLinea,'idElemento':idElemento};
         var config = {
             headers : {'Content-Type' : 'application/json'}
@@ -172,7 +172,7 @@ angular.module('starterMiApp.servsVentas', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Ventas/eliminarVenta.php";
+        var url = baseURL+"Ventas/eliminarVenta.php";
         var data = {'idVenta':id};
         var config = {
             headers : {'Content-Type' : 'application/json'}

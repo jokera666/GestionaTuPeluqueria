@@ -1,7 +1,7 @@
 angular.module('starterMiApp.servsLogin', [])
 
 
-.service('servLogin',['$q','$http', function($q, $http){
+.service('servLogin',['$q','$http','baseURL', function($q, $http,baseURL){
     return{
         iniciarSesion: startSession
     }
@@ -10,8 +10,7 @@ angular.module('starterMiApp.servsLogin', [])
     {
         var defered = $q.defer();
         var promesa = defered.promise;
-
-        var url = "http://gestionestetica.fonotecaumh.es/Login.php";
+        var url = baseURL+"Login.php";
         var data = datosForm;
         var config = {
             headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
@@ -29,7 +28,7 @@ angular.module('starterMiApp.servsLogin', [])
 
 }])
 
-.service('servLogout', ['$q','$http', function($q, $http){
+.service('servLogout', ['$q','$http', 'baseURL', function($q, $http, baseURL){
 
     return{
         cerrarSesion:closeSession
@@ -40,7 +39,7 @@ angular.module('starterMiApp.servsLogin', [])
         var defered = $q.defer();
         var promesa = defered.promise;
 
-        var url = "http://gestionestetica.fonotecaumh.es/Logout.php";
+        var url = baseURL+"Logout.php";
         var data = null;
         var config = {
             headers : {'Content-Type' : 'application/x-www-form-urlencoded'}

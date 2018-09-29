@@ -1,6 +1,6 @@
 angular.module('starterMiApp.servsSecciones', [])
 
-.service('servSecciones', ['$q','$http', function($q,$http){
+.service('servSecciones', ['$q','$http', 'baseURL', function($q, $http, baseURL){
 	return{
 		listarSecciones: 	getSections,
 		modificarSeccion: 	updateSection,
@@ -13,7 +13,7 @@ angular.module('starterMiApp.servsSecciones', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Secciones/listarSecciones.php';
+		var url = baseURL+'Secciones/listarSecciones.php';
 		var data = {'idUser':idUsuario};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -35,7 +35,7 @@ angular.module('starterMiApp.servsSecciones', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Secciones/modificarSeccion.php';
+		var url = baseURL+'Secciones/modificarSeccion.php';
 		var data = datosForm;
 		var config = {
 			header : {'Content-Type' : 'application/json'}
@@ -57,7 +57,7 @@ angular.module('starterMiApp.servsSecciones', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Secciones/insertarSeccion.php';
+		var url = baseURL+'Secciones/insertarSeccion.php';
 		var data = datosForm;
 		var config = {
 			header : {'Content-Type' : 'application/json'}
@@ -79,7 +79,7 @@ angular.module('starterMiApp.servsSecciones', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Secciones/eliminarSeccion.php';
+		var url = baseURL+'Secciones/eliminarSeccion.php';
 		var data = {'idSeccion':idSection};
 		var config = {
 			header : {'Content-Type' : 'application/json'}

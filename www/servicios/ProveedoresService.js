@@ -1,6 +1,6 @@
 angular.module('starterMiApp.servsProveedores', [])
 
-.service('servProveedores', ['$q', '$http', function($q, $http){
+.service('servProveedores', ['$q', '$http', 'baseURL', function($q, $http, baseURL){
 
 	return{
 		listarProveedores: listProviders,
@@ -18,7 +18,7 @@ angular.module('starterMiApp.servsProveedores', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/listarProveedores.php';
+		var url = baseURL+'Proveedores/listarProveedores.php';
 		var data = {'idUser':idUsuario,'parametro':parametro};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -40,7 +40,7 @@ angular.module('starterMiApp.servsProveedores', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/listarPerfilProveedor.php';
+		var url = baseURL+'Proveedores/listarPerfilProveedor.php';
 		var data = {'idProoveedor':idProveedor};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -62,7 +62,7 @@ angular.module('starterMiApp.servsProveedores', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/insertarProveedor.php';
+		var url = baseURL+'Proveedores/insertarProveedor.php';
 		var data = datosForm;
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -84,7 +84,7 @@ angular.module('starterMiApp.servsProveedores', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/modificarProveedor.php';
+		var url = baseURL+'Proveedores/modificarProveedor.php';
 		var data = datosForm;
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -106,7 +106,7 @@ angular.module('starterMiApp.servsProveedores', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/eliminarProveedor.php';
+		var url = baseURL+'Proveedores/eliminarProveedor.php';
 		var data = {'idProvee':idProveedor};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}
@@ -128,7 +128,7 @@ angular.module('starterMiApp.servsProveedores', [])
 		var defered = $q.defer();
 		var promesa = defered.promise;
 
-		var url = 'http://gestionestetica.fonotecaumh.es/Proveedores/eliminarMarca.php';
+		var url = baseURL+'Proveedores/eliminarMarca.php';
 		var data = {'idMarca':idMarca};
 		var config = {
 			headers : {'Content-Type' : 'application/json'}

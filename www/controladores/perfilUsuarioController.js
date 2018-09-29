@@ -1,6 +1,6 @@
 angular.module('starterMiApp.contrsPerfilUsuario', [])
 
-.controller('perfilUsuarioCtrl', ['$scope','$state','$stateParams','$ionicLoading','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicPopup','servUsuario','servLogout', function($scope,$state,$stateParams,$ionicLoading,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicPopup,servUsuario,servLogout){
+.controller('perfilUsuarioCtrl', ['$scope','$state','$stateParams','$ionicLoading','$cordovaCamera','$cordovaFileTransfer','$ionicModal','$ionicPopover','$ionicPopup','servUsuario','servLogout', 'baseURL', function($scope,$state,$stateParams,$ionicLoading,$cordovaCamera,$cordovaFileTransfer,$ionicModal,$ionicPopover,$ionicPopup,servUsuario,servLogout,baseURL){
 
   var idUsuario = localStorage.getItem("idUser");
   var formOriginal = '';
@@ -195,7 +195,7 @@ angular.module('starterMiApp.contrsPerfilUsuario', [])
                 mimeType: "image/jpg",
                 params : {'idUser':idUsuario}
             };
-            $cordovaFileTransfer.upload("http://gestionestetica.fonotecaumh.es/Usuarios/subirFoto.php",imageData, options).then(function(result) {
+            $cordovaFileTransfer.upload(baseURL+"Usuarios/subirFoto.php",imageData, options).then(function(result) {
                 //console.log("SUCCESS: " + JSON.stringify(result.response));
                 $scope.opciones = result.response;
                 $state.go($state.current,null,{reload:true});
